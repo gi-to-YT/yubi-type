@@ -11,46 +11,61 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://gi-to-yt.github.io/yubi-type/">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232448D8'/%3E%3Ctext x='32' y='45' font-size='38' font-weight='700' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E%E3%82%86%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23C0412A'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23FFF6EA' font-family='serif'%3E%E3%82%86%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#F1EBDD" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16130F" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Yuji+Syuku&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
 /* Layout: one-screen app. Menu → play (prompt stage above a docked phone-style keyboard) → result. */
 :root{
-  --paper:#EEF1F5; --card:#FFFFFF; --ink:#141A24; --mute:#5E6878; --line:#D5DBE4;
-  --tray:#D1D6DE; --key:#FFFFFF; --key-fn:#AFB7C3; --key-down:#C3CAD5; --key-edge:#8C95A3;
-  --accent:#2448D8; --accent-soft:#DCE4FF; --on-accent:#FFFFFF;
-  --marker:#FFD43B; --marker-ink:#141A24; --faint:#A6AFBC; --ok:#1E9566;
-  --s1:#2a78d6; --s2:#eb6834;
-  --miss:#D63333; --miss-soft:#FFD9D9;
-  --shadow:0 6px 18px rgba(16,24,40,.20);
+  --paper:#F1EBDD; --card:#FAF6EC; --ink:#1D1A16; --mute:#6A6357; --line:#D3C9B6;
+  --tray:#E2D9C6; --key:#FBF8F0; --key-fn:#D3C8B3; --key-down:#E3D8C3; --key-edge:#B3A78F;
+  --accent:#B8371F; --accent-soft:#F1DDD0; --on-accent:#FFF8EE;
+  --marker:#D9A441; --marker-ink:#1D1A16; --faint:#A79E8E; --ok:#1D1A16;
+  --s1:#1D1A16; --s2:#B8371F;
+  --miss:#8F1D2C; --miss-soft:#F0D3D3;
+  --shadow:0 6px 18px rgba(60,45,25,.22);
+  --usuzumi:#6E665A; --shu:#C0412A; --shu-ink:#FFF6EA; --kin:#855A0E;
+  --field:#1D1A16; --field-ink:#F1EBDD; --field-mute:#BDB3A2;
+  --washi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .36 0 0 0 0 .26 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),var(--fiber-l);
+  --fiber-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%236B5A40' stroke-linecap='round'%3E%3Cpath d='M71.4 163.3Q67.0 171.5 65.5 180.7' stroke-width='0.46' stroke-opacity='0.061'/%3E%3Cpath d='M251.2 77.8Q244.0 78.3 236.7 78.0' stroke-width='1.15' stroke-opacity='0.112'/%3E%3Cpath d='M191.7 45.2Q179.8 50.1 168.1 55.6' stroke-width='1.07' stroke-opacity='0.134'/%3E%3Cpath d='M19.2 227.5Q31.0 234.1 33.6 247.4' stroke-width='1.18' stroke-opacity='0.112'/%3E%3Cpath d='M319.2 227.5Q331.0 234.1 333.6 247.4' stroke-width='1.18' stroke-opacity='0.112'/%3E%3Cpath d='M215.6 -36.4Q202.4 -31.7 188.5 -29.5' stroke-width='1.12' stroke-opacity='0.109'/%3E%3Cpath d='M215.6 263.6Q202.4 268.3 188.5 270.5' stroke-width='1.12' stroke-opacity='0.109'/%3E%3Cpath d='M-19.3 -36.3Q-13.0 -37.2 -9.6 -31.9' stroke-width='1.27' stroke-opacity='0.108'/%3E%3Cpath d='M-19.3 263.7Q-13.0 262.8 -9.6 268.1' stroke-width='1.27' stroke-opacity='0.108'/%3E%3Cpath d='M280.7 -36.3Q287.0 -37.2 290.4 -31.9' stroke-width='1.27' stroke-opacity='0.108'/%3E%3Cpath d='M280.7 263.7Q287.0 262.8 290.4 268.1' stroke-width='1.27' stroke-opacity='0.108'/%3E%3Cpath d='M188.0 90.3Q193.6 100.1 195.8 111.1' stroke-width='0.93' stroke-opacity='0.124'/%3E%3Cpath d='M-28.7 204.6Q-46.6 206.7 -59.3 219.4' stroke-width='1.00' stroke-opacity='0.078'/%3E%3Cpath d='M271.3 204.6Q253.4 206.7 240.7 219.4' stroke-width='1.00' stroke-opacity='0.078'/%3E%3Cpath d='M258.2 -10.6Q252.1 5.1 251.0 21.9' stroke-width='0.59' stroke-opacity='0.151'/%3E%3Cpath d='M258.2 289.4Q252.1 305.1 251.0 321.9' stroke-width='0.59' stroke-opacity='0.151'/%3E%3Cpath d='M172.1 85.5Q165.1 82.4 163.3 89.8' stroke-width='0.48' stroke-opacity='0.148'/%3E%3Cpath d='M123.1 45.2Q114.1 47.3 111.0 56.0' stroke-width='0.44' stroke-opacity='0.128'/%3E%3Cpath d='M13.5 215.5Q3.3 213.3 -2.6 221.8' stroke-width='0.85' stroke-opacity='0.170'/%3E%3Cpath d='M313.5 215.5Q303.3 213.3 297.4 221.8' stroke-width='0.85' stroke-opacity='0.170'/%3E%3Cpath d='M92.9 23.1Q105.6 20.7 117.6 25.5' stroke-width='0.77' stroke-opacity='0.127'/%3E%3Cpath d='M92.9 323.1Q105.6 320.7 117.6 325.5' stroke-width='0.77' stroke-opacity='0.127'/%3E%3Cpath d='M46.9 12.7Q51.2 29.2 64.7 39.7' stroke-width='1.21' stroke-opacity='0.102'/%3E%3Cpath d='M46.9 312.7Q51.2 329.2 64.7 339.7' stroke-width='1.21' stroke-opacity='0.102'/%3E%3Cpath d='M138.1 156.0Q133.6 168.2 130.4 180.9' stroke-width='0.96' stroke-opacity='0.163'/%3E%3Cpath d='M152.1 129.4Q164.1 137.2 172.8 148.5' stroke-width='1.28' stroke-opacity='0.117'/%3E%3Cpath d='M164.5 3.4Q167.7 14.4 159.7 22.4' stroke-width='0.95' stroke-opacity='0.130'/%3E%3Cpath d='M164.5 303.4Q167.7 314.4 159.7 322.4' stroke-width='0.95' stroke-opacity='0.130'/%3E%3Cpath d='M18.0 188.2Q13.9 198.0 6.8 206.0' stroke-width='1.04' stroke-opacity='0.141'/%3E%3Cpath d='M318.0 188.2Q313.9 198.0 306.8 206.0' stroke-width='1.04' stroke-opacity='0.141'/%3E%3Cpath d='M6.7 18.2Q-6.4 22.7 -20.1 21.3' stroke-width='0.81' stroke-opacity='0.125'/%3E%3Cpath d='M6.7 318.2Q-6.4 322.7 -20.1 321.3' stroke-width='0.81' stroke-opacity='0.125'/%3E%3Cpath d='M306.7 18.2Q293.6 22.7 279.9 21.3' stroke-width='0.81' stroke-opacity='0.125'/%3E%3Cpath d='M306.7 318.2Q293.6 322.7 279.9 321.3' stroke-width='0.81' stroke-opacity='0.125'/%3E%3Cpath d='M96.0 109.2Q98.3 117.3 102.7 124.5' stroke-width='0.67' stroke-opacity='0.101'/%3E%3Cpath d='M231.7 8.1Q225.3 18.5 215.6 25.8' stroke-width='0.60' stroke-opacity='0.148'/%3E%3Cpath d='M231.7 308.1Q225.3 318.5 215.6 325.8' stroke-width='0.60' stroke-opacity='0.148'/%3E%3Cpath d='M71.6 56.2Q69.6 67.2 59.8 72.6' stroke-width='0.69' stroke-opacity='0.097'/%3E%3Cpath d='M250.1 131.5Q264.8 137.9 277.6 147.7' stroke-width='0.99' stroke-opacity='0.157'/%3E%3Cpath d='M135.3 67.5Q138.5 73.5 134.3 78.8' stroke-width='1.13' stroke-opacity='0.152'/%3E%3Cpath d='M55.1 83.6Q45.2 95.8 41.9 111.2' stroke-width='0.71' stroke-opacity='0.074'/%3E%3Cpath d='M87.6 238.2Q92.1 244.6 94.8 252.0' stroke-width='0.78' stroke-opacity='0.105'/%3E%3Cpath d='M-23.8 46.8Q-28.6 43.0 -31.8 48.2' stroke-width='1.29' stroke-opacity='0.108'/%3E%3Cpath d='M276.2 46.8Q271.4 43.0 268.2 48.2' stroke-width='1.29' stroke-opacity='0.108'/%3E%3Cpath d='M-15.0 -21.8Q-22.8 -19.5 -24.9 -11.6' stroke-width='1.00' stroke-opacity='0.117'/%3E%3Cpath d='M-15.0 278.2Q-22.8 280.5 -24.9 288.4' stroke-width='1.00' stroke-opacity='0.117'/%3E%3Cpath d='M285.0 -21.8Q277.2 -19.5 275.1 -11.6' stroke-width='1.00' stroke-opacity='0.117'/%3E%3Cpath d='M285.0 278.2Q277.2 280.5 275.1 288.4' stroke-width='1.00' stroke-opacity='0.117'/%3E%3Cpath d='M86.7 102.3Q93.5 104.9 100.8 105.4' stroke-width='0.66' stroke-opacity='0.149'/%3E%3Cpath d='M13.5 -28.9Q-0.9 -30.3 -13.1 -22.4' stroke-width='1.21' stroke-opacity='0.123'/%3E%3Cpath d='M13.5 271.1Q-0.9 269.7 -13.1 277.6' stroke-width='1.21' stroke-opacity='0.123'/%3E%3Cpath d='M313.5 -28.9Q299.1 -30.3 286.9 -22.4' stroke-width='1.21' stroke-opacity='0.123'/%3E%3Cpath d='M313.5 271.1Q299.1 269.7 286.9 277.6' stroke-width='1.21' stroke-opacity='0.123'/%3E%3Cpath d='M3.9 223.6Q6.1 229.9 11.5 234.0' stroke-width='0.87' stroke-opacity='0.106'/%3E%3Cpath d='M303.9 223.6Q306.1 229.9 311.5 234.0' stroke-width='0.87' stroke-opacity='0.106'/%3E%3Cpath d='M-18.3 183.6Q-15.2 192.9 -6.0 196.2' stroke-width='0.83' stroke-opacity='0.146'/%3E%3Cpath d='M281.7 183.6Q284.8 192.9 294.0 196.2' stroke-width='0.83' stroke-opacity='0.146'/%3E%3Cpath d='M105.6 59.2Q98.1 68.8 86.3 71.7' stroke-width='1.11' stroke-opacity='0.161'/%3E%3Cpath d='M241.8 247.0Q236.2 249.1 238.6 254.6' stroke-width='0.44' stroke-opacity='0.090'/%3E%3Cpath d='M80.6 158.2Q78.1 168.3 82.3 178.0' stroke-width='0.40' stroke-opacity='0.066'/%3E%3Cpath d='M38.1 37.4Q32.8 33.5 28.2 38.2' stroke-width='0.48' stroke-opacity='0.115'/%3E%3Cpath d='M38.1 337.4Q32.8 333.5 28.2 338.2' stroke-width='0.48' stroke-opacity='0.115'/%3E%3Cpath d='M338.1 37.4Q332.8 33.5 328.2 38.2' stroke-width='0.48' stroke-opacity='0.115'/%3E%3Cpath d='M338.1 337.4Q332.8 333.5 328.2 338.2' stroke-width='0.48' stroke-opacity='0.115'/%3E%3Cpath d='M94.8 94.4Q89.9 101.9 86.8 110.3' stroke-width='0.72' stroke-opacity='0.081'/%3E%3Cpath d='M98.6 37.1Q92.4 47.2 83.8 55.5' stroke-width='0.47' stroke-opacity='0.080'/%3E%3Cpath d='M98.6 337.1Q92.4 347.2 83.8 355.5' stroke-width='0.47' stroke-opacity='0.080'/%3E%3Cpath d='M112.0 181.3Q114.1 196.6 123.0 209.2' stroke-width='0.96' stroke-opacity='0.107'/%3E%3Cpath d='M111.7 148.8Q112.9 162.8 118.6 175.7' stroke-width='0.81' stroke-opacity='0.087'/%3E%3Cpath d='M160.8 208.6Q162.8 213.2 163.1 218.3' stroke-width='1.19' stroke-opacity='0.163'/%3E%3Cpath d='M112.3 -30.6Q122.8 -19.9 132.8 -8.5' stroke-width='0.51' stroke-opacity='0.149'/%3E%3Cpath d='M112.3 269.4Q122.8 280.1 132.8 291.5' stroke-width='0.51' stroke-opacity='0.149'/%3E%3Cpath d='M198.7 -33.8Q188.7 -22.2 183.5 -7.7' stroke-width='0.91' stroke-opacity='0.071'/%3E%3Cpath d='M198.7 266.2Q188.7 277.8 183.5 292.3' stroke-width='0.91' stroke-opacity='0.071'/%3E%3Cpath d='M176.3 1.5Q175.3 9.5 167.2 9.3' stroke-width='0.48' stroke-opacity='0.071'/%3E%3Cpath d='M176.3 301.5Q175.3 309.5 167.2 309.3' stroke-width='0.48' stroke-opacity='0.071'/%3E%3Cpath d='M-35.9 53.7Q-37.5 59.8 -43.5 57.9' stroke-width='1.16' stroke-opacity='0.134'/%3E%3Cpath d='M264.1 53.7Q262.5 59.8 256.5 57.9' stroke-width='1.16' stroke-opacity='0.134'/%3E%3Cpath d='M250.9 -14.3Q244.4 -2.6 231.3 0.0' stroke-width='1.09' stroke-opacity='0.116'/%3E%3Cpath d='M250.9 285.7Q244.4 297.4 231.3 300.0' stroke-width='1.09' stroke-opacity='0.116'/%3E%3Cpath d='M214.5 32.0Q201.4 40.1 186.2 37.9' stroke-width='0.69' stroke-opacity='0.122'/%3E%3Cpath d='M214.5 332.0Q201.4 340.1 186.2 337.9' stroke-width='0.69' stroke-opacity='0.122'/%3E%3Cpath d='M248.4 72.6Q252.0 78.2 257.6 81.9' stroke-width='1.08' stroke-opacity='0.103'/%3E%3Cpath d='M110.2 119.0Q117.3 126.3 114.8 136.2' stroke-width='0.85' stroke-opacity='0.167'/%3E%3Cpath d='M123.8 224.2Q117.8 227.6 116.8 234.5' stroke-width='1.01' stroke-opacity='0.117'/%3E%3Cpath d='M145.1 192.9Q162.1 196.0 174.7 207.9' stroke-width='1.07' stroke-opacity='0.161'/%3E%3Cpath d='M155.2 132.9Q168.4 138.4 178.6 148.4' stroke-width='0.58' stroke-opacity='0.124'/%3E%3Cpath d='M94.5 69.7Q81.3 74.1 67.4 73.7' stroke-width='1.03' stroke-opacity='0.105'/%3E%3Cpath d='M256.1 175.4Q265.7 175.8 268.1 185.2' stroke-width='0.83' stroke-opacity='0.102'/%3E%3Cpath d='M51.7 108.1Q48.0 116.9 38.8 119.2' stroke-width='1.29' stroke-opacity='0.113'/%3E%3Cpath d='M179.7 140.4Q166.1 148.2 153.1 157.1' stroke-width='0.83' stroke-opacity='0.139'/%3E%3Cpath d='M257.0 120.1Q242.9 122.2 228.7 123.6' stroke-width='0.61' stroke-opacity='0.086'/%3E%3Cpath d='M215.3 202.6Q201.1 213.1 184.1 218.0' stroke-width='0.57' stroke-opacity='0.088'/%3E%3Cpath d='M56.2 211.4Q41.8 219.2 25.7 221.3' stroke-width='1.18' stroke-opacity='0.094'/%3E%3Cpath d='M127.0 218.7Q130.8 224.0 137.0 221.7' stroke-width='0.66' stroke-opacity='0.099'/%3E%3Cpath d='M174.1 202.7Q176.8 205.8 178.2 209.8' stroke-width='0.84' stroke-opacity='0.083'/%3E%3Cpath d='M175.5 -13.4Q178.7 -3.4 172.9 5.4' stroke-width='0.65' stroke-opacity='0.133'/%3E%3Cpath d='M175.5 286.6Q178.7 296.6 172.9 305.4' stroke-width='0.65' stroke-opacity='0.133'/%3E%3Cpath d='M33.8 -33.8Q48.1 -23.8 65.7 -23.8' stroke-width='0.74' stroke-opacity='0.145'/%3E%3Cpath d='M33.8 266.2Q48.1 276.2 65.7 276.2' stroke-width='0.74' stroke-opacity='0.145'/%3E%3Cpath d='M333.8 -33.8Q348.1 -23.8 365.7 -23.8' stroke-width='0.74' stroke-opacity='0.145'/%3E%3Cpath d='M333.8 266.2Q348.1 276.2 365.7 276.2' stroke-width='0.74' stroke-opacity='0.145'/%3E%3Cpath d='M227.2 88.7Q217.7 98.9 214.7 112.5' stroke-width='0.64' stroke-opacity='0.143'/%3E%3Cpath d='M-11.6 201.8Q-0.8 205.8 10.0 209.9' stroke-width='0.72' stroke-opacity='0.139'/%3E%3Cpath d='M288.4 201.8Q299.2 205.8 310.0 209.9' stroke-width='0.72' stroke-opacity='0.139'/%3E%3Cpath d='M203.6 169.9Q199.3 175.1 197.8 181.7' stroke-width='0.56' stroke-opacity='0.158'/%3E%3Cpath d='M196.6 36.9Q212.9 42.4 227.4 51.6' stroke-width='1.05' stroke-opacity='0.126'/%3E%3Cpath d='M196.6 336.9Q212.9 342.4 227.4 351.6' stroke-width='1.05' stroke-opacity='0.126'/%3E%3Cpath d='M166.5 194.2Q175.5 200.7 178.0 211.6' stroke-width='0.46' stroke-opacity='0.139'/%3E%3Cpath d='M226.3 162.9Q235.0 174.7 238.6 188.9' stroke-width='0.75' stroke-opacity='0.156'/%3E%3Cpath d='M12.6 151.4Q8.2 157.7 1.5 161.3' stroke-width='0.70' stroke-opacity='0.104'/%3E%3Cpath d='M312.6 151.4Q308.2 157.7 301.5 161.3' stroke-width='0.70' stroke-opacity='0.104'/%3E%3Cpath d='M162.4 231.5Q156.7 239.8 146.6 239.8' stroke-width='0.64' stroke-opacity='0.071'/%3E%3Cpath d='M33.8 233.7Q47.7 238.4 57.5 249.3' stroke-width='0.77' stroke-opacity='0.142'/%3E%3Cpath d='M333.8 233.7Q347.7 238.4 357.5 249.3' stroke-width='0.77' stroke-opacity='0.142'/%3E%3Cpath d='M244.7 224.6Q256.3 229.0 266.7 235.5' stroke-width='0.57' stroke-opacity='0.118'/%3E%3Cpath d='M170.5 60.6Q168.3 69.7 158.9 70.1' stroke-width='1.12' stroke-opacity='0.158'/%3E%3Cpath d='M-15.2 114.9Q-19.8 125.9 -21.3 137.6' stroke-width='1.28' stroke-opacity='0.136'/%3E%3Cpath d='M284.8 114.9Q280.2 125.9 278.7 137.6' stroke-width='1.28' stroke-opacity='0.136'/%3E%3Cpath d='M89.8 258.0Q83.9 267.4 83.1 278.5' stroke-width='0.40' stroke-opacity='0.145'/%3E%3Cpath d='M198.6 147.6Q203.6 158.4 201.4 170.0' stroke-width='0.88' stroke-opacity='0.064'/%3E%3Cpath d='M150.1 193.8Q142.6 202.7 145.9 213.8' stroke-width='1.20' stroke-opacity='0.075'/%3E%3Cpath d='M237.7 187.0Q242.6 189.9 241.7 195.5' stroke-width='0.47' stroke-opacity='0.119'/%3E%3Cpath d='M-21.1 96.9Q-26.8 112.7 -39.6 123.4' stroke-width='1.17' stroke-opacity='0.126'/%3E%3Cpath d='M278.9 96.9Q273.2 112.7 260.4 123.4' stroke-width='1.17' stroke-opacity='0.126'/%3E%3Cpath d='M-21.9 214.8Q-18.4 229.2 -8.4 240.1' stroke-width='1.24' stroke-opacity='0.155'/%3E%3Cpath d='M278.1 214.8Q281.6 229.2 291.6 240.1' stroke-width='1.24' stroke-opacity='0.155'/%3E%3Cpath d='M131.1 227.1Q143.1 225.5 151.4 234.3' stroke-width='0.47' stroke-opacity='0.082'/%3E%3Cpath d='M48.2 149.1Q47.6 162.9 45.0 176.5' stroke-width='0.98' stroke-opacity='0.094'/%3E%3Cpath d='M139.3 227.1Q144.9 236.3 155.5 237.5' stroke-width='1.05' stroke-opacity='0.100'/%3E%3Cpath d='M111.3 158.8Q124.6 162.2 130.1 174.8' stroke-width='0.59' stroke-opacity='0.146'/%3E%3Cpath d='M43.0 138.0Q50.8 139.0 53.7 146.2' stroke-width='0.76' stroke-opacity='0.079'/%3E%3Cpath d='M8.2 33.0Q13.7 39.2 8.6 45.7' stroke-width='0.42' stroke-opacity='0.109'/%3E%3Cpath d='M8.2 333.0Q13.7 339.2 8.6 345.7' stroke-width='0.42' stroke-opacity='0.109'/%3E%3Cpath d='M308.2 33.0Q313.7 39.2 308.6 45.7' stroke-width='0.42' stroke-opacity='0.109'/%3E%3Cpath d='M308.2 333.0Q313.7 339.2 308.6 345.7' stroke-width='0.42' stroke-opacity='0.109'/%3E%3Cpath d='M122.3 211.0Q124.9 215.2 125.1 220.0' stroke-width='0.42' stroke-opacity='0.166'/%3E%3Cpath d='M65.7 28.3Q74.2 34.8 84.2 38.8' stroke-width='0.71' stroke-opacity='0.074'/%3E%3Cpath d='M65.7 328.3Q74.2 334.8 84.2 338.8' stroke-width='0.71' stroke-opacity='0.074'/%3E%3Cpath d='M15.6 218.3Q9.7 223.5 3.2 228.0' stroke-width='1.24' stroke-opacity='0.093'/%3E%3Cpath d='M315.6 218.3Q309.7 223.5 303.2 228.0' stroke-width='1.24' stroke-opacity='0.093'/%3E%3Cpath d='M75.0 79.7Q70.6 94.6 62.8 108.1' stroke-width='0.48' stroke-opacity='0.135'/%3E%3Cpath d='M-9.2 177.7Q-4.7 173.2 -1.2 178.4' stroke-width='0.55' stroke-opacity='0.064'/%3E%3Cpath d='M290.8 177.7Q295.3 173.2 298.8 178.4' stroke-width='0.55' stroke-opacity='0.064'/%3E%3Cpath d='M16.2 196.3Q26.2 210.7 43.0 215.9' stroke-width='0.83' stroke-opacity='0.148'/%3E%3Cpath d='M316.2 196.3Q326.2 210.7 343.0 215.9' stroke-width='0.83' stroke-opacity='0.148'/%3E%3Cpath d='M-24.8 -18.0Q-23.3 -13.6 -19.6 -10.6' stroke-width='1.25' stroke-opacity='0.070'/%3E%3Cpath d='M-24.8 282.0Q-23.3 286.4 -19.6 289.4' stroke-width='1.25' stroke-opacity='0.070'/%3E%3Cpath d='M275.2 -18.0Q276.7 -13.6 280.4 -10.6' stroke-width='1.25' stroke-opacity='0.070'/%3E%3Cpath d='M275.2 282.0Q276.7 286.4 280.4 289.4' stroke-width='1.25' stroke-opacity='0.070'/%3E%3Cpath d='M88.0 255.0Q91.8 259.6 91.8 265.5' stroke-width='1.01' stroke-opacity='0.162'/%3E%3Cpath d='M52.4 221.9Q39.7 228.4 27.6 236.0' stroke-width='1.23' stroke-opacity='0.100'/%3E%3Cpath d='M124.4 68.8Q128.1 83.5 126.2 98.6' stroke-width='0.55' stroke-opacity='0.139'/%3E%3Cpath d='M181.7 213.2Q186.2 222.4 182.5 232.0' stroke-width='1.04' stroke-opacity='0.063'/%3E%3Cpath d='M140.1 227.5Q153.9 228.6 165.8 235.6' stroke-width='1.16' stroke-opacity='0.131'/%3E%3Cpath d='M-36.4 -38.3Q-47.1 -37.7 -56.0 -31.8' stroke-width='0.70' stroke-opacity='0.101'/%3E%3Cpath d='M-36.4 261.7Q-47.1 262.3 -56.0 268.2' stroke-width='0.70' stroke-opacity='0.101'/%3E%3Cpath d='M263.6 -38.3Q252.9 -37.7 244.0 -31.8' stroke-width='0.70' stroke-opacity='0.101'/%3E%3Cpath d='M263.6 261.7Q252.9 262.3 244.0 268.2' stroke-width='0.70' stroke-opacity='0.101'/%3E%3Cpath d='M21.6 119.8Q37.8 126.2 54.5 131.1' stroke-width='0.50' stroke-opacity='0.069'/%3E%3Cpath d='M321.6 119.8Q337.8 126.2 354.5 131.1' stroke-width='0.50' stroke-opacity='0.069'/%3E%3Cpath d='M194.7 72.2Q198.1 75.9 203.1 76.5' stroke-width='0.93' stroke-opacity='0.061'/%3E%3Cpath d='M69.0 -9.8Q68.5 -2.7 66.2 4.1' stroke-width='1.10' stroke-opacity='0.126'/%3E%3Cpath d='M69.0 290.2Q68.5 297.3 66.2 304.1' stroke-width='1.10' stroke-opacity='0.126'/%3E%3Cpath d='M236.6 160.6Q244.9 159.8 247.8 167.6' stroke-width='1.14' stroke-opacity='0.072'/%3E%3Cpath d='M7.2 -10.1Q2.4 -3.1 -5.6 -5.6' stroke-width='0.82' stroke-opacity='0.085'/%3E%3Cpath d='M7.2 289.9Q2.4 296.9 -5.6 294.4' stroke-width='0.82' stroke-opacity='0.085'/%3E%3Cpath d='M307.2 -10.1Q302.4 -3.1 294.4 -5.6' stroke-width='0.82' stroke-opacity='0.085'/%3E%3Cpath d='M307.2 289.9Q302.4 296.9 294.4 294.4' stroke-width='0.82' stroke-opacity='0.085'/%3E%3Cpath d='M248.8 184.6Q236.3 190.2 229.8 202.3' stroke-width='0.71' stroke-opacity='0.126'/%3E%3Cpath d='M133.7 33.3Q125.5 47.2 124.5 63.3' stroke-width='0.59' stroke-opacity='0.119'/%3E%3Cpath d='M133.7 333.3Q125.5 347.2 124.5 363.3' stroke-width='0.59' stroke-opacity='0.119'/%3E%3Cpath d='M139.3 218.4Q141.8 222.8 144.0 227.4' stroke-width='0.46' stroke-opacity='0.121'/%3E%3Cpath d='M220.6 126.9Q219.6 140.3 212.1 151.6' stroke-width='0.72' stroke-opacity='0.170'/%3E%3Cpath d='M100.6 129.2Q107.1 129.4 108.6 135.8' stroke-width='1.24' stroke-opacity='0.140'/%3E%3Cpath d='M-37.6 -4.0Q-50.0 -1.8 -62.1 1.4' stroke-width='0.78' stroke-opacity='0.164'/%3E%3Cpath d='M-37.6 296.0Q-50.0 298.2 -62.1 301.4' stroke-width='0.78' stroke-opacity='0.164'/%3E%3Cpath d='M262.4 -4.0Q250.0 -1.8 237.9 1.4' stroke-width='0.78' stroke-opacity='0.164'/%3E%3Cpath d='M262.4 296.0Q250.0 298.2 237.9 301.4' stroke-width='0.78' stroke-opacity='0.164'/%3E%3Cpath d='M-29.1 -15.1Q-36.5 -7.2 -45.4 -1.0' stroke-width='1.30' stroke-opacity='0.161'/%3E%3Cpath d='M-29.1 284.9Q-36.5 292.8 -45.4 299.0' stroke-width='1.30' stroke-opacity='0.161'/%3E%3Cpath d='M270.9 -15.1Q263.5 -7.2 254.6 -1.0' stroke-width='1.30' stroke-opacity='0.161'/%3E%3Cpath d='M270.9 284.9Q263.5 292.8 254.6 299.0' stroke-width='1.30' stroke-opacity='0.161'/%3E%3Cpath d='M87.6 -19.7Q93.1 -15.2 100.2 -15.8' stroke-width='0.66' stroke-opacity='0.117'/%3E%3Cpath d='M87.6 280.3Q93.1 284.8 100.2 284.2' stroke-width='0.66' stroke-opacity='0.117'/%3E%3Cpath d='M191.8 12.2Q201.7 22.6 210.5 34.2' stroke-width='0.71' stroke-opacity='0.142'/%3E%3Cpath d='M191.8 312.2Q201.7 322.6 210.5 334.2' stroke-width='0.71' stroke-opacity='0.142'/%3E%3Cpath d='M224.0 86.2Q228.1 90.0 230.5 95.0' stroke-width='0.47' stroke-opacity='0.077'/%3E%3Cpath d='M228.8 210.1Q210.9 206.8 193.6 212.4' stroke-width='0.74' stroke-opacity='0.078'/%3E%3Cpath d='M93.6 138.9Q93.8 150.4 90.6 161.5' stroke-width='1.17' stroke-opacity='0.091'/%3E%3Cpath d='M138.9 -34.0Q150.5 -23.5 157.1 -9.3' stroke-width='1.13' stroke-opacity='0.061'/%3E%3Cpath d='M138.9 266.0Q150.5 276.5 157.1 290.7' stroke-width='1.13' stroke-opacity='0.061'/%3E%3Cpath d='M39.4 159.3Q52.1 160.3 59.4 170.7' stroke-width='0.58' stroke-opacity='0.145'/%3E%3Cpath d='M339.4 159.3Q352.1 160.3 359.4 170.7' stroke-width='0.58' stroke-opacity='0.145'/%3E%3Cpath d='M139.7 -6.2Q125.1 0.3 109.8 -4.3' stroke-width='0.57' stroke-opacity='0.061'/%3E%3Cpath d='M139.7 293.8Q125.1 300.3 109.8 295.7' stroke-width='0.57' stroke-opacity='0.061'/%3E%3Cpath d='M129.7 101.5Q133.9 106.9 128.3 110.8' stroke-width='0.68' stroke-opacity='0.087'/%3E%3Cpath d='M240.6 125.5Q248.3 125.7 255.8 127.6' stroke-width='0.96' stroke-opacity='0.134'/%3E%3Cpath d='M-26.2 242.6Q-20.7 248.5 -12.6 248.7' stroke-width='1.11' stroke-opacity='0.116'/%3E%3Cpath d='M273.8 242.6Q279.3 248.5 287.4 248.7' stroke-width='1.11' stroke-opacity='0.116'/%3E%3Cpath d='M249.3 165.6Q259.1 164.6 263.0 173.6' stroke-width='0.98' stroke-opacity='0.159'/%3E%3Cpath d='M-28.2 140.2Q-42.0 139.5 -54.1 146.2' stroke-width='0.94' stroke-opacity='0.106'/%3E%3Cpath d='M271.8 140.2Q258.0 139.5 245.9 146.2' stroke-width='0.94' stroke-opacity='0.106'/%3E%3Cpath d='M155.5 51.2Q147.0 53.5 148.4 62.2' stroke-width='0.89' stroke-opacity='0.105'/%3E%3Cpath d='M105.6 136.5Q102.4 152.4 110.1 166.6' stroke-width='0.54' stroke-opacity='0.095'/%3E%3Cpath d='M156.6 123.6Q140.3 127.3 129.3 140.0' stroke-width='0.95' stroke-opacity='0.063'/%3E%3Cpath d='M172.4 164.9Q177.3 174.9 186.2 181.6' stroke-width='1.22' stroke-opacity='0.071'/%3E%3Cpath d='M200.6 111.4Q188.2 109.8 179.4 118.6' stroke-width='0.98' stroke-opacity='0.081'/%3E%3Cpath d='M-23.8 54.3Q-30.7 61.0 -39.9 64.0' stroke-width='0.64' stroke-opacity='0.164'/%3E%3Cpath d='M276.2 54.3Q269.3 61.0 260.1 64.0' stroke-width='0.64' stroke-opacity='0.164'/%3E%3Cpath d='M-16.9 95.2Q-7.4 99.8 -4.8 109.9' stroke-width='0.63' stroke-opacity='0.168'/%3E%3Cpath d='M283.1 95.2Q292.6 99.8 295.2 109.9' stroke-width='0.63' stroke-opacity='0.168'/%3E%3Cpath d='M23.8 68.9Q30.3 70.9 37.0 72.3' stroke-width='1.07' stroke-opacity='0.152'/%3E%3Cpath d='M323.8 68.9Q330.3 70.9 337.0 72.3' stroke-width='1.07' stroke-opacity='0.152'/%3E%3Cpath d='M189.3 245.3Q187.6 252.0 194.5 251.7' stroke-width='0.46' stroke-opacity='0.089'/%3E%3Cpath d='M144.9 80.4Q156.8 78.9 167.9 83.8' stroke-width='1.26' stroke-opacity='0.076'/%3E%3Cpath d='M-28.4 53.4Q-39.2 67.7 -47.0 83.9' stroke-width='0.53' stroke-opacity='0.066'/%3E%3Cpath d='M271.6 53.4Q260.8 67.7 253.0 83.9' stroke-width='0.53' stroke-opacity='0.066'/%3E%3Cpath d='M227.8 52.8Q219.8 52.5 216.5 59.9' stroke-width='0.44' stroke-opacity='0.166'/%3E%3Cpath d='M160.4 114.7Q156.8 121.9 164.1 125.1' stroke-width='0.65' stroke-opacity='0.074'/%3E%3Cpath d='M43.6 38.1Q36.3 45.3 26.3 42.8' stroke-width='0.57' stroke-opacity='0.163'/%3E%3Cpath d='M43.6 338.1Q36.3 345.3 26.3 342.8' stroke-width='0.57' stroke-opacity='0.163'/%3E%3Cpath d='M-0.9 -6.0Q-2.5 3.0 5.6 7.3' stroke-width='0.84' stroke-opacity='0.137'/%3E%3Cpath d='M-0.9 294.0Q-2.5 303.0 5.6 307.3' stroke-width='0.84' stroke-opacity='0.137'/%3E%3Cpath d='M299.1 -6.0Q297.5 3.0 305.6 7.3' stroke-width='0.84' stroke-opacity='0.137'/%3E%3Cpath d='M299.1 294.0Q297.5 303.0 305.6 307.3' stroke-width='0.84' stroke-opacity='0.137'/%3E%3Cpath d='M94.0 6.4Q85.4 10.3 81.6 19.0' stroke-width='0.91' stroke-opacity='0.111'/%3E%3Cpath d='M94.0 306.4Q85.4 310.3 81.6 319.0' stroke-width='0.91' stroke-opacity='0.111'/%3E%3Cpath d='M161.4 132.7Q153.3 141.5 141.6 144.2' stroke-width='0.93' stroke-opacity='0.163'/%3E%3Cpath d='M254.5 53.8Q241.1 65.8 223.9 70.7' stroke-width='0.64' stroke-opacity='0.082'/%3E%3Cpath d='M15.9 -6.5Q8.8 1.6 -2.0 1.1' stroke-width='0.41' stroke-opacity='0.156'/%3E%3Cpath d='M15.9 293.5Q8.8 301.6 -2.0 301.1' stroke-width='0.41' stroke-opacity='0.156'/%3E%3Cpath d='M315.9 -6.5Q308.8 1.6 298.0 1.1' stroke-width='0.41' stroke-opacity='0.156'/%3E%3Cpath d='M315.9 293.5Q308.8 301.6 298.0 301.1' stroke-width='0.41' stroke-opacity='0.156'/%3E%3Cpath d='M238.2 -2.5Q233.9 10.8 236.0 24.6' stroke-width='0.48' stroke-opacity='0.119'/%3E%3Cpath d='M238.2 297.5Q233.9 310.8 236.0 324.6' stroke-width='0.48' stroke-opacity='0.119'/%3E%3Cpath d='M132.4 43.9Q138.8 54.5 145.4 65.0' stroke-width='0.74' stroke-opacity='0.095'/%3E%3Cpath d='M107.5 180.3Q89.3 179.6 72.8 187.4' stroke-width='1.15' stroke-opacity='0.092'/%3E%3Cpath d='M-7.0 80.9Q-9.8 86.6 -7.0 92.4' stroke-width='0.71' stroke-opacity='0.131'/%3E%3Cpath d='M293.0 80.9Q290.2 86.6 293.0 92.4' stroke-width='0.71' stroke-opacity='0.131'/%3E%3Cpath d='M84.7 -9.9Q85.1 0.4 86.2 10.7' stroke-width='1.19' stroke-opacity='0.169'/%3E%3Cpath d='M84.7 290.1Q85.1 300.4 86.2 310.7' stroke-width='1.19' stroke-opacity='0.169'/%3E%3Cpath d='M158.5 132.5Q171.1 134.3 183.2 137.9' stroke-width='1.16' stroke-opacity='0.146'/%3E%3Cpath d='M17.8 256.3Q8.5 258.5 -0.9 257.4' stroke-width='0.59' stroke-opacity='0.120'/%3E%3Cpath d='M317.8 256.3Q308.5 258.5 299.1 257.4' stroke-width='0.59' stroke-opacity='0.120'/%3E%3Cpath d='M-34.8 129.3Q-43.5 143.1 -54.7 154.8' stroke-width='0.67' stroke-opacity='0.116'/%3E%3Cpath d='M265.2 129.3Q256.5 143.1 245.3 154.8' stroke-width='0.67' stroke-opacity='0.116'/%3E%3Cpath d='M119.7 111.8Q107.2 115.8 95.4 121.8' stroke-width='0.53' stroke-opacity='0.084'/%3E%3Cpath d='M111.3 184.4Q117.6 183.8 122.8 187.4' stroke-width='0.65' stroke-opacity='0.063'/%3E%3Cpath d='M161.6 -23.6Q151.0 -17.8 146.1 -6.7' stroke-width='1.15' stroke-opacity='0.160'/%3E%3Cpath d='M161.6 276.4Q151.0 282.2 146.1 293.3' stroke-width='1.15' stroke-opacity='0.160'/%3E%3Cpath d='M132.4 204.7Q127.7 208.2 121.8 208.9' stroke-width='0.83' stroke-opacity='0.158'/%3E%3Cpath d='M86.0 57.0Q86.0 73.3 76.5 86.5' stroke-width='0.43' stroke-opacity='0.099'/%3E%3Cpath d='M2.2 249.7Q7.5 253.8 10.8 259.7' stroke-width='0.86' stroke-opacity='0.108'/%3E%3Cpath d='M302.2 249.7Q307.5 253.8 310.8 259.7' stroke-width='0.86' stroke-opacity='0.108'/%3E%3Cpath d='M188.6 198.0Q196.5 206.5 207.9 204.0' stroke-width='1.02' stroke-opacity='0.069'/%3E%3Cpath d='M132.5 226.1Q151.2 224.0 167.5 233.4' stroke-width='0.83' stroke-opacity='0.106'/%3E%3Cpath d='M-31.7 247.9Q-30.5 256.6 -27.3 264.7' stroke-width='1.20' stroke-opacity='0.082'/%3E%3Cpath d='M268.3 247.9Q269.5 256.6 272.7 264.7' stroke-width='1.20' stroke-opacity='0.082'/%3E%3Cpath d='M117.6 26.5Q130.1 32.8 143.4 28.7' stroke-width='0.87' stroke-opacity='0.123'/%3E%3Cpath d='M117.6 326.5Q130.1 332.8 143.4 328.7' stroke-width='0.87' stroke-opacity='0.123'/%3E%3Cpath d='M25.6 69.7Q15.9 73.8 6.5 78.8' stroke-width='0.66' stroke-opacity='0.168'/%3E%3Cpath d='M325.6 69.7Q315.9 73.8 306.5 78.8' stroke-width='0.66' stroke-opacity='0.168'/%3E%3Cpath d='M198.4 158.5Q198.6 166.9 206.5 169.5' stroke-width='0.52' stroke-opacity='0.118'/%3E%3Cpath d='M186.0 106.5Q170.6 106.5 157.6 114.7' stroke-width='1.06' stroke-opacity='0.082'/%3E%3Cpath d='M18.0 129.8Q22.3 138.3 31.7 139.4' stroke-width='0.59' stroke-opacity='0.151'/%3E%3Cpath d='M318.0 129.8Q322.3 138.3 331.7 139.4' stroke-width='0.59' stroke-opacity='0.151'/%3E%3Cpath d='M-18.7 35.9Q-10.1 50.7 -8.0 67.8' stroke-width='0.57' stroke-opacity='0.064'/%3E%3Cpath d='M-18.7 335.9Q-10.1 350.7 -8.0 367.8' stroke-width='0.57' stroke-opacity='0.064'/%3E%3Cpath d='M281.3 35.9Q289.9 50.7 292.0 67.8' stroke-width='0.57' stroke-opacity='0.064'/%3E%3Cpath d='M281.3 335.9Q289.9 350.7 292.0 367.8' stroke-width='0.57' stroke-opacity='0.064'/%3E%3Cpath d='M149.6 115.3Q138.5 127.9 122.1 131.2' stroke-width='0.76' stroke-opacity='0.103'/%3E%3Cpath d='M53.3 75.2Q50.5 82.6 44.5 87.8' stroke-width='0.50' stroke-opacity='0.084'/%3E%3Cpath d='M132.7 169.5Q131.1 177.5 123.9 181.5' stroke-width='1.00' stroke-opacity='0.127'/%3E%3C/g%3E%3C/svg%3E");
+  --fiber-d:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23E6DCC8' stroke-linecap='round'%3E%3Cpath d='M71.4 163.3Q67.0 171.5 65.5 180.7' stroke-width='0.46' stroke-opacity='0.036'/%3E%3Cpath d='M251.2 77.8Q244.0 78.3 236.7 78.0' stroke-width='1.15' stroke-opacity='0.061'/%3E%3Cpath d='M191.7 45.2Q179.8 50.1 168.1 55.6' stroke-width='1.07' stroke-opacity='0.072'/%3E%3Cpath d='M19.2 227.5Q31.0 234.1 33.6 247.4' stroke-width='1.18' stroke-opacity='0.061'/%3E%3Cpath d='M319.2 227.5Q331.0 234.1 333.6 247.4' stroke-width='1.18' stroke-opacity='0.061'/%3E%3Cpath d='M215.6 -36.4Q202.4 -31.7 188.5 -29.5' stroke-width='1.12' stroke-opacity='0.059'/%3E%3Cpath d='M215.6 263.6Q202.4 268.3 188.5 270.5' stroke-width='1.12' stroke-opacity='0.059'/%3E%3Cpath d='M-19.3 -36.3Q-13.0 -37.2 -9.6 -31.9' stroke-width='1.27' stroke-opacity='0.059'/%3E%3Cpath d='M-19.3 263.7Q-13.0 262.8 -9.6 268.1' stroke-width='1.27' stroke-opacity='0.059'/%3E%3Cpath d='M280.7 -36.3Q287.0 -37.2 290.4 -31.9' stroke-width='1.27' stroke-opacity='0.059'/%3E%3Cpath d='M280.7 263.7Q287.0 262.8 290.4 268.1' stroke-width='1.27' stroke-opacity='0.059'/%3E%3Cpath d='M188.0 90.3Q193.6 100.1 195.8 111.1' stroke-width='0.93' stroke-opacity='0.067'/%3E%3Cpath d='M-28.7 204.6Q-46.6 206.7 -59.3 219.4' stroke-width='1.00' stroke-opacity='0.044'/%3E%3Cpath d='M271.3 204.6Q253.4 206.7 240.7 219.4' stroke-width='1.00' stroke-opacity='0.044'/%3E%3Cpath d='M258.2 -10.6Q252.1 5.1 251.0 21.9' stroke-width='0.59' stroke-opacity='0.081'/%3E%3Cpath d='M258.2 289.4Q252.1 305.1 251.0 321.9' stroke-width='0.59' stroke-opacity='0.081'/%3E%3Cpath d='M172.1 85.5Q165.1 82.4 163.3 89.8' stroke-width='0.48' stroke-opacity='0.079'/%3E%3Cpath d='M123.1 45.2Q114.1 47.3 111.0 56.0' stroke-width='0.44' stroke-opacity='0.069'/%3E%3Cpath d='M13.5 215.5Q3.3 213.3 -2.6 221.8' stroke-width='0.85' stroke-opacity='0.090'/%3E%3Cpath d='M313.5 215.5Q303.3 213.3 297.4 221.8' stroke-width='0.85' stroke-opacity='0.090'/%3E%3Cpath d='M92.9 23.1Q105.6 20.7 117.6 25.5' stroke-width='0.77' stroke-opacity='0.069'/%3E%3Cpath d='M92.9 323.1Q105.6 320.7 117.6 325.5' stroke-width='0.77' stroke-opacity='0.069'/%3E%3Cpath d='M46.9 12.7Q51.2 29.2 64.7 39.7' stroke-width='1.21' stroke-opacity='0.056'/%3E%3Cpath d='M46.9 312.7Q51.2 329.2 64.7 339.7' stroke-width='1.21' stroke-opacity='0.056'/%3E%3Cpath d='M138.1 156.0Q133.6 168.2 130.4 180.9' stroke-width='0.96' stroke-opacity='0.087'/%3E%3Cpath d='M152.1 129.4Q164.1 137.2 172.8 148.5' stroke-width='1.28' stroke-opacity='0.064'/%3E%3Cpath d='M164.5 3.4Q167.7 14.4 159.7 22.4' stroke-width='0.95' stroke-opacity='0.070'/%3E%3Cpath d='M164.5 303.4Q167.7 314.4 159.7 322.4' stroke-width='0.95' stroke-opacity='0.070'/%3E%3Cpath d='M18.0 188.2Q13.9 198.0 6.8 206.0' stroke-width='1.04' stroke-opacity='0.076'/%3E%3Cpath d='M318.0 188.2Q313.9 198.0 306.8 206.0' stroke-width='1.04' stroke-opacity='0.076'/%3E%3Cpath d='M6.7 18.2Q-6.4 22.7 -20.1 21.3' stroke-width='0.81' stroke-opacity='0.068'/%3E%3Cpath d='M6.7 318.2Q-6.4 322.7 -20.1 321.3' stroke-width='0.81' stroke-opacity='0.068'/%3E%3Cpath d='M306.7 18.2Q293.6 22.7 279.9 21.3' stroke-width='0.81' stroke-opacity='0.068'/%3E%3Cpath d='M306.7 318.2Q293.6 322.7 279.9 321.3' stroke-width='0.81' stroke-opacity='0.068'/%3E%3Cpath d='M96.0 109.2Q98.3 117.3 102.7 124.5' stroke-width='0.67' stroke-opacity='0.056'/%3E%3Cpath d='M231.7 8.1Q225.3 18.5 215.6 25.8' stroke-width='0.60' stroke-opacity='0.079'/%3E%3Cpath d='M231.7 308.1Q225.3 318.5 215.6 325.8' stroke-width='0.60' stroke-opacity='0.079'/%3E%3Cpath d='M71.6 56.2Q69.6 67.2 59.8 72.6' stroke-width='0.69' stroke-opacity='0.053'/%3E%3Cpath d='M250.1 131.5Q264.8 137.9 277.6 147.7' stroke-width='0.99' stroke-opacity='0.084'/%3E%3Cpath d='M135.3 67.5Q138.5 73.5 134.3 78.8' stroke-width='1.13' stroke-opacity='0.081'/%3E%3Cpath d='M55.1 83.6Q45.2 95.8 41.9 111.2' stroke-width='0.71' stroke-opacity='0.042'/%3E%3Cpath d='M87.6 238.2Q92.1 244.6 94.8 252.0' stroke-width='0.78' stroke-opacity='0.058'/%3E%3Cpath d='M-23.8 46.8Q-28.6 43.0 -31.8 48.2' stroke-width='1.29' stroke-opacity='0.059'/%3E%3Cpath d='M276.2 46.8Q271.4 43.0 268.2 48.2' stroke-width='1.29' stroke-opacity='0.059'/%3E%3Cpath d='M-15.0 -21.8Q-22.8 -19.5 -24.9 -11.6' stroke-width='1.00' stroke-opacity='0.064'/%3E%3Cpath d='M-15.0 278.2Q-22.8 280.5 -24.9 288.4' stroke-width='1.00' stroke-opacity='0.064'/%3E%3Cpath d='M285.0 -21.8Q277.2 -19.5 275.1 -11.6' stroke-width='1.00' stroke-opacity='0.064'/%3E%3Cpath d='M285.0 278.2Q277.2 280.5 275.1 288.4' stroke-width='1.00' stroke-opacity='0.064'/%3E%3Cpath d='M86.7 102.3Q93.5 104.9 100.8 105.4' stroke-width='0.66' stroke-opacity='0.080'/%3E%3Cpath d='M13.5 -28.9Q-0.9 -30.3 -13.1 -22.4' stroke-width='1.21' stroke-opacity='0.067'/%3E%3Cpath d='M13.5 271.1Q-0.9 269.7 -13.1 277.6' stroke-width='1.21' stroke-opacity='0.067'/%3E%3Cpath d='M313.5 -28.9Q299.1 -30.3 286.9 -22.4' stroke-width='1.21' stroke-opacity='0.067'/%3E%3Cpath d='M313.5 271.1Q299.1 269.7 286.9 277.6' stroke-width='1.21' stroke-opacity='0.067'/%3E%3Cpath d='M3.9 223.6Q6.1 229.9 11.5 234.0' stroke-width='0.87' stroke-opacity='0.058'/%3E%3Cpath d='M303.9 223.6Q306.1 229.9 311.5 234.0' stroke-width='0.87' stroke-opacity='0.058'/%3E%3Cpath d='M-18.3 183.6Q-15.2 192.9 -6.0 196.2' stroke-width='0.83' stroke-opacity='0.078'/%3E%3Cpath d='M281.7 183.6Q284.8 192.9 294.0 196.2' stroke-width='0.83' stroke-opacity='0.078'/%3E%3Cpath d='M105.6 59.2Q98.1 68.8 86.3 71.7' stroke-width='1.11' stroke-opacity='0.086'/%3E%3Cpath d='M241.8 247.0Q236.2 249.1 238.6 254.6' stroke-width='0.44' stroke-opacity='0.050'/%3E%3Cpath d='M80.6 158.2Q78.1 168.3 82.3 178.0' stroke-width='0.40' stroke-opacity='0.038'/%3E%3Cpath d='M38.1 37.4Q32.8 33.5 28.2 38.2' stroke-width='0.48' stroke-opacity='0.063'/%3E%3Cpath d='M38.1 337.4Q32.8 333.5 28.2 338.2' stroke-width='0.48' stroke-opacity='0.063'/%3E%3Cpath d='M338.1 37.4Q332.8 33.5 328.2 38.2' stroke-width='0.48' stroke-opacity='0.063'/%3E%3Cpath d='M338.1 337.4Q332.8 333.5 328.2 338.2' stroke-width='0.48' stroke-opacity='0.063'/%3E%3Cpath d='M94.8 94.4Q89.9 101.9 86.8 110.3' stroke-width='0.72' stroke-opacity='0.046'/%3E%3Cpath d='M98.6 37.1Q92.4 47.2 83.8 55.5' stroke-width='0.47' stroke-opacity='0.045'/%3E%3Cpath d='M98.6 337.1Q92.4 347.2 83.8 355.5' stroke-width='0.47' stroke-opacity='0.045'/%3E%3Cpath d='M112.0 181.3Q114.1 196.6 123.0 209.2' stroke-width='0.96' stroke-opacity='0.059'/%3E%3Cpath d='M111.7 148.8Q112.9 162.8 118.6 175.7' stroke-width='0.81' stroke-opacity='0.048'/%3E%3Cpath d='M160.8 208.6Q162.8 213.2 163.1 218.3' stroke-width='1.19' stroke-opacity='0.087'/%3E%3Cpath d='M112.3 -30.6Q122.8 -19.9 132.8 -8.5' stroke-width='0.51' stroke-opacity='0.080'/%3E%3Cpath d='M112.3 269.4Q122.8 280.1 132.8 291.5' stroke-width='0.51' stroke-opacity='0.080'/%3E%3Cpath d='M198.7 -33.8Q188.7 -22.2 183.5 -7.7' stroke-width='0.91' stroke-opacity='0.041'/%3E%3Cpath d='M198.7 266.2Q188.7 277.8 183.5 292.3' stroke-width='0.91' stroke-opacity='0.041'/%3E%3Cpath d='M176.3 1.5Q175.3 9.5 167.2 9.3' stroke-width='0.48' stroke-opacity='0.040'/%3E%3Cpath d='M176.3 301.5Q175.3 309.5 167.2 309.3' stroke-width='0.48' stroke-opacity='0.040'/%3E%3Cpath d='M-35.9 53.7Q-37.5 59.8 -43.5 57.9' stroke-width='1.16' stroke-opacity='0.072'/%3E%3Cpath d='M264.1 53.7Q262.5 59.8 256.5 57.9' stroke-width='1.16' stroke-opacity='0.072'/%3E%3Cpath d='M250.9 -14.3Q244.4 -2.6 231.3 0.0' stroke-width='1.09' stroke-opacity='0.063'/%3E%3Cpath d='M250.9 285.7Q244.4 297.4 231.3 300.0' stroke-width='1.09' stroke-opacity='0.063'/%3E%3Cpath d='M214.5 32.0Q201.4 40.1 186.2 37.9' stroke-width='0.69' stroke-opacity='0.066'/%3E%3Cpath d='M214.5 332.0Q201.4 340.1 186.2 337.9' stroke-width='0.69' stroke-opacity='0.066'/%3E%3Cpath d='M248.4 72.6Q252.0 78.2 257.6 81.9' stroke-width='1.08' stroke-opacity='0.057'/%3E%3Cpath d='M110.2 119.0Q117.3 126.3 114.8 136.2' stroke-width='0.85' stroke-opacity='0.089'/%3E%3Cpath d='M123.8 224.2Q117.8 227.6 116.8 234.5' stroke-width='1.01' stroke-opacity='0.063'/%3E%3Cpath d='M145.1 192.9Q162.1 196.0 174.7 207.9' stroke-width='1.07' stroke-opacity='0.085'/%3E%3Cpath d='M155.2 132.9Q168.4 138.4 178.6 148.4' stroke-width='0.58' stroke-opacity='0.067'/%3E%3Cpath d='M94.5 69.7Q81.3 74.1 67.4 73.7' stroke-width='1.03' stroke-opacity='0.058'/%3E%3Cpath d='M256.1 175.4Q265.7 175.8 268.1 185.2' stroke-width='0.83' stroke-opacity='0.056'/%3E%3Cpath d='M51.7 108.1Q48.0 116.9 38.8 119.2' stroke-width='1.29' stroke-opacity='0.061'/%3E%3Cpath d='M179.7 140.4Q166.1 148.2 153.1 157.1' stroke-width='0.83' stroke-opacity='0.075'/%3E%3Cpath d='M257.0 120.1Q242.9 122.2 228.7 123.6' stroke-width='0.61' stroke-opacity='0.048'/%3E%3Cpath d='M215.3 202.6Q201.1 213.1 184.1 218.0' stroke-width='0.57' stroke-opacity='0.049'/%3E%3Cpath d='M56.2 211.4Q41.8 219.2 25.7 221.3' stroke-width='1.18' stroke-opacity='0.052'/%3E%3Cpath d='M127.0 218.7Q130.8 224.0 137.0 221.7' stroke-width='0.66' stroke-opacity='0.055'/%3E%3Cpath d='M174.1 202.7Q176.8 205.8 178.2 209.8' stroke-width='0.84' stroke-opacity='0.047'/%3E%3Cpath d='M175.5 -13.4Q178.7 -3.4 172.9 5.4' stroke-width='0.65' stroke-opacity='0.072'/%3E%3Cpath d='M175.5 286.6Q178.7 296.6 172.9 305.4' stroke-width='0.65' stroke-opacity='0.072'/%3E%3Cpath d='M33.8 -33.8Q48.1 -23.8 65.7 -23.8' stroke-width='0.74' stroke-opacity='0.077'/%3E%3Cpath d='M33.8 266.2Q48.1 276.2 65.7 276.2' stroke-width='0.74' stroke-opacity='0.077'/%3E%3Cpath d='M333.8 -33.8Q348.1 -23.8 365.7 -23.8' stroke-width='0.74' stroke-opacity='0.077'/%3E%3Cpath d='M333.8 266.2Q348.1 276.2 365.7 276.2' stroke-width='0.74' stroke-opacity='0.077'/%3E%3Cpath d='M227.2 88.7Q217.7 98.9 214.7 112.5' stroke-width='0.64' stroke-opacity='0.076'/%3E%3Cpath d='M-11.6 201.8Q-0.8 205.8 10.0 209.9' stroke-width='0.72' stroke-opacity='0.074'/%3E%3Cpath d='M288.4 201.8Q299.2 205.8 310.0 209.9' stroke-width='0.72' stroke-opacity='0.074'/%3E%3Cpath d='M203.6 169.9Q199.3 175.1 197.8 181.7' stroke-width='0.56' stroke-opacity='0.084'/%3E%3Cpath d='M196.6 36.9Q212.9 42.4 227.4 51.6' stroke-width='1.05' stroke-opacity='0.068'/%3E%3Cpath d='M196.6 336.9Q212.9 342.4 227.4 351.6' stroke-width='1.05' stroke-opacity='0.068'/%3E%3Cpath d='M166.5 194.2Q175.5 200.7 178.0 211.6' stroke-width='0.46' stroke-opacity='0.074'/%3E%3Cpath d='M226.3 162.9Q235.0 174.7 238.6 188.9' stroke-width='0.75' stroke-opacity='0.083'/%3E%3Cpath d='M12.6 151.4Q8.2 157.7 1.5 161.3' stroke-width='0.70' stroke-opacity='0.057'/%3E%3Cpath d='M312.6 151.4Q308.2 157.7 301.5 161.3' stroke-width='0.70' stroke-opacity='0.057'/%3E%3Cpath d='M162.4 231.5Q156.7 239.8 146.6 239.8' stroke-width='0.64' stroke-opacity='0.040'/%3E%3Cpath d='M33.8 233.7Q47.7 238.4 57.5 249.3' stroke-width='0.77' stroke-opacity='0.076'/%3E%3Cpath d='M333.8 233.7Q347.7 238.4 357.5 249.3' stroke-width='0.77' stroke-opacity='0.076'/%3E%3Cpath d='M244.7 224.6Q256.3 229.0 266.7 235.5' stroke-width='0.57' stroke-opacity='0.064'/%3E%3Cpath d='M170.5 60.6Q168.3 69.7 158.9 70.1' stroke-width='1.12' stroke-opacity='0.084'/%3E%3Cpath d='M-15.2 114.9Q-19.8 125.9 -21.3 137.6' stroke-width='1.28' stroke-opacity='0.073'/%3E%3Cpath d='M284.8 114.9Q280.2 125.9 278.7 137.6' stroke-width='1.28' stroke-opacity='0.073'/%3E%3Cpath d='M89.8 258.0Q83.9 267.4 83.1 278.5' stroke-width='0.40' stroke-opacity='0.077'/%3E%3Cpath d='M198.6 147.6Q203.6 158.4 201.4 170.0' stroke-width='0.88' stroke-opacity='0.037'/%3E%3Cpath d='M150.1 193.8Q142.6 202.7 145.9 213.8' stroke-width='1.20' stroke-opacity='0.042'/%3E%3Cpath d='M237.7 187.0Q242.6 189.9 241.7 195.5' stroke-width='0.47' stroke-opacity='0.065'/%3E%3Cpath d='M-21.1 96.9Q-26.8 112.7 -39.6 123.4' stroke-width='1.17' stroke-opacity='0.068'/%3E%3Cpath d='M278.9 96.9Q273.2 112.7 260.4 123.4' stroke-width='1.17' stroke-opacity='0.068'/%3E%3Cpath d='M-21.9 214.8Q-18.4 229.2 -8.4 240.1' stroke-width='1.24' stroke-opacity='0.082'/%3E%3Cpath d='M278.1 214.8Q281.6 229.2 291.6 240.1' stroke-width='1.24' stroke-opacity='0.082'/%3E%3Cpath d='M131.1 227.1Q143.1 225.5 151.4 234.3' stroke-width='0.47' stroke-opacity='0.046'/%3E%3Cpath d='M48.2 149.1Q47.6 162.9 45.0 176.5' stroke-width='0.98' stroke-opacity='0.052'/%3E%3Cpath d='M139.3 227.1Q144.9 236.3 155.5 237.5' stroke-width='1.05' stroke-opacity='0.055'/%3E%3Cpath d='M111.3 158.8Q124.6 162.2 130.1 174.8' stroke-width='0.59' stroke-opacity='0.078'/%3E%3Cpath d='M43.0 138.0Q50.8 139.0 53.7 146.2' stroke-width='0.76' stroke-opacity='0.044'/%3E%3Cpath d='M8.2 33.0Q13.7 39.2 8.6 45.7' stroke-width='0.42' stroke-opacity='0.060'/%3E%3Cpath d='M8.2 333.0Q13.7 339.2 8.6 345.7' stroke-width='0.42' stroke-opacity='0.060'/%3E%3Cpath d='M308.2 33.0Q313.7 39.2 308.6 45.7' stroke-width='0.42' stroke-opacity='0.060'/%3E%3Cpath d='M308.2 333.0Q313.7 339.2 308.6 345.7' stroke-width='0.42' stroke-opacity='0.060'/%3E%3Cpath d='M122.3 211.0Q124.9 215.2 125.1 220.0' stroke-width='0.42' stroke-opacity='0.088'/%3E%3Cpath d='M65.7 28.3Q74.2 34.8 84.2 38.8' stroke-width='0.71' stroke-opacity='0.042'/%3E%3Cpath d='M65.7 328.3Q74.2 334.8 84.2 338.8' stroke-width='0.71' stroke-opacity='0.042'/%3E%3Cpath d='M15.6 218.3Q9.7 223.5 3.2 228.0' stroke-width='1.24' stroke-opacity='0.052'/%3E%3Cpath d='M315.6 218.3Q309.7 223.5 303.2 228.0' stroke-width='1.24' stroke-opacity='0.052'/%3E%3Cpath d='M75.0 79.7Q70.6 94.6 62.8 108.1' stroke-width='0.48' stroke-opacity='0.073'/%3E%3Cpath d='M-9.2 177.7Q-4.7 173.2 -1.2 178.4' stroke-width='0.55' stroke-opacity='0.037'/%3E%3Cpath d='M290.8 177.7Q295.3 173.2 298.8 178.4' stroke-width='0.55' stroke-opacity='0.037'/%3E%3Cpath d='M16.2 196.3Q26.2 210.7 43.0 215.9' stroke-width='0.83' stroke-opacity='0.079'/%3E%3Cpath d='M316.2 196.3Q326.2 210.7 343.0 215.9' stroke-width='0.83' stroke-opacity='0.079'/%3E%3Cpath d='M-24.8 -18.0Q-23.3 -13.6 -19.6 -10.6' stroke-width='1.25' stroke-opacity='0.040'/%3E%3Cpath d='M-24.8 282.0Q-23.3 286.4 -19.6 289.4' stroke-width='1.25' stroke-opacity='0.040'/%3E%3Cpath d='M275.2 -18.0Q276.7 -13.6 280.4 -10.6' stroke-width='1.25' stroke-opacity='0.040'/%3E%3Cpath d='M275.2 282.0Q276.7 286.4 280.4 289.4' stroke-width='1.25' stroke-opacity='0.040'/%3E%3Cpath d='M88.0 255.0Q91.8 259.6 91.8 265.5' stroke-width='1.01' stroke-opacity='0.086'/%3E%3Cpath d='M52.4 221.9Q39.7 228.4 27.6 236.0' stroke-width='1.23' stroke-opacity='0.055'/%3E%3Cpath d='M124.4 68.8Q128.1 83.5 126.2 98.6' stroke-width='0.55' stroke-opacity='0.075'/%3E%3Cpath d='M181.7 213.2Q186.2 222.4 182.5 232.0' stroke-width='1.04' stroke-opacity='0.036'/%3E%3Cpath d='M140.1 227.5Q153.9 228.6 165.8 235.6' stroke-width='1.16' stroke-opacity='0.070'/%3E%3Cpath d='M-36.4 -38.3Q-47.1 -37.7 -56.0 -31.8' stroke-width='0.70' stroke-opacity='0.055'/%3E%3Cpath d='M-36.4 261.7Q-47.1 262.3 -56.0 268.2' stroke-width='0.70' stroke-opacity='0.055'/%3E%3Cpath d='M263.6 -38.3Q252.9 -37.7 244.0 -31.8' stroke-width='0.70' stroke-opacity='0.055'/%3E%3Cpath d='M263.6 261.7Q252.9 262.3 244.0 268.2' stroke-width='0.70' stroke-opacity='0.055'/%3E%3Cpath d='M21.6 119.8Q37.8 126.2 54.5 131.1' stroke-width='0.50' stroke-opacity='0.039'/%3E%3Cpath d='M321.6 119.8Q337.8 126.2 354.5 131.1' stroke-width='0.50' stroke-opacity='0.039'/%3E%3Cpath d='M194.7 72.2Q198.1 75.9 203.1 76.5' stroke-width='0.93' stroke-opacity='0.036'/%3E%3Cpath d='M69.0 -9.8Q68.5 -2.7 66.2 4.1' stroke-width='1.10' stroke-opacity='0.068'/%3E%3Cpath d='M69.0 290.2Q68.5 297.3 66.2 304.1' stroke-width='1.10' stroke-opacity='0.068'/%3E%3Cpath d='M236.6 160.6Q244.9 159.8 247.8 167.6' stroke-width='1.14' stroke-opacity='0.041'/%3E%3Cpath d='M7.2 -10.1Q2.4 -3.1 -5.6 -5.6' stroke-width='0.82' stroke-opacity='0.047'/%3E%3Cpath d='M7.2 289.9Q2.4 296.9 -5.6 294.4' stroke-width='0.82' stroke-opacity='0.047'/%3E%3Cpath d='M307.2 -10.1Q302.4 -3.1 294.4 -5.6' stroke-width='0.82' stroke-opacity='0.047'/%3E%3Cpath d='M307.2 289.9Q302.4 296.9 294.4 294.4' stroke-width='0.82' stroke-opacity='0.047'/%3E%3Cpath d='M248.8 184.6Q236.3 190.2 229.8 202.3' stroke-width='0.71' stroke-opacity='0.068'/%3E%3Cpath d='M133.7 33.3Q125.5 47.2 124.5 63.3' stroke-width='0.59' stroke-opacity='0.065'/%3E%3Cpath d='M133.7 333.3Q125.5 347.2 124.5 363.3' stroke-width='0.59' stroke-opacity='0.065'/%3E%3Cpath d='M139.3 218.4Q141.8 222.8 144.0 227.4' stroke-width='0.46' stroke-opacity='0.065'/%3E%3Cpath d='M220.6 126.9Q219.6 140.3 212.1 151.6' stroke-width='0.72' stroke-opacity='0.090'/%3E%3Cpath d='M100.6 129.2Q107.1 129.4 108.6 135.8' stroke-width='1.24' stroke-opacity='0.075'/%3E%3Cpath d='M-37.6 -4.0Q-50.0 -1.8 -62.1 1.4' stroke-width='0.78' stroke-opacity='0.087'/%3E%3Cpath d='M-37.6 296.0Q-50.0 298.2 -62.1 301.4' stroke-width='0.78' stroke-opacity='0.087'/%3E%3Cpath d='M262.4 -4.0Q250.0 -1.8 237.9 1.4' stroke-width='0.78' stroke-opacity='0.087'/%3E%3Cpath d='M262.4 296.0Q250.0 298.2 237.9 301.4' stroke-width='0.78' stroke-opacity='0.087'/%3E%3Cpath d='M-29.1 -15.1Q-36.5 -7.2 -45.4 -1.0' stroke-width='1.30' stroke-opacity='0.086'/%3E%3Cpath d='M-29.1 284.9Q-36.5 292.8 -45.4 299.0' stroke-width='1.30' stroke-opacity='0.086'/%3E%3Cpath d='M270.9 -15.1Q263.5 -7.2 254.6 -1.0' stroke-width='1.30' stroke-opacity='0.086'/%3E%3Cpath d='M270.9 284.9Q263.5 292.8 254.6 299.0' stroke-width='1.30' stroke-opacity='0.086'/%3E%3Cpath d='M87.6 -19.7Q93.1 -15.2 100.2 -15.8' stroke-width='0.66' stroke-opacity='0.064'/%3E%3Cpath d='M87.6 280.3Q93.1 284.8 100.2 284.2' stroke-width='0.66' stroke-opacity='0.064'/%3E%3Cpath d='M191.8 12.2Q201.7 22.6 210.5 34.2' stroke-width='0.71' stroke-opacity='0.076'/%3E%3Cpath d='M191.8 312.2Q201.7 322.6 210.5 334.2' stroke-width='0.71' stroke-opacity='0.076'/%3E%3Cpath d='M224.0 86.2Q228.1 90.0 230.5 95.0' stroke-width='0.47' stroke-opacity='0.043'/%3E%3Cpath d='M228.8 210.1Q210.9 206.8 193.6 212.4' stroke-width='0.74' stroke-opacity='0.044'/%3E%3Cpath d='M93.6 138.9Q93.8 150.4 90.6 161.5' stroke-width='1.17' stroke-opacity='0.051'/%3E%3Cpath d='M138.9 -34.0Q150.5 -23.5 157.1 -9.3' stroke-width='1.13' stroke-opacity='0.036'/%3E%3Cpath d='M138.9 266.0Q150.5 276.5 157.1 290.7' stroke-width='1.13' stroke-opacity='0.036'/%3E%3Cpath d='M39.4 159.3Q52.1 160.3 59.4 170.7' stroke-width='0.58' stroke-opacity='0.077'/%3E%3Cpath d='M339.4 159.3Q352.1 160.3 359.4 170.7' stroke-width='0.58' stroke-opacity='0.077'/%3E%3Cpath d='M139.7 -6.2Q125.1 0.3 109.8 -4.3' stroke-width='0.57' stroke-opacity='0.036'/%3E%3Cpath d='M139.7 293.8Q125.1 300.3 109.8 295.7' stroke-width='0.57' stroke-opacity='0.036'/%3E%3Cpath d='M129.7 101.5Q133.9 106.9 128.3 110.8' stroke-width='0.68' stroke-opacity='0.049'/%3E%3Cpath d='M240.6 125.5Q248.3 125.7 255.8 127.6' stroke-width='0.96' stroke-opacity='0.072'/%3E%3Cpath d='M-26.2 242.6Q-20.7 248.5 -12.6 248.7' stroke-width='1.11' stroke-opacity='0.063'/%3E%3Cpath d='M273.8 242.6Q279.3 248.5 287.4 248.7' stroke-width='1.11' stroke-opacity='0.063'/%3E%3Cpath d='M249.3 165.6Q259.1 164.6 263.0 173.6' stroke-width='0.98' stroke-opacity='0.084'/%3E%3Cpath d='M-28.2 140.2Q-42.0 139.5 -54.1 146.2' stroke-width='0.94' stroke-opacity='0.058'/%3E%3Cpath d='M271.8 140.2Q258.0 139.5 245.9 146.2' stroke-width='0.94' stroke-opacity='0.058'/%3E%3Cpath d='M155.5 51.2Q147.0 53.5 148.4 62.2' stroke-width='0.89' stroke-opacity='0.057'/%3E%3Cpath d='M105.6 136.5Q102.4 152.4 110.1 166.6' stroke-width='0.54' stroke-opacity='0.052'/%3E%3Cpath d='M156.6 123.6Q140.3 127.3 129.3 140.0' stroke-width='0.95' stroke-opacity='0.037'/%3E%3Cpath d='M172.4 164.9Q177.3 174.9 186.2 181.6' stroke-width='1.22' stroke-opacity='0.041'/%3E%3Cpath d='M200.6 111.4Q188.2 109.8 179.4 118.6' stroke-width='0.98' stroke-opacity='0.046'/%3E%3Cpath d='M-23.8 54.3Q-30.7 61.0 -39.9 64.0' stroke-width='0.64' stroke-opacity='0.087'/%3E%3Cpath d='M276.2 54.3Q269.3 61.0 260.1 64.0' stroke-width='0.64' stroke-opacity='0.087'/%3E%3Cpath d='M-16.9 95.2Q-7.4 99.8 -4.8 109.9' stroke-width='0.63' stroke-opacity='0.089'/%3E%3Cpath d='M283.1 95.2Q292.6 99.8 295.2 109.9' stroke-width='0.63' stroke-opacity='0.089'/%3E%3Cpath d='M23.8 68.9Q30.3 70.9 37.0 72.3' stroke-width='1.07' stroke-opacity='0.081'/%3E%3Cpath d='M323.8 68.9Q330.3 70.9 337.0 72.3' stroke-width='1.07' stroke-opacity='0.081'/%3E%3Cpath d='M189.3 245.3Q187.6 252.0 194.5 251.7' stroke-width='0.46' stroke-opacity='0.050'/%3E%3Cpath d='M144.9 80.4Q156.8 78.9 167.9 83.8' stroke-width='1.26' stroke-opacity='0.043'/%3E%3Cpath d='M-28.4 53.4Q-39.2 67.7 -47.0 83.9' stroke-width='0.53' stroke-opacity='0.038'/%3E%3Cpath d='M271.6 53.4Q260.8 67.7 253.0 83.9' stroke-width='0.53' stroke-opacity='0.038'/%3E%3Cpath d='M227.8 52.8Q219.8 52.5 216.5 59.9' stroke-width='0.44' stroke-opacity='0.088'/%3E%3Cpath d='M160.4 114.7Q156.8 121.9 164.1 125.1' stroke-width='0.65' stroke-opacity='0.042'/%3E%3Cpath d='M43.6 38.1Q36.3 45.3 26.3 42.8' stroke-width='0.57' stroke-opacity='0.087'/%3E%3Cpath d='M43.6 338.1Q36.3 345.3 26.3 342.8' stroke-width='0.57' stroke-opacity='0.087'/%3E%3Cpath d='M-0.9 -6.0Q-2.5 3.0 5.6 7.3' stroke-width='0.84' stroke-opacity='0.074'/%3E%3Cpath d='M-0.9 294.0Q-2.5 303.0 5.6 307.3' stroke-width='0.84' stroke-opacity='0.074'/%3E%3Cpath d='M299.1 -6.0Q297.5 3.0 305.6 7.3' stroke-width='0.84' stroke-opacity='0.074'/%3E%3Cpath d='M299.1 294.0Q297.5 303.0 305.6 307.3' stroke-width='0.84' stroke-opacity='0.074'/%3E%3Cpath d='M94.0 6.4Q85.4 10.3 81.6 19.0' stroke-width='0.91' stroke-opacity='0.061'/%3E%3Cpath d='M94.0 306.4Q85.4 310.3 81.6 319.0' stroke-width='0.91' stroke-opacity='0.061'/%3E%3Cpath d='M161.4 132.7Q153.3 141.5 141.6 144.2' stroke-width='0.93' stroke-opacity='0.086'/%3E%3Cpath d='M254.5 53.8Q241.1 65.8 223.9 70.7' stroke-width='0.64' stroke-opacity='0.046'/%3E%3Cpath d='M15.9 -6.5Q8.8 1.6 -2.0 1.1' stroke-width='0.41' stroke-opacity='0.083'/%3E%3Cpath d='M15.9 293.5Q8.8 301.6 -2.0 301.1' stroke-width='0.41' stroke-opacity='0.083'/%3E%3Cpath d='M315.9 -6.5Q308.8 1.6 298.0 1.1' stroke-width='0.41' stroke-opacity='0.083'/%3E%3Cpath d='M315.9 293.5Q308.8 301.6 298.0 301.1' stroke-width='0.41' stroke-opacity='0.083'/%3E%3Cpath d='M238.2 -2.5Q233.9 10.8 236.0 24.6' stroke-width='0.48' stroke-opacity='0.065'/%3E%3Cpath d='M238.2 297.5Q233.9 310.8 236.0 324.6' stroke-width='0.48' stroke-opacity='0.065'/%3E%3Cpath d='M132.4 43.9Q138.8 54.5 145.4 65.0' stroke-width='0.74' stroke-opacity='0.052'/%3E%3Cpath d='M107.5 180.3Q89.3 179.6 72.8 187.4' stroke-width='1.15' stroke-opacity='0.051'/%3E%3Cpath d='M-7.0 80.9Q-9.8 86.6 -7.0 92.4' stroke-width='0.71' stroke-opacity='0.070'/%3E%3Cpath d='M293.0 80.9Q290.2 86.6 293.0 92.4' stroke-width='0.71' stroke-opacity='0.070'/%3E%3Cpath d='M84.7 -9.9Q85.1 0.4 86.2 10.7' stroke-width='1.19' stroke-opacity='0.089'/%3E%3Cpath d='M84.7 290.1Q85.1 300.4 86.2 310.7' stroke-width='1.19' stroke-opacity='0.089'/%3E%3Cpath d='M158.5 132.5Q171.1 134.3 183.2 137.9' stroke-width='1.16' stroke-opacity='0.078'/%3E%3Cpath d='M17.8 256.3Q8.5 258.5 -0.9 257.4' stroke-width='0.59' stroke-opacity='0.065'/%3E%3Cpath d='M317.8 256.3Q308.5 258.5 299.1 257.4' stroke-width='0.59' stroke-opacity='0.065'/%3E%3Cpath d='M-34.8 129.3Q-43.5 143.1 -54.7 154.8' stroke-width='0.67' stroke-opacity='0.063'/%3E%3Cpath d='M265.2 129.3Q256.5 143.1 245.3 154.8' stroke-width='0.67' stroke-opacity='0.063'/%3E%3Cpath d='M119.7 111.8Q107.2 115.8 95.4 121.8' stroke-width='0.53' stroke-opacity='0.047'/%3E%3Cpath d='M111.3 184.4Q117.6 183.8 122.8 187.4' stroke-width='0.65' stroke-opacity='0.037'/%3E%3Cpath d='M161.6 -23.6Q151.0 -17.8 146.1 -6.7' stroke-width='1.15' stroke-opacity='0.085'/%3E%3Cpath d='M161.6 276.4Q151.0 282.2 146.1 293.3' stroke-width='1.15' stroke-opacity='0.085'/%3E%3Cpath d='M132.4 204.7Q127.7 208.2 121.8 208.9' stroke-width='0.83' stroke-opacity='0.084'/%3E%3Cpath d='M86.0 57.0Q86.0 73.3 76.5 86.5' stroke-width='0.43' stroke-opacity='0.054'/%3E%3Cpath d='M2.2 249.7Q7.5 253.8 10.8 259.7' stroke-width='0.86' stroke-opacity='0.059'/%3E%3Cpath d='M302.2 249.7Q307.5 253.8 310.8 259.7' stroke-width='0.86' stroke-opacity='0.059'/%3E%3Cpath d='M188.6 198.0Q196.5 206.5 207.9 204.0' stroke-width='1.02' stroke-opacity='0.040'/%3E%3Cpath d='M132.5 226.1Q151.2 224.0 167.5 233.4' stroke-width='0.83' stroke-opacity='0.058'/%3E%3Cpath d='M-31.7 247.9Q-30.5 256.6 -27.3 264.7' stroke-width='1.20' stroke-opacity='0.046'/%3E%3Cpath d='M268.3 247.9Q269.5 256.6 272.7 264.7' stroke-width='1.20' stroke-opacity='0.046'/%3E%3Cpath d='M117.6 26.5Q130.1 32.8 143.4 28.7' stroke-width='0.87' stroke-opacity='0.067'/%3E%3Cpath d='M117.6 326.5Q130.1 332.8 143.4 328.7' stroke-width='0.87' stroke-opacity='0.067'/%3E%3Cpath d='M25.6 69.7Q15.9 73.8 6.5 78.8' stroke-width='0.66' stroke-opacity='0.089'/%3E%3Cpath d='M325.6 69.7Q315.9 73.8 306.5 78.8' stroke-width='0.66' stroke-opacity='0.089'/%3E%3Cpath d='M198.4 158.5Q198.6 166.9 206.5 169.5' stroke-width='0.52' stroke-opacity='0.064'/%3E%3Cpath d='M186.0 106.5Q170.6 106.5 157.6 114.7' stroke-width='1.06' stroke-opacity='0.046'/%3E%3Cpath d='M18.0 129.8Q22.3 138.3 31.7 139.4' stroke-width='0.59' stroke-opacity='0.080'/%3E%3Cpath d='M318.0 129.8Q322.3 138.3 331.7 139.4' stroke-width='0.59' stroke-opacity='0.080'/%3E%3Cpath d='M-18.7 35.9Q-10.1 50.7 -8.0 67.8' stroke-width='0.57' stroke-opacity='0.037'/%3E%3Cpath d='M-18.7 335.9Q-10.1 350.7 -8.0 367.8' stroke-width='0.57' stroke-opacity='0.037'/%3E%3Cpath d='M281.3 35.9Q289.9 50.7 292.0 67.8' stroke-width='0.57' stroke-opacity='0.037'/%3E%3Cpath d='M281.3 335.9Q289.9 350.7 292.0 367.8' stroke-width='0.57' stroke-opacity='0.037'/%3E%3Cpath d='M149.6 115.3Q138.5 127.9 122.1 131.2' stroke-width='0.76' stroke-opacity='0.056'/%3E%3Cpath d='M53.3 75.2Q50.5 82.6 44.5 87.8' stroke-width='0.50' stroke-opacity='0.047'/%3E%3Cpath d='M132.7 169.5Q131.1 177.5 123.9 181.5' stroke-width='1.00' stroke-opacity='0.069'/%3E%3C/g%3E%3C/svg%3E");
   --font-ui:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",system-ui,sans-serif;
-  --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --font-mono:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;   /* numbers and data: the same mincho as the text */
+  --font-brush:"Yuji Syuku","Hiragino Mincho ProN","Yu Mincho",serif;
+  --font-mincho:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
   --kb-row:50px;
   --gut-l:max(16px, env(safe-area-inset-left, 0px));
   --gut-r:max(16px, env(safe-area-inset-right, 0px));
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#0E1117; --card:#171B23; --ink:#E8ECF2; --mute:#97A1B1; --line:#2A303B;
-    --tray:#1B1F27; --key:#3B424E; --key-fn:#262C35; --key-down:#59626F; --key-edge:#0B0D12;
-    --accent:#88A3FF; --accent-soft:#1F2A52; --on-accent:#0E1117;
-    --marker:#F2C94C; --marker-ink:#0E1117; --faint:#5D6676; --ok:#3DC48A;
-    --s1:#3987e5; --s2:#d95926;
-    --miss:#FF6B6B; --miss-soft:#45212A;
+    --paper:#16130F; --card:#211D18; --ink:#ECE4D3; --mute:#A89E8C; --line:#3A3329;
+    --tray:#100E0B; --key:#2C2720; --key-fn:#1E1A15; --key-down:#40392F; --key-edge:#080706;
+    --accent:#EE7A57; --accent-soft:#3B1F16; --on-accent:#1B120C;
+    --marker:#D9A441; --marker-ink:#16130F; --faint:#6F665A; --ok:#ECE4D3;
+    --s1:#ECE4D3; --s2:#EE7A57;
+    --miss:#FF8A7A; --miss-soft:#47201F;
     --shadow:0 6px 18px rgba(0,0,0,.55);
+    --usuzumi:#958C7B; --shu:#C0412A; --shu-ink:#FFF6EA; --kin:#D9A441;
+    --field:#E6DDCA; --field-ink:#1D1A16; --field-mute:#5E574C;
+    --washi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .86 0 0 0 0 .78 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),var(--fiber-d);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0E1117; --card:#171B23; --ink:#E8ECF2; --mute:#97A1B1; --line:#2A303B;
-  --tray:#1B1F27; --key:#3B424E; --key-fn:#262C35; --key-down:#59626F; --key-edge:#0B0D12;
-  --accent:#88A3FF; --accent-soft:#1F2A52; --on-accent:#0E1117;
-  --marker:#F2C94C; --marker-ink:#0E1117; --faint:#5D6676; --ok:#3DC48A;
-  --s1:#3987e5; --s2:#d95926;
-  --miss:#FF6B6B; --miss-soft:#45212A;
+  --paper:#16130F; --card:#211D18; --ink:#ECE4D3; --mute:#A89E8C; --line:#3A3329;
+  --tray:#100E0B; --key:#2C2720; --key-fn:#1E1A15; --key-down:#40392F; --key-edge:#080706;
+  --accent:#EE7A57; --accent-soft:#3B1F16; --on-accent:#1B120C;
+  --marker:#D9A441; --marker-ink:#16130F; --faint:#6F665A; --ok:#ECE4D3;
+  --s1:#ECE4D3; --s2:#EE7A57;
+  --miss:#FF8A7A; --miss-soft:#47201F;
   --shadow:0 6px 18px rgba(0,0,0,.55);
+  --usuzumi:#958C7B; --shu:#C0412A; --shu-ink:#FFF6EA; --kin:#D9A441;
+  --field:#E6DDCA; --field-ink:#1D1A16; --field-mute:#5E574C;
+  --washi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .86 0 0 0 0 .78 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),var(--fiber-d);
   color-scheme:dark;
 }
 
@@ -278,11 +293,6 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .arena.sp-flash .scene::after{content:"";position:absolute;inset:0;background:#fff;animation:spf .4s ease-out forwards}
 @keyframes spf{from{opacity:.75}to{opacity:0}}
 /* the five areas */
-.arena[data-area="1"] .scene{background:radial-gradient(70% 38% at 18% 104%,#58B85E 99%,transparent 100%),radial-gradient(80% 42% at 88% 108%,#45A04E 99%,transparent 100%),radial-gradient(9% 7% at 22% 32%,#fff 96%,transparent),radial-gradient(7% 6% at 28% 28%,#fff 96%,transparent),radial-gradient(10% 7% at 78% 26%,#fff 96%,transparent),linear-gradient(#6EC2F2,#CDEEFF 75%)}
-.arena[data-area="2"] .scene{background:radial-gradient(30% 24% at 14% 34%,rgba(150,90,255,.5),transparent 70%),radial-gradient(26% 22% at 86% 44%,rgba(60,220,255,.4),transparent 70%),linear-gradient(transparent 80%,#3A2C33 80%),linear-gradient(#1E1626,#3D2E44)}
-.arena[data-area="3"] .scene{background:radial-gradient(60% 34% at 50% 110%,#FFC23A,#FF5A1F 40%,transparent 72%),linear-gradient(transparent 82%,#3A1612 82%),linear-gradient(#2A0E0E,#7A2414 70%,#C2441A)}
-.arena[data-area="4"] .scene{background:radial-gradient(80% 30% at 50% 112%,#fff 99%,transparent 100%),radial-gradient(40% 40% at 18% 98%,#D6EEFC 99%,transparent 100%),radial-gradient(42% 48% at 86% 100%,#BCE0F6 99%,transparent 100%),linear-gradient(#86C6EE,#E6F6FF)}
-.arena[data-area="5"] .scene{background:radial-gradient(13% 17% at 84% 30%,#F5B26B 60%,transparent 63%),radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 2px) 0 0/37px 31px,radial-gradient(circle at 70% 60%,#fff 0 1px,transparent 2px) 0 0/53px 41px,linear-gradient(#070A24,#24145A)}
 .arena[data-area="3"] .scene::before{inset:0 0 -46px 0;background:radial-gradient(circle,#FFB31A 0 1.5px,transparent 2.5px) 0 0/46px 46px,radial-gradient(circle,#FF6A2A 0 1px,transparent 2px) 23px 13px/46px 46px;animation:ember 3s linear infinite}
 .arena[data-area="4"] .scene::before{inset:-34px 0 0 0;background:radial-gradient(circle,#fff 0 1.5px,transparent 2.5px) 0 0/34px 34px,radial-gradient(circle,#fff 0 1px,transparent 2px) 17px 9px/34px 34px;opacity:.85;animation:snow 4s linear infinite}
 .arena[data-area="5"] .scene::before{background:radial-gradient(circle,#fff 0 1.2px,transparent 2px) 11px 7px/61px 47px;animation:twinkle 2.4s ease-in-out infinite}
@@ -409,7 +419,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .kb .key.fn.charged[data-k="@special"] b{text-shadow:0 1px 2px rgba(0,0,0,.7);font-size:14px}
 @keyframes slam{0%{transform:translate(-50%,-50%) scale(3) rotate(-10deg);opacity:0}16%{transform:translate(-50%,-50%) scale(.9) rotate(-4deg);opacity:1}26%{transform:translate(-50%,-50%) scale(1.06) rotate(-4deg)}78%{opacity:1}100%{transform:translate(-50%,-80%) scale(1) rotate(-4deg);opacity:0}}
 .warn{position:absolute;left:-14px;right:-14px;top:50%;height:58px;margin-top:-29px;display:grid;place-items:center;z-index:8;pointer-events:none;overflow:hidden;
-  background:repeating-linear-gradient(-45deg,#1B2130 0 14px,#E0222E 14px 28px);background-size:40px 40px;animation:warn 1.5s ease-in-out forwards,stripes .6s linear infinite}
+  animation:warn 1.5s ease-in-out forwards}
 .warn span{background:#1B2130;color:#fff;font:700 20px var(--font-ui);letter-spacing:.18em;padding:4px 14px;border-radius:4px}
 @keyframes warn{0%{transform:scaleY(0)}10%{transform:scaleY(1)}85%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:0}}
 @keyframes stripes{to{background-position:40px 0}}
@@ -502,13 +512,265 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 #ad-menu iframe{height:50px}
 #ad-result iframe{height:250px}
 
+/* ================= 墨と和紙の迷宮 ================= */
+svg.defs{position:absolute;width:0;height:0;overflow:hidden}
+html,body{background-color:var(--paper)}
+body{background-image:var(--washi)}
+html{scrollbar-color:var(--line) transparent}
+::selection{background:var(--accent-soft);color:var(--ink)}
+input,textarea{caret-color:var(--shu)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
+.viewhead h2{font-size:28px;line-height:1.2}
+.label{font:800 12.5px var(--font-mincho);letter-spacing:.26em;color:var(--mute)}
+.note{color:var(--mute)}
+/* controls: paper, ink and a little 朱 */
+.opt{border-radius:4px;border-color:var(--line);background:var(--card)}
+.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--card);box-shadow:inset 0 0 0 1px var(--ink)}
+.opt[aria-pressed="true"] b{color:var(--ink)}
+.opt[aria-pressed="true"] b::after{content:"";display:inline-block;width:7px;height:7px;margin-left:7px;vertical-align:.18em;background:var(--shu);border-radius:1px}
+.seg.three .opt[aria-pressed="true"] b::after{display:none}
+.primary{position:relative;isolation:isolate;background:transparent;color:var(--shu-ink);border-radius:4px;font:400 21px var(--font-brush);letter-spacing:.16em}
+.primary::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--shu);border-radius:4px;filter:url(#rough)}
+.primary.small{font-size:17px;letter-spacing:.1em}
+.secondary{border-radius:4px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink)}
+.secondary:disabled{border-color:var(--line);color:var(--faint)}
+.barbtn{border-radius:4px;border:1.5px solid var(--line);background:var(--card);font-weight:700}
+.sw:checked{background:var(--shu)}
+.linkbtn{color:var(--ink);text-decoration-color:var(--shu);text-decoration-thickness:2px;text-underline-offset:4px}
+.chip{border-radius:3px;border-color:var(--line);background:var(--card)}
+.chip b{font-family:var(--font-mincho);font-weight:800}
+.chip.ach-chip b{color:var(--ink);font-family:var(--font-ui)}
+.optbox{border-radius:4px}
+.courses .opt span{color:var(--mute)}
+/* ---- home: three entrances to the maze ---- */
+.wrap.home{gap:18px}
+.home .brand{align-items:flex-start;justify-content:space-between;gap:12px}
+.logo{font:400 46px/1.05 var(--font-brush);letter-spacing:.02em;margin:4px 0 0}
+.home .tag{margin:9px 0 0;font:800 13px var(--font-mincho);letter-spacing:.36em;color:var(--mute)}
+.seal{appearance:none;border:0;cursor:pointer;flex:none;display:grid;place-items:center;background:var(--shu);color:var(--shu-ink);font:400 17px/1.1 var(--font-brush);writing-mode:vertical-rl;padding:8px 6px;border-radius:3px;transform:rotate(4deg);filter:url(#rough);max-height:132px;margin-top:4px}
+.seal b{font-weight:400}
+.howline{appearance:none;border:0;border-bottom:1.5px solid var(--line);background:none;padding:4px 0 11px;display:flex;align-items:baseline;gap:10px;font-size:13px;color:var(--mute);cursor:pointer;text-align:left;width:100%}
+.howline b{color:var(--ink);font-size:14px;min-width:0}
+.howline u{margin-left:auto;color:var(--accent);font-weight:700;text-underline-offset:4px;text-decoration-thickness:2px;flex:none}
+.doors{display:flex;flex-direction:column;gap:12px}
+.door{appearance:none;-webkit-appearance:none;position:relative;isolation:isolate;border:0;background:none;color:var(--ink);text-align:left;cursor:pointer;padding:16px 16px 14px;min-height:100px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;width:100%;touch-action:manipulation}
+.door::before{content:"";position:absolute;inset:0;z-index:-1;border:2.5px solid var(--ink);border-radius:4px;background:var(--card);filter:url(#rough);transition:transform .12s}
+.door:active::before{transform:translateY(2px)}
+.door .nm{font:400 34px/1.1 var(--font-brush)}
+.door .ds{font-size:12.5px;color:var(--mute);max-width:60%;line-height:1.5}
+.door .bs{position:absolute;right:16px;top:16px;text-align:right;font:700 11px var(--font-ui);color:var(--mute);line-height:1.4}
+.door .bs b{display:block;font:800 22px/1.15 var(--font-mincho);color:var(--ink)}
+.door .rs{margin-top:6px;background:var(--shu);color:var(--shu-ink);font:700 12.5px var(--font-ui);padding:3px 9px;border-radius:2px}
+.door.deep{min-height:170px;color:var(--field-ink)}
+.door.deep::before{background:var(--field);border-color:var(--field)}
+.door.deep .nm{font-size:40px}
+.door.deep .ds,.door.deep .bs{color:var(--field-mute)}
+.door.deep .bs b{color:var(--field-ink)}
+.door .maze{position:absolute;right:14px;top:68px;width:124px;height:38px;opacity:.32;z-index:-1}
+.door.deep .bs{top:auto;bottom:14px}
+.door-new{margin:-6px 0 2px auto;font-size:12px}
+.today{appearance:none;border:0;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);background:none;display:flex;align-items:center;gap:10px;padding:11px 0;font-size:13px;color:var(--ink);cursor:pointer;text-align:left;width:100%}
+.today .st{background:var(--shu);color:var(--shu-ink);font:400 14px/1.2 var(--font-brush);padding:3px 6px;border-radius:2px;filter:url(#rough);flex:none}
+.today b{font:800 16px var(--font-mincho);flex:none}
+.today .r{margin-left:auto;color:var(--mute);font-size:12px;white-space:nowrap}
+.links{display:flex;flex-wrap:wrap;gap:6px 22px}
+.links button{appearance:none;border:0;background:none;padding:6px 0;font-weight:700;font-size:14px;color:var(--ink);text-decoration:underline;text-decoration-color:var(--shu);text-decoration-thickness:2px;text-underline-offset:6px;cursor:pointer}
+/* ---- play: the text is written in ink as you type ---- */
+.clock{font:800 22px/1 var(--font-mincho);font-variant-numeric:tabular-nums}
+.tally b{font:800 17px var(--font-mincho)}
+.meter i{background:var(--shu)}
+.ready{color:var(--shu-ink);background:var(--shu);border-radius:3px}
+.disp{font-family:var(--font-mincho);font-weight:800;color:var(--usuzumi);letter-spacing:.03em}
+.disp .w{color:var(--ink)}
+.disp .now{color:color-mix(in srgb,var(--ink) 62%,var(--usuzumi))}
+.kana{color:var(--usuzumi);font-weight:700}
+.kana .d{color:var(--ink)}
+.kana .c{color:var(--ink);background:none;border-radius:0;box-shadow:inset 0 -3px 0 var(--shu)}
+.kana .c[data-p]::before{background:var(--shu);color:var(--shu-ink);border-radius:3px}
+.roma{font:700 15px/1.55 var(--font-ui);letter-spacing:.1em;color:var(--usuzumi)}
+.roma .d{color:var(--ink)}
+.roma .n{color:var(--ink);background:none;border-radius:0;box-shadow:inset 0 -3px 0 var(--shu)}
+.disp .fresh,.kana .fresh{display:inline-block;animation:inkin .42s cubic-bezier(.16,1,.3,1)}
+@keyframes inkin{0%{color:var(--usuzumi);filter:blur(1.6px);transform:scale(1.14)}55%{filter:blur(.4px)}100%{filter:none;transform:none}}
+.stage.miss .kana .c{color:var(--paper);background:var(--ink);border-radius:40% 46% 42% 48%;box-shadow:none}
+.stage.miss .roma .n{background:var(--ink);color:var(--paper);border-radius:40%;box-shadow:none}
+.out{border-radius:4px;background:var(--card)}
+.out .comp{color:var(--ink);text-decoration-color:var(--shu)}
+.out .caret{background:var(--shu)}
+.cand.hint{color:var(--accent);box-shadow:inset 0 -3px 0 var(--shu)}
+.stage.ended::after{font:400 44px var(--font-brush);letter-spacing:.2em;background:var(--paper)}
+/* keyboard: paper keys on a tray of thicker paper */
+.key{border-radius:5px;box-shadow:0 1.5px 0 var(--key-edge);font-weight:700}
+.key.fn{color:var(--ink)}
+.key.fn.on{color:var(--accent)}
+.key.hint{box-shadow:inset 0 -4px 0 var(--shu),0 1.5px 0 var(--key-edge)}
+.key.hint::after{background:var(--shu);color:var(--shu-ink)}
+.kb.flat .key.hint{box-shadow:inset 0 -4px 0 var(--shu)}
+#keyPop{border-radius:6px}
+#flickPop i{border-radius:5px}
+#flickPop i.on{background:var(--shu);color:var(--shu-ink)}
+.key.armed{background:var(--shu)!important;color:var(--shu-ink)!important}
+.key[data-k="@special"] .sp-fill{background:var(--shu);opacity:.45}
+.key[data-k="@special"] b{font:400 15px var(--font-brush)}
+.kb .key.fn.charged[data-k="@special"]{color:var(--shu-ink);background:var(--shu);background-size:auto;animation:sealPulse 1.1s ease-in-out infinite;box-shadow:inset 0 0 0 2px var(--marker)}
+.kb .key.fn.charged[data-k="@special"] b{text-shadow:none;font-size:16px}
+@keyframes sealPulse{50%{box-shadow:inset 0 0 0 2px var(--marker),0 0 12px rgba(217,164,65,.85)}}
+/* the stage is a lit sheet of paper in light and in dark */
+.arena .scene{border-radius:6px;box-shadow:inset 0 0 0 1.5px rgba(29,26,22,.35)}
+.arena[data-area="1"] .scene{background:radial-gradient(62% 32% at 18% 106%,rgba(29,26,22,.30) 0 97%,transparent 100%),radial-gradient(72% 36% at 88% 112%,rgba(29,26,22,.20) 0 97%,transparent 100%),radial-gradient(120% 70% at 50% 125%,rgba(29,26,22,.12),transparent 70%),var(--washi),linear-gradient(#F4EEE2,#E8DFCD)}
+.arena[data-area="2"] .scene{background:radial-gradient(72% 95% at 50% 102%,transparent 56%,rgba(29,26,22,.42) 58%,rgba(29,26,22,.62)),linear-gradient(transparent 84%,rgba(29,26,22,.32) 84%),var(--washi),linear-gradient(#E6DECD,#D7CDB8)}
+.arena[data-area="3"] .scene{background:radial-gradient(42% 30% at 50% 110%,rgba(192,65,42,.55),transparent 72%),conic-gradient(from 148deg at 50% 18%,rgba(29,26,22,.34) 0 64deg,transparent 0),var(--washi),linear-gradient(#EFE3CE,#E2CDAE)}
+.arena[data-area="4"] .scene{background:radial-gradient(80% 30% at 50% 112%,rgba(255,255,255,.75) 0 97%,transparent 100%),radial-gradient(40% 40% at 16% 100%,rgba(37,43,49,.18) 0 97%,transparent 100%),radial-gradient(44% 48% at 86% 102%,rgba(37,43,49,.24) 0 97%,transparent 100%),var(--washi),linear-gradient(#EEF0EC,#D9E0E0)}
+.arena[data-area="5"] .scene{background:radial-gradient(13% 17% at 84% 28%,rgba(184,134,43,.55) 0 60%,transparent 63%),radial-gradient(circle at 20% 30%,rgba(184,134,43,.9) 0 1px,transparent 2px) 0 0/37px 31px,var(--washi),linear-gradient(#CFCBD3,#A9A5B3)}
+.arena[data-area="3"] .scene::before{inset:0 0 -220px 0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Ccircle cx='117' cy='208' r='1.2' fill='%231D1A16' fill-opacity='0.70'/%3E%3Ccircle cx='189' cy='144' r='0.9' fill='%23C0412A' fill-opacity='0.54'/%3E%3Ccircle cx='199' cy='110' r='1.2' fill='%231D1A16' fill-opacity='0.82'/%3E%3Ccircle cx='165' cy='89' r='2.1' fill='%23C0412A' fill-opacity='0.76'/%3E%3Ccircle cx='219' cy='154' r='1.5' fill='%231D1A16' fill-opacity='0.46'/%3E%3Ccircle cx='181' cy='118' r='1.9' fill='%23C0412A' fill-opacity='0.50'/%3E%3Ccircle cx='295' cy='105' r='2.1' fill='%23C0412A' fill-opacity='0.76'/%3E%3Ccircle cx='254' cy='176' r='2.0' fill='%23C0412A' fill-opacity='0.54'/%3E%3Ccircle cx='273' cy='79' r='2.0' fill='%23C0412A' fill-opacity='0.74'/%3E%3Ccircle cx='225' cy='188' r='1.1' fill='%23C0412A' fill-opacity='0.83'/%3E%3Ccircle cx='157' cy='61' r='1.8' fill='%23C0412A' fill-opacity='0.65'/%3E%3Ccircle cx='193' cy='122' r='1.5' fill='%23C0412A' fill-opacity='0.68'/%3E%3Ccircle cx='235' cy='74' r='2.0' fill='%23C0412A' fill-opacity='0.49'/%3E%3Ccircle cx='180' cy='6' r='1.8' fill='%23C0412A' fill-opacity='0.58'/%3E%3Ccircle cx='191' cy='159' r='1.2' fill='%23C0412A' fill-opacity='0.84'/%3E%3Ccircle cx='264' cy='197' r='0.8' fill='%23C0412A' fill-opacity='0.69'/%3E%3C/svg%3E") center top/400px 220px repeat-y;animation:ember3 5s linear infinite}
+@keyframes ember3{to{transform:translateY(-220px)}}
+.arena[data-area="4"] .scene::before{background:radial-gradient(circle,rgba(29,26,22,.35) 0 1.3px,transparent 2.3px) 0 0/34px 34px,radial-gradient(circle,#fff 0 1.4px,transparent 2.4px) 17px 9px/34px 34px}
+.arena[data-area="5"] .scene::before{background:radial-gradient(circle,#D9A441 0 1.2px,transparent 2px) 11px 7px/61px 47px}
+.foe-name{background:#F7F2E7;color:#1D1A16;border-radius:2px;box-shadow:0 1px 0 rgba(29,26,22,.3);font-family:var(--font-mincho);font-weight:800}
+.foe-name small{color:#5E574C}
+.foe-name.boss span,.foe-name.elite span{color:#B8371F}
+.foe-top .gauge,.you-bar .gauge{background:#F4EEE2;box-shadow:inset 0 0 0 1px rgba(29,26,22,.4)}
+.gauge.hp i{background:#C0412A}
+.gauge.hp b{background:#E7B8A3}
+.gauge.atk i{background:#1D1A16}
+.you-bar{color:#1D1A16;text-shadow:none}
+.you-bar b{font-family:var(--font-mincho);font-weight:800}
+.arena .gauge.you i{background:#1D1A16}
+.run-hp .gauge.you i{background:var(--ink)}
+.foe-slot::before{background:rgba(29,26,22,.22)}
+.foe-art svg{filter:none}
+.foe-art.boss svg{animation:bob 2.2s ease-in-out infinite,aura 1.2s ease-in-out infinite}
+@keyframes aura{0%,100%{filter:drop-shadow(0 0 4px rgba(192,65,42,.55))}50%{filter:drop-shadow(0 0 12px rgba(192,65,42,.95))}}
+@keyframes eliteAura{0%,100%{filter:drop-shadow(0 0 3px rgba(184,134,43,.6))}50%{filter:drop-shadow(0 0 10px rgba(184,134,43,1))}}
+.sp-btn{border:0;border-radius:3px;background:rgba(29,26,22,.85);font:400 16px var(--font-brush)}
+.sp-btn .sp-fill{background:#C0412A}
+.sp-btn b{text-shadow:none;letter-spacing:.08em}
+.sp-btn.charged{background:#C0412A;border:0;box-shadow:inset 0 0 0 2px #D9A441;animation:sealPulse 1.1s ease-in-out infinite}
+.sp-btn.charged .sp-fill{background:none;animation:none}
+/* effects: ink splashes, 朱 and 金, set in brush */
+.slash{height:10px;margin-top:-5px;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(29,26,22,.85) 18%,#1D1A16 50%,rgba(29,26,22,.85) 82%,transparent);box-shadow:none}
+.slash.rb{background:linear-gradient(90deg,transparent,#C0412A 20%,#D9A441 50%,#C0412A 80%,transparent);box-shadow:none}
+.dmg{font:400 28px/1 var(--font-brush);color:#C0412A;-webkit-text-stroke:3px #F7F2E7}
+.dmg.crit{font-size:36px;color:#1D1A16}
+.dmg.crit::before{content:"会心";font:400 15px/1.2 var(--font-brush);color:#C0412A;-webkit-text-stroke:3px #F7F2E7;letter-spacing:.1em}
+.dmg.conv{font-size:38px;color:#9A6B17}
+.dmg.rb{color:#C0412A;-webkit-text-stroke:3px #F7F2E7}
+.dmg.hurt{color:#8F1D2C;font-size:30px;-webkit-text-stroke:3px #F7F2E7}
+.cmb b{font:400 34px/1 var(--font-brush);color:#1D1A16;-webkit-text-stroke:3px #F7F2E7}
+.cmb span{font:800 11px var(--font-mincho);color:#1D1A16;-webkit-text-stroke:3px #F7F2E7}
+.cmb.t2 b{color:#C0412A}
+.cmb.t3 b,.cmb.t4 b{color:#B8862B;-webkit-text-stroke:3px #1D1A16;animation:none}
+.cmb.t3.bump b,.cmb.t4.bump b{animation:bump .18s ease-out}
+.banner{font:400 34px/1 var(--font-brush);color:#1D1A16;-webkit-text-stroke:5px #F7F2E7;letter-spacing:.06em}
+.banner.boss{font-size:40px;color:#C0412A;-webkit-text-stroke:5px #F7F2E7}
+.banner.conv{color:#9A6B17}
+.banner.combo.t1{color:#1D1A16}.banner.combo.t2{color:#C0412A}
+.banner.fever{color:#D9A441;-webkit-text-stroke:5px #1D1A16;text-shadow:0 0 14px rgba(192,65,42,.8)}
+.banner.special{color:#C0412A;-webkit-text-stroke:5px #F7F2E7;text-shadow:0 0 16px rgba(217,164,65,.9)}
+.banner.area{font-size:26px;color:#1D1A16}
+.banner.ok{font-size:22px;color:#C0412A}
+.warn span{background:#1D1A16;color:#F4EEE2;font:400 22px var(--font-brush);border-radius:2px}
+.vig{box-shadow:inset 0 0 50px 12px rgba(192,65,42,.55)}
+@keyframes feverGlow{0%,100%{box-shadow:inset 0 0 0 3px #C0412A,0 0 14px rgba(192,65,42,.7)}50%{box-shadow:inset 0 0 0 3px #D9A441,0 0 14px rgba(217,164,65,.8)}}
+/* between floors */
+.runlay{background:color-mix(in srgb,var(--paper) 96%,transparent)}
+.runlay h2{font:400 26px/1.3 var(--font-brush)}
+.run-hp b{font-family:var(--font-mincho);font-weight:800}
+.opt.node{border:1.5px solid var(--ink);border-radius:4px}
+.opt.node svg{color:var(--ink)}
+.opt.node b{font-size:18px}
+.opt.node.rare{border-color:var(--kin);box-shadow:inset 0 0 0 1px var(--kin)}
+.opt.node.rare svg,.opt.node.rare b{color:var(--kin)}
+.opt.node .key-n{font-family:var(--font-mincho)}
+/* ---- result: the rank is pressed as a seal ---- */
+.scorebox{gap:8px}
+.rank{margin:10px 0 6px;width:136px;height:136px;display:grid;place-items:center;background:var(--shu);color:var(--shu-ink);font:400 50px/1.02 var(--font-brush);writing-mode:vertical-rl;letter-spacing:.04em;transform:rotate(-5deg);border-radius:6px;filter:url(#rough2);box-shadow:inset 0 0 0 6px var(--shu),inset 0 0 0 8px rgba(255,246,234,.85)}
+.rank[data-len="1"]{font-size:76px}.rank[data-len="3"]{font-size:38px}.rank[data-len="4"]{font-size:28px}
+.rank.stamp{animation:stamp .55s cubic-bezier(.2,1.3,.4,1) .3s backwards}
+@keyframes stamp{0%{transform:scale(2.3) rotate(-14deg);opacity:0}55%{transform:scale(.93) rotate(-5deg);opacity:1}100%{transform:rotate(-5deg)}}
+.score{font:800 72px/1 var(--font-mincho)}
+.score small{font:700 13px var(--font-ui);color:var(--mute);margin-top:8px}
+.badge{background:none;color:var(--accent);border:1.5px solid var(--accent);border-radius:2px;font:400 16px var(--font-brush);padding:2px 12px}
+.stats{gap:0;background:none;border:0;border-block:2px solid var(--ink);border-radius:0}
+.stats div{background:none;border-bottom:1px solid var(--line)}
+.stats div:nth-last-child(-n+3){border-bottom:0}
+.stats dd{font-family:var(--font-mincho);font-weight:800}
+.tiles{gap:0;background:none;border:0;border-block:2px solid var(--ink);border-radius:0}
+.tiles div{background:none;border-bottom:1px solid var(--line)}
+.tiles div:nth-last-child(-n+2){border-bottom:0}
+.tiles dd{font-family:var(--font-mincho);font-weight:800}
+.ranklist{border:0;border-block:2px solid var(--ink);border-radius:0;background:none}
+.ranklist li.me{background:var(--accent-soft)}
+.ranklist .rk{font:800 15px var(--font-mincho);color:var(--ink)}
+.ranklist li:nth-child(1) .rk{color:var(--accent)}
+.ranklist .sc{font:800 14px var(--font-mincho)}
+.nickform{border:1.5px solid var(--ink);border-radius:4px}
+.nickrow input{border-radius:4px}
+.sharebox,.custom textarea{border-radius:4px}
+.modal-in{border-radius:6px}
+.modal-in img{border-radius:4px}
+.toast{border-radius:3px}
+.chart{border-radius:4px}
+.ach{border-radius:4px}
+.ach.on{border-color:var(--ink)}
+.ach.on b{color:var(--ink)}
+.ach.cur{background:var(--accent-soft);border-color:var(--accent)}
+.ach.cur small{color:var(--accent)}
+.shop-row{border-radius:4px}
+.shards b{font:800 26px var(--font-mincho);color:var(--accent)}
+.shop-row .tx .lv{font-family:var(--font-mincho);font-weight:800}
+
+/* ---- finish review: the stage is ink wash on the page itself, not a boxed card ---- */
+.arena .scene{left:calc(-1 * var(--gut-l));right:calc(-1 * var(--gut-r));border-radius:0;box-shadow:none;overflow:hidden;background-color:transparent;
+  -webkit-mask-image:linear-gradient(transparent,#000 12%,#000 74%,transparent),linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(transparent,#000 12%,#000 74%,transparent),linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-composite:intersect}
+.arena[data-area="1"] .scene{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='18'/%3E%3CfeGaussianBlur stdDeviation='.7'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='120' cy='40' rx='120' ry='16' fill='%231D1A16' fill-opacity='.05' filter='url(%23g)'/%3E%3Cpath d='M-30 150C50 108 110 134 170 114S280 92 330 118 400 108 430 116V240H-30Z' fill='%231D1A16' fill-opacity='0.1' stroke='%231D1A16' stroke-opacity='0.22' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 190C70 160 150 182 230 162S360 172 430 156V240H-30Z' fill='%231D1A16' fill-opacity='0.26' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='3.5' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M40 186l6-22M52 188l3-18M300 176l5-20M312 178l2-15' stroke='%231D1A16' stroke-opacity='.55' stroke-width='2.6' stroke-linecap='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena[data-area="2"] .scene{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='8'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='18'/%3E%3CfeGaussianBlur stdDeviation='.7'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M-30-20H430V40C360 20 330 70 300 50S240 30 200 46 120 24 90 52 20 30-30 44Z' fill='%231D1A16' fill-opacity='0.34' stroke='%231D1A16' stroke-opacity='0.6' stroke-width='3.5' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30-20H40C30 60 46 140 26 240H-30ZM430-20H362C374 70 350 150 376 240H430Z' fill='%231D1A16' fill-opacity='0.24' stroke='%231D1A16' stroke-opacity='0.45' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M120 40l8 34 8-34M250 44l6 26 6-26' fill='%231D1A16' fill-opacity='0.34' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='2' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 196C80 182 160 196 240 186S380 194 430 184V240H-30Z' fill='%231D1A16' fill-opacity='0.28' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena[data-area="3"] .scene{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='13'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='18'/%3E%3CfeGaussianBlur stdDeviation='.7'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='200' cy='214' rx='150' ry='40' fill='%23C0412A' fill-opacity='.4' filter='url(%23g)'/%3E%3Cpath d='M40 240L170 46C182 32 214 30 228 46L362 240Z' fill='%231D1A16' fill-opacity='0.2' stroke='%231D1A16' stroke-opacity='0.42' stroke-width='3.5' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M176 50C190 40 210 40 224 50L214 70C204 62 196 62 186 70Z' fill='%23C0412A' fill-opacity='0.45' stroke='%23C0412A' stroke-opacity='0.6' stroke-width='2' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 204C90 190 170 206 250 194S380 202 430 192V240H-30Z' fill='%231D1A16' fill-opacity='0.3' stroke='%231D1A16' stroke-opacity='0.52' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena[data-area="4"] .scene{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='21'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='18'/%3E%3CfeGaussianBlur stdDeviation='.7'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M-30 130L40 70 90 116 150 60 210 120 270 74 330 112 400 66 430 90V240H-30Z' fill='%23252B31' fill-opacity='0.1' stroke='%23252B31' stroke-opacity='0.26' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 196C80 176 170 192 250 180S380 188 430 178V240H-30Z' fill='%23252B31' fill-opacity='0.18' stroke='%23252B31' stroke-opacity='0.4' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena[data-area="5"] .scene{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='34'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='18'/%3E%3CfeGaussianBlur stdDeviation='.7'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='326' cy='58' r='22' fill='%23B8862B' fill-opacity='.5' filter='url(%23g)'/%3E%3Ccircle cx='326' cy='58' r='14' fill='%23B8862B' fill-opacity='.6'/%3E%3Cpath d='M-30-20H430V150C350 120 300 170 220 140S90 160-30 130Z' fill='%23202838' fill-opacity='0.3' stroke='%23202838' stroke-opacity='0.5' stroke-width='3.5' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 204C90 192 170 206 250 196S380 202 430 194V240H-30Z' fill='%231D1A16' fill-opacity='0.26' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .arena .scene{background-color:#ECE4D2} }
+:root[data-theme="dark"] .arena .scene{background-color:#ECE4D2}
+.play.fever .arena .scene{animation:none}
+.play.fever .arena{animation:feverGlow 1.2s linear infinite;border-radius:6px}
+/* the enemy's life is drawn in ink; 朱 stays for what you press and for seals */
+.gauge.hp i{background:#1D1A16}
+.gauge.hp b{background:#A39A8A}
+.shards b,.shop-row .tx .lv{color:var(--ink)}
+.ranklist li:nth-child(1) .rk{color:var(--ink)}
+.ready{color:var(--ink);background:none;border-radius:0;padding:1px 4px;box-shadow:inset 0 -3px 0 var(--shu)}
+.meter i{background:var(--ink)}
+/* the play header names the floor in brush */
+.play.monster .clock{font:400 24px/1 var(--font-brush);letter-spacing:.08em}
+.bar .barbtn{border:0;background:none;padding:6px 2px;min-width:0;text-decoration:underline;text-decoration-color:var(--shu);text-decoration-thickness:2px;text-underline-offset:5px}
+/* the maze on the deep entrance: a broad, dry brush stroke */
+.door.deep .ds{max-width:none;word-break:auto-phrase}
+.door.deep .maze{inset:0;width:100%;height:100%;opacity:.3;color:var(--field-mute);
+  -webkit-mask-image:linear-gradient(transparent 50%,#000 68%),linear-gradient(90deg,#000 52%,transparent 66%);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(transparent 50%,#000 68%),linear-gradient(90deg,#000 52%,transparent 66%);mask-composite:intersect}
+.door .maze path{stroke-width:7}
+/* writing line for conversion, not a form field */
+.out{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;background:none}
+.cands-empty{color:var(--ink);opacity:.72}
+.opt.node .key-n{color:var(--mute)}
+/* the boss call: one stroke of ink across the stage, its name in brush and a 主 seal */
+.warn{left:-12px;right:-12px;height:70px;margin-top:-35px;background:none;overflow:visible;animation:warnIn 1.5s ease-out forwards}
+.warn::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 64' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='r' x='-5%25' y='-40%25' width='110%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.035 .4' numOctaves='2' seed='4'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='12'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M6 30C80 14 220 20 300 18S380 16 396 22L394 44C340 50 240 44 160 48S40 54 8 50Z' fill='%231D1A16' filter='url(%23r)'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.warn span{position:relative;background:none;color:#F4EEE2;font:400 30px/1 var(--font-brush);letter-spacing:.24em;padding:0}
+.warn i{position:absolute;right:16%;top:50%;width:38px;height:38px;margin-top:-22px;display:grid;place-items:center;background:#C0412A;color:#FFF6EA;font:400 24px/1 var(--font-brush);font-style:normal;border-radius:3px;transform:rotate(7deg);filter:url(#rough)}
+@keyframes warnIn{0%{clip-path:inset(0 100% 0 0)}20%{clip-path:inset(0 0 0 0)}82%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+
 @media (max-width:360px){
   .disp.s1{font-size:40px}.disp.s2{font-size:30px}
   .setrow .seg.three{width:170px}
   .setrow .seg.two-only{width:130px}
 }
 @media (prefers-reduced-motion: reduce){
-  .stage.miss .kana,.stage.miss .roma,.disp.pop{animation:none}
+  .play.fever .arena{animation:none}
+  .arena[data-area] .scene::before{animation:none}
+  .stage.miss .kana,.stage.miss .roma,.disp.pop,.disp .fresh,.kana .fresh,.rank.stamp,.sp-btn.charged,.kb .key.fn.charged[data-k="@special"]{animation:none}
+  .door::before{transition:none}
   .sw,.sw::before{transition:none}
   .out .caret,.cands.nudge{animation:none}
   .foe-art.hit,.foe-art.spawn,.arena.hurt,.foe-art svg,.cmb b,.shake-s,.shake-l,.badge.pop,.bump,.play.fever .arena .scene,.scene::before,.sp-btn.charged,.sp-btn.charged .sp-fill{animation:none}
@@ -520,23 +782,67 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 </head>
 <body>
 <div id="app" lang="ja">
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+  <filter id="rough2" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="3" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6"/></filter>
+  <filter id="inkbleed" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="11"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+</defs></svg>
 
 <section id="v-home" class="view scroll">
-  <div class="wrap">
+  <div class="wrap home">
     <header class="brand">
-      <div class="mark" aria-hidden="true">
-        <span class="x"></span><span class="on">ゆ</span><span class="x"></span>
-        <span>「</span><span class="c">や</span><span>」</span>
-        <span class="x"></span><span>よ</span><span class="x"></span>
-      </div>
       <div>
-        <h1>ゆびタイプ</h1>
-        <p class="tag">スマホの指で打つ、日本語タイピング練習</p>
-        <p class="titleline" id="curTitle" hidden>称号　<b></b></p>
+        <h1 class="logo">ゆびタイプ</h1>
+        <p class="tag">ことばの迷宮</p>
       </div>
+      <button class="seal" id="curTitle" type="button" hidden aria-label="いまの称号。記録・称号を開く"><b></b></button>
     </header>
 
-    <div class="resume" id="resumeBox" hidden></div>
+    <button class="howline" id="openSetup" type="button"><span>打ち方</span><b id="howNow"></b><u>変える</u></button>
+
+    <div class="doors" role="group" aria-label="遊び方を選ぶ">
+      <button class="door deep" type="button" data-door="monster">
+        <svg class="maze" viewBox="0 0 360 170" preserveAspectRatio="xMinYMax slice" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g filter="url(#rough2)"><path d="M14 156V14h118v58H62V42h40M164 14v84h-62v44h150V44h-40v32M286 14v118h-58M318 156V62h30M14 112h34v34h78"/></g></svg>
+        <span class="nm">モンスター戦</span>
+        <span class="ds">道を選んで地下へ。やられたら最初から</span>
+        <span class="bs"></span>
+        <span class="rs" hidden></span>
+      </button>
+      <button class="linkbtn door-new" type="button" data-new="monster" hidden>中断した回を消して、はじめから</button>
+      <button class="door" type="button" data-door="time">
+        <span class="nm">60秒</span>
+        <span class="ds">時間内にどれだけ打てるか</span>
+        <span class="bs"></span>
+        <span class="rs" hidden></span>
+      </button>
+      <button class="linkbtn door-new" type="button" data-new="time" hidden>中断した回を消して、はじめから</button>
+      <button class="door" type="button" data-door="count">
+        <span class="nm">10問</span>
+        <span class="ds">打ち終えるまでの速さ</span>
+        <span class="bs"></span>
+        <span class="rs" hidden></span>
+      </button>
+      <button class="linkbtn door-new" type="button" data-new="count" hidden>中断した回を消して、はじめから</button>
+    </div>
+
+    <button class="today" id="startDaily" type="button"><span class="st">今日</span><b>今日のお題</b><span id="todayTxt"></span><span class="r">みんな同じ10問</span></button>
+    <p class="msg" id="startMsg" hidden></p>
+
+    <nav class="links" aria-label="ほかの画面">
+      <button type="button" id="openRecords">記録・称号</button>
+      <button type="button" id="openRank">ランキング</button>
+      <button type="button" id="openMeta">かけら</button>
+      <button type="button" id="openSettings">設定</button>
+    </nav>
+
+    <div class="adslot" id="ad-menu" hidden><p class="adlabel">広告</p></div>
+    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。<br><a href="https://gi-to-yt.github.io/yubi-type/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
+  </div>
+</section>
+
+<section id="v-setup" class="view scroll" hidden>
+  <div class="wrap">
+    <div class="viewhead"><button class="barbtn" id="setupBack" type="button">もどる</button><h2>打ち方</h2></div>
 
     <div class="group">
       <h2 class="label">キーボード</h2>
@@ -554,39 +860,16 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
     </div>
 
     <div class="group">
-      <h2 class="label">ルール</h2>
-      <div class="seg rules" role="group" aria-label="ルール">
-        <button class="opt" data-set="mode" data-val="time"><b>60秒</b><span>時間内にどれだけ打てるか</span></button>
-        <button class="opt" data-set="mode" data-val="count"><b>10問</b><span>打ち終えるまでの速さ</span></button>
-        <button class="opt" data-set="mode" data-val="monster"><b>モンスター戦</b><span>道を選んで地下へ。やられたら最初から</span></button>
-      </div>
-      <p class="note" id="modeNote" hidden></p>
-      <button class="linkbtn" id="openMeta" hidden>かけらで強くなる</button>
-    </div>
-
-    <div class="group">
-      <h2 class="label">打ち方</h2>
+      <h2 class="label">変換と句読点</h2>
       <div class="optbox">
         <div class="setrow"><label for="setConv">漢字・カタカナに変換する<small>よみを打ったら、キーボードの上に出る候補から正しい字を選びます</small></label><input class="sw" type="checkbox" role="switch" id="setConv"></div>
         <div class="setrow"><label for="setPunct">句読点を打つ<small>オフにすると「、。！？」は打たずに進みます</small></label><input class="sw" type="checkbox" role="switch" id="setPunct"></div>
       </div>
     </div>
 
-    <div class="startbox">
-      <p class="best" id="best"></p>
-      <button class="primary" id="startBtn">スタート</button>
-      <p class="msg" id="startMsg" hidden></p>
-      <div class="menu-links">
-        <button class="secondary small" id="openRecords">記録・称号</button>
-        <button class="secondary small" id="openRank">ランキング</button>
-      </div>
-    </div>
-
-    <div class="adslot" id="ad-menu" hidden><p class="adlabel">広告</p></div>
-
-    <details class="settings" id="settings">
-      <summary>設定</summary>
-      <div class="setrows">
+    <div class="group" id="settings">
+      <h2 class="label">設定</h2>
+      <div class="optbox setrows">
         <div class="setrow"><label for="setSound">効果音<small>キーを押したときとミスしたときの音</small></label><input class="sw" type="checkbox" role="switch" id="setSound"></div>
         <div class="setrow"><label for="setVibe">ミスで振動<small>Android のみ。iPhone は振動しません</small></label><input class="sw" type="checkbox" role="switch" id="setVibe"></div>
         <div class="setrow"><label for="setGuide">次のキーを光らせる<small>キーボードの上で、次に押すキーを示します</small></label><input class="sw" type="checkbox" role="switch" id="setGuide"></div>
@@ -605,8 +888,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
           </div>
         </div>
       </div>
-    </details>
-    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。<br><a href="https://gi-to-yt.github.io/yubi-type/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
+    </div>
   </div>
 </section>
 
@@ -757,7 +1039,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
     <div class="viewhead"><button class="barbtn" id="rankBack">もどる</button><h2>ランキング</h2></div>
     <div class="seg" role="group" aria-label="ランキングの種類">
       <button class="opt" data-rtab="daily"><b>今日のお題</b><span>毎日かわる10問</span></button>
-      <button class="opt" data-rtab="combo"><b>いまの組み合わせ</b><span>メニューで選んだコースとルール</span></button>
+      <button class="opt" data-rtab="combo"><b>いまの組み合わせ</b><span>打ち方のコースと、最後に遊んだルール</span></button>
     </div>
     <div class="seg three" role="group" aria-label="打ち方">
       <button class="opt" data-rkb="qwerty"><b>QWERTY</b></button>
@@ -785,7 +1067,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 </div>
 <div class="modal" id="cardModal" role="dialog" aria-modal="true" aria-label="結果カード" hidden>
   <div class="modal-in">
-    <img id="cardImg" alt="結果カードの画像">
+    <div class="cardimg" id="cardImgBox"></div>
     <p class="note">保存できないときは、画像を長押しして保存してください。</p>
     <p class="msg" id="cardMsg" hidden></p>
     <div class="actions">
@@ -1296,7 +1578,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 let VIEW = 'home';
 function show(v){
-  for (const id of ['home','custom','play','result','records','rank','meta']) $('#v-' + id).hidden = id !== v;
+  for (const id of ['home','setup','custom','play','result','records','rank','meta']) $('#v-' + id).hidden = id !== v;
   VIEW = v; document.documentElement.dataset.view = v;
   if (v !== 'play') { $('#keyPop').hidden = true; $('#flickPop').hidden = true; }
   if (v !== 'result') $('#cardModal').hidden = true;
@@ -1313,45 +1595,42 @@ const bestKey = (kb, course, mode, conv, punct) => `best:${kb}:${course}:${BMODE
 
 /* ================= menu ================= */
 function renderHome(){
+  if (S.course === 'daily') { S.course = 'words'; saveS(); }     // 今日のお題 has its own entrance now
   document.querySelectorAll('[data-set]').forEach(b => b.setAttribute('aria-pressed', String(S[b.dataset.set] === b.dataset.val)));
   $('#kbNote').textContent = S.kb === 'qwerty'
     ? 'ローマ字で打ちます。shi と si、tsu と tu など、どの打ち方でも正解です。'
     : 'フリックでも、同じキーを続けて押すトグル入力でも打てます。濁点と小さい字は「小゛゜」キーで。';
   const box = $('#courses'); box.textContent = '';
   for (const c of COURSES) {
+    if (c.id === 'daily') continue;
     const items = itemsOf(c.id);
     let sample = items.slice(0, 2).map(x => clean(splitItem(x)[0])).join('・') + '…';
-    if (c.id === 'daily') sample = `${md(todayKey())}のお題。みんな同じ10問`;
     if (c.id === 'weak') sample = items.length ? '苦手：' + weakTop(S.kb, 4).map(x => x[0]).join('・') : 'ミスした字から問題を作ります';
     const b = document.createElement('button');
     b.className = 'opt'; b.dataset.course = c.id;
     b.setAttribute('aria-pressed', String(S.course === c.id));
-    b.innerHTML = `<b>${esc(c.name)}</b><span>${c.id === 'daily' || (c.id === 'weak' && !items.length) ? '' : items.length + c.unit + '　'}${esc(sample)}</span>`;
+    b.innerHTML = `<b>${esc(c.name)}</b><span>${c.id === 'weak' && !items.length ? '' : items.length + c.unit + '　'}${esc(sample)}</span>`;
     b.addEventListener('click', () => { S.course = c.id; saveS(); renderHome(); });
     box.appendChild(b);
   }
   $('#editCustom').hidden = S.course !== 'custom';
-  const mode = S.course === 'daily' ? 'count' : S.mode;
-  const mn = $('#modeNote');
-  mn.hidden = S.course !== 'daily';
-  mn.textContent = '今日のお題は、ルールによらず10問で打ちます。';
-  const best = store.get(bestKey(S.kb, courseKey(S.course), mode, S.conv, S.punct), null);
-  $('#best').innerHTML = !best ? 'この組み合わせの記録はまだありません'
-    : mode === 'monster' ? `この組み合わせのベスト　<b>B${best.floor || 0}F</b>・${best.cpm} 文字/分`
-    : `この組み合わせのベスト　<b>${best.cpm}</b> 文字/分・正確率 ${best.acc}%`;
-  const rb = $('#resumeBox'), saves = suspended();
-  rb.hidden = !saves.length; rb.textContent = '';
-  for (const [m, sv] of saves) {
-    const t = suspendText(sv), row = document.createElement('div');
-    row.className = 'resume-row';
-    row.innerHTML = `<button class="secondary resume-go" type="button"><b>続きから</b><span>${esc(t.head)}</span><span>${esc(t.where)}</span></button><button class="linkbtn" type="button">消す</button>`;
-    row.firstChild.addEventListener('click', () => { unlockAudio(); restoreGame(m); });
-    row.lastChild.addEventListener('click', () => { dropSuspend(m); renderHome(); toast('中断した回を消しました'); });
-    rb.appendChild(row);
+  $('#howNow').textContent = `${KB_NAME[S.kb]}・${courseById(S.course).name}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
+  // the three entrances: each one starts its game, or picks up the one left halfway
+  for (const m of ['monster', 'time', 'count']) {
+    const door = document.querySelector(`[data-door="${m}"]`);
+    const best = store.get(bestKey(S.kb, courseKey(S.course), m, S.conv, S.punct), null);
+    door.querySelector('.bs').innerHTML = !best ? 'まだ記録なし'
+      : m === 'monster' ? `いちばん深く<b>地下${best.floor || 0}階</b>` : `いちばん速く<b>${best.cpm}字/分</b>`;
+    const sv = store.get('suspend:' + m, null), ok = !!(sv && sv.v === 1 && sv.g);
+    const rs = door.querySelector('.rs');
+    rs.hidden = !ok; door.dataset.resume = ok ? '1' : '';
+    if (ok) { const t = suspendText(sv); rs.textContent = `続きから　${t.where}`; door.setAttribute('aria-label', `${MODE_NAME[m]}　続きから　${t.where}`); }
+    else door.removeAttribute('aria-label');
+    document.querySelector(`[data-new="${m}"]`).hidden = !ok;
   }
-  const om = $('#openMeta');
-  om.hidden = mode !== 'monster';
-  om.textContent = `かけらで強くなる（いま ${metaGet().k}個）`;
+  $('#todayTxt').textContent = `${md(todayKey())}の10問`;
+  const k = metaGet().k;
+  $('#openMeta').textContent = k ? `かけら ${k}` : 'かけら';
   const t = curTitle(), tl = $('#curTitle');
   tl.hidden = !t; if (t) tl.querySelector('b').textContent = t.name;
   $('#setSound').checked = S.sound; $('#setVibe').checked = S.vibe;
@@ -1359,13 +1638,29 @@ function renderHome(){
   $('#setConv').checked = S.conv; $('#setPunct').checked = S.punct;
   $('#startMsg').hidden = true;
 }
+document.querySelectorAll('[data-door]').forEach(b => b.addEventListener('click', () => {
+  unlockAudio();
+  const m = b.dataset.door;
+  if (b.dataset.resume === '1') { restoreGame(m); return; }
+  S.mode = m; saveS();
+  startGame({ mode:m });
+}));
+document.querySelectorAll('[data-new]').forEach(b => b.addEventListener('click', () => { dropSuspend(b.dataset.new); renderHome(); toast('中断した回を消しました'); }));
+$('#startDaily').addEventListener('click', () => { unlockAudio(); startGame({ course:'daily' }); });
+function openSetup(toSettings){
+  show('setup');
+  if (toSettings) requestAnimationFrame(() => $('#settings').scrollIntoView({ block:'start' }));
+}
+$('#openSetup').addEventListener('click', () => openSetup(false));
+$('#openSettings').addEventListener('click', () => openSetup(true));
+$('#setupBack').addEventListener('click', () => { show('home'); renderHome(); });
+$('#curTitle').addEventListener('click', () => { show('records'); renderRecords(); });
 document.querySelectorAll('[data-set]').forEach(b => b.addEventListener('click', () => {
   S[b.dataset.set] = b.dataset.val; saveS(); applyHeight(); renderHome();
 }));
 [['#setSound','sound'],['#setVibe','vibe'],['#setGuide','guide'],['#setToggle','toggle'],['#setConv','conv'],['#setPunct','punct']].forEach(([sel, k]) => {
   $(sel).addEventListener('change', e => { S[k] = e.target.checked; saveS(); if (k === 'sound' && S.sound) unlockAudio(); if (k === 'conv' || k === 'punct') renderHome(); });
 });
-$('#startBtn').addEventListener('click', () => { unlockAudio(); startGame(); });
 $('#editCustom').addEventListener('click', openCustom);
 
 function openCustom(){
@@ -1373,7 +1668,7 @@ function openCustom(){
   $('#customErr').hidden = true;
   show('custom');
 }
-$('#customCancel').addEventListener('click', () => { show('home'); renderHome(); });
+$('#customCancel').addEventListener('click', () => { show('setup'); renderHome(); });
 $('#customReset').addEventListener('click', () => { $('#customText').value = CUSTOM_DEFAULT; $('#customErr').hidden = true; });
 $('#customSave').addEventListener('click', () => {
   const v = $('#customText').value;
@@ -1383,7 +1678,7 @@ $('#customSave').addEventListener('click', () => {
   if (!r.items.length) { err.textContent = '1行以上書いてください。'; err.hidden = false; return; }
   store.set('customText', v);
   S.course = 'custom'; saveS();
-  show('home'); renderHome();
+  show('setup'); renderHome();
 });
 
 /* ================= keyboards ================= */
@@ -1735,13 +2030,14 @@ function buildIndex(){
 
 /* ================= game ================= */
 let G = null;
-function startGame(){
-  const course = S.course, mode = course === 'daily' ? 'count' : S.mode;
+function startGame(over){
+  over = over || {};
+  const course = over.course || S.course, mode = course === 'daily' ? 'count' : over.mode || S.mode;
   const items = itemsOf(course).filter(x => prepare(x).R.length);
   if (!items.length) {
     const m = $('#startMsg');
     m.textContent = course === 'weak' ? 'まだミスの記録がありません。ほかのコースで遊ぶと、ミスした字から問題を作ります。' : '「じぶんで追加」に文がありません。先に追加してください。';
-    m.hidden = false; return;
+    m.hidden = false; if (VIEW !== 'home') { show('home'); renderHome(); m.hidden = false; } return;
   }
   G = freshG({ kb:S.kb, course, courseKey:courseKey(course), mode, conv:S.conv, punct:S.punct,
         pool:items.slice(), queue:course === 'daily' ? items.slice() : shuffle(items.slice()), ml:metaGet().lv });
@@ -1779,7 +2075,7 @@ function playView(){
   $('#cands').classList.remove('nudge'); $('#tChars').classList.remove('bump');
   $('#arena').dataset.area = '';
   $('#arena').hidden = mode !== 'monster';
-  $('#tUnit').textContent = mode === 'monster' ? '' : '字';
+  $('#tUnit').textContent = mode === 'monster' ? '秒' : '字';
   $('#runLay').hidden = true;
   $('#fxl').textContent = '';
   $('#ready').textContent = G.resumed ? 'キーを押すと続きから' : 'キーを押すとスタート';
@@ -1803,7 +2099,7 @@ function saveSuspend(){
 const suspended = () => ['monster', 'time', 'count'].map(m => [m, store.get('suspend:' + m, null)]).filter(([m, sv]) => sv && sv.v === 1 && sv.g);
 function suspendText(sv){
   const g = sv.g;
-  const where = g.mode === 'monster' ? `B${g.floor}F・体力 ${g.you}/${g.maxHp}` + (Object.keys(g.pw || {}).length ? `・ちから${Object.values(g.pw).reduce((a, b) => a + b, 0)}つ` : '')
+  const where = g.mode === 'monster' ? `地下${g.floor}階・体力 ${g.you}/${g.maxHp}` + (Object.keys(g.pw || {}).length ? `・ちから${Object.values(g.pw).reduce((a, b) => a + b, 0)}つ` : '')
     : g.mode === 'time' ? `のこり ${Math.max(0, Math.ceil(LIMIT - g.elapsed))}秒・${g.chars}字`
     : `${g.done}/${COUNT}問`;
   return { head:`${MODE_NAME[g.mode]}（${KB_NAME[g.kb]}・${courseById(g.course).name}）`, where };
@@ -1831,7 +2127,7 @@ function openPause(){
   if (!G.started && !G.resumed) { goHome(); return; }
   saveSuspend();                 // a checkpoint, in case the page is closed from here
   const mon = G.mode === 'monster';
-  const sub = mon ? `いま B${G.floor}F。中断すると、メニューから同じところの続きができます。`
+  const sub = mon ? `いま地下${G.floor}階。中断すると、メニューから同じところの続きができます。`
     : G.mode === 'time' ? `のこり ${Math.max(0, Math.ceil(LIMIT - G.elapsed))}秒。中断すると、メニューから続きができます。`
     : `${G.done}/${COUNT}問。中断すると、メニューから続きができます。`;
   openLay('ひと休み', sub, [
@@ -1861,7 +2157,7 @@ function nextItem(){
   G.item = prepare(raw);
   G.R = G.item.R; G.chunks = G.item.chunks; G.cs = G.item.cs;
   G.peek = clean(splitItem(G.queue[G.qi])[0]);
-  G.re = null; G.fe = null; G.romaPrefix = ''; G.ci = 0; G.co = 0;
+  G.re = null; G.fe = null; G.romaPrefix = ''; G.ci = 0; G.co = 0; G.dispDone = 0; G.kanaDone = 0;
   startEngine(0);
   autoCommit();
   const d = $('#disp'); d.classList.remove('pop'); void d.offsetWidth; d.classList.add('pop');
@@ -2143,17 +2439,23 @@ function renderAll(){ renderPrompt(); renderHint(); renderCands(); updateBar(); 
 function renderPrompt(){
   const it = G.item;
   const disp = $('#disp');
-  disp.textContent = it.disp;
-  disp.className = 'disp ' + sizeCls(it.disp) + (disp.classList.contains('pop') ? ' pop' : '');
   const tp = tpos();
+  // the shown text is written in ink chunk by chunk: 淡墨 until its reading is typed, then 墨
+  const doneTo = G.conv ? G.ci : G.chunks.findIndex((c, j) => G.cs[j] + c.r.length > tp);
+  const nDone = doneTo < 0 ? G.chunks.length : doneTo, prevDone = G.dispDone || 0;
+  disp.innerHTML = G.chunks.map((c, j) => j < nDone ? `<span class="w${j >= prevDone ? ' fresh' : ''}">${esc(c.d)}</span>` : j === nDone ? `<span class="now">${esc(c.d)}</span>` : esc(c.d)).join('');
+  G.dispDone = nDone;
+  disp.className = 'disp ' + sizeCls(it.disp) + (disp.classList.contains('pop') ? ' pop' : '');
   const d = tp, e = tp + (G.re ? G.re.curLen() : 1);
   const pend = G.fe && G.fe.st.pending ? G.fe.st.pending.ch : null;
   const k = $('#kana'); k.textContent = '';
   const chars = [...G.R];
   k.className = 'kana' + (chars.length > 18 ? ' long' : '');
+  const prevKana = G.kanaDone || 0;
+  G.kanaDone = d;
   chars.forEach((ch, i) => {
     const s = document.createElement('span'); s.textContent = ch;
-    if (i < d) s.className = 'd';
+    if (i < d) s.className = i >= prevKana ? 'd fresh' : 'd';
     else if (i < e && !G.ended) { s.className = 'c'; if (pend && i === d) s.dataset.p = pend; }
     k.appendChild(s);
   });
@@ -2208,6 +2510,7 @@ function renderCands(){
   const hb = box.querySelector('.cand.hint');
   $('#cands').scrollLeft = hb ? Math.max(0, hb.offsetLeft - 24) : 0;
 }
+const KAN = n => { const d = '〇一二三四五六七八九'; if (n < 10) return d[n]; if (n < 100) { const t = Math.floor(n / 10), o = n % 10; return (t > 1 ? d[t] : '') + '十' + (o ? d[o] : ''); } return String(n); };
 function updateBar(){
   if (!G) return;
   const el = G.started || G.resumed ? Math.min(G.elapsed, G.mode === 'time' ? LIMIT : Infinity) : 0;
@@ -2216,25 +2519,27 @@ function updateBar(){
     $('#clockUnit').textContent = '秒';
     $('#meter').style.width = (el / LIMIT * 100) + '%';
   } else if (G.mode === 'monster') {
-    $('#clock').textContent = el.toFixed(1);
-    $('#clockUnit').textContent = '秒';
+    $('#clock').textContent = `地下${KAN(G.floor)}階`;
+    $('#clockUnit').textContent = '';
     $('#meter').style.width = '0%';
   } else {
     $('#clock').textContent = `${Math.min(G.done + 1, COUNT)}/${COUNT}`;
     $('#clockUnit').textContent = el.toFixed(1) + '秒';
     $('#meter').style.width = (G.done / COUNT * 100) + '%';
   }
-  $('#tChars').textContent = G.mode === 'monster' ? `B${G.floor}F` : G.chars;
+  $('#tChars').textContent = G.mode === 'monster' ? el.toFixed(1) : G.chars;
   $('#tMiss').textContent = G.misses ? `　ミス${G.misses}` : '';
 }
 function renderResult(R){
   const mon = R.mode === 'monster';
   $('#rMeta').textContent = metaText(R);
-  $('#rRank').textContent = R.rank;
+  const rk = $('#rRank');
+  rk.textContent = R.rank; rk.dataset.len = [...R.rank].length;
+  if (!RM) { rk.classList.remove('stamp'); void rk.offsetWidth; rk.classList.add('stamp'); }
   countUp($('#rScore'), mon ? R.floor : R.cpm, R.newBest);
   $('#rScoreLabel').textContent = mon ? `たどり着いた階（地下${R.floor}階）` : '1分あたりの文字数';
   $('#rBadge').hidden = !R.newBest;
-  const pv = R.prev ? (mon ? `B${R.prev.floor || 0}F・${R.prev.cpm} 文字/分` : `${R.prev.cpm} 文字/分`) : '';
+  const pv = R.prev ? (mon ? `地下${R.prev.floor || 0}階・${R.prev.cpm} 文字/分` : `${R.prev.cpm} 文字/分`) : '';
   $('#rBest').textContent = R.newBest ? (R.prev ? `これまでのベストは ${pv} でした` : 'この組み合わせの最初の記録です') : (R.prev ? `ベストは ${pv}` : '');
   $('#rNext').textContent = R.next ? `あと ${R.next.need} 文字/分で「${R.next.name}」` : 'いちばん上のランクです';
   $('#rShards').hidden = !mon;
@@ -2333,8 +2638,8 @@ const ACH = [
   { id:'k10000',  name:'万字の道',         desc:'打った文字が合わせて10,000字',           test:c => c.tot.chars >= 10000 },
   { id:'mon5',    name:'モンスターハンター', desc:'モンスター戦で1回に5体たおす',         test:c => c.defeated >= 5 },
   { id:'boss',    name:'大王討伐',         desc:'モンスター戦でボスをたおす',             test:c => c.bosses >= 1 },
-  { id:'deep10',  name:'地下十階',         desc:'モンスター戦で B10F にたどり着く',       test:c => c.floor >= 10 },
-  { id:'deep25',  name:'深淵の住人',       desc:'モンスター戦で B25F にたどり着く',       test:c => c.floor >= 25 },
+  { id:'deep10',  name:'地下十階',         desc:'モンスター戦で地下10階にたどり着く',       test:c => c.floor >= 10 },
+  { id:'deep25',  name:'深淵の住人',       desc:'モンスター戦で地下25階にたどり着く',       test:c => c.floor >= 25 },
   { id:'pow5',    name:'ちから持ち',       desc:'モンスター戦の1回で、ちからを5つ集める', test:c => c.powers >= 5 },
   { id:'both',    name:'二刀流',           desc:'QWERTY とテンキーの両方で遊ぶ',          test:c => !!(c.tot.kbs.qwerty && c.tot.kbs.flick) },
   { id:'weakfix', name:'苦手克服',         desc:'苦手特訓で、正確率95%以上・30文字以上',  test:c => c.course === 'weak' && c.acc >= 95 && c.chars >= 30 },
@@ -2526,7 +2831,7 @@ function nextFloor(){
 function showMap(nodes){
   const f = G.floor;
   G.pending = { t:'map', nodes };
-  openLay(f % 5 === 0 ? `B${f}F　ボスの気配がする` : `B${f}F　どの道を進む？`, '',
+  openLay(f % 5 === 0 ? `地下${f}階　ボスの気配がする` : `地下${f}階　どの道を進む？`, '',
           nodes.map(t => ({ icon:t, name:NODE[t].name, desc:NODE[t].desc() })), i => { G.pending = null; enterNode(nodes[i]); });
 }
 function enterNode(type){
@@ -2534,14 +2839,14 @@ function enterNode(type){
   if (type === 'rest') {
     const got = Math.min(Math.round(G.maxHp * restPct() / 100), G.maxHp - G.you);
     G.you += got; renderArena();
-    openGo(`B${f}F　ひと休み`, `体力が ${got} 回復した。`, { icon:'go', name:'先へ進む' });
+    openGo(`地下${f}階　ひと休み`, `体力が ${got} 回復した。`, { icon:'go', name:'先へ進む' });
     return;
   }
   if (type === 'treasure') {
     const id = rollPowers(1, 0.35)[0];
     G.shards += 2;
     applyPower(id);
-    openGo(`B${f}F　宝箱をあけた`, 'このちからが入っていた・ことばのかけら +2', powOpt(id));
+    openGo(`地下${f}階　宝箱をあけた`, 'このちからが入っていた・ことばのかけら +2', powOpt(id));
     return;
   }
   spawnMonster(f, type);
@@ -2580,9 +2885,16 @@ const AREAS = [
       { name:'青い火の玉',       kind:'flame',    color:'#3D8BFF', c2:'#BDE3FF' } ],
     boss:{ name:'宇宙タイプ大王', kind:'king',     color:'#6B3FD1' } }
 ];
+/* the monsters are spirits of spilled ink: bodies in 墨, details in paper white, eyes and accents in 朱 and 金 */
+const INK_BODY = ['#1D1A16', '#2B2620', '#252B31', '#33291F', '#1F2422'];
+const INK_MAP = { '#fff':'#F4EEE2', '#ffffff':'#F4EEE2', '#f7f7fb':'#F4EEE2', '#f3e7d3':'#D8CDB9', '#f2e6c8':'#D8CDB9', '#f2a7b6':'#C0412A', '#e0414e':'#C0412A', '#d94a4a':'#C0412A',
+  '#e35d6a':'#C0412A', '#e9b832':'#B8862B', '#ffe14d':'#B8862B', '#ff8a1a':'#C0412A', '#ff7a1a':'#C0412A', '#5b4234':'#6A6357', '#7a5233':'#4A443A', '#2a1010':'#1D1A16',
+  '#a97a16':'#7A5512', '#9db7cf':'#8A8276' };
+const inkify = svg => svg.replace(/#[0-9a-fA-F]{3,6}\b/g, h => INK_MAP[h.toLowerCase()] || h);
 function monSvg(m){
-  const c = m.color, c2 = m.c2 || '#FFE14D', ink = '#1B2130';
-  const eye = (x, y, r = 7) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x + 1.5}" cy="${y + 1}" r="${(r * 0.45).toFixed(1)}" fill="${ink}"/>`;
+  const c = INK_BODY[[...m.name].reduce((a, ch) => a + ch.charCodeAt(0), 0) % INK_BODY.length];
+  const c2 = '#C0412A', ink = '#F4EEE2';
+  const eye = (x, y, r = 7) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#F4EEE2"/><circle cx="${x + 1.5}" cy="${y + 1}" r="${(r * 0.5).toFixed(1)}" fill="#C0412A"/>`;
   const S = {
     slime: () => `<path d="M14 90 C10 52 34 22 60 22 C86 22 110 52 106 90 Z" fill="${c}"/><ellipse cx="44" cy="40" rx="9" ry="5" fill="#fff" opacity=".35"/>${eye(46, 58)}${eye(74, 58)}<path d="M50 75 Q60 82 70 75" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`,
     bat: () => `<path d="M60 42 L10 24 L22 50 L8 62 L42 64 Z" fill="${c}"/><path d="M60 42 L110 24 L98 50 L112 62 L78 64 Z" fill="${c}"/><circle cx="60" cy="58" r="25" fill="${c}"/><path d="M43 38 L47 22 L54 35 Z M77 38 L73 22 L66 35 Z" fill="${c}"/>${eye(51, 54, 6)}${eye(69, 54, 6)}<path d="M53 69 L56.5 74 L60 69 L63.5 74 L67 69" stroke="#fff" stroke-width="2.5" fill="none" stroke-linejoin="round"/>`,
@@ -2601,7 +2913,7 @@ function monSvg(m){
     demon: () => `<path d="M20 32 C28 10 40 20 44 34 M100 32 C92 10 80 20 76 34" stroke="#2A1010" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M30 22 C40 36 50 14 60 28 C70 14 80 36 90 22 C96 40 90 50 86 54 L34 54 C30 50 24 40 30 22 Z" fill="#FF7A1A"/><path d="M14 96 C10 56 30 34 60 34 C90 34 110 56 106 96 Z" fill="${c}"/><path d="M34 56 L52 62 M86 56 L68 62" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>${eye(46, 68, 8)}${eye(74, 68, 8)}<path d="M40 84 Q60 96 80 84 Q60 90 40 84 Z" fill="${ink}"/><path d="M48 86 L50 91 L52 87 M68 87 L70 91 L72 86" stroke="#fff" stroke-width="2" fill="none"/>`,
     mecha: () => `<rect x="14" y="44" width="16" height="40" rx="6" fill="${c}"/><rect x="90" y="44" width="16" height="40" rx="6" fill="${c}"/><path d="M26 96 L30 40 L60 30 L90 40 L94 96 Z" fill="${c}"/><rect x="36" y="10" width="48" height="32" rx="8" fill="${c}"/><path d="M40 20 L80 20 L76 31 L44 31 Z" fill="${ink}"/><circle cx="60" cy="25.5" r="5" fill="${c2}"/><path d="M44 58 L76 58 L72 80 L48 80 Z" fill="rgba(0,0,0,.25)"/><circle cx="60" cy="69" r="6" fill="${c2}"/><path d="M52 10 L56 1 L60 10 M60 10 L64 1 L68 10" stroke="${c2}" stroke-width="2" fill="none"/>`
   };
-  return `<svg viewBox="0 0 120 100" aria-hidden="true">${(S[m.kind] || S.slime)()}</svg>`;
+  return `<svg viewBox="0 0 120 100" aria-hidden="true"><g filter="url(#inkbleed)">${inkify((S[m.kind] || S.slime)())}</g></svg>`;
 }
 /* ---------- battle effects: particles, slashes, numbers, banners, sounds ---------- */
 const RM = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) { return false; } })();
@@ -2652,8 +2964,9 @@ function drawP(c, p){
   }
   c.globalAlpha = 1;
 }
-const HUES = { hit:['#FFE14D', '#FFB31A', '#FF8A1A', '#FFF1A8'], crit:['#FF5A1F', '#FFE14D', '#FF2E4D', '#FFFFFF'], conv:['#FF4FB8', '#B06BFF', '#4DD4FF', '#FFE14D'] };
-const rainbow = i => `hsl(${(Date.now() / 4 + i * 47) % 360} 100% 60%)`;
+const HUES = { hit:['#1D1A16', '#3A352E', '#1D1A16', '#C0412A'], crit:['#C0412A', '#1D1A16', '#B8862B', '#C0412A'], conv:['#B8862B', '#C0412A', '#1D1A16', '#D9A441'] };
+// FEVER and 紙吹雪: 朱, 金, 墨 and paper, never a rainbow
+const rainbow = i => ['#C0412A', '#D9A441', '#1D1A16', '#E8DFCC', '#B8862B'][(i + Math.floor(Date.now() / 120)) % 5];
 const pickHue = (set, i) => G && G.fever ? rainbow(i) : set[i % set.length];
 let SFX = null, BIG = null;
 function sfxLayer(){ if (!SFX) SFX = makeFX($('#fxCanvas'), () => $('#stage').getBoundingClientRect()); SFX.fit(); return SFX; }
@@ -2745,7 +3058,7 @@ const vib = p => { if (S.vibe && navigator.vibrate) try { navigator.vibrate(p); 
 
 /* ---------- battle rules ---------- */
 const comboMult = () => G.combo >= 100 ? 2.5 : G.combo >= 50 ? 2 : G.combo >= 30 ? 1.5 : 1;
-const COMBO_CALLS = [[10, 'Nice!', 'combo t1'], [30, 'Great!!', 'combo t2'], [100, 'GOD!!!!', 'fever'], [150, 'UNSTOPPABLE!!', 'fever'], [200, 'LEGEND!!!', 'fever']];
+const COMBO_CALLS = [[10, 'いいね！', 'combo t1'], [30, '見事！！', 'combo t2'], [100, '神業！！！', 'fever'], [150, '止まらない！！', 'fever'], [200, '伝説！！！', 'fever']];
 function comboCheck(a, b){
   const fa = P('rush') ? 30 : 50;
   if (a < fa && b >= fa) { feverOn(); return; }
@@ -2753,7 +3066,7 @@ function comboCheck(a, b){
 }
 function feverOn(){
   G.fever = true; $('#v-play').classList.add('fever');
-  banner('FEVER!!!', 'fever'); sfx('fever'); vib([20, 40, 20]);
+  banner('フィーバー！！', 'fever'); sfx('fever'); vib([20, 40, 20]);
   const { L, x, y } = foePoint(); burst(L, x, y, 30, HUES.conv, 7, { stars:10, ring:90 });
 }
 function feverOff(){ if (G && G.fever) { G.fever = false; $('#v-play').classList.remove('fever'); } }
@@ -2781,7 +3094,7 @@ function showMon(m){
   // a new area every five monsters: new scene and a call-out
   if (ar.dataset.area !== String(ai + 1)) {
     ar.dataset.area = ai + 1;
-    if (n > 1) setTimeout(() => { if (G && !G.ended && G.mon && G.mon.n === n) { banner(`B${n}F〜　${area.name}`, 'area'); sfx('milestone'); } }, 520);
+    if (n > 1) setTimeout(() => { if (G && !G.ended && G.mon && G.mon.n === n) { banner(`地下${n}階から　${area.name}`, 'area'); sfx('milestone'); } }, 520);
   }
   art.innerHTML = monSvg(G.mon);
   art.classList.toggle('boss', boss);
@@ -2791,7 +3104,7 @@ function showMon(m){
   requestAnimationFrame(smoke);
   if (boss) {
     const w = fxEl('warn', '', $('#arena'), 1500);
-    w.innerHTML = '<span>WARNING　ボス出現</span>';
+    w.innerHTML = '<span>ボス出現</span><i>主</i>';
     sfx('warn'); vib([60, 60, 60, 60, 60]);
   }
   $('#foeHpGhost').style.transition = 'none';
@@ -2822,7 +3135,7 @@ function killFx(m){
   art.parentNode.appendChild(ghost); setTimeout(() => ghost.remove(), 500);
   burst(L, x, y, m.boss ? 70 : 40, m.boss ? HUES.conv : HUES.crit, m.boss ? 10 : 8, { stars:m.boss ? 22 : 12, ring:m.boss ? 160 : 110 });
   if (m.boss) setTimeout(() => G && burst(L, x, y, 40, HUES.hit, 9, { stars:12, ring:200 }), 160);
-  banner(m.boss ? 'BOSS 撃破!!!' : '撃破!!', m.boss ? 'boss' : 'kill');
+  banner(m.boss ? 'ボス撃破！！' : '撃破！', m.boss ? 'boss' : 'kill');
   shake(m.boss ? $('#stage') : ar, true);
   if (m.boss) confetti(140);
   sfx(m.boss ? 'boss' : 'kill'); vib(m.boss ? [60, 40, 60, 40, 160] : [30, 30, 60]);
@@ -2907,7 +3220,7 @@ function renderArena(){
     const n = String(G.combo);
     if ($('#cmbN').textContent !== n) { $('#cmbN').textContent = n; flash(c, 'bump', 200); }
     c.className = 'cmb t' + tier + (c.classList.contains('bump') ? ' bump' : '');
-    $('#cmbT').textContent = `COMBO　×${comboMult()}`;
+    $('#cmbT').textContent = `コンボ　×${comboMult()}`;
   }
   const sp = $('#spBtn');
   $('#spFill').style.width = G.sp + '%';
@@ -2919,7 +3232,7 @@ function renderArena(){
 function gainSp(v){
   if (G.mode !== 'monster' || G.sp >= 100) return;
   G.sp = Math.min(100, G.sp + v * (1 + 0.4 * P('dict')));
-  if (G.sp >= 100) { banner('必殺技 OK!', 'ok'); sfx('milestone'); vib(30); }
+  if (G.sp >= 100) { banner('必殺技、使える！', 'ok'); sfx('milestone'); vib(30); }
 }
 function special(){
   if (!G || G.ended || G.mode !== 'monster' || G.sp < 100 || !G.mon) return;
@@ -3069,7 +3382,7 @@ const SHARE_URL = 'https://gi-to-yt.github.io/yubi-type/';   // the app's public
 let LAST = null;
 function shareText(R){
   const out = [`ゆびタイプ｜${metaText(R)}`,
-    R.mode === 'monster' ? `地下B${R.floor}Fまで到達・${R.defeated}体撃破・${R.cpm}文字/分` : `${R.cpm}文字/分（${R.rank}）正確率${R.acc}%`];
+    R.mode === 'monster' ? `地下${R.floor}階まで到達・${R.defeated}体撃破・${R.cpm}文字/分` : `${R.cpm}文字/分（${R.rank}）正確率${R.acc}%`];
   const t = curTitle(); if (t) out.push(`称号：${t.name}`);
   out.push('#ゆびタイプ');
   if (SHARE_URL) out.push(SHARE_URL);
@@ -3092,66 +3405,90 @@ $('#shareCopy').addEventListener('click', () => {
   catch(e) { fallbackCopy(text); }
 });
 function rr(x, X, Y, w, h, r){ x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
+/* the share card: the same washi, ink and seal as the result screen */
+function roughPath(x, X, Y, w, h, rnd, amp){
+  const pts = [], n = 36;
+  for (let i = 0; i < n; i++) pts.push([X + w * i / n, Y]);
+  for (let i = 0; i < n; i++) pts.push([X + w, Y + h * i / n]);
+  for (let i = 0; i < n; i++) pts.push([X + w - w * i / n, Y + h]);
+  for (let i = 0; i < n; i++) pts.push([X, Y + h - h * i / n]);
+  x.beginPath();
+  pts.forEach(([px, py], i) => { const jx = (rnd() - 0.5) * amp, jy = (rnd() - 0.5) * amp; if (i) x.lineTo(px + jx, py + jy); else x.moveTo(px + jx, py + jy); });
+  x.closePath();
+}
+function sealOn(x, cx, cy, size, text, rot, rnd, BR){
+  x.save(); x.translate(cx, cy); x.rotate(rot);
+  roughPath(x, -size / 2, -size / 2, size, size, rnd, 4); x.fillStyle = '#C0412A'; x.fill();
+  roughPath(x, -size / 2 + 10, -size / 2 + 10, size - 20, size - 20, rnd, 2); x.strokeStyle = 'rgba(255,246,234,.85)'; x.lineWidth = 3; x.stroke();
+  const chars = [...text], fs = Math.min(size * 0.6, (size - 40) / chars.length);
+  x.fillStyle = '#FFF6EA'; x.font = `400 ${fs}px ${BR}`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  chars.forEach((ch, i) => x.fillText(ch, 0, (i - (chars.length - 1) / 2) * fs * 1.04));
+  x.restore();
+}
 async function makeCard(R){
   const W = 1200, H = 675, cv = document.createElement('canvas');
   cv.width = W; cv.height = H;
   const x = cv.getContext('2d');
-  const F = '"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif', MN = '"JetBrains Mono",ui-monospace,Menlo,monospace';
-  const title = curTitle();
-  const words = ['ゆびタイプ', metaText(R), R.rank, '文字/分体たおしたモンスター正確率ミス打てた文字時間称号たどり着いた階地下', title ? title.name : '', 'ゆや「」よ#'].join('');
-  try { await Promise.all([document.fonts.load(`700 40px "Zen Kaku Gothic New"`, words), document.fonts.load(`500 40px "Zen Kaku Gothic New"`, words), document.fonts.load(`700 40px "JetBrains Mono"`, '0123456789./%-')]); } catch(e) {}
-  const C = { bg:'#E7ECF3', card:'#FFFFFF', ink:'#141A24', mute:'#5E6878', line:'#D5DBE4', accent:'#2448D8', soft:'#DCE4FF', marker:'#FFD43B' };
-  x.fillStyle = C.bg; x.fillRect(0, 0, W, H);
-  rr(x, 36, 36, W - 72, H - 72, 28); x.fillStyle = C.card; x.fill();
-  // logo: the や key's flick cross with ゆ lit
-  const cell = 30, gx = 92, gy = 84;
-  const cells = [[1, 0, 'ゆ', 'on'], [0, 1, '「', ''], [1, 1, 'や', 'c'], [2, 1, '」', ''], [1, 2, 'よ', '']];
-  for (const [cx, cy, ch, k] of cells) {
-    rr(x, gx + cx * (cell + 3), gy + cy * (cell + 3), cell, cell, 6);
-    x.fillStyle = k === 'on' ? C.accent : k === 'c' ? '#AFB7C3' : '#EEF1F5'; x.fill();
-    x.fillStyle = k === 'on' ? '#fff' : C.ink; x.font = `700 17px ${F}`; x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText(ch, gx + cx * (cell + 3) + cell / 2, gy + cy * (cell + 3) + cell / 2 + 1);
+  const F = '"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif', BR = '"Yuji Syuku","Hiragino Mincho ProN",serif', MC = '"Shippori Mincho B1","Hiragino Mincho ProN",serif';
+  const title = curTitle(), mon = R.mode === 'monster';
+  const words = [metaText(R), '1分あたりの文字数たどり着いた階地下たおした正確率ミス打てた文字時間称号', title ? title.name : ''].join('');
+  try { await Promise.all([document.fonts.load(`400 40px "Yuji Syuku"`, 'ゆびタイプ階字分称号' + R.rank + (title ? title.name : '')), document.fonts.load(`800 40px "Shippori Mincho B1"`, 'ことばの迷宮0123456789.%体秒字'), document.fonts.load(`500 40px "Zen Kaku Gothic New"`, words)]); } catch(e) {}
+  const C = { paper:'#F1EBDD', ink:'#1D1A16', mute:'#6A6357', line:'#CFC5B2' };
+  const rnd = seeded(hashStr(todayKey() + R.cpm + R.rank));
+  // washi: the paper colour and its fibres
+  x.fillStyle = C.paper; x.fillRect(0, 0, W, H);
+  x.strokeStyle = '#6B5A40';
+  for (let i = 0; i < 520; i++) {
+    const px = rnd() * W, py = rnd() * H, l = 6 + rnd() * 30, a = (rnd() - 0.5) * 0.6;
+    x.globalAlpha = 0.04 + rnd() * 0.06; x.lineWidth = 0.6 + rnd() * 1.2;
+    x.beginPath(); x.moveTo(px, py); x.lineTo(px + Math.cos(a) * l, py + Math.sin(a) * l); x.stroke();
   }
-  x.textAlign = 'left'; x.textBaseline = 'alphabetic';
-  x.fillStyle = C.ink; x.font = `700 46px ${F}`; x.fillText('ゆびタイプ', 212, 150);
-  x.fillStyle = C.mute; x.font = `500 26px ${F}`; x.fillText(metaText(R), 96, 228);
-  x.textAlign = 'right'; x.font = `500 26px ${MN}`; x.fillText(todayKey().replace(/-/g, '.'), W - 96, 150); x.textAlign = 'left';
-  // headline number
-  const mon = R.mode === 'monster';
-  const big = mon ? `B${R.floor}F` : String(R.cpm);
-  x.fillStyle = C.ink; x.font = `700 190px ${MN}`; x.fillText(big, 90, 420);
+  x.globalAlpha = 1;
+  // a brushed frame
+  roughPath(x, 40, 40, W - 80, H - 80, rnd, 3); x.strokeStyle = C.ink; x.lineWidth = 5; x.lineJoin = 'round'; x.stroke();
+  x.textBaseline = 'alphabetic'; x.textAlign = 'left';
+  x.fillStyle = C.ink; x.font = `400 66px ${BR}`; x.fillText('ゆびタイプ', 92, 148);
+  x.fillStyle = C.mute; x.font = `800 22px ${MC}`;
+  [...'ことばの迷宮'].forEach((ch, i) => x.fillText(ch, 96 + i * 34, 190));
+  x.textAlign = 'right';
+  x.fillStyle = C.ink; x.font = `800 26px ${MC}`; x.fillText(todayKey().replace(/-/g, '.'), W - 96, 118);
+  x.fillStyle = C.mute; x.font = `500 23px ${F}`; x.fillText(metaText(R), W - 96, 156);
+  x.textAlign = 'left';
+  // the headline number
+  const big = String(mon ? R.floor : R.cpm);
+  x.fillStyle = C.ink; x.font = `800 196px ${MC}`; x.fillText(big, 88, 436);
   const bw = x.measureText(big).width;
-  x.fillStyle = C.mute; x.font = `700 34px ${F}`; x.fillText(mon ? '' : '文字/分', 100 + bw, 420);
-  x.font = `500 24px ${F}`; x.fillText(mon ? 'たどり着いた階' : '1分あたりの文字数', 96, 462);
-  // rank pill
-  x.font = `700 58px ${F}`;
-  const rw = x.measureText(R.rank).width + 64;
-  rr(x, W - 96 - rw, 300, rw, 96, 48); x.fillStyle = C.soft; x.fill();
-  x.fillStyle = C.accent; x.textAlign = 'center'; x.fillText(R.rank, W - 96 - rw / 2, 368); x.textAlign = 'left';
-  x.fillStyle = C.mute; x.font = `500 22px ${F}`; x.textAlign = 'right'; x.fillText('ランク', W - 96, 284); x.textAlign = 'left';
-  // stats row
-  const stats = mon ? [['たおした', R.defeated + '体'], ['文字/分', R.cpm], ['正確率', R.acc + '%'], ['時間', R.el.toFixed(1) + '秒']]
-                    : [['正確率', R.acc + '%'], ['ミス', R.misses], ['打てた文字', R.chars], ['時間', R.el.toFixed(1) + '秒']];
-  x.strokeStyle = C.line; x.lineWidth = 2; x.beginPath(); x.moveTo(96, 504); x.lineTo(W - 96, 504); x.stroke();
+  x.font = `400 46px ${BR}`; x.fillText(mon ? '階' : '字/分', 104 + bw, 436);
+  x.fillStyle = C.mute; x.font = `500 25px ${F}`; x.fillText(mon ? 'たどり着いた階（地下）' : '1分あたりの文字数', 96, 482);
+  // the rank, pressed as a seal
+  sealOn(x, W - 236, 346, 190, R.rank, -0.09, rnd, BR);
+  if (title) {
+    x.font = `400 26px ${BR}`;
+    const tw = x.measureText('称号　' + title.name).width + 36;
+    roughPath(x, W - 96 - tw, 176, tw, 46, rnd, 2.5); x.fillStyle = '#C0412A'; x.fill();
+    x.fillStyle = '#FFF6EA'; x.textAlign = 'center'; x.fillText('称号　' + title.name, W - 96 - tw / 2, 208); x.textAlign = 'left';
+  }
+  // the ledger
+  const stats = mon ? [['たおした', R.defeated + '体'], ['1分あたり', R.cpm + '字'], ['正確率', R.acc + '%'], ['時間', R.el.toFixed(1) + '秒']]
+                    : [['正確率', R.acc + '%'], ['ミス', R.misses + '回'], ['打てた文字', R.chars + '字'], ['時間', R.el.toFixed(1) + '秒']];
+  x.strokeStyle = C.ink; x.lineWidth = 3;
+  x.beginPath(); x.moveTo(96, 516); x.lineTo(W - 96, 516); x.moveTo(96, 612); x.lineTo(W - 96, 612); x.stroke();
   const colW = (W - 192) / stats.length;
+  x.strokeStyle = C.line; x.lineWidth = 1.5;
   stats.forEach(([t, v], i) => {
     const sx = 96 + i * colW;
-    x.fillStyle = C.mute; x.font = `500 22px ${F}`; x.fillText(t, sx, 546);
-    x.fillStyle = C.ink; x.font = `700 38px ${MN}`; x.fillText(String(v), sx, 590);
+    if (i) { x.beginPath(); x.moveTo(sx - 14, 530); x.lineTo(sx - 14, 598); x.stroke(); }
+    x.fillStyle = C.mute; x.font = `500 21px ${F}`; x.fillText(t, sx, 552);
+    x.fillStyle = C.ink; x.font = `800 36px ${MC}`; x.fillText(v, sx, 596);
   });
-  if (title) {
-    x.font = `700 24px ${F}`;
-    const tw = x.measureText('称号　' + title.name).width + 40;
-    rr(x, W - 96 - tw, 186, tw, 48, 24); x.fillStyle = C.marker; x.fill();
-    x.fillStyle = C.ink; x.textAlign = 'center'; x.fillText('称号　' + title.name, W - 96 - tw / 2, 218); x.textAlign = 'left';
-  }
   return cv;
 }
 let CARD = null;
 $('#shareImg').addEventListener('click', async () => {
   if (!LAST) return;
   CARD = await makeCard(LAST);
-  $('#cardImg').src = CARD.toDataURL('image/png');
+  const img = new Image(); img.alt = '結果カードの画像'; img.id = 'cardImg'; img.src = CARD.toDataURL('image/png');
+  $('#cardImgBox').replaceChildren(img);
   $('#cardMsg').hidden = true;
   $('#cardModal').hidden = false;
   $('#cardSave').focus();
@@ -3310,7 +3647,7 @@ function fillRankList(ol, rows, mode, max, extra){
     const li = document.createElement('li'); if (r.me) li.className = 'me';
     const n = document.createElement('span'); n.className = 'rk'; n.textContent = r.place;
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.me ? `${r.name}（あなた）` : r.name;
-    const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = mode === 'monster' ? `B${r.s}F・${r.s2}文字/分` : `${r.s} 文字/分`;
+    const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = mode === 'monster' ? `地下${r.s}階・${r.s2}文字/分` : `${r.s} 文字/分`;
     li.append(n, nm, sc); ol.appendChild(li);
   }
 }
@@ -3380,7 +3717,7 @@ async function renderRankView(){
 function openRank(tab, kb){ if (tab) RTAB = tab; if (kb) RKB = kb; show('rank'); renderRankView(); }
 document.querySelectorAll('[data-rtab]').forEach(b => b.addEventListener('click', () => { RTAB = b.dataset.rtab; renderRankView(); }));
 document.querySelectorAll('[data-rkb]').forEach(b => b.addEventListener('click', () => { RKB = b.dataset.rkb; renderRankView(); }));
-$('#openRank').addEventListener('click', () => openRank(S.course === 'daily' ? 'daily' : 'combo', store.get('lastSrc', '') === 'pc' ? 'pc' : S.kb));
+$('#openRank').addEventListener('click', () => openRank('daily', store.get('lastSrc', '') === 'pc' ? 'pc' : S.kb));
 $('#openRecords').addEventListener('click', () => { show('records'); renderRecords(); });
 $('#recBack').addEventListener('click', () => { show('home'); renderHome(); });
 $('#rankBack').addEventListener('click', () => { show('home'); renderHome(); });
@@ -3470,7 +3807,8 @@ function goHome(){
 $('#quitBtn').addEventListener('click', () => { if (G && !G.ended) openPause(); else goHome(); });
 $('#spBtn').addEventListener('click', () => { unlockAudio(); special(); });
 $('#toMenu').addEventListener('click', goHome);
-$('#again').addEventListener('click', () => { unlockAudio(); startGame(); });
+const againOpts = () => LAST ? { course:LAST.course, mode:LAST.mode } : {};
+$('#again').addEventListener('click', () => { unlockAudio(); startGame(againOpts()); });
 
 /* physical keyboard (QWERTY mode, for PC or a Bluetooth keyboard) */
 document.addEventListener('keydown', e => {
@@ -3495,7 +3833,7 @@ document.addEventListener('keydown', e => {
         if (el) { el.classList.add('down'); setTimeout(() => el.classList.remove('down'), 90); }
       }
     }
-  } else if (VIEW === 'result' && e.key === 'Enter' && $('#cardModal').hidden && document.activeElement.tagName !== 'A' && document.activeElement.tagName !== 'BUTTON') { e.preventDefault(); startGame(); }
+  } else if (VIEW === 'result' && e.key === 'Enter' && $('#cardModal').hidden && document.activeElement.tagName !== 'A' && document.activeElement.tagName !== 'BUTTON') { e.preventDefault(); startGame(againOpts()); }
   else if (e.key === 'Escape' && !$('#cardModal').hidden) $('#cardModal').hidden = true;
 });
 
