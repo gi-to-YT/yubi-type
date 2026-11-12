@@ -245,17 +245,51 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .viewhead{display:flex;align-items:center;gap:12px}
 .viewhead h2{margin:0;font-size:20px}
 /* ---- monster battle ---- */
-.arena{position:relative;width:min(100%,520px);display:flex;gap:12px;align-items:center;padding:6px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);flex:none}
-.foe-art{width:104px;height:86px;flex:none;position:relative}
+.arena{position:relative;width:min(100%,520px);height:clamp(150px,30dvh,230px);flex:none;display:block;padding:0;border:0;border-radius:16px;text-align:left}
+.play.conv .arena{height:clamp(130px,24dvh,190px)}
+.foe-art{position:relative;height:100%;width:auto;aspect-ratio:6/5;flex:none}
 .foe-art svg{width:100%;height:100%;display:block}
 .foe-art.hit{animation:hit .22s}
-.foe-art.spawn{animation:spawn .55s cubic-bezier(.3,1.6,.5,1) .2s backwards}
+.foe-art.spawn{animation:spawn .8s ease-out .15s backwards}
 @keyframes hit{25%{transform:translateX(-4px) scale(.95);filter:brightness(1.5)}65%{transform:translateX(3px)}}
-@keyframes spawn{from{transform:translateY(-70px) scale(.5);opacity:0}to{transform:none;opacity:1}}
+@keyframes spawn{0%{transform:translateY(-60px) scale(.6);opacity:0;filter:brightness(0)}35%{transform:translateY(4px) scale(1.04);opacity:1;filter:brightness(0)}55%{transform:none;filter:brightness(0)}100%{transform:none;opacity:1;filter:none}}
 .foe-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;text-align:left}
-.foe-name{margin:0;font-size:14px;font-weight:700;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-.foe-name.boss{color:var(--miss)}
-.foe-name small,.hpn{font:500 11px var(--font-mono);color:var(--mute)}
+.scene{position:absolute;inset:0;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.2);background:linear-gradient(#6EC2F2,#CDEEFF)}
+.scene::before{content:"";position:absolute;inset:0;pointer-events:none}
+.foe-top{position:absolute;left:10px;right:10px;top:8px;display:flex;flex-direction:column;gap:3px;z-index:2}
+.foe-name{margin:0;display:flex;gap:8px;align-items:baseline;align-self:flex-start;max-width:100%;padding:1px 10px;border-radius:999px;background:rgba(10,14,24,.5);color:#fff;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden}
+.foe-name small{font:700 11px var(--font-mono);color:#E8ECF2}
+.foe-name.boss span{color:#FFC9C9}
+.foe-top .gauge{background:rgba(10,14,24,.45)}
+.foe-slot{position:absolute;left:0;right:0;top:48px;bottom:32px;display:flex;justify-content:center;align-items:flex-end;pointer-events:none}
+.foe-slot::before{content:"";position:absolute;bottom:-5px;left:30%;right:30%;height:10px;border-radius:50%;background:rgba(0,0,0,.28)}
+.foe-art svg{filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+.you-bar{position:absolute;left:10px;right:120px;bottom:9px;margin:0;display:flex;align-items:center;gap:6px;font:700 11px var(--font-ui);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.8);z-index:2}
+.you-bar .gauge{flex:1;background:rgba(10,14,24,.45)}
+.you-bar b{font:700 12px var(--font-mono);min-width:26px;text-align:right}
+.sp-btn{appearance:none;-webkit-appearance:none;position:absolute;right:8px;bottom:6px;width:104px;height:30px;padding:0;border-radius:999px;border:2px solid rgba(255,255,255,.85);background:rgba(10,14,24,.6);color:#fff;font:700 13px var(--font-ui);overflow:hidden;z-index:3;touch-action:manipulation;cursor:pointer}
+.sp-btn .sp-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#FF4FB8,#FFB31A);transition:width .2s}
+.sp-btn b{position:relative;text-shadow:0 1px 2px rgba(0,0,0,.8);letter-spacing:.06em}
+.sp-btn:disabled{cursor:default}
+.sp-btn.ready{border-color:#FFE14D;animation:spReady 1s ease-in-out infinite}
+.sp-btn.ready .sp-fill{background:linear-gradient(90deg,#ff3d7f,#ffb31a,#ffe23b,#3ddc84,#3db8ff,#8f6bff,#ff3d7f);background-size:200% 100%;animation:spBg 1.2s linear infinite}
+@keyframes spReady{50%{transform:scale(1.07);box-shadow:0 0 14px #FFE14D}}
+@keyframes spBg{to{background-position:200% 0}}
+.arena.sp-flash .scene::after{content:"";position:absolute;inset:0;background:#fff;animation:spf .4s ease-out forwards}
+@keyframes spf{from{opacity:.75}to{opacity:0}}
+/* the five areas */
+.arena[data-area="1"] .scene{background:radial-gradient(70% 38% at 18% 104%,#58B85E 99%,transparent 100%),radial-gradient(80% 42% at 88% 108%,#45A04E 99%,transparent 100%),radial-gradient(9% 7% at 22% 32%,#fff 96%,transparent),radial-gradient(7% 6% at 28% 28%,#fff 96%,transparent),radial-gradient(10% 7% at 78% 26%,#fff 96%,transparent),linear-gradient(#6EC2F2,#CDEEFF 75%)}
+.arena[data-area="2"] .scene{background:radial-gradient(30% 24% at 14% 34%,rgba(150,90,255,.5),transparent 70%),radial-gradient(26% 22% at 86% 44%,rgba(60,220,255,.4),transparent 70%),linear-gradient(transparent 80%,#3A2C33 80%),linear-gradient(#1E1626,#3D2E44)}
+.arena[data-area="3"] .scene{background:radial-gradient(60% 34% at 50% 110%,#FFC23A,#FF5A1F 40%,transparent 72%),linear-gradient(transparent 82%,#3A1612 82%),linear-gradient(#2A0E0E,#7A2414 70%,#C2441A)}
+.arena[data-area="4"] .scene{background:radial-gradient(80% 30% at 50% 112%,#fff 99%,transparent 100%),radial-gradient(40% 40% at 18% 98%,#D6EEFC 99%,transparent 100%),radial-gradient(42% 48% at 86% 100%,#BCE0F6 99%,transparent 100%),linear-gradient(#86C6EE,#E6F6FF)}
+.arena[data-area="5"] .scene{background:radial-gradient(13% 17% at 84% 30%,#F5B26B 60%,transparent 63%),radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 2px) 0 0/37px 31px,radial-gradient(circle at 70% 60%,#fff 0 1px,transparent 2px) 0 0/53px 41px,linear-gradient(#070A24,#24145A)}
+.arena[data-area="3"] .scene::before{inset:0 0 -46px 0;background:radial-gradient(circle,#FFB31A 0 1.5px,transparent 2.5px) 0 0/46px 46px,radial-gradient(circle,#FF6A2A 0 1px,transparent 2px) 23px 13px/46px 46px;animation:ember 3s linear infinite}
+.arena[data-area="4"] .scene::before{inset:-34px 0 0 0;background:radial-gradient(circle,#fff 0 1.5px,transparent 2.5px) 0 0/34px 34px,radial-gradient(circle,#fff 0 1px,transparent 2px) 17px 9px/34px 34px;opacity:.85;animation:snow 4s linear infinite}
+.arena[data-area="5"] .scene::before{background:radial-gradient(circle,#fff 0 1.2px,transparent 2px) 11px 7px/61px 47px;animation:twinkle 2.4s ease-in-out infinite}
+@keyframes ember{to{transform:translateY(-46px)}}
+@keyframes snow{to{transform:translateY(34px)}}
+@keyframes twinkle{50%{opacity:.25}}
+.foe-name small,.hpn{font:500 11px var(--font-mono)}
 .gauge{display:block;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
 .gauge i{display:block;height:100%;width:100%;transition:width .15s}
 .gauge.hp i{background:var(--miss)}
@@ -278,8 +312,8 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 @keyframes rise{from{translate:0 0;opacity:1}to{translate:0 -24px;opacity:0}}
 .arena.hurt{animation:hurt .32s}
 @keyframes hurt{30%{box-shadow:0 0 0 3px var(--miss)}}
-.play.monster .stage{justify-content:flex-start;gap:8px;padding-top:34px}
-.play.monster .ready{position:absolute;top:8px;left:16px;transform:none}
+.play.monster .stage{justify-content:flex-start;gap:8px;padding-top:12px}
+.play.monster .ready{top:auto;bottom:8px}
 .play.monster .disp.s1{font-size:34px}.play.monster .disp.s2{font-size:28px}.play.monster .disp.s3{font-size:22px}.play.monster .disp.s4{font-size:19px}
 .play.monster .peek{display:none}
 .stage.ended::after{content:attr(data-end)}
@@ -290,7 +324,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .foe-art svg{animation:bob 2.2s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-3px)}}
 .foe-art.boss svg{animation:bob 2.2s ease-in-out infinite,aura 1.2s ease-in-out infinite}
-@keyframes aura{0%,100%{filter:drop-shadow(0 0 4px rgba(255,60,60,.7))}50%{filter:drop-shadow(0 0 12px rgba(255,60,60,1))}}
+@keyframes aura{0%,100%{filter:drop-shadow(0 0 5px rgba(40,0,70,.85))}50%{filter:drop-shadow(0 0 14px rgba(60,0,110,1))}}
 .foe-art.dying{position:absolute;pointer-events:none;animation:die .45s ease-out forwards;z-index:3}
 @keyframes die{0%{filter:brightness(2.5) saturate(.2)}40%{transform:scale(1.3) rotate(-6deg);opacity:1}100%{transform:scale(1.7) rotate(10deg);opacity:0;filter:brightness(3) blur(3px)}}
 .slash{position:absolute;left:var(--x);top:var(--y);width:130px;height:7px;margin:-3.5px 0 0 -65px;border-radius:4px;pointer-events:none;z-index:4;
@@ -306,7 +340,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .dmg.rb{color:#fff;-webkit-text-stroke:2.5px #B0005A}
 .dmg.hurt{color:#FF4757;font-size:28px;-webkit-text-stroke:2.5px #fff}
 @keyframes dmg{0%{transform:translate(-50%,-50%) scale(2.4);opacity:0}14%{transform:translate(-50%,-50%) scale(.85);opacity:1}28%{transform:translate(-50%,-50%) scale(1.12)}40%{transform:translate(-50%,-55%) scale(1)}100%{transform:translate(-50%,-150%) scale(1);opacity:0}}
-.cmb{position:absolute;right:6px;bottom:100%;margin-bottom:-6px;display:flex;align-items:baseline;gap:6px;pointer-events:none;z-index:5;line-height:1}
+.cmb{position:absolute;right:10px;top:50px;display:flex;flex-direction:column;align-items:flex-end;gap:2px;pointer-events:none;z-index:5;line-height:1}
 .cmb b{font:700 30px/1 var(--font-mono);color:#4DD4FF;-webkit-text-stroke:2.5px #1B2130;paint-order:stroke fill}
 .cmb span{font:700 11px var(--font-mono);color:#fff;-webkit-text-stroke:3px #1B2130;paint-order:stroke fill;letter-spacing:.04em;margin-top:2px}
 .cmb.t2 b{color:#FFB31A}
@@ -324,6 +358,10 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .banner.combo{font-size:24px}
 .banner.combo.t1{color:#4DD4FF}.banner.combo.t2{color:#FFB31A}
 .banner.fever{color:#fff;-webkit-text-stroke:4px #B0005A;font-size:36px;text-shadow:0 0 16px #ff6bd5}
+.banner.special{font-size:34px;color:#fff;-webkit-text-stroke:4px #6B1FD1;text-shadow:0 0 18px #B06BFF,0 0 32px #FF4FB8}
+.banner.area{font-size:24px;color:#fff;-webkit-text-stroke:3.5px #1B2130;transform:translate(-50%,-50%)}
+.banner.ok{font-size:20px;color:#FFE14D}
+.key.armed{background:var(--marker)!important;color:var(--marker-ink)!important}
 @keyframes slam{0%{transform:translate(-50%,-50%) scale(3) rotate(-10deg);opacity:0}16%{transform:translate(-50%,-50%) scale(.9) rotate(-4deg);opacity:1}26%{transform:translate(-50%,-50%) scale(1.06) rotate(-4deg)}78%{opacity:1}100%{transform:translate(-50%,-80%) scale(1) rotate(-4deg);opacity:0}}
 .warn{position:absolute;left:-14px;right:-14px;top:50%;height:58px;margin-top:-29px;display:grid;place-items:center;z-index:8;pointer-events:none;overflow:hidden;
   background:repeating-linear-gradient(-45deg,#1B2130 0 14px,#E0222E 14px 28px);background-size:40px 40px;animation:warn 1.5s ease-in-out forwards,stripes .6s linear infinite}
@@ -342,9 +380,8 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .gauge.hp{position:relative}
 .gauge.hp b{position:absolute;left:0;top:0;bottom:0;width:100%;background:#FFC68A;transition:width .45s ease .28s}
 .gauge.hp i{position:relative;transition:width .08s}
-.play.fever .arena{border-color:transparent;border-width:2.5px;
-  background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(90deg,#ff3d7f,#ffb31a,#ffe23b,#3ddc84,#3db8ff,#8f6bff,#ff3d7f) border-box;
-  background-size:100% 100%,300% 100%;animation:rainbowBorder 1.4s linear infinite}
+.play.fever .arena .scene{animation:feverGlow 1.2s linear infinite}
+@keyframes feverGlow{0%,100%{box-shadow:inset 0 0 0 3px #ff3d7f,0 0 16px #ff3d7f}25%{box-shadow:inset 0 0 0 3px #ffe23b,0 0 16px #ffe23b}50%{box-shadow:inset 0 0 0 3px #3ddc84,0 0 16px #3ddc84}75%{box-shadow:inset 0 0 0 3px #3db8ff,0 0 16px #3db8ff}}
 @keyframes rainbowBorder{to{background-position:0 0,300% 0}}
 .play .arena.shake-s{animation:shs .14s}
 .play .arena.shake-l,.play .stage.shake-l{animation:shl .42s}
@@ -429,7 +466,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
   .stage.miss .kana,.stage.miss .roma,.disp.pop{animation:none}
   .sw,.sw::before{transition:none}
   .out .caret,.cands.nudge{animation:none}
-  .foe-art.hit,.foe-art.spawn,.arena.hurt,.foe-art svg,.cmb b,.shake-s,.shake-l,.badge.pop,.bump,.play.fever .arena{animation:none}
+  .foe-art.hit,.foe-art.spawn,.arena.hurt,.foe-art svg,.cmb b,.shake-s,.shake-l,.badge.pop,.bump,.play.fever .arena .scene,.scene::before,.sp-btn.ready,.sp-btn.ready .sp-fill{animation:none}
   .banner,.warn{animation:fadeq 1s forwards}
   .play.lowhp .vig:not(.on){animation:none;opacity:.3}
   .pop-n{animation-duration:.01s}
@@ -550,14 +587,16 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
     <p class="ready" id="ready">キーを押すとスタート</p>
     <canvas class="fxcanvas" id="fxCanvas" aria-hidden="true"></canvas>
     <div class="vig" id="vig" aria-hidden="true"></div>
-    <div class="arena" id="arena" hidden>
-      <div class="foe-art" id="foeArt"></div>
-      <div class="foe-info">
-        <p class="foe-name" id="foeName"></p>
-        <p class="you-row"><small id="foeLv" class="hpn"></small><span class="gauge hp"><b id="foeHpGhost"></b><i id="foeHp"></i></span><span class="hpn" id="foeHpN"></span></p>
+    <div class="arena" id="arena" data-area="1" hidden>
+      <div class="scene" aria-hidden="true"></div>
+      <div class="foe-top">
+        <p class="foe-name"><span id="foeName"></span><small id="foeLv"></small><small class="hpn" id="foeHpN"></small></p>
+        <span class="gauge hp"><b id="foeHpGhost"></b><i id="foeHp"></i></span>
         <span class="gauge atk" aria-hidden="true"><i id="foeAtk"></i></span>
-        <p class="you-row"><span>あなた</span><span class="gauge you"><i id="youHp"></i></span><b id="youHpN">100</b></p>
       </div>
+      <div class="foe-slot"><div class="foe-art" id="foeArt"></div></div>
+      <p class="you-bar"><span>あなた</span><span class="gauge you"><i id="youHp"></i></span><b id="youHpN">100</b></p>
+      <button class="sp-btn" id="spBtn" type="button" disabled aria-label="必殺技（ゲージがたまると使えます）"><i class="sp-fill" id="spFill"></i><b>必殺技</b></button>
       <div class="cmb" id="cmb" hidden aria-live="off"><b id="cmbN"></b><span id="cmbT"></span></div>
       <div class="fxl" id="fxl" aria-hidden="true"></div>
     </div>
@@ -1612,7 +1651,7 @@ function startGame(){
         started:false, ended:false, t0:0, elapsed:0, raf:0,
         keys:0, misses:0, chars:0, done:0, skipped:0, missMap:{}, cands:[],
         combo:0, convOne:0, convMissed:false, maxConvWords:0,
-        defeated:0, bosses:0, damage:0, you:PLAYER_MAX, mon:null, bossPool:[], fever:false };
+        defeated:0, bosses:0, damage:0, you:PLAYER_MAX, mon:null, bossPool:[], fever:false, sp:0, specials:0 };
   if (G.conv) buildIndex();
   buildKeyboard(G.kb);
   $('#cands').hidden = !G.conv;
@@ -1622,6 +1661,7 @@ function startGame(){
   pv.classList.toggle('monster', mode === 'monster');
   pv.classList.remove('fever', 'lowhp');
   $('#arena').querySelectorAll('.dmg,.slash,.banner,.warn,.dying').forEach(e => e.remove());
+  $('#arena').dataset.area = '';
   $('#arena').hidden = mode !== 'monster';
   $('#tUnit').textContent = mode === 'monster' ? '体' : '字';
   $('#fxl').textContent = '';
@@ -1768,7 +1808,7 @@ function pick(text){
   G.maxConvWords = Math.max(G.maxConvWords, words);
   if (cc.to > tp) { const n = cc.to - tp; startEngine(cc.to); addChars(n); }
   // a conversion lands an extra blow, bigger when several words go at once
-  if (G.mode === 'monster' && !G.ended) convAttack((cc.to - from) * 0.5 * words, words);
+  if (G.mode === 'monster' && !G.ended) { gainSp(words * 4); convAttack((cc.to - from) * 0.5 * words, words); }
   if (G.ended) return;
   while (G.ci < G.chunks.length && G.cs[G.ci] + G.chunks[G.ci].r.length <= cc.to) G.ci++;
   G.co = 0;
@@ -1808,8 +1848,15 @@ function fnKey(name){
     case 'sound': S.sound = !S.sound; saveS(); if (S.sound) unlockAudio(); updateFnKeys(); break;
     case 'confirm': if (G.fe) G.fe.confirm(); break;
     case 'bs': if (G.re) G.re.reset(); if (G.fe) G.fe.clear(); renderAll(); break;
-    case 'skip': skip(); break;
+    case 'skip': if (Date.now() - skipArm < 1500) { armSkip(false); skip(); } else armSkip(true); break;
   }
+}
+let skipArm = 0, skipT = 0;
+function armSkip(on){
+  skipArm = on ? Date.now() : 0;
+  clearTimeout(skipT);
+  if (on) skipT = setTimeout(() => armSkip(false), 1500);
+  kbEl.querySelectorAll('[data-k="@skip"]').forEach(k => { k.classList.toggle('armed', on); k.textContent = on ? 'もう一度' : 'パス'; });
 }
 function needConvert(){
   begin(); G.keys++;
@@ -1826,7 +1873,7 @@ function onRoma(k){
   if (!ok) { registerMiss(KEY_LABEL[exp] || exp); return; }
   addChars(tpos() - before);
   if (G.ended) return;
-  if (G.mode !== 'monster') fx('key');
+  fx('key');
   afterInput();
 }
 function onFlick(keyId, dir){
@@ -1839,7 +1886,7 @@ function onFlick(keyId, dir){
   if (r === 'miss') { registerMiss(t || '？'); return; }
   addChars(tpos() - before);
   if (G.ended) return;
-  if (G.mode !== 'monster') fx('key');
+  fx('key');
   afterInput();
 }
 function registerMiss(label){
@@ -2125,26 +2172,61 @@ function recordGame(R){
 
 /* ================= monster battle ================= */
 const PLAYER_MAX = 100;
-const MON_TYPES = [
-  { name:'誤字スライム',   kind:'slime', color:'#46B08F' },
-  { name:'脱字コウモリ',   kind:'bat',   color:'#7766D4' },
-  { name:'押し間違いガニ', kind:'crab',  color:'#DD6340' },
-  { name:'変換ミスおばけ', kind:'ghost', color:'#8C99AE' }
-];
-const BOSS_TYPES = [
-  { name:'読み違え大王',   kind:'king', color:'#C03A2A' },
-  { name:'打ち間違い将軍', kind:'king', color:'#3A5FC4' }
+/* five areas, each with four monsters and a boss; the area (and its scene) changes every five monsters */
+const AREAS = [
+  { name:'そうげん', mons:[
+      { name:'誤字スライム',     kind:'slime',    color:'#46B08F' },
+      { name:'押し間違いガニ',   kind:'crab',     color:'#DD6340' },
+      { name:'脱字コウモリ',     kind:'bat',      color:'#7766D4' },
+      { name:'誤変換キノコ',     kind:'mushroom', color:'#E05A7A' } ],
+    boss:{ name:'読み違え大王',   kind:'king',     color:'#C03A2A' } },
+  { name:'どうくつ', mons:[
+      { name:'二度打ちモグラ',   kind:'mole',     color:'#8A6A55' },
+      { name:'濁点ゴーレム',     kind:'golem',    color:'#8C8F99', c2:'#FFE14D' },
+      { name:'見落としメダマ',   kind:'eye',      color:'#3FA7D6' },
+      { name:'変換ミスおばけ',   kind:'ghost',    color:'#9AA6C0' } ],
+    boss:{ name:'早打ちドラゴン', kind:'dragon',   color:'#3E9E5A' } },
+  { name:'かざん', mons:[
+      { name:'打ちすぎ火の玉',   kind:'flame',    color:'#FF7A1A', c2:'#FFE14D' },
+      { name:'マグマガニ',       kind:'crab',     color:'#C8321E' },
+      { name:'溶岩ゴーレム',     kind:'golem',    color:'#5A3A34', c2:'#FF7A1A' },
+      { name:'火の粉コウモリ',   kind:'bat',      color:'#E04E2A' } ],
+    boss:{ name:'炎の変換魔神',   kind:'demon',    color:'#B3261E' } },
+  { name:'ひょうげん', mons:[
+      { name:'句読点ゆきだるま', kind:'snowman',  color:'#F4F9FF' },
+      { name:'こおりスライム',   kind:'slime',    color:'#5DBBE3' },
+      { name:'自動修正ロボ',     kind:'robot',    color:'#8FA7C4', c2:'#4DE1FF' },
+      { name:'ふぶきおばけ',     kind:'ghost',    color:'#BFE8F7' } ],
+    boss:{ name:'氷の誤字マシン', kind:'mecha',    color:'#4A78B8', c2:'#FF3D5A' } },
+  { name:'うちゅう', mons:[
+      { name:'予測変換UFO',      kind:'ufo',      color:'#9FB3C8', c2:'#7CF5FF' },
+      { name:'宇宙メダマ',       kind:'eye',      color:'#B49BFF' },
+      { name:'星くずスライム',   kind:'slime',    color:'#7A5CFF' },
+      { name:'青い火の玉',       kind:'flame',    color:'#3D8BFF', c2:'#BDE3FF' } ],
+    boss:{ name:'宇宙タイプ大王', kind:'king',     color:'#6B3FD1' } }
 ];
 function monSvg(m){
-  const c = m.color, ink = '#1B2130';
+  const c = m.color, c2 = m.c2 || '#FFE14D', ink = '#1B2130';
   const eye = (x, y, r = 7) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x + 1.5}" cy="${y + 1}" r="${(r * 0.45).toFixed(1)}" fill="${ink}"/>`;
-  let b = '';
-  if (m.kind === 'slime') b = `<path d="M14 90 C10 52 34 22 60 22 C86 22 110 52 106 90 Z" fill="${c}"/><ellipse cx="44" cy="40" rx="9" ry="5" fill="#fff" opacity=".35"/>${eye(46, 58)}${eye(74, 58)}<path d="M50 75 Q60 82 70 75" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
-  else if (m.kind === 'bat') b = `<path d="M60 42 L10 24 L22 50 L8 62 L42 64 Z" fill="${c}"/><path d="M60 42 L110 24 L98 50 L112 62 L78 64 Z" fill="${c}"/><circle cx="60" cy="58" r="25" fill="${c}"/><path d="M43 38 L47 22 L54 35 Z M77 38 L73 22 L66 35 Z" fill="${c}"/>${eye(51, 54, 6)}${eye(69, 54, 6)}<path d="M53 69 L56.5 74 L60 69 L63.5 74 L67 69" stroke="#fff" stroke-width="2.5" fill="none" stroke-linejoin="round"/>`;
-  else if (m.kind === 'crab') b = `<g stroke="${c}" stroke-width="5" stroke-linecap="round"><path d="M34 76 L18 90 M42 82 L32 96 M86 76 L102 90 M78 82 L88 96 M32 58 L18 42 M88 58 L102 42 M50 46 L50 36 M70 46 L70 36"/></g><circle cx="16" cy="34" r="11" fill="${c}"/><circle cx="104" cy="34" r="11" fill="${c}"/><ellipse cx="60" cy="66" rx="34" ry="22" fill="${c}"/>${eye(50, 32, 6)}${eye(70, 32, 6)}<path d="M50 72 Q60 66 70 72" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
-  else if (m.kind === 'ghost') b = `<path d="M22 94 L22 50 C22 28 40 14 60 14 C80 14 98 28 98 50 L98 94 L86 84 L74 94 L60 84 L46 94 L34 84 Z" fill="${c}"/>${eye(48, 48)}${eye(72, 48)}<ellipse cx="60" cy="69" rx="7" ry="9" fill="${ink}"/>`;
-  else b = `<path d="M8 94 C4 52 30 28 60 28 C90 28 116 52 112 94 Z" fill="${c}"/><path d="M36 32 L40 8 L52 22 L60 4 L68 22 L80 8 L84 32 Z" fill="#E9B832" stroke="#A97A16" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="17" r="3.5" fill="#D94A4A"/><path d="M34 54 L52 60 M86 54 L68 60" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>${eye(46, 66, 8)}${eye(74, 66, 8)}<path d="M44 84 L50 78 L56 84 L62 78 L68 84 L74 78" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>`;
-  return `<svg viewBox="0 0 120 100" aria-hidden="true">${b}</svg>`;
+  const S = {
+    slime: () => `<path d="M14 90 C10 52 34 22 60 22 C86 22 110 52 106 90 Z" fill="${c}"/><ellipse cx="44" cy="40" rx="9" ry="5" fill="#fff" opacity=".35"/>${eye(46, 58)}${eye(74, 58)}<path d="M50 75 Q60 82 70 75" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    bat: () => `<path d="M60 42 L10 24 L22 50 L8 62 L42 64 Z" fill="${c}"/><path d="M60 42 L110 24 L98 50 L112 62 L78 64 Z" fill="${c}"/><circle cx="60" cy="58" r="25" fill="${c}"/><path d="M43 38 L47 22 L54 35 Z M77 38 L73 22 L66 35 Z" fill="${c}"/>${eye(51, 54, 6)}${eye(69, 54, 6)}<path d="M53 69 L56.5 74 L60 69 L63.5 74 L67 69" stroke="#fff" stroke-width="2.5" fill="none" stroke-linejoin="round"/>`,
+    crab: () => `<g stroke="${c}" stroke-width="5" stroke-linecap="round"><path d="M34 76 L18 90 M42 82 L32 96 M86 76 L102 90 M78 82 L88 96 M32 58 L18 42 M88 58 L102 42 M50 46 L50 36 M70 46 L70 36"/></g><circle cx="16" cy="34" r="11" fill="${c}"/><circle cx="104" cy="34" r="11" fill="${c}"/><ellipse cx="60" cy="66" rx="34" ry="22" fill="${c}"/>${eye(50, 32, 6)}${eye(70, 32, 6)}<path d="M50 72 Q60 66 70 72" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    ghost: () => `<path d="M22 94 L22 50 C22 28 40 14 60 14 C80 14 98 28 98 50 L98 94 L86 84 L74 94 L60 84 L46 94 L34 84 Z" fill="${c}"/>${eye(48, 48)}${eye(72, 48)}<ellipse cx="60" cy="69" rx="7" ry="9" fill="${ink}"/>`,
+    mushroom: () => `<rect x="42" y="50" width="36" height="44" rx="14" fill="#F3E7D3"/><path d="M10 56 C10 16 110 16 110 56 C110 62 10 62 10 56 Z" fill="${c}"/><circle cx="36" cy="36" r="7" fill="#fff" opacity=".9"/><circle cx="62" cy="27" r="6" fill="#fff" opacity=".9"/><circle cx="86" cy="40" r="7" fill="#fff" opacity=".9"/>${eye(52, 70, 5)}${eye(68, 70, 5)}<path d="M54 82 Q60 87 66 82" stroke="${ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+    mole: () => `<ellipse cx="60" cy="94" rx="54" ry="7" fill="#5B4234"/><path d="M22 96 C20 44 100 44 98 96 Z" fill="${c}"/><ellipse cx="60" cy="68" rx="14" ry="10" fill="#F2A7B6"/><circle cx="60" cy="64" r="5" fill="${ink}"/><circle cx="46" cy="54" r="3.5" fill="${ink}"/><circle cx="74" cy="54" r="3.5" fill="${ink}"/><path d="M30 84 L20 80 M30 89 L19 89 M90 84 L100 80 M90 89 L101 89" stroke="#F3E7D3" stroke-width="4" stroke-linecap="round"/>`,
+    golem: () => `<path d="M22 94 L16 58 L30 32 L60 20 L90 32 L104 58 L98 94 Z" fill="${c}"/><path d="M30 32 L44 52 L36 76 M90 32 L78 54 L88 78 M60 20 L58 40" stroke="rgba(0,0,0,.35)" stroke-width="3" fill="none"/><rect x="40" y="48" width="14" height="7" rx="2" fill="${c2}"/><rect x="66" y="48" width="14" height="7" rx="2" fill="${c2}"/><rect x="46" y="68" width="28" height="5" rx="2" fill="rgba(0,0,0,.4)"/>`,
+    eye: () => `<path d="M10 50 L28 38 L24 56 Z M110 50 L92 38 L96 56 Z" fill="${c}"/><circle cx="60" cy="52" r="36" fill="#F7F7FB" stroke="${c}" stroke-width="4"/><path d="M30 38 L40 44 M86 32 L78 40 M90 66 L80 62" stroke="#E35D6A" stroke-width="2" fill="none"/><circle cx="62" cy="54" r="17" fill="${c}"/><circle cx="64" cy="55" r="8" fill="${ink}"/><circle cx="58" cy="49" r="4" fill="#fff"/>`,
+    flame: () => `<path d="M60 6 C76 28 100 42 94 70 C90 88 76 96 60 96 C44 96 30 88 26 70 C20 42 44 32 60 6 Z" fill="${c}"/><path d="M60 36 C70 50 82 58 78 74 C76 86 68 90 60 90 C52 90 44 86 42 74 C38 58 50 50 60 36 Z" fill="${c2}"/>${eye(50, 66, 6)}${eye(70, 66, 6)}<path d="M54 80 Q60 76 66 80" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    snowman: () => `<circle cx="60" cy="72" r="25" fill="${c}" stroke="#9DB7CF" stroke-width="2"/><circle cx="60" cy="38" r="18" fill="${c}" stroke="#9DB7CF" stroke-width="2"/><path d="M36 66 L14 54 M84 66 L106 54" stroke="#7A5233" stroke-width="3.5" stroke-linecap="round"/><path d="M43 52 Q60 60 77 52 L77 58 Q60 66 43 58 Z" fill="#E0414E"/><circle cx="53" cy="35" r="3" fill="${ink}"/><circle cx="67" cy="35" r="3" fill="${ink}"/><path d="M60 40 L74 43 L60 45 Z" fill="#FF8A1A"/><circle cx="60" cy="70" r="2.5" fill="${ink}"/><circle cx="60" cy="80" r="2.5" fill="${ink}"/><path d="M44 22 L76 22 L72 6 L48 6 Z" fill="${ink}"/>`,
+    robot: () => `<path d="M60 8 L60 20" stroke="${ink}" stroke-width="3"/><circle cx="60" cy="7" r="4" fill="${c2}"/><rect x="34" y="20" width="52" height="34" rx="8" fill="${c}"/><rect x="40" y="28" width="40" height="12" rx="6" fill="${ink}"/><circle cx="50" cy="34" r="4" fill="${c2}"/><circle cx="70" cy="34" r="4" fill="${c2}"/><rect x="30" y="56" width="60" height="36" rx="8" fill="${c}"/><path d="M44 66 H76 M44 74 H76 M44 82 H76" stroke="rgba(0,0,0,.3)" stroke-width="3"/><rect x="16" y="60" width="12" height="26" rx="5" fill="${c}"/><rect x="92" y="60" width="12" height="26" rx="5" fill="${c}"/>`,
+    ufo: () => `<path d="M44 66 L30 98 L90 98 L76 66 Z" fill="${c2}" opacity=".35"/><ellipse cx="60" cy="44" rx="22" ry="20" fill="${c2}" opacity=".9"/>${eye(52, 42, 5)}${eye(68, 42, 5)}<ellipse cx="60" cy="58" rx="50" ry="14" fill="${c}"/><ellipse cx="60" cy="54" rx="50" ry="8" fill="#fff" opacity=".25"/><circle cx="30" cy="60" r="4" fill="#FFE14D"/><circle cx="60" cy="64" r="4" fill="#FFE14D"/><circle cx="90" cy="60" r="4" fill="#FFE14D"/>`,
+    king: () => `<path d="M8 94 C4 52 30 28 60 28 C90 28 116 52 112 94 Z" fill="${c}"/><path d="M36 32 L40 8 L52 22 L60 4 L68 22 L80 8 L84 32 Z" fill="#E9B832" stroke="#A97A16" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="17" r="3.5" fill="#D94A4A"/><path d="M34 54 L52 60 M86 54 L68 60" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>${eye(46, 66, 8)}${eye(74, 66, 8)}<path d="M44 84 L50 78 L56 84 L62 78 L68 84 L74 78" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>`,
+    dragon: () => `<path d="M60 40 L10 14 L24 44 L4 56 L40 58 Z" fill="${c}" opacity=".85"/><path d="M60 40 L110 14 L96 44 L116 56 L80 58 Z" fill="${c}" opacity=".85"/><path d="M24 96 C20 60 40 36 60 36 C80 36 100 60 96 96 Z" fill="${c}"/><path d="M42 38 L34 12 L50 32 Z M78 38 L86 12 L70 32 Z" fill="#F2E6C8"/><ellipse cx="60" cy="82" rx="20" ry="13" fill="#F2E6C8"/><path d="M38 52 L52 57 M82 52 L68 57" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>${eye(46, 62, 7)}${eye(74, 62, 7)}<path d="M48 74 L54 69 L60 74 L66 69 L72 74" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>`,
+    demon: () => `<path d="M20 32 C28 10 40 20 44 34 M100 32 C92 10 80 20 76 34" stroke="#2A1010" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M30 22 C40 36 50 14 60 28 C70 14 80 36 90 22 C96 40 90 50 86 54 L34 54 C30 50 24 40 30 22 Z" fill="#FF7A1A"/><path d="M14 96 C10 56 30 34 60 34 C90 34 110 56 106 96 Z" fill="${c}"/><path d="M34 56 L52 62 M86 56 L68 62" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>${eye(46, 68, 8)}${eye(74, 68, 8)}<path d="M40 84 Q60 96 80 84 Q60 90 40 84 Z" fill="${ink}"/><path d="M48 86 L50 91 L52 87 M68 87 L70 91 L72 86" stroke="#fff" stroke-width="2" fill="none"/>`,
+    mecha: () => `<rect x="14" y="44" width="16" height="40" rx="6" fill="${c}"/><rect x="90" y="44" width="16" height="40" rx="6" fill="${c}"/><path d="M26 96 L30 40 L60 30 L90 40 L94 96 Z" fill="${c}"/><rect x="36" y="10" width="48" height="32" rx="8" fill="${c}"/><path d="M40 20 L80 20 L76 31 L44 31 Z" fill="${ink}"/><circle cx="60" cy="25.5" r="5" fill="${c2}"/><path d="M44 58 L76 58 L72 80 L48 80 Z" fill="rgba(0,0,0,.25)"/><circle cx="60" cy="69" r="6" fill="${c2}"/><path d="M52 10 L56 1 L60 10 M60 10 L64 1 L68 10" stroke="${c2}" stroke-width="2" fill="none"/>`
+  };
+  return `<svg viewBox="0 0 120 100" aria-hidden="true">${(S[m.kind] || S.slime)()}</svg>`;
 }
 /* ---------- battle effects: particles, slashes, numbers, banners, sounds ---------- */
 const RM = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) { return false; } })();
@@ -2183,6 +2265,9 @@ function drawP(c, p){
     c.save(); c.translate(p.x, p.y); c.rotate(p.rot); c.fillStyle = p.color; c.beginPath();
     for (let i = 0; i < 8; i++) { const r = i % 2 ? s * 0.38 : s, a = i * Math.PI / 4; c.lineTo(Math.cos(a) * r, Math.sin(a) * r); }
     c.closePath(); c.fill(); c.restore();
+  } else if (p.kind === 'smoke') {
+    c.fillStyle = p.color;
+    c.beginPath(); c.arc(p.x, p.y, p.size * (1.6 - k * 0.6), 0, Math.PI * 2); c.fill();
   } else if (p.kind === 'ring') {
     c.strokeStyle = p.color; c.lineWidth = 7 * k + 0.5;
     c.beginPath(); c.arc(p.x, p.y, p.r0 + (p.r1 - p.r0) * (1 - k * k), 0, Math.PI * 2); c.stroke();
@@ -2214,6 +2299,15 @@ function burst(L, x, y, n, set, speed, opt){
   }
   if (opt && opt.ring) L.add({ kind:'ring', x, y, vx:0, vy:0, r0:6, r1:opt.ring, color:pickHue(set, 1), life:22, t:0 });
 }
+function smoke(){
+  const { L, x, y } = foePoint();
+  const n = RM ? 4 : 16;
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = 0.6 + Math.random() * 1.6;
+    L.add({ kind:'smoke', x:x + Math.cos(a) * 10, y:y + 10 + Math.sin(a) * 8, vx:Math.cos(a) * v, vy:Math.sin(a) * v * 0.6 - 0.5, g:-0.01, drag:0.96, size:9 + Math.random() * 10,
+            color:i % 3 ? 'rgba(18,16,28,.55)' : 'rgba(70,40,110,.45)', life:34 + Math.random() * 18, t:0 });
+  }
+}
 function confetti(n){
   if (RM) return;
   const L = bigLayer();
@@ -2233,7 +2327,7 @@ function shake(el, big){
   const c = big ? 'shake-l' : 'shake-s';
   el.classList.remove('shake-s', 'shake-l'); void el.offsetWidth; el.classList.add(c);
 }
-const artXY = () => { const a = $('#foeArt'); return { x:a.offsetLeft + a.offsetWidth / 2, y:a.offsetTop + a.offsetHeight / 2 }; };
+const artXY = () => { const r = $('#arena').getBoundingClientRect(), a = $('#foeArt').getBoundingClientRect(); return { x:a.left - r.left + a.width / 2, y:a.top - r.top + a.height / 2 }; };
 function banner(text, kind){
   const ar = $('#arena');
   ar.querySelectorAll('.banner').forEach(b => b.remove());
@@ -2261,6 +2355,7 @@ function sfx(kind, k){
     else if (kind === 'milestone') { tone(1320, 0.1, 'sine', 0.06); tone(1760, 0.16, 'sine', 0.06, 0.08); }
     else if (kind === 'multi') { nburst(0.07, 2800, 1, 0.1); tone(800 + (k || 0) * 140, 0.08, 'square', 0.04); }
     else if (kind === 'count') tone(900 + (k || 0) * 25, 0.035, 'triangle', 0.035);
+    else if (kind === 'special') { tone(180, 0.5, 'sawtooth', 0.05, 0, 1800); nburst(0.5, 1400, 0.5, 0.14, 0.1); [784, 1047, 1319, 1568].forEach((f, i) => tone(f, 0.12, 'square', 0.045, 0.2 + i * 0.06)); }
     else if (kind === 'fanfare') [784, 988, 1175, 1568].forEach((f, i) => tone(f, i === 3 ? 0.35 : 0.1, 'square', 0.045, i * 0.09));
   } catch(e) {}
 }
@@ -2280,19 +2375,25 @@ function feverOn(){
 }
 function feverOff(){ if (G && G.fever) { G.fever = false; $('#v-play').classList.remove('fever'); } }
 function spawnMonster(n){
-  const boss = n % 5 === 0;
-  const t = boss ? BOSS_TYPES[(n / 5 - 1) % BOSS_TYPES.length] : MON_TYPES[(n - 1 - Math.floor(n / 5)) % MON_TYPES.length];
+  const ai = Math.floor((n - 1) / 5) % AREAS.length, area = AREAS[ai], boss = n % 5 === 0;
+  const t = boss ? area.boss : area.mons[(n - 1) % 5];
   const hp = boss ? 70 + 25 * (n / 5 - 1) : 24 + 6 * (n - 1);
-  G.mon = { n, boss, name:t.name, kind:t.kind, color:t.color, hp, max:hp,
+  G.mon = { n, boss, name:t.name, kind:t.kind, color:t.color, c2:t.c2, hp, max:hp,
             atk: boss ? 9 + n : 5 + Math.floor(n / 2),
             every: Math.max(3.5, (boss ? 7 : 9) - 0.35 * (n - 1)) };
   // a boss gives you a moment to read the warning before it starts attacking
   G.mon.next = G.started ? G.elapsed + G.mon.every + (boss ? 1.5 : 0) : null;
-  const art = $('#foeArt');
+  const art = $('#foeArt'), ar = $('#arena');
+  // a new area every five monsters: new scene and a call-out
+  if (ar.dataset.area !== String(ai + 1)) {
+    ar.dataset.area = ai + 1;
+    if (n > 1) setTimeout(() => { if (G && !G.ended && G.mon && G.mon.n === n) { banner(`AREA ${Math.floor((n - 1) / 5) + 1}　${area.name}`, 'area'); sfx('milestone'); } }, 520);
+  }
   art.innerHTML = monSvg(G.mon);
   art.classList.toggle('boss', boss);
-  art.classList.remove('spawn'); void art.offsetWidth; art.classList.add('spawn');
-  clearTimeout(art._sp); art._sp = setTimeout(() => art.classList.remove('spawn'), 800);
+  art.classList.remove('spawn', 'hit'); void art.offsetWidth; art.classList.add('spawn');
+  clearTimeout(art._sp); art._sp = setTimeout(() => art.classList.remove('spawn', 'hit'), 1000);
+  requestAnimationFrame(smoke);
   if (boss) {
     const w = fxEl('warn', '', $('#arena'), 1500);
     w.innerHTML = '<span>WARNING　ボス出現</span>';
@@ -2314,7 +2415,7 @@ function hitFx(dmg, kind){
   fxEl('dmg' + (crit ? ' crit' : '') + (conv ? ' conv' : '') + (G.fever ? ' rb' : ''), String(Math.round(dmg * 10) / 10), ar, 760,
        { '--x':(p.x + (Math.random() - 0.5) * 44) + 'px', '--y':(p.y - 10 - Math.random() * 14) + 'px' });
   const art = $('#foeArt');
-  art.classList.remove('hit'); void art.offsetWidth; art.classList.add('hit');
+  if (!art.classList.contains('spawn')) { art.classList.remove('hit'); void art.offsetWidth; art.classList.add('hit'); }
   if (crit || conv) { shake(ar); vib(crit ? 15 : 25); }
   sfx(crit || conv ? 'crit' : 'hit', G.combo);
 }
@@ -2323,7 +2424,7 @@ function killFx(m){
   const ghost = art.cloneNode(true);
   ghost.removeAttribute('id'); ghost.className = 'foe-art dying';
   ghost.style.left = art.offsetLeft + 'px'; ghost.style.top = art.offsetTop + 'px';
-  ar.appendChild(ghost); setTimeout(() => ghost.remove(), 500);
+  art.parentNode.appendChild(ghost); setTimeout(() => ghost.remove(), 500);
   burst(L, x, y, m.boss ? 70 : 40, m.boss ? HUES.conv : HUES.crit, m.boss ? 10 : 8, { stars:m.boss ? 22 : 12, ring:m.boss ? 160 : 110 });
   if (m.boss) setTimeout(() => G && burst(L, x, y, 40, HUES.hit, 9, { stars:12, ring:200 }), 160);
   banner(m.boss ? 'BOSS 撃破!!!' : '撃破!!', m.boss ? 'boss' : 'kill');
@@ -2335,7 +2436,7 @@ function killFx(m){
 let vigAt = 0;
 function hurtFx(dmg){
   const ar = $('#arena');
-  fxEl('dmg hurt', '-' + dmg, ar, 760, { '--x':(ar.offsetWidth - 46) + 'px', '--y':(ar.offsetHeight - 30) + 'px' });
+  fxEl('dmg hurt', '-' + dmg, ar, 760, { '--x':(ar.offsetWidth * 0.32) + 'px', '--y':(ar.offsetHeight - 34) + 'px' });
   shake(ar, true);
   // the red edge glow flashes at most twice a second
   if (Date.now() - vigAt > 500) { vigAt = Date.now(); const v = $('#vig'); v.classList.remove('on'); void v.offsetWidth; v.classList.add('on'); }
@@ -2391,6 +2492,32 @@ function renderArena(){
     c.className = 'cmb t' + tier + (c.classList.contains('bump') ? ' bump' : '');
     $('#cmbT').textContent = `COMBO　×${comboMult()}`;
   }
+  const sp = $('#spBtn');
+  $('#spFill').style.width = G.sp + '%';
+  sp.disabled = G.sp < 100;
+  sp.classList.toggle('ready', G.sp >= 100);
+}
+/* the special gauge fills as you type; when full, 必殺技 lands a flurry worth about half the foe's health */
+function gainSp(v){
+  if (G.mode !== 'monster' || G.sp >= 100) return;
+  G.sp = Math.min(100, G.sp + v);
+  if (G.sp >= 100) { banner('必殺技 OK!', 'ok'); sfx('milestone'); vib(30); }
+}
+function special(){
+  if (!G || G.ended || G.mode !== 'monster' || G.sp < 100 || !G.mon) return;
+  begin();
+  G.sp = 0; G.specials++;
+  const g = G, ar = $('#arena');
+  banner('必殺！タイプ乱舞', 'special'); sfx('special'); vib([40, 30, 40, 30, 120]);
+  ar.classList.remove('sp-flash'); void ar.offsetWidth; ar.classList.add('sp-flash');
+  if (G.mon.next != null) G.mon.next += 2.5;
+  renderArena();
+  for (let i = 0; i < 8; i++) setTimeout(() => {
+    if (G !== g || G.ended || !G.mon) return;
+    const last = i === 7;
+    monHit(Math.max(3, G.mon.max * (last ? 0.16 : 0.05)), last ? 'conv' : 'crit');
+    sfx('multi', i);
+  }, 300 + i * 90);
 }
 /* typed kana add to the count and, in a battle, hit the monster */
 function addChars(n){
@@ -2399,6 +2526,7 @@ function addChars(n){
   G.chars += n; G.combo += n;
   if (G.mode !== 'monster') return;
   comboCheck(before, G.combo);
+  gainSp(n * (G.fever ? 3 : 1.6));
   for (let i = 0; i < n && !G.ended; i++) {
     const crit = Math.random() < (G.fever ? 0.16 : 0.08);
     monHit(comboMult() * (crit ? 2 : 1), crit ? 'crit' : 'hit');
@@ -2888,6 +3016,7 @@ function goHome(){
   show('home'); renderHome();
 }
 $('#quitBtn').addEventListener('click', goHome);
+$('#spBtn').addEventListener('click', () => { unlockAudio(); special(); });
 $('#toMenu').addEventListener('click', goHome);
 $('#again').addEventListener('click', () => { unlockAudio(); startGame(); });
 
@@ -2896,6 +3025,7 @@ document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
   if (VIEW === 'play' && G && !G.ended) {
     if (e.key === 'Escape') { goHome(); return; }
+    if (G.mode === 'monster' && (e.key === ' ' || e.key === 'Enter')) { e.preventDefault(); special(); return; }
     if (G.conv && /^[1-9]$/.test(e.key)) { e.preventDefault(); unlockAudio(); pick(G.cands[+e.key - 1]); return; }
     if (G.kb !== 'qwerty') return;
     if (e.key === 'Backspace') { e.preventDefault(); fnKey('bs'); return; }
