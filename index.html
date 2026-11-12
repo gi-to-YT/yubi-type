@@ -543,6 +543,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .links button{appearance:none;border:0;background:none;padding:6px 0;font-weight:700;font-size:14px;color:var(--ink);text-decoration:underline;text-decoration-color:var(--shu);text-decoration-thickness:2px;text-underline-offset:6px;cursor:pointer}
 /* ---- play: the text is written in ink as you type ---- */
 .clock{font:800 22px/1 var(--font-mincho);font-variant-numeric:tabular-nums}
+.tally .kps{display:block;font:800 11px/1.2 var(--font-mincho);color:var(--mute);font-variant-numeric:tabular-nums}
 .tally b{font:800 17px var(--font-mincho)}
 .meter i{background:var(--shu)}
 .ready{color:var(--shu-ink);background:var(--shu);border-radius:3px}
@@ -719,6 +720,8 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .zkp.curse svg,.zkp.curse b{color:var(--miss)}
 .zkp.unseen{opacity:.62}
 /* romaji spellings */
+.nickset{border-color:var(--line);margin-bottom:8px}
+:root.yuki .home .tag{color:var(--accent)}
 .setrow .seg.keysnd{grid-template-columns:repeat(4,minmax(0,1fr));width:200px}
 .setrow .seg.keysnd .opt{padding:9px 2px}
 .setrow .seg.keysnd .opt b{white-space:nowrap}
@@ -886,6 +889,11 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 
     <div class="group" id="settings">
       <h2 class="label">設定</h2>
+      <form class="nickform nickset" id="nickForm3">
+        <label for="nickInput3">名前（ランキングに出す名前・12文字まで）</label>
+        <div class="nickrow"><input id="nickInput3" maxlength="12" autocomplete="nickname" enterkeyhint="done"><button class="primary small" type="submit">決める</button></div>
+        <p class="msg" id="nickMsg3" hidden></p>
+      </form>
       <div class="optbox setrows">
         <div class="setrow"><label for="setSound">効果音<small>キーを押したときとミスしたときの音</small></label><input class="sw" type="checkbox" role="switch" id="setSound"></div>
         <div class="setrow"><span class="lt">打鍵音<small>キーを押したときの音</small></span>
@@ -936,7 +944,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
   <header class="bar">
     <button class="barbtn" id="quitBtn">やめる</button>
     <div class="clock" aria-live="off"><span id="clock">60.0</span><small id="clockUnit">秒</small></div>
-    <div class="tally"><b id="tChars">0</b> <span id="tUnit">字</span><span class="ms" id="tMiss"></span></div>
+    <div class="tally"><b id="tChars">0</b> <span id="tUnit">字</span><span class="ms" id="tMiss"></span><span class="kps" id="tKps"></span></div>
   </header>
   <div class="meter" aria-hidden="true"><i id="meter"></i></div>
   <main class="stage" id="stage">
@@ -1216,7 +1224,71 @@ const WORDS = `猫|ねこ
 効果音|こうかおん
 台本|だいほん
 サムネイル|さむねいる
-チャンネル登録|ちゃんねるとうろく`;
+チャンネル登録|ちゃんねるとうろく
+水族館|すいぞくかん
+美術館|びじゅつかん
+郵便局|ゆうびんきょく
+消防車|しょうぼうしゃ
+救急車|きゅうきゅうしゃ
+飛行機|ひこうき
+洗濯機|せんたくき
+充電器|じゅうでんき
+時刻表|じこくひょう
+文化祭|ぶんかさい
+修学旅行|しゅうがくりょこう
+星空|ほしぞら
+夕焼け|ゆうやけ
+焼きそば|やきそば
+たこ焼き|たこやき
+お好み焼き|おこのみやき
+親子丼|おやこどん
+回転寿司|かいてんずし
+かき氷|かきごおり
+抹茶|まっちゃ
+紅茶|こうちゃ
+牛乳|ぎゅうにゅう
+サンドイッチ|さんどいっち
+エレベーター|えれべーたー
+プラネタリウム|ぷらねたりうむ
+カレーライス|かれーらいす
+ヘッドホン|へっどほん
+バスケットボール|ばすけっとぼーる
+ギター|ぎたー
+金魚|きんぎょ
+カブトムシ|かぶとむし
+向日葵|ひまわり
+紫陽花|あじさい
+雷|かみなり
+台風|たいふう
+京都|きょうと
+大阪|おおさか
+東京タワー|とうきょうたわー
+待ち合わせ|まちあわせ
+早起き|はやおき
+夜ふかし|よふかし
+一生懸命|いっしょうけんめい
+大丈夫|だいじょうぶ
+試行錯誤|しこうさくご
+半信半疑|はんしんはんぎ
+起死回生|きしかいせい
+大器晩成|たいきばんせい
+臨機応変|りんきおうへん
+天体望遠鏡|てんたいぼうえんきょう
+打ち上げ花火|うちあげはなび
+浴衣|ゆかた
+雪合戦|ゆきがっせん
+大掃除|おおそうじ
+お年玉|おとしだま
+節分|せつぶん
+花見|はなみ
+月見|つきみ
+初日の出|はつひので
+大晦日|おおみそか
+時計台|とけいだい
+商店街|しょうてんがい
+横断歩道|おうだんほどう
+信号機|しんごうき
+自動販売機|じどうはんばいき`;
 
 const PROVERBS = `急がば回れ|いそがばまわれ
 猿も木から落ちる|さるもきからおちる
@@ -1267,7 +1339,29 @@ const PROVERBS = `急がば回れ|いそがばまわれ
 転ばぬ先の杖|ころばぬさきのつえ
 泣きっ面に蜂|なきっつらにはち
 二度あることは三度ある|にどあることはさんどある
-類は友を呼ぶ|るいはともをよぶ`;
+類は友を呼ぶ|るいはともをよぶ
+好きこそ物の_上手なれ|すきこそものの_じょうずなれ
+笑う門には福来る|わらうかどにはふくきたる
+腐っても鯛|くさってもたい
+弘法も筆の誤り|こうぼうもふでのあやまり
+河童の川流れ|かっぱのかわながれ
+情けは人のためならず|なさけはひとのためならず
+出る杭は打たれる|でるくいはうたれる
+住めば都|すめばみやこ
+論より証拠|ろんよりしょうこ
+一寸先は闇|いっすんさきはやみ
+骨折り損のくたびれもうけ|ほねおりぞんのくたびれもうけ
+石橋を叩いて渡る|いしばしをたたいてわたる
+蛙の子は蛙|かえるのこはかえる
+塞翁が馬|さいおうがうま
+隣の芝生は青い|となりのしばふはあおい
+三つ子の魂百まで|みつごのたましいひゃくまで
+喉元過ぎれば熱さを忘れる|のどもとすぎればあつさをわすれる
+寝耳に水|ねみみにみず
+棚からぼたもち|たなからぼたもち
+焼け石に水|やけいしにみず
+渡りに船|わたりにふね
+魚心あれば水心|うおごころあればみずごころ`;
 
 const SENTENCES = `今日はいい天気ですね。|きょうはいいてんきですね。
 駅前に新しいパン屋ができました。|えきまえにあたらしいぱんやができました。
@@ -1300,7 +1394,32 @@ const SENTENCES = `今日はいい天気ですね。|きょうはいいてんき
 新しい動画の字幕を、今日中に仕上げたい。|あたらしいどうがのじまくを、きょうじゅうにしあげたい。
 コンビニで温かいお茶を買って帰った。|こんびにであたたかいおちゃをかってかえった。
 明日は早起きして、朝日を見に行こう。|あしたははやおきして、あさひをみにいこう。
-雨上がりの道に、小さな水たまりがあった。|あめあがりのみちに、ちいさなみずたまりがあった。`;
+雨上がりの道に、小さな水たまりがあった。|あめあがりのみちに、ちいさなみずたまりがあった。
+朝ごはんにパンと牛乳を食べた。|あさごはんにぱんとぎゅうにゅうをたべた。
+駅前の本屋で新しい漫画を買った。|えきまえのほんやであたらしいまんがをかった。
+雨がやんだら公園に行こう。|あめがやんだらこうえんにいこう。
+放課後に友だちとカラオケに行った。|ほうかごにともだちとからおけにいった。
+夏祭りで金魚すくいをした。|なつまつりできんぎょすくいをした。
+窓の外に大きな虹が出ている。|まどのそとにおおきなにじがでている。
+冷蔵庫の中にプリンが残っていた。|れいぞうこのなかにぷりんがのこっていた。
+電車が遅れて、少し遅刻した。|でんしゃがおくれて、すこしちこくした。
+猫が日なたで気持ちよさそうに寝ている。|ねこがひなたできもちよさそうにねている。
+誕生日に手紙をもらってうれしかった。|たんじょうびにてがみをもらってうれしかった。
+スマホの充電がもうすぐ切れそうだ。|すまほのじゅうでんがもうすぐきれそうだ。
+星がきれいな夜に、流れ星を見つけた。|ほしがきれいなよるに、ながれぼしをみつけた。
+となりの席の人に消しゴムを借りた。|となりのせきのひとにけしごむをかりた。
+自転車で坂道を一気にかけ下りた。|じてんしゃでさかみちをいっきにかけおりた。
+宿題を終わらせてからゲームをする。|しゅくだいをおわらせてからげーむをする。
+図書館で静かに本を読んだ。|としょかんでしずかにほんをよんだ。
+海の見える町に住んでみたい。|うみのみえるまちにすんでみたい。
+コンビニで温かい肉まんを買った。|こんびにであたたかいにくまんをかった。
+入学式の日は、桜が満開だった。|にゅうがくしきのひは、さくらがまんかいだった。
+打ちまちがえても、あきらめずに続けよう。|うちまちがえても、あきらめずにつづけよう。
+休みの日は昼まで寝てしまった。|やすみのひはひるまでねてしまった。
+部活のあとに友だちとアイスを食べた。|ぶかつのあとにともだちとあいすをたべた。
+来週の土曜日に水族館へ行く予定だ。|らいしゅうのどようびにすいぞくかんへいくよていだ。
+夜空に花火が次々と上がった。|よぞらにはなびがつぎつぎとあがった。
+新しいくつで学校へ行くのが楽しみだ。|あたらしいくつでがっこうへいくのがたのしみだ。`;
 
 const CUSTOM_DEFAULT = `生麦生米生卵/なまむぎなまごめなまたまご
 隣の客はよく柿食う客だ/となりのきゃくはよくかきくうきゃくだ
@@ -1308,6 +1427,46 @@ const CUSTOM_DEFAULT = `生麦生米生卵/なまむぎなまごめなまたま�
 赤巻紙青巻紙黄巻紙/あかまきがみあおまきがみきまきがみ
 バスガス爆発/ばすがすばくはつ`;
 
+/* 裏コース「魔女裁判」: opens when the name is 月代ユキ. Only names and the words of the world, never lines from
+   the game's scenario (the fan guideline does not allow its scenario as material for fan works) */
+const MANOSABA = `桜羽エマ|さくらばえま
+二階堂ヒロ|にかいどうひろ
+夏目アンアン|なつめあんあん
+城ケ崎ノア|じょうがさきのあ
+蓮見レイア|はすみれいあ
+佐伯ミリア|さえきみりあ
+宝生マーゴ|ほうしょうまーご
+黒部ナノカ|くろべなのか
+紫藤アリサ|しどうありさ
+橘シェリー|たちばなしぇりー
+遠野ハンナ|とおのはんな
+沢渡ココ|さわたりここ
+氷上メルル|ひかみめるる
+月代ユキ|つきしろゆき
+ゴクチョー|ごくちょー
+魔法少女ノ魔女裁判|まほうしょうじょのまじょさいばん
+まのさば|まのさば
+魔女裁判|まじょさいばん
+牢屋敷|ろうやしき
+獄長|ごくちょう
+魔女|まじょ
+大魔女|だいまじょ
+魔女殺し|まじょごろし
+魔法議論|まほうぎろん
+絶海の孤島|ぜっかいのことう
+十三人の少女|じゅうさんにんのしょうじょ
+処刑|しょけい
+捜査|そうさ
+証拠|しょうこ
+証言|しょうげん
+矛盾|むじゅん
+投票|とうひょう
+犯人|はんにん
+囚人|しゅうじん
+共犯者|きょうはんしゃ
+ネタバレ注意|ねたばれちゅうい`;
+const YUKI = '月代ユキ';
+const yukiOn = () => getNick() === YUKI;
 const lines = s => s.trim().split('\n').map(x => x.trim()).filter(Boolean);
 const COURSES = [
   { id:'words',     name:'単語',       unit:'語', items: lines(WORDS) },
@@ -1315,7 +1474,8 @@ const COURSES = [
   { id:'sentences', name:'文章',       unit:'文', items: lines(SENTENCES) },
   { id:'daily',     name:'今日のダンジョン', unit:'問', items: null },
   { id:'weak',      name:'苦手特訓',   unit:'問', items: null },
-  { id:'custom',    name:'じぶんで追加', unit:'件', items: null }
+  { id:'custom',    name:'じぶんで追加', unit:'件', items: null },
+  { id:'manosaba',  name:'魔女裁判',   unit:'語', items: lines(MANOSABA), hidden:true }
 ];
 const courseById = id => COURSES.find(c => c.id === id) || COURSES[0];
 const splitItem = raw => { const i = raw.indexOf('|'); return i < 0 ? [raw, raw] : [raw.slice(0, i), raw.slice(i + 1)]; };
@@ -1780,13 +1940,16 @@ const bestKey = (kb, course, mode, conv, punct) => `best:${kb}:${course}:${BMODE
 /* ================= menu ================= */
 function renderHome(){
   if (S.course === 'daily') { S.course = 'words'; saveS(); }     // 今日のお題 has its own entrance now
+  if (S.course === 'manosaba' && !yukiOn()) { S.course = 'words'; saveS(); }
+  document.documentElement.classList.toggle('yuki', yukiOn());
+  $('#v-home .tag').textContent = yukiOn() ? 'ことばの迷宮・魔女裁判' : 'ことばの迷宮';
   document.querySelectorAll('[data-set]').forEach(b => b.setAttribute('aria-pressed', String(S[b.dataset.set] === b.dataset.val)));
   $('#kbNote').textContent = S.kb === 'qwerty'
     ? 'ローマ字で打ちます。shi と si、tsu と tu など、どの打ち方でも正解です。'
     : 'フリックでも、同じキーを続けて押すトグル入力でも打てます。濁点と小さい字は「小゛゜」キーで。';
   const box = $('#courses'); box.textContent = '';
   for (const c of COURSES) {
-    if (c.id === 'daily') continue;
+    if (c.id === 'daily' || (c.hidden && !yukiOn())) continue;
     const items = itemsOf(c.id);
     let sample = items.slice(0, 2).map(x => clean(splitItem(x)[0])).join('・') + '…';
     if (c.id === 'weak') sample = items.length ? '苦手：' + weakTop(S.kb, 4).map(x => x[0]).join('・') : 'ミスした字から問題を作ります';
@@ -1825,6 +1988,7 @@ function renderHome(){
   $('#openMeta').textContent = k ? `かけら ${k}` : 'かけら';
   const t = curTitle(), tl = $('#curTitle');
   tl.hidden = !t; if (t) tl.querySelector('b').textContent = t.name;
+  if (document.activeElement !== $('#nickInput3')) $('#nickInput3').value = getNick();
   $('#setSound').checked = S.sound; $('#setBgm').checked = S.bgm; $('#setVibe').checked = S.vibe;
   $('#setGuide').checked = S.guide; $('#setToggle').checked = S.toggle;
   $('#setConv').checked = S.conv; $('#setPunct').checked = S.punct;
@@ -2649,6 +2813,7 @@ function results(){
   const cpm = G.chars ? Math.round(G.chars / min) : 0;
   const acc = G.keys ? Math.round((G.keys - G.misses) / G.keys * 1000) / 10 : 0;
   const kpm = Math.round((G.keys - G.misses) / min);
+  const kps = Math.round((G.keys - G.misses) / el * 10) / 10;   // correct keystrokes a second
   let rank = RANKS[0][1], next = null;
   for (let i = 0; i < RANKS.length; i++) {
     if (cpm >= RANKS[i][0]) { rank = RANKS[i][1]; next = RANKS[i + 1] ? { need:RANKS[i + 1][0] - cpm, name:RANKS[i + 1][1] } : null; }
@@ -2661,7 +2826,7 @@ function results(){
   const newBest = G.chars > 0 && better;
   if (newBest) store.set(key, { cpm, acc, floor:G.floor, defeated:G.defeated, at:todayKey() });
   const weak = Object.entries(G.missMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  return { cpm, acc, kpm, el, rank, next, newBest, prev, weak,
+  return { cpm, acc, kpm, kps, el, rank, next, newBest, prev, weak,
            chars:G.chars, keys:G.keys, misses:G.misses, done:G.done, skipped:G.skipped,
            kb:G.kb, course:G.course, courseKey:G.courseKey, mode:G.mode, conv:G.conv, punct:G.punct,
            defeated:G.defeated, bosses:G.bosses, floor:G.floor, shards:G.shards, pw:Object.assign({}, G.pw),
@@ -2775,6 +2940,8 @@ function updateBar(){
   }
   $('#tChars').textContent = G.mode === 'monster' ? el.toFixed(1) : G.chars;
   $('#tMiss').textContent = G.misses ? `　ミス${G.misses}` : '';
+  const ke = G.started || G.resumed ? Math.min(G.elapsed, G.mode === 'time' ? LIMIT : Infinity) : 0;
+  $('#tKps').textContent = ke >= 2 ? `${((G.keys - G.misses) / ke).toFixed(1)}打/秒` : '';
 }
 function renderResult(R){
   const mon = R.mode === 'monster';
@@ -2800,15 +2967,15 @@ function renderResult(R){
   const cells = mon ? [
     ['たおした', R.defeated, '体'],
     ['ボス', R.bosses, '体'],
-    ['1分あたり', R.cpm, '文字'],
     ['正確率', R.acc, '%'],
-    ['ミス', R.misses, '回'],
+    ['1分あたり', R.cpm, '文字'],
+    ['1秒あたり', R.kps.toFixed(1), '打'],
     ['時間', R.el.toFixed(1), '秒']
   ] : [
     ['正確率', R.acc, '%'],
     ['ミス', R.misses, '回'],
     ['打てた文字', R.chars, '字'],
-    R.kb === 'qwerty' ? ['打鍵の速さ', R.kpm, '打/分'] : ['キー操作', R.keys, '回'],
+    ['1秒あたり', R.kps.toFixed(1), '打'],
     ['問題', R.done - R.skipped, R.skipped ? `問（パス${R.skipped}）` : '問'],
     ['時間', R.el.toFixed(1), '秒']
   ];
@@ -3696,7 +3863,7 @@ const SHARE_URL = 'https://gi-to-yt.github.io/yubi-type/';   // the app's public
 let LAST = null;
 function shareText(R){
   const out = [`ゆびタイプ｜${metaText(R)}`,
-    R.mode === 'monster' ? `地下${R.floor}階まで到達・${R.defeated}体撃破・${R.cpm}文字/分` : `${R.cpm}文字/分（${R.rank}）正確率${R.acc}%`];
+    R.mode === 'monster' ? `地下${R.floor}階まで到達・${R.defeated}体撃破・${R.cpm}文字/分・1秒あたり${R.kps.toFixed(1)}打` : `${R.cpm}文字/分（${R.rank}）1秒あたり${R.kps.toFixed(1)}打・正確率${R.acc}%`];
   const t = curTitle(); if (t) out.push(`称号：${t.name}`);
   out.push('#ゆびタイプ');
   if (SHARE_URL) out.push(SHARE_URL);
@@ -3763,7 +3930,7 @@ async function makeCard(R){
   const x = cv.getContext('2d');
   const F = '"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif', BR = '"Yuji Syuku","Hiragino Mincho ProN",serif', MC = '"Shippori Mincho B1","Hiragino Mincho ProN",serif';
   const title = curTitle(), mon = R.mode === 'monster';
-  const words = [metaText(R), '1分あたりの文字数たどり着いた階地下たおした正確率ミス打てた文字時間称号', title ? title.name : ''].join('');
+  const words = [metaText(R), '1分あたりの文字数1秒あたり打たどり着いた階地下たおした正確率ミス打てた文字時間称号', title ? title.name : ''].join('');
   try { await Promise.all([document.fonts.load(`400 40px "Yuji Syuku"`, 'ゆびタイプ階字分称号' + R.rank + (title ? title.name : '')), document.fonts.load(`800 40px "Shippori Mincho B1"`, 'ことばの迷宮0123456789.%体秒字'), document.fonts.load(`500 40px "Zen Kaku Gothic New"`, words)]); } catch(e) {}
   const C = { paper:'#F1EBDD', ink:'#1D1A16', mute:'#6A6357', line:'#CFC5B2' };
   const rnd = seeded(hashStr(todayKey() + R.cpm + R.rank));
@@ -3818,8 +3985,8 @@ async function makeCard(R){
     if (R.died && last) { x.strokeStyle = '#C0412A'; x.lineWidth = 4; x.beginPath(); x.moveTo(last.x - 10, last.y - 10); x.lineTo(last.x + 10, last.y + 10); x.moveTo(last.x + 10, last.y - 10); x.lineTo(last.x - 10, last.y + 10); x.stroke(); }
   }
   // the ledger
-  const stats = mon ? [['たおした', R.defeated + '体'], ['1分あたり', R.cpm + '字'], ['正確率', R.acc + '%'], ['時間', R.el.toFixed(1) + '秒']]
-                    : [['正確率', R.acc + '%'], ['ミス', R.misses + '回'], ['打てた文字', R.chars + '字'], ['時間', R.el.toFixed(1) + '秒']];
+  const stats = mon ? [['たおした', R.defeated + '体'], ['1分あたり', R.cpm + '字'], ['1秒あたり', R.kps.toFixed(1) + '打'], ['正確率', R.acc + '%'], ['時間', R.el.toFixed(1) + '秒']]
+                    : [['正確率', R.acc + '%'], ['ミス', R.misses + '回'], ['1秒あたり', R.kps.toFixed(1) + '打'], ['打てた文字', R.chars + '字'], ['時間', R.el.toFixed(1) + '秒']];
   x.strokeStyle = C.ink; x.lineWidth = 3;
   x.beginPath(); x.moveTo(96, 516); x.lineTo(W - 96, 516); x.moveTo(96, 612); x.lineTo(W - 96, 612); x.stroke();
   const colW = (W - 192) / stats.length;
@@ -4029,7 +4196,11 @@ async function rankAfterGame(R){
 function saveNick(input, msg){
   const v = cleanNick(input.value);
   if (!v) { msg.textContent = '1文字以上で入れてください。'; msg.hidden = false; return false; }
-  store.set('nick', v); msg.hidden = true; return true;
+  const was = yukiOn();
+  store.set('nick', v); msg.hidden = true;
+  if (!was && yukiOn()) { S.course = 'manosaba'; saveS(); setTimeout(() => toast('……隠しコース「魔女裁判」が開きました'), 900); }
+  if (was && !yukiOn() && S.course === 'manosaba') { S.course = 'words'; saveS(); }
+  return true;
 }
 $('#nickForm').addEventListener('submit', e => {
   e.preventDefault();
@@ -4038,6 +4209,10 @@ $('#nickForm').addEventListener('submit', e => {
 $('#nickForm2').addEventListener('submit', e => {
   e.preventDefault();
   if (saveNick($('#nickInput2'), $('#nickMsg2'))) { $('#nickForm2').hidden = true; renderRankView(); toast('名前を変えました。次に記録を更新したときから、この名前で載ります'); }
+});
+$('#nickForm3').addEventListener('submit', e => {
+  e.preventDefault();
+  if (saveNick($('#nickInput3'), $('#nickMsg3'))) { $('#nickInput3').blur(); renderHome(); if (!yukiOn()) toast('名前を決めました'); }
 });
 $('#nickEdit').addEventListener('click', () => { $('#nickInput2').value = getNick(); $('#nickForm2').hidden = false; $('#nickInput2').focus(); });
 let RTAB = 'daily', RKB = 'qwerty', RPER = 'week';
