@@ -1,6 +1,7 @@
 rules_version = '2';
 // ゆびタイプのランキング用。Firebase コンソールの Firestore Database →「ルール」に貼って「公開」する。
 // boards/<ランキングの名前>/entries/<匿名ログインのID> に、1人1件、いちばん良い点だけを置く。
+// ランキングの名前は「打ち方_コース_ルール_変換句読点」。打ち方は qwerty・flick・pc（本物のキーボード）。モンスター戦は dungeon（点は到達した階）。
 service cloud.firestore {
   match /databases/{database}/documents {
     match /boards/{board}/entries/{uid} {
@@ -9,7 +10,7 @@ service cloud.firestore {
       // 書けるのは自分の記録だけ。形と値の範囲も確かめる
       allow create, update: if request.auth != null
         && request.auth.uid == uid
-        && board.matches('^(qwerty|flick)_[a-z0-9-]{1,40}_(time|count|monster)_[01][01]$')
+        && board.matches('^(qwerty|flick|pc)_[a-z0-9-]{1,40}_(time|count|monster|dungeon)_[01][01]$')
         && request.resource.data.keys().hasOnly(['name', 's', 's2', 'a', 't', 'at'])
         && request.resource.data.keys().hasAll(['name', 's', 's2', 'a', 't', 'at'])
         && request.resource.data.name is string

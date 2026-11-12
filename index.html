@@ -317,6 +317,39 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .play.monster .disp.s1{font-size:34px}.play.monster .disp.s2{font-size:28px}.play.monster .disp.s3{font-size:22px}.play.monster .disp.s4{font-size:19px}
 .play.monster .peek{display:none}
 .stage.ended::after{content:attr(data-end)}
+/* ---- dungeon run: path choice, rewards ---- */
+.play{position:relative}
+.runlay{position:absolute;left:0;right:0;bottom:0;top:56px;z-index:40;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:16px var(--gut-r) calc(18px + env(safe-area-inset-bottom,0px)) var(--gut-l);background:color-mix(in srgb,var(--paper) 95%,transparent);overflow-y:auto}
+.runlay h2{margin:0;font-size:24px;line-height:1.3}
+.run-hp{margin:0;display:flex;align-items:center;gap:8px;font:700 13px var(--font-ui);color:var(--mute)}
+.run-hp .gauge{flex:1;max-width:240px}
+.run-hp b{font:700 13px var(--font-mono);color:var(--ink)}
+.run-opts{display:grid;gap:10px}
+.opt.node{flex-direction:row;align-items:center;gap:12px;padding:14px;color:var(--ink)}
+.opt.node svg{width:32px;height:32px;flex:none;color:var(--accent)}
+.opt.node .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.opt.node .key-n{margin-left:auto;font:700 12px var(--font-mono);color:var(--faint)}
+.opt.node.rare{border-color:var(--marker);box-shadow:inset 0 0 0 1px var(--marker)}
+.opt.node.rare svg{color:#C98A00}
+.runlay .opt.node{animation:layin .28s cubic-bezier(.16,1,.3,1) backwards}
+.runlay .opt.node:nth-child(2){animation-delay:.05s}.runlay .opt.node:nth-child(3){animation-delay:.1s}
+.runlay.wait .opt.node{pointer-events:none}
+@keyframes layin{from{opacity:0;transform:translateY(10px)}}
+.run-pw{margin:0;font-size:12px;color:var(--mute);line-height:1.6}
+.foe-art.elite svg{animation:bob 2.2s ease-in-out infinite,eliteAura 1.4s ease-in-out infinite}
+@keyframes eliteAura{0%,100%{filter:drop-shadow(0 0 4px rgba(214,51,51,.7))}50%{filter:drop-shadow(0 0 11px rgba(214,51,51,1))}}
+.foe-name.elite span{color:#FFC9C9}
+/* ---- the workshop (かけら) ---- */
+.shards{margin:0;font-size:15px;font-weight:700;display:flex;align-items:baseline;gap:10px}
+.shards b{font:700 26px var(--font-mono);color:var(--accent)}
+.shop{display:flex;flex-direction:column;gap:10px}
+.shop-row{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+.shop-row .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.shop-row .tx b{font-size:16px}
+.shop-row .tx .lv{margin-left:6px;font:700 12px var(--font-mono);color:var(--accent)}
+.shop-row .tx > span{font-size:12px;color:var(--mute);line-height:1.5}
+.shop-row button{width:auto;flex:none;padding:9px 12px;font-size:14px}
+.shop-row button:disabled{opacity:.45;cursor:default}
 /* ---- battle effects ---- */
 .fxcanvas{position:absolute;left:0;top:0;pointer-events:none;z-index:6}
 .confetti{position:fixed;left:0;top:0;pointer-events:none;z-index:90}
@@ -517,9 +550,10 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
       <div class="seg rules" role="group" aria-label="ルール">
         <button class="opt" data-set="mode" data-val="time"><b>60秒</b><span>時間内にどれだけ打てるか</span></button>
         <button class="opt" data-set="mode" data-val="count"><b>10問</b><span>打ち終えるまでの速さ</span></button>
-        <button class="opt" data-set="mode" data-val="monster"><b>モンスター戦</b><span>打って倒す。ミスで反撃</span></button>
+        <button class="opt" data-set="mode" data-val="monster"><b>モンスター戦</b><span>道を選んで地下へ。やられたら最初から</span></button>
       </div>
       <p class="note" id="modeNote" hidden></p>
+      <button class="linkbtn" id="openMeta" hidden>かけらで強くなる</button>
     </div>
 
     <div class="group">
@@ -614,6 +648,13 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
   </main>
   <div class="cands" id="cands" hidden><div class="cands-in" id="candsIn" role="group" aria-label="変換の候補"></div></div>
   <div class="kb" id="kb"></div>
+  <div class="runlay" id="runLay" role="dialog" aria-modal="true" aria-labelledby="runTitle" hidden>
+    <p class="run-hp" id="runHp"></p>
+    <h2 id="runTitle"></h2>
+    <p class="note" id="runSub" hidden></p>
+    <div class="run-opts" id="runOpts"></div>
+    <p class="run-pw" id="runPw"></p>
+  </div>
 </section>
 
 <section id="v-result" class="view scroll" hidden>
@@ -625,11 +666,17 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
       <span class="badge" id="rBadge" hidden>ベスト更新</span>
       <p class="sub" id="rBest"></p>
       <p class="sub" id="rNext"></p>
+      <p class="sub" id="rShards" hidden></p>
     </div>
     <dl class="stats" id="rStats"></dl>
     <div class="group" id="rAchBox" hidden>
       <h2 class="label">新しい称号</h2>
       <div class="weak" id="rAch" role="button" tabindex="0" aria-label="称号の一覧を開く"></div>
+    </div>
+    <div class="group" id="rPowBox" hidden>
+      <h2 class="label">集めたちから</h2>
+      <div class="weak" id="rPow"></div>
+      <button class="linkbtn" id="rOpenMeta">かけらで強くなる</button>
     </div>
     <div class="group">
       <h2 class="label">ミスした字</h2>
@@ -688,6 +735,15 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
   </div>
 </section>
 
+<section id="v-meta" class="view scroll" hidden>
+  <div class="wrap">
+    <div class="viewhead"><button class="barbtn" id="metaBack">もどる</button><h2>かけらで強くなる</h2></div>
+    <p class="shards">ことばのかけら<b id="metaK">0</b></p>
+    <p class="note">モンスター戦で敵を倒すと、かけらが手に入ります。やられても、かけらはなくなりません。ここで使った強さは、次の冒険からずっと続きます。</p>
+    <div class="shop" id="shop"></div>
+  </div>
+</section>
+
 <section id="v-rank" class="view scroll" hidden>
   <div class="wrap">
     <div class="viewhead"><button class="barbtn" id="rankBack">もどる</button><h2>ランキング</h2></div>
@@ -695,6 +751,12 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
       <button class="opt" data-rtab="daily"><b>今日のお題</b><span>毎日かわる10問</span></button>
       <button class="opt" data-rtab="combo"><b>いまの組み合わせ</b><span>メニューで選んだコースとルール</span></button>
     </div>
+    <div class="seg three" role="group" aria-label="打ち方">
+      <button class="opt" data-rkb="qwerty"><b>QWERTY</b></button>
+      <button class="opt" data-rkb="flick"><b>テンキー</b></button>
+      <button class="opt" data-rkb="pc"><b>PC</b></button>
+    </div>
+    <p class="note">PC は、本物のキーボードで打った記録です。スマホの画面で打った記録とは分けています。</p>
     <p class="note" id="rankWhat"></p>
     <p class="note" id="nickLine" hidden>ランキングでの名前：<b id="nickNow"></b>　<button class="linkbtn" id="nickEdit" type="button">変える</button></p>
     <form class="nickform" id="nickForm2" hidden>
@@ -1226,7 +1288,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 let VIEW = 'home';
 function show(v){
-  for (const id of ['home','custom','play','result','records','rank']) $('#v-' + id).hidden = id !== v;
+  for (const id of ['home','custom','play','result','records','rank','meta']) $('#v-' + id).hidden = id !== v;
   VIEW = v; document.documentElement.dataset.view = v;
   if (v !== 'play') { $('#keyPop').hidden = true; $('#flickPop').hidden = true; }
   if (v !== 'result') $('#cardModal').hidden = true;
@@ -1235,9 +1297,11 @@ function show(v){
   if (v === 'result') loadAd('result', 30000);
 }
 const LIMIT = 60, COUNT = 10;
-const RANKS = [[0,'指ならし'],[60,'見習い'],[120,'一人前'],[180,'達人'],[240,'名人'],[300,'神業']];
+const RANKS = [[0,'指ならし'],[30,'ひよっこ'],[50,'見習い'],[70,'駆け出し'],[90,'一人前'],[110,'腕利き'],[130,'熟練'],[150,'達人'],[170,'名人'],[190,'鉄人'],[210,'匠'],[240,'剣豪'],[270,'仙人'],[300,'神業'],[340,'神速'],[400,'伝説'],[460,'超人'],[540,'規格外']];
 const KEY_LABEL = { '-':'ー', ',':'、', '.':'。', '!':'！', '?':'？' };
-const bestKey = (kb, course, mode, conv, punct) => `best:${kb}:${course}:${mode}` + (conv ? ':conv' : '') + (punct === false ? ':np' : '');
+// the monster battle became a dungeon run (score = floor reached), so its records start fresh under a new name
+const BMODE = m => m === 'monster' ? 'dungeon' : m;
+const bestKey = (kb, course, mode, conv, punct) => `best:${kb}:${course}:${BMODE(mode)}` + (conv ? ':conv' : '') + (punct === false ? ':np' : '');
 
 /* ================= menu ================= */
 function renderHome(){
@@ -1265,8 +1329,11 @@ function renderHome(){
   mn.textContent = '今日のお題は、ルールによらず10問で打ちます。';
   const best = store.get(bestKey(S.kb, courseKey(S.course), mode, S.conv, S.punct), null);
   $('#best').innerHTML = !best ? 'この組み合わせの記録はまだありません'
-    : mode === 'monster' ? `この組み合わせのベスト　<b>${best.defeated || 0}</b> 体・${best.cpm} 文字/分`
+    : mode === 'monster' ? `この組み合わせのベスト　<b>B${best.floor || 0}F</b>・${best.cpm} 文字/分`
     : `この組み合わせのベスト　<b>${best.cpm}</b> 文字/分・正確率 ${best.acc}%`;
+  const om = $('#openMeta');
+  om.hidden = mode !== 'monster';
+  om.textContent = `かけらで強くなる（いま ${metaGet().k}個）`;
   const t = curTitle(), tl = $('#curTitle');
   tl.hidden = !t; if (t) tl.querySelector('b').textContent = t.name;
   $('#setSound').checked = S.sound; $('#setVibe').checked = S.vibe;
@@ -1663,7 +1730,8 @@ function startGame(){
         started:false, ended:false, t0:0, elapsed:0, raf:0,
         keys:0, misses:0, chars:0, done:0, skipped:0, missMap:{}, cands:[],
         combo:0, convOne:0, convMissed:false, maxConvWords:0,
-        defeated:0, bosses:0, damage:0, you:PLAYER_MAX, mon:null, bossPool:[], fever:false, sp:0, specials:0 };
+        defeated:0, bosses:0, damage:0, you:PLAYER_MAX, maxHp:PLAYER_MAX, mon:null, bossPool:[], fever:false, sp:0, specials:0,
+        hw:0, floor:1, pw:{}, shards:0, revives:0, freeMiss:0, paused:false, pauseAt:0, lay:null, ml:metaGet().lv };
   if (G.conv) buildIndex();
   buildKeyboard(G.kb);
   $('#cands').hidden = !G.conv;
@@ -1679,16 +1747,17 @@ function startGame(){
   $('#cands').classList.remove('nudge'); $('#tChars').classList.remove('bump');
   $('#arena').dataset.area = '';
   $('#arena').hidden = mode !== 'monster';
-  $('#tUnit').textContent = mode === 'monster' ? '体' : '字';
+  $('#tUnit').textContent = mode === 'monster' ? '' : '字';
+  $('#runLay').hidden = true;
   $('#fxl').textContent = '';
   if (mode === 'monster') {
     G.bossPool = [...courseById('sentences').items, ...courseById('proverbs').items].filter(x => prepare(x).R.length >= 12);
-    spawnMonster(1);
   }
   $('#ready').hidden = false;
   $('#stage').classList.remove('ended', 'miss');
   show('play');
   nextItem();
+  if (mode === 'monster') runBegin();
 }
 function nextItem(){
   while (G.queue.length - G.qi < 2) {
@@ -1842,11 +1911,11 @@ function begin(){
   tick();
 }
 function tick(){
-  if (!G || G.ended) return;
+  if (!G || G.ended || G.paused) return;
   G.elapsed = (performance.now() - G.t0) / 1000;
   if (G.mode === 'time' && G.elapsed >= LIMIT) { G.elapsed = LIMIT; updateBar(); finish(); return; }
   if (G.mode === 'monster' && G.mon) {
-    if (G.mon.next == null) G.mon.next = G.elapsed + G.mon.every;
+    if (G.mon.next == null) G.mon.next = G.elapsed + G.mon.every + G.mon.delay;
     if (G.elapsed >= G.mon.next) { G.mon.next = G.elapsed + G.mon.every; monAttack('timer'); if (G.ended) return; }
     $('#foeAtk').style.width = Math.max(0, Math.min(100, 100 * (1 - (G.mon.next - G.elapsed) / G.mon.every))) + '%';
   }
@@ -1854,7 +1923,7 @@ function tick(){
   G.raf = requestAnimationFrame(tick);
 }
 function press(id, dir){
-  if (!G || G.ended) return;
+  if (!G || G.ended || G.paused) return;
   if (id[0] === '@') return fnKey(id.slice(1));
   if (G.kb === 'qwerty') onRoma(id); else onFlick(id, dir || 'c');
 }
@@ -1909,7 +1978,7 @@ function onFlick(keyId, dir){
 function registerMiss(label){
   G.misses++;
   G.missMap[label] = (G.missMap[label] || 0) + 1;
-  G.combo = 0;
+  G.combo = G.mode === 'monster' && P('ink') ? Math.floor(G.combo / 2) : 0;   // 墨つぎ keeps half
   if (label === '変換') G.convMissed = true;
   fx('miss');
   renderAll();
@@ -1939,6 +2008,11 @@ function finish(){
   renderHint(); renderCands();
   const st = $('#stage');
   st.dataset.end = G.mode === 'monster' && G.you <= 0 ? 'やられた…' : 'おわり';
+  if (G.mode === 'monster') {
+    $('#runLay').hidden = true; G.lay = null;
+    // かけら stay with you after a defeat
+    if (G.started && G.shards > 0) { const M = metaGet(); M.k += G.shards; store.set('meta', M); }
+  }
   $('#v-play').classList.remove('fever', 'lowhp');
   st.classList.add('ended');
   const R = results();
@@ -1958,15 +2032,18 @@ function results(){
   const key = bestKey(G.kb, G.courseKey, G.mode, G.conv, G.punct);
   const prev = store.get(key, null);
   const better = G.mode === 'monster'
-    ? !prev || G.defeated > (prev.defeated || 0) || (G.defeated === (prev.defeated || 0) && cpm > prev.cpm)
+    ? !prev || G.floor > (prev.floor || 0) || (G.floor === (prev.floor || 0) && cpm > prev.cpm)
     : !prev || cpm > prev.cpm;
   const newBest = G.chars > 0 && better;
-  if (newBest) store.set(key, { cpm, acc, defeated:G.defeated, at:todayKey() });
+  if (newBest) store.set(key, { cpm, acc, floor:G.floor, defeated:G.defeated, at:todayKey() });
   const weak = Object.entries(G.missMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
   return { cpm, acc, kpm, el, rank, next, newBest, prev, weak,
            chars:G.chars, keys:G.keys, misses:G.misses, done:G.done, skipped:G.skipped,
            kb:G.kb, course:G.course, courseKey:G.courseKey, mode:G.mode, conv:G.conv, punct:G.punct,
-           defeated:G.defeated, bosses:G.bosses };
+           defeated:G.defeated, bosses:G.bosses, floor:G.floor, shards:G.shards, pw:Object.assign({}, G.pw),
+           powers:Object.values(G.pw).reduce((a, b) => a + b, 0),
+           // typed on a real keyboard: those records go to the PC ranking
+           src:G.hw > 0 ? 'pc' : G.kb };
 }
 
 /* ================= rendering ================= */
@@ -2056,25 +2133,32 @@ function updateBar(){
     $('#clockUnit').textContent = el.toFixed(1) + '秒';
     $('#meter').style.width = (G.done / COUNT * 100) + '%';
   }
-  $('#tChars').textContent = G.mode === 'monster' ? G.defeated : G.chars;
+  $('#tChars').textContent = G.mode === 'monster' ? `B${G.floor}F` : G.chars;
   $('#tMiss').textContent = G.misses ? `　ミス${G.misses}` : '';
 }
 function renderResult(R){
   const mon = R.mode === 'monster';
   $('#rMeta').textContent = metaText(R);
   $('#rRank').textContent = R.rank;
-  countUp($('#rScore'), mon ? R.defeated : R.cpm, R.newBest);
-  $('#rScoreLabel').textContent = mon ? 'たおしたモンスター（体）' : '1分あたりの文字数';
+  countUp($('#rScore'), mon ? R.floor : R.cpm, R.newBest);
+  $('#rScoreLabel').textContent = mon ? `たどり着いた階（地下${R.floor}階）` : '1分あたりの文字数';
   $('#rBadge').hidden = !R.newBest;
-  const pv = R.prev ? (mon ? `${R.prev.defeated || 0}体・${R.prev.cpm} 文字/分` : `${R.prev.cpm} 文字/分`) : '';
+  const pv = R.prev ? (mon ? `B${R.prev.floor || 0}F・${R.prev.cpm} 文字/分` : `${R.prev.cpm} 文字/分`) : '';
   $('#rBest').textContent = R.newBest ? (R.prev ? `これまでのベストは ${pv} でした` : 'この組み合わせの最初の記録です') : (R.prev ? `ベストは ${pv}` : '');
   $('#rNext').textContent = R.next ? `あと ${R.next.need} 文字/分で「${R.next.name}」` : 'いちばん上のランクです';
+  $('#rShards').hidden = !mon;
+  if (mon) $('#rShards').textContent = `ことばのかけら +${R.shards}（いま ${metaGet().k}個）`;
+  $('#rPowBox').hidden = !mon;
+  if (mon) {
+    const ids = Object.keys(R.pw);
+    $('#rPow').innerHTML = ids.length ? ids.map(id => `<span class="chip ach-chip"><b>${esc(powName(id))}</b>${R.pw[id] > 1 ? '×' + R.pw[id] : ''}</span>`).join('') : '<span class="note">ちからは集まりませんでした。</span>';
+  }
   const cells = mon ? [
+    ['たおした', R.defeated, '体'],
+    ['ボス', R.bosses, '体'],
     ['1分あたり', R.cpm, '文字'],
     ['正確率', R.acc, '%'],
     ['ミス', R.misses, '回'],
-    ['打てた文字', R.chars, '字'],
-    ['ボス', R.bosses, '体'],
     ['時間', R.el.toFixed(1), '秒']
   ] : [
     ['正確率', R.acc, '%'],
@@ -2100,7 +2184,8 @@ const todayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() +
 const dayNum = k => { const [y, m, d] = k.split('-').map(Number); return Date.UTC(y, m - 1, d) / 86400000; };
 const courseKey = c => c === 'daily' ? 'daily-' + todayKey() : c;
 const MODE_NAME = { time:'60秒', count:'10問', monster:'モンスター戦' };
-const metaText = R => `${R.kb === 'qwerty' ? 'QWERTY' : 'テンキー'}・${courseById(R.course).name}・${MODE_NAME[R.mode]}` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし');
+const KB_NAME = { qwerty:'QWERTY', flick:'テンキー', pc:'PC（キーボード）' };
+const metaText = R => `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・${courseById(R.course).name}・${MODE_NAME[R.mode]}` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし');
 function streakDays(){
   const set = new Set(store.get('days', []).map(dayNum));
   let d = dayNum(todayKey()), n = 0;
@@ -2147,15 +2232,19 @@ const ACH = [
   { id:'bigconv', name:'まとめ変換',       desc:'3語以上を1回で変換する',                 test:c => c.maxConvWords >= 3 },
   { id:'streak3', name:'三日坊主卒業',     desc:'3日続けて遊ぶ',                          test:c => c.streak >= 3 },
   { id:'streak7', name:'七日連続',         desc:'7日続けて遊ぶ',                          test:c => c.streak >= 7 },
-  { id:'cpm120',  name:'一人前の指',       desc:'1分あたり120文字',                       test:c => c.cpm >= 120 },
-  { id:'cpm180',  name:'達人の指',         desc:'1分あたり180文字',                       test:c => c.cpm >= 180 },
-  { id:'cpm240',  name:'名人の指',         desc:'1分あたり240文字',                       test:c => c.cpm >= 240 },
+  { id:'cpm120',  name:'一人前の指',       desc:'1分あたり90文字',                        test:c => c.cpm >= 90 },
+  { id:'cpm180',  name:'達人の指',         desc:'1分あたり150文字',                       test:c => c.cpm >= 150 },
+  { id:'cpm240',  name:'剣豪の指',         desc:'1分あたり240文字',                       test:c => c.cpm >= 240 },
   { id:'cpm300',  name:'神の指',           desc:'1分あたり300文字',                       test:c => c.cpm >= 300 },
+  { id:'cpm400',  name:'伝説の指',         desc:'1分あたり400文字',                       test:c => c.cpm >= 400 },
   { id:'perfect', name:'正確無比',         desc:'正確率100%で50文字以上打つ',             test:c => c.acc === 100 && c.chars >= 50 },
   { id:'k1000',   name:'千字の道',         desc:'打った文字が合わせて1,000字',            test:c => c.tot.chars >= 1000 },
   { id:'k10000',  name:'万字の道',         desc:'打った文字が合わせて10,000字',           test:c => c.tot.chars >= 10000 },
   { id:'mon5',    name:'モンスターハンター', desc:'モンスター戦で1回に5体たおす',         test:c => c.defeated >= 5 },
   { id:'boss',    name:'大王討伐',         desc:'モンスター戦でボスをたおす',             test:c => c.bosses >= 1 },
+  { id:'deep10',  name:'地下十階',         desc:'モンスター戦で B10F にたどり着く',       test:c => c.floor >= 10 },
+  { id:'deep25',  name:'深淵の住人',       desc:'モンスター戦で B25F にたどり着く',       test:c => c.floor >= 25 },
+  { id:'pow5',    name:'ちから持ち',       desc:'モンスター戦の1回で、ちからを5つ集める', test:c => c.powers >= 5 },
   { id:'both',    name:'二刀流',           desc:'QWERTY とテンキーの両方で遊ぶ',          test:c => !!(c.tot.kbs.qwerty && c.tot.kbs.flick) },
   { id:'weakfix', name:'苦手克服',         desc:'苦手特訓で、正確率95%以上・30文字以上',  test:c => c.course === 'weak' && c.acc >= 95 && c.chars >= 30 },
   { id:'daily',   name:'今日も一題',       desc:'今日のお題を最後まで打つ',               test:c => c.course === 'daily' && c.done >= COUNT },
@@ -2175,7 +2264,8 @@ function curTitle(){
 function recordGame(R){
   const day = todayKey();
   const hist = store.get('history', []);
-  hist.push({ t:Date.now(), day, kb:R.kb, course:R.courseKey, mode:R.mode, conv:R.conv, punct:R.punct, cpm:R.cpm, acc:R.acc, chars:R.chars, misses:R.misses, el:Math.round(R.el * 10) / 10, defeated:R.defeated });
+  hist.push({ t:Date.now(), day, kb:R.kb, src:R.src, course:R.courseKey, mode:BMODE(R.mode), conv:R.conv, punct:R.punct, cpm:R.cpm, acc:R.acc, chars:R.chars, misses:R.misses, el:Math.round(R.el * 10) / 10, defeated:R.defeated, floor:R.mode === 'monster' ? R.floor : undefined });
+  store.set('lastSrc', R.src);
   if (hist.length > 1000) hist.splice(0, hist.length - 1000);
   store.set('history', hist);
   const days = store.get('days', []);
@@ -2189,6 +2279,162 @@ function recordGame(R){
 
 /* ================= monster battle ================= */
 const PLAYER_MAX = 100;
+
+/* ---------- the dungeon run: one fight per floor, a fork in the road between floors,
+   a ちから (power) after each win, health carried over, and かけら kept for good ---------- */
+const POWERS = [
+  { id:'crit',    name:'会心の指', desc:'会心の確率 +8%' },
+  { id:'armor',   name:'鉄の表紙', desc:'受けるダメージ -2' },
+  { id:'mark',    name:'しおり',   desc:'勝つたびに体力 +6' },
+  { id:'slow',    name:'速読',     desc:'敵の攻撃が15%ゆっくりになる' },
+  { id:'punct',   name:'句読点',   desc:'ミスで受けるダメージが半分', once:true },
+  { id:'red',     name:'赤ペン',   desc:'1字のダメージ +20%' },
+  { id:'margin',  name:'余白',     desc:'最大体力 +15（そのぶん回復も）' },
+  { id:'dict',    name:'辞書',     desc:'必殺ゲージのたまり方 +40%' },
+  { id:'first',   name:'先手',     desc:'戦いの最初の攻撃が3秒おそくなる' },
+  { id:'ink',     name:'墨つぎ',   desc:'ミスしてもコンボが半分残る', once:true },
+  { id:'revise',  name:'推敲',     desc:'1回の戦いで最初のミスはダメージなし', rare:true },
+  { id:'seal',    name:'誤字封じ', desc:'10コンボごとに敵の攻撃が少しおそくなる', rare:true },
+  { id:'reprint', name:'再版',     desc:'やられたとき1回だけ、体力半分で立ち直る', rare:true },
+  { id:'rush',    name:'一気呵成', desc:'FEVER が30コンボで始まる', rare:true, once:true },
+  { id:'double',  name:'二重線',   desc:'会心のダメージが3倍', rare:true, once:true }
+];
+const META = [
+  { id:'hp',    name:'体力の書',     max:5, cost:l => 4 + 4 * l, desc:'最大体力 +10',                     now:l => `いま +${10 * l}` },
+  { id:'crit',  name:'会心の書',     max:5, cost:l => 5 + 5 * l, desc:'会心の確率 +2%',                   now:l => `いま +${2 * l}%` },
+  { id:'sp',    name:'必殺の書',     max:3, cost:l => 6 + 6 * l, desc:'必殺ゲージが25%たまった状態で始まる', now:l => `いま ${25 * l}%から` },
+  { id:'rest',  name:'休息の書',     max:3, cost:l => 5 + 5 * l, desc:'休憩で回復する量 +10%',             now:l => `いま +${10 * l}%` },
+  { id:'relic', name:'はじまりの書', max:1, cost:() => 15,       desc:'最初に「ちから」を1つ選んでから始める', now:() => 'もっている' }
+];
+const metaGet = () => { const m = store.get('meta', {}); return { k:Math.max(0, +m.k || 0), lv:Object.assign({}, m.lv) }; };
+const P = id => (G && G.pw && G.pw[id]) || 0;
+const powName = id => (POWERS.find(p => p.id === id) || { name:id }).name;
+const restPct = () => 35 + 10 * ((G && G.ml.rest) || 0);
+const ICON = {
+  battle:'<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/>',
+  elite:'<path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="12" r="1"/><path d="m12.5 17-.5-1-.5 1h1z"/>',
+  rest:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  treasure:'<rect x="3" y="9" width="18" height="11" rx="2"/><path d="M3 13h18"/><path d="M5 9a7 5 0 0 1 14 0"/><path d="M12 12v3"/>',
+  boss:'<path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.3l4.27-3.67a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.28 3.67a1 1 0 0 0 1.51-.3z"/><path d="M5 21h14"/>',
+  power:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+  rare:'<path d="M11.53 2.3a.53.53 0 0 1 .95 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.01a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .3-.91l5.16-.75a2.12 2.12 0 0 0 1.6-1.16z"/>',
+  go:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>'
+};
+const icon = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const NODE = {
+  battle:   { name:'戦闘',       desc:() => '勝つと、ちからを3つから1つ・かけら+1' },
+  elite:    { name:'強敵',       desc:() => '手ごわい。めずらしいちからが出る・かけら+3' },
+  rest:     { name:'休憩',       desc:() => `体力を${restPct()}%回復（いま ${G.you}/${G.maxHp}）` },
+  treasure: { name:'宝箱',       desc:() => 'ちからが1つ入っている・かけら+2' },
+  boss:     { name:'ボスの部屋', desc:() => '倒すと体力が40%回復・かけら+5' }
+};
+function pauseRun(){
+  if (!G || G.paused) return;
+  G.paused = true; G.pauseAt = performance.now();
+  cancelAnimationFrame(G.raf);
+}
+function resumeRun(){
+  if (!G || !G.paused || G.ended) return;
+  G.paused = false;
+  if (G.started) { G.t0 += performance.now() - G.pauseAt; tick(); }
+}
+function runBegin(){
+  G.maxHp = PLAYER_MAX + 10 * (G.ml.hp || 0); G.you = G.maxHp;
+  G.sp = 25 * (G.ml.sp || 0);
+  G.floor = 1;
+  updateBar();
+  if (G.ml.relic) offerPowers('start', 0);
+  else enterNode('battle');
+}
+/* one panel over the stage and keyboard for every choice between fights */
+function openLay(title, sub, opts, onPick){
+  pauseRun();
+  const lay = $('#runLay');
+  lay.style.top = $('#stage').offsetTop + 'px';
+  $('#runTitle').textContent = title;
+  $('#runSub').textContent = sub || ''; $('#runSub').hidden = !sub;
+  $('#runHp').innerHTML = `体力<span class="gauge you"><i style="width:${Math.max(0, G.you / G.maxHp * 100)}%"></i></span><b>${G.you}/${G.maxHp}</b>`;
+  const owned = Object.keys(G.pw);
+  $('#runPw').textContent = owned.length ? 'ちから：' + owned.map(id => powName(id) + (G.pw[id] > 1 ? '×' + G.pw[id] : '')).join('・') : '';
+  const box = $('#runOpts'); box.textContent = '';
+  opts.forEach((o, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt node' + (o.rare ? ' rare' : '');
+    b.innerHTML = icon(o.icon) + `<span class="tx"><b>${esc(o.name)}</b>${o.desc ? `<span>${esc(o.desc)}</span>` : ''}</span>` + (opts.length > 1 ? `<span class="key-n">${i + 1}</span>` : '');
+    b.addEventListener('click', () => layPick(i));
+    box.appendChild(b);
+  });
+  G.lay = { opts, onPick, at:Date.now() };
+  // a thumb still tapping keys must not choose by accident
+  lay.classList.add('wait'); clearTimeout(lay._w); lay._w = setTimeout(() => lay.classList.remove('wait'), 450);
+  lay.hidden = false;
+}
+function layPick(i){
+  if (!G || G.ended || !G.lay || Date.now() - G.lay.at < 450 || !G.lay.opts[i]) return;
+  const L = G.lay;
+  G.lay = null; $('#runLay').hidden = true;
+  unlockAudio(); sfx('milestone');
+  L.onPick(i);
+}
+function rollPowers(n, rare){
+  const ok = p => !(p.once && P(p.id));
+  const commons = shuffle(POWERS.filter(p => !p.rare && ok(p))), rares = shuffle(POWERS.filter(p => p.rare && ok(p)));
+  const out = [];
+  if (rare >= 1 && rares.length) out.push(rares.shift().id);
+  while (out.length < n) {
+    const p = (rares.length && (Math.random() < rare || !commons.length)) ? rares.shift() : commons.shift();
+    if (!p) break;
+    out.push(p.id);
+  }
+  return shuffle(out);
+}
+const powOpt = id => { const p = POWERS.find(q => q.id === id); return { icon:p.rare ? 'rare' : 'power', name:p.name + (P(id) ? `（いま×${P(id)}）` : ''), desc:p.desc, rare:!!p.rare }; };
+function applyPower(id){
+  G.pw[id] = (G.pw[id] || 0) + 1;
+  if (id === 'margin') { G.maxHp += 15; G.you += 15; }
+  renderArena();
+}
+function offerPowers(kind, sh){
+  const ids = rollPowers(3, kind === 'battle' ? 0.15 : kind === 'start' ? 0.2 : 1);
+  const title = kind === 'start' ? 'はじまりのちからを選ぶ' : kind === 'boss' ? 'ボスをたおした！　ちからを選ぶ' : '勝った！　ちからを1つ選ぶ';
+  const sub = kind === 'start' ? 'はじまりの書の力で、ひとつ持って出発します。' : `ことばのかけら +${sh}` + (kind === 'boss' ? '・体力が40%回復した' : '');
+  openLay(title, sub, ids.map(powOpt), i => { applyPower(ids[i]); if (kind === 'start') enterNode('battle'); else nextFloor(); });
+}
+function makeNodes(f){
+  if (f % 5 === 0) return ['boss'];
+  const n = ['battle'];
+  if (f >= 3 && Math.random() < 0.55) n.push('elite');
+  if (f % 5 === 4 || Math.random() < 0.35) n.push('rest');      // always a chance to rest before a boss
+  if (Math.random() < 0.2) n.push('treasure');
+  if (n.length === 1) n.push(f >= 3 ? 'elite' : 'rest');
+  if (n.length > 3) n.splice(f % 5 === 4 ? n.indexOf('elite') : 1 + Math.floor(Math.random() * 3), 1);
+  return n;
+}
+function nextFloor(){
+  G.floor++;
+  updateBar();
+  const f = G.floor, nodes = makeNodes(f);
+  openLay(f % 5 === 0 ? `B${f}F　ボスの気配がする` : `B${f}F　どの道を進む？`, '',
+          nodes.map(t => ({ icon:t, name:NODE[t].name, desc:NODE[t].desc() })), i => enterNode(nodes[i]));
+}
+function enterNode(type){
+  const f = G.floor;
+  if (type === 'rest') {
+    const got = Math.min(Math.round(G.maxHp * restPct() / 100), G.maxHp - G.you);
+    G.you += got; renderArena();
+    openLay(`B${f}F　ひと休み`, `体力が ${got} 回復した。`, [{ icon:'go', name:'先へ進む' }], () => nextFloor());
+    return;
+  }
+  if (type === 'treasure') {
+    const id = rollPowers(1, 0.35)[0];
+    G.shards += 2;
+    applyPower(id);
+    openLay(`B${f}F　宝箱をあけた`, 'このちからが入っていた・ことばのかけら +2', [powOpt(id)], () => nextFloor());
+    return;
+  }
+  spawnMonster(f, type);
+  resumeRun();
+}
 /* five areas, each with four monsters and a boss; the area (and its scene) changes every five monsters */
 const AREAS = [
   { name:'そうげん', mons:[
@@ -2389,7 +2635,8 @@ const vib = p => { if (S.vibe && navigator.vibrate) try { navigator.vibrate(p); 
 const comboMult = () => G.combo >= 100 ? 2.5 : G.combo >= 50 ? 2 : G.combo >= 30 ? 1.5 : 1;
 const COMBO_CALLS = [[10, 'Nice!', 'combo t1'], [30, 'Great!!', 'combo t2'], [100, 'GOD!!!!', 'fever'], [150, 'UNSTOPPABLE!!', 'fever'], [200, 'LEGEND!!!', 'fever']];
 function comboCheck(a, b){
-  if (a < 50 && b >= 50) { feverOn(); return; }
+  const fa = P('rush') ? 30 : 50;
+  if (a < fa && b >= fa) { feverOn(); return; }
   for (const [m, text, kind] of COMBO_CALLS) if (a < m && b >= m) { banner(text, kind); sfx('milestone'); }
 }
 function feverOn(){
@@ -2398,23 +2645,30 @@ function feverOn(){
   const { L, x, y } = foePoint(); burst(L, x, y, 30, HUES.conv, 7, { stars:10, ring:90 });
 }
 function feverOff(){ if (G && G.fever) { G.fever = false; $('#v-play').classList.remove('fever'); } }
-function spawnMonster(n){
-  const ai = Math.floor((n - 1) / 5) % AREAS.length, area = AREAS[ai], boss = n % 5 === 0;
-  const t = boss ? area.boss : area.mons[(n - 1) % 5];
-  const hp = boss ? 70 + 25 * (n / 5 - 1) : 24 + 6 * (n - 1);
-  G.mon = { n, boss, name:t.name, kind:t.kind, color:t.color, c2:t.c2, hp, max:hp,
-            atk: boss ? 9 + n : 5 + Math.floor(n / 2),
-            every: Math.max(3.5, (boss ? 7 : 9) - 0.35 * (n - 1)) };
-  // a boss gives you a moment to read the warning before it starts attacking
-  G.mon.next = G.started ? G.elapsed + G.mon.every + (boss ? 1.5 : 0) : null;
+/* one monster per floor; the area (and its scene) changes every five floors, a boss guards each fifth floor */
+function spawnMonster(n, type){
+  const ai = Math.floor((n - 1) / 5) % AREAS.length, area = AREAS[ai], boss = type === 'boss', elite = type === 'elite';
+  const t = boss ? area.boss : area.mons[Math.floor(Math.random() * area.mons.length)];
+  let hp, atk, every;
+  if (boss) { hp = 60 + 26 * (n / 5 - 1); atk = 5 + Math.floor(n * 0.45); every = Math.max(4.5, 8 - 0.12 * (n - 1)); }
+  else {
+    hp = 20 + 4 * (n - 1); atk = 3 + Math.floor(n * 0.4); every = Math.max(5, 10 - 0.2 * (n - 1));
+    if (elite) { hp = Math.round(hp * 1.5); atk = Math.ceil(atk * 1.3); every *= 0.9; }
+  }
+  every *= 1 + 0.15 * P('slow');
+  // a boss gives you a moment to read the warning before it starts attacking; 先手 delays every first attack
+  G.mon = { n, boss, elite, name:t.name, kind:t.kind, color:t.color, c2:t.c2, hp, max:hp, atk, every, delay:(boss ? 1.5 : 0) + 3 * P('first') };
+  G.freeMiss = P('revise');
+  G.mon.next = G.started ? G.elapsed + G.mon.every + G.mon.delay : null;
   const art = $('#foeArt'), ar = $('#arena');
   // a new area every five monsters: new scene and a call-out
   if (ar.dataset.area !== String(ai + 1)) {
     ar.dataset.area = ai + 1;
-    if (n > 1) setTimeout(() => { if (G && !G.ended && G.mon && G.mon.n === n) { banner(`AREA ${Math.floor((n - 1) / 5) + 1}　${area.name}`, 'area'); sfx('milestone'); } }, 520);
+    if (n > 1) setTimeout(() => { if (G && !G.ended && G.mon && G.mon.n === n) { banner(`B${n}F〜　${area.name}`, 'area'); sfx('milestone'); } }, 520);
   }
   art.innerHTML = monSvg(G.mon);
   art.classList.toggle('boss', boss);
+  art.classList.toggle('elite', elite);
   art.classList.remove('spawn', 'hit'); void art.offsetWidth; art.classList.add('spawn');
   clearTimeout(art._sp); art._sp = setTimeout(() => art.classList.remove('spawn', 'hit'), 1000);
   requestAnimationFrame(smoke);
@@ -2473,17 +2727,33 @@ function monHit(dmg, kind){
   hitFx(dmg, kind);
   if (m.hp <= 0) {
     G.defeated++; if (m.boss) G.bosses++;
-    G.you = Math.min(PLAYER_MAX, G.you + (m.boss ? 25 : 8));
+    const sh = m.boss ? 5 : m.elite ? 3 : 1;
+    G.shards += sh;
+    G.you = Math.min(G.maxHp, G.you + 6 * P('mark') + (m.boss ? Math.round(G.maxHp * 0.4) : 0));
     killFx(m);
-    spawnMonster(m.n + 1);
+    // the floor is cleared: stop the clock and, after the explosion, choose a ちから and the next path
+    G.mon = null; pauseRun();
+    $('#foeArt').innerHTML = '';
+    renderArena();
+    const g = G;
+    setTimeout(() => { if (G === g && !G.ended) offerPowers(m.boss ? 'boss' : m.elite ? 'elite' : 'battle', sh); }, 900);
   } else renderArena();
 }
 function monAttack(why){
   const m = G.mon;
-  if (!m || G.ended) return;
-  const dmg = why === 'miss' ? Math.ceil(m.atk * 0.6) : m.atk;
+  if (!m || G.ended || G.paused) return;
+  let dmg = why === 'miss' ? Math.ceil(m.atk * 0.4) : m.atk;
+  if (why === 'miss') {
+    if (G.freeMiss > 0) { G.freeMiss--; banner('推敲！　ダメージなし', 'ok'); return; }
+    if (P('punct')) dmg = Math.ceil(dmg / 2);
+  }
+  dmg = Math.max(1, dmg - 2 * P('armor'));
   G.you = Math.max(0, G.you - dmg);
   hurtFx(dmg);
+  if (G.you <= 0 && G.revives < P('reprint')) {
+    G.revives++; G.you = Math.ceil(G.maxHp / 2);
+    setTimeout(() => { if (G && !G.ended) { banner('再版！　立ち直った', 'ok'); sfx('fanfare'); } }, 300);
+  }
   renderArena();
   if (G.you <= 0) finish();
 }
@@ -2498,16 +2768,21 @@ function convAttack(total, words){
   }, i * 110);
 }
 function renderArena(){
-  const m = G.mon; if (!m) return;
-  $('#foeName').textContent = m.name;
-  $('#foeName').classList.toggle('boss', m.boss);
-  $('#foeLv').textContent = (m.boss ? 'BOSS ' : '') + 'Lv.' + m.n;
-  const w = Math.max(0, m.hp / m.max * 100) + '%';
-  $('#foeHp').style.width = w; $('#foeHpGhost').style.width = w;
-  $('#foeHpN').textContent = Math.max(0, Math.ceil(m.hp)) + '/' + m.max;
-  $('#youHp').style.width = (G.you / PLAYER_MAX * 100) + '%';
+  if (!G) return;
+  const m = G.mon;
+  $('#youHp').style.width = Math.max(0, G.you / G.maxHp * 100) + '%';
   $('#youHpN').textContent = G.you;
-  $('#v-play').classList.toggle('lowhp', G.you > 0 && G.you <= 30);
+  $('#v-play').classList.toggle('lowhp', G.you > 0 && G.you <= G.maxHp * 0.3);
+  $('#arena .foe-top').style.visibility = m ? '' : 'hidden';
+  if (m) {
+    $('#foeName').textContent = m.name;
+    $('#foeName').classList.toggle('boss', m.boss);
+    $('#foeName').classList.toggle('elite', !!m.elite);
+    $('#foeLv').textContent = (m.boss ? 'BOSS ' : m.elite ? '強敵 ' : '') + 'Lv.' + m.n;
+    const w = Math.max(0, m.hp / m.max * 100) + '%';
+    $('#foeHp').style.width = w; $('#foeHpGhost').style.width = w;
+    $('#foeHpN').textContent = Math.max(0, Math.ceil(m.hp)) + '/' + m.max;
+  }
   const c = $('#cmb'), tier = G.combo >= 100 ? 4 : G.combo >= 50 ? 3 : G.combo >= 30 ? 2 : G.combo >= 10 ? 1 : 0;
   c.hidden = !tier;
   if (tier) {
@@ -2525,7 +2800,7 @@ function renderArena(){
 /* the special gauge fills as you type; when full, 必殺技 lands a flurry worth about half the foe's health */
 function gainSp(v){
   if (G.mode !== 'monster' || G.sp >= 100) return;
-  G.sp = Math.min(100, G.sp + v);
+  G.sp = Math.min(100, G.sp + v * (1 + 0.4 * P('dict')));
   if (G.sp >= 100) { banner('必殺技 OK!', 'ok'); sfx('milestone'); vib(30); }
 }
 function special(){
@@ -2549,12 +2824,16 @@ function addChars(n){
   if (n <= 0) return;
   const before = G.combo;
   G.chars += n; G.combo += n;
-  if (G.mode !== 'monster') return;
+  if (G.mode !== 'monster' || !G.mon) return;
   comboCheck(before, G.combo);
   gainSp(n * (G.fever ? 3 : 1.6));
-  for (let i = 0; i < n && !G.ended; i++) {
-    const crit = Math.random() < (G.fever ? 0.16 : 0.08);
-    monHit(comboMult() * (crit ? 2 : 1), crit ? 'crit' : 'hit');
+  const seal = P('seal');
+  if (seal && Math.floor(G.combo / 10) > Math.floor(before / 10) && G.mon.next != null) G.mon.next = Math.min(G.mon.next + 0.8 * seal, G.elapsed + G.mon.every);
+  const red = 1 + 0.2 * P('red'), cm = P('double') ? 3 : 2;
+  const cr = (G.fever ? 0.16 : 0.08) + 0.08 * P('crit') + 0.02 * (G.ml.crit || 0);
+  for (let i = 0; i < n && !G.ended && G.mon; i++) {
+    const crit = Math.random() < cr;
+    monHit(comboMult() * red * (crit ? cm : 1), crit ? 'crit' : 'hit');
   }
 }
 
@@ -2659,7 +2938,7 @@ let clearArm = 0;
 $('#recClear').addEventListener('click', () => {
   const b = $('#recClear');
   if (Date.now() - clearArm > 5000) { clearArm = Date.now(); b.textContent = 'もう一度押すと、記録と称号をすべて消します'; return; }
-  try { for (const k of Object.keys(localStorage)) if (k.startsWith('yubi:') && !['yubi:settings', 'yubi:customText'].includes(k)) localStorage.removeItem(k); } catch(e) {}
+  try { for (const k of Object.keys(localStorage)) if (k.startsWith('yubi:') && !['yubi:settings', 'yubi:customText', 'yubi:meta', 'yubi:nick'].includes(k)) localStorage.removeItem(k); } catch(e) {}
   delete S.title; saveS();
   clearArm = 0; b.textContent = '記録を消す';
   renderRecords(); toast('記録を消しました');
@@ -2672,7 +2951,7 @@ const SHARE_URL = 'https://gi-to-yt.github.io/yubi-type/';   // the app's public
 let LAST = null;
 function shareText(R){
   const out = [`ゆびタイプ｜${metaText(R)}`,
-    R.mode === 'monster' ? `モンスター${R.defeated}体撃破・${R.cpm}文字/分・正確率${R.acc}%` : `${R.cpm}文字/分（${R.rank}）正確率${R.acc}%`];
+    R.mode === 'monster' ? `地下B${R.floor}Fまで到達・${R.defeated}体撃破・${R.cpm}文字/分` : `${R.cpm}文字/分（${R.rank}）正確率${R.acc}%`];
   const t = curTitle(); if (t) out.push(`称号：${t.name}`);
   out.push('#ゆびタイプ');
   if (SHARE_URL) out.push(SHARE_URL);
@@ -2701,7 +2980,7 @@ async function makeCard(R){
   const x = cv.getContext('2d');
   const F = '"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif', MN = '"JetBrains Mono",ui-monospace,Menlo,monospace';
   const title = curTitle();
-  const words = ['ゆびタイプ', metaText(R), R.rank, '文字/分体たおしたモンスター正確率ミス打てた文字時間称号', title ? title.name : '', 'ゆや「」よ#'].join('');
+  const words = ['ゆびタイプ', metaText(R), R.rank, '文字/分体たおしたモンスター正確率ミス打てた文字時間称号たどり着いた階地下', title ? title.name : '', 'ゆや「」よ#'].join('');
   try { await Promise.all([document.fonts.load(`700 40px "Zen Kaku Gothic New"`, words), document.fonts.load(`500 40px "Zen Kaku Gothic New"`, words), document.fonts.load(`700 40px "JetBrains Mono"`, '0123456789./%-')]); } catch(e) {}
   const C = { bg:'#E7ECF3', card:'#FFFFFF', ink:'#141A24', mute:'#5E6878', line:'#D5DBE4', accent:'#2448D8', soft:'#DCE4FF', marker:'#FFD43B' };
   x.fillStyle = C.bg; x.fillRect(0, 0, W, H);
@@ -2721,11 +3000,11 @@ async function makeCard(R){
   x.textAlign = 'right'; x.font = `500 26px ${MN}`; x.fillText(todayKey().replace(/-/g, '.'), W - 96, 150); x.textAlign = 'left';
   // headline number
   const mon = R.mode === 'monster';
-  const big = String(mon ? R.defeated : R.cpm);
+  const big = mon ? `B${R.floor}F` : String(R.cpm);
   x.fillStyle = C.ink; x.font = `700 190px ${MN}`; x.fillText(big, 90, 420);
   const bw = x.measureText(big).width;
-  x.fillStyle = C.mute; x.font = `700 34px ${F}`; x.fillText(mon ? '体' : '文字/分', 100 + bw, 420);
-  x.font = `500 24px ${F}`; x.fillText(mon ? 'たおしたモンスター' : '1分あたりの文字数', 96, 462);
+  x.fillStyle = C.mute; x.font = `700 34px ${F}`; x.fillText(mon ? '' : '文字/分', 100 + bw, 420);
+  x.font = `500 24px ${F}`; x.fillText(mon ? 'たどり着いた階' : '1分あたりの文字数', 96, 462);
   // rank pill
   x.font = `700 58px ${F}`;
   const rw = x.measureText(R.rank).width + 64;
@@ -2733,7 +3012,7 @@ async function makeCard(R){
   x.fillStyle = C.accent; x.textAlign = 'center'; x.fillText(R.rank, W - 96 - rw / 2, 368); x.textAlign = 'left';
   x.fillStyle = C.mute; x.font = `500 22px ${F}`; x.textAlign = 'right'; x.fillText('ランク', W - 96, 284); x.textAlign = 'left';
   // stats row
-  const stats = mon ? [['文字/分', R.cpm], ['正確率', R.acc + '%'], ['ミス', R.misses], ['時間', R.el.toFixed(1) + '秒']]
+  const stats = mon ? [['たおした', R.defeated + '体'], ['文字/分', R.cpm], ['正確率', R.acc + '%'], ['時間', R.el.toFixed(1) + '秒']]
                     : [['正確率', R.acc + '%'], ['ミス', R.misses], ['打てた文字', R.chars], ['時間', R.el.toFixed(1) + '秒']];
   x.strokeStyle = C.line; x.lineWidth = 2; x.beginPath(); x.moveTo(96, 504); x.lineTo(W - 96, 504); x.stroke();
   const colW = (W - 192) / stats.length;
@@ -2792,12 +3071,13 @@ const FIREBASE_CONFIG = {
 const FB_SDK = 'https://www.gstatic.com/firebasejs/10.14.1/';
 const MAX_SCORE = 1500;          // the rules refuse anything above this, so do not send it
 const RANK = { ready:null, be:null };
-const boardKeyOf = (kb, ck, mode, conv, punct) => `${kb}_${ck}_${mode}_${conv ? 1 : 0}${punct ? 1 : 0}`;
+// kb is qwerty, flick or pc (anything typed on a real keyboard)
+const boardKeyOf = (kb, ck, mode, conv, punct) => `${kb}_${ck}_${BMODE(mode)}_${conv ? 1 : 0}${punct ? 1 : 0}`;
 const inClaude = () => !!(window.claude && typeof window.claude.use === 'function');
 const rankOffText = () => inClaude() ? 'みんなのランキングは、claude.ai でこのページを開いたときに使えます。'
   : FIREBASE_CONFIG ? 'ランキングにつなげませんでした。時間をおいて開き直してください。' : 'みんなのランキングは準備中です。';
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
-const scoreOf = R => R.mode === 'monster' ? [R.defeated, R.cpm] : [R.cpm, R.acc];
+const scoreOf = R => R.mode === 'monster' ? [R.floor, R.cpm] : [R.cpm, R.acc];
 const beats = (a, b) => !b || a[0] > b[0] || (a[0] === b[0] && a[1] > b[1]);
 const cleanNick = s => String(s || '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 12);
 const getNick = () => cleanNick(store.get('nick', ''));
@@ -2912,7 +3192,7 @@ function fillRankList(ol, rows, mode, max, extra){
     const li = document.createElement('li'); if (r.me) li.className = 'me';
     const n = document.createElement('span'); n.className = 'rk'; n.textContent = r.place;
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.me ? `${r.name}（あなた）` : r.name;
-    const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = mode === 'monster' ? `${r.s}体・${r.s2}文字/分` : `${r.s} 文字/分`;
+    const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = mode === 'monster' ? `B${r.s}F・${r.s2}文字/分` : `${r.s} 文字/分`;
     li.append(n, nm, sc); ol.appendChild(li);
   }
 }
@@ -2922,7 +3202,7 @@ async function rankAfterGame(R){
   ol.textContent = ''; box.textContent = 'ランキングを確かめています…';
   $('#nickForm').hidden = true;
   if (!(await rankInit())) { box.textContent = rankOffText(); return; }
-  const be = RANK.be, key = boardKeyOf(R.kb, R.courseKey, R.mode, R.conv, R.punct);
+  const be = RANK.be, key = boardKeyOf(R.src, R.courseKey, R.mode, R.conv, R.punct);
   let sent = 'kept';
   if (R.chars > 0) sent = await be.submit(R, key);
   let res = null;
@@ -2930,7 +3210,7 @@ async function rankAfterGame(R){
   if (LAST !== R) return;
   if (sent === 'needname') { $('#nickInput').value = ''; $('#nickForm').hidden = false; }
   if (!res) { box.textContent = 'ランキングを読み込めませんでした。'; return; }
-  box.textContent = (res.meRow ? `${res.total}人中 ${res.meRow.place}位` : res.total ? `${res.total}人が記録しています` : 'まだだれも記録していません')
+  box.textContent = (R.src === 'pc' ? 'PC（キーボードで打った人）の中で ' : '') + (res.meRow ? `${res.total}人中 ${res.meRow.place}位` : res.total ? `${res.total}人が記録しています` : 'まだだれも記録していません')
     + (sent === 'needname' ? '。名前を決めると、この点がランキングに載ります' : SENT_NOTE[sent] || '');
   fillRankList(ol, res.rows, R.mode, 3, res.meRow);
 }
@@ -2949,20 +3229,21 @@ $('#nickForm2').addEventListener('submit', e => {
   if (saveNick($('#nickInput2'), $('#nickMsg2'))) { $('#nickForm2').hidden = true; renderRankView(); toast('名前を変えました。次に記録を更新したときから、この名前で載ります'); }
 });
 $('#nickEdit').addEventListener('click', () => { $('#nickInput2').value = getNick(); $('#nickForm2').hidden = false; $('#nickInput2').focus(); });
-let RTAB = 'daily';
+let RTAB = 'daily', RKB = 'qwerty';
 function rankBoardNow(){
   const daily = RTAB === 'daily' || S.course === 'daily';
   const course = daily ? 'daily' : S.course;
   const mode = daily ? 'count' : S.mode;
-  return { course, ck:courseKey(course), mode, key:boardKeyOf(S.kb, courseKey(course), mode, S.conv, S.punct) };
+  return { course, ck:courseKey(course), mode, key:boardKeyOf(RKB, courseKey(course), mode, S.conv, S.punct) };
 }
 async function renderRankView(){
   document.querySelectorAll('[data-rtab]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.rtab === RTAB)));
+  document.querySelectorAll('[data-rkb]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.rkb === RKB)));
   const bd = rankBoardNow();
-  $('#rankWhat').textContent = metaText({ kb:S.kb, course:bd.course, mode:bd.mode, conv:S.conv, punct:S.punct }) + (bd.course === 'daily' ? `（${md(todayKey())}）` : '');
+  $('#rankWhat').textContent = metaText({ kb:RKB === 'pc' ? S.kb : RKB, src:RKB, course:bd.course, mode:bd.mode, conv:S.conv, punct:S.punct }) + (bd.course === 'daily' ? `（${md(todayKey())}）` : '');
   // this device's own records for the same board
-  const own = store.get('history', []).filter(h => h.kb === S.kb && h.course === bd.ck && h.mode === bd.mode && !!h.conv === !!S.conv && (h.punct !== false) === !!S.punct)
-    .map(h => ({ s:bd.mode === 'monster' ? h.defeated || 0 : h.cpm, s2:bd.mode === 'monster' ? h.cpm : h.acc, name:new Date(h.t).toLocaleDateString('ja-JP', { month:'numeric', day:'numeric' }) + (bd.mode === 'monster' ? '' : `・正確率${h.acc}%`) }))
+  const own = store.get('history', []).filter(h => (RKB === 'pc' ? h.src === 'pc' : h.kb === RKB && h.src !== 'pc') && h.course === bd.ck && h.mode === BMODE(bd.mode) && !!h.conv === !!S.conv && (h.punct !== false) === !!S.punct)
+    .map(h => ({ s:bd.mode === 'monster' ? h.floor || 0 : h.cpm, s2:bd.mode === 'monster' ? h.cpm : h.acc, name:new Date(h.t).toLocaleDateString('ja-JP', { month:'numeric', day:'numeric' }) + (bd.mode === 'monster' ? '' : `・正確率${h.acc}%`) }))
     .sort((p, q) => q.s - p.s || q.s2 - p.s2).map((r, i) => ({ ...r, place:i + 1 }));
   const lo = $('#rankLocal');
   if (own.length) fillRankList(lo, own, bd.mode, 10); else lo.innerHTML = '<li class="empty">まだ記録がありません</li>';
@@ -2978,13 +3259,41 @@ async function renderRankView(){
   st.textContent = res.total ? `${res.total}人が記録しています。` + (RANK.be.canWrite === false ? 'このページの共有のしかたでは、あなたの記録は送られません。' : '') : 'まだだれも記録していません。遊ぶと、ここに載ります。';
   fillRankList(ol, res.rows, bd.mode, 50, res.meRow);
 }
-function openRank(tab){ if (tab) RTAB = tab; show('rank'); renderRankView(); }
+function openRank(tab, kb){ if (tab) RTAB = tab; if (kb) RKB = kb; show('rank'); renderRankView(); }
 document.querySelectorAll('[data-rtab]').forEach(b => b.addEventListener('click', () => { RTAB = b.dataset.rtab; renderRankView(); }));
-$('#openRank').addEventListener('click', () => openRank(S.course === 'daily' ? 'daily' : 'combo'));
+document.querySelectorAll('[data-rkb]').forEach(b => b.addEventListener('click', () => { RKB = b.dataset.rkb; renderRankView(); }));
+$('#openRank').addEventListener('click', () => openRank(S.course === 'daily' ? 'daily' : 'combo', store.get('lastSrc', '') === 'pc' ? 'pc' : S.kb));
 $('#openRecords').addEventListener('click', () => { show('records'); renderRecords(); });
 $('#recBack').addEventListener('click', () => { show('home'); renderHome(); });
 $('#rankBack').addEventListener('click', () => { show('home'); renderHome(); });
-$('#rOpenRank').addEventListener('click', () => openRank(LAST && LAST.course === 'daily' ? 'daily' : 'combo'));
+$('#rOpenRank').addEventListener('click', () => openRank(LAST && LAST.course === 'daily' ? 'daily' : 'combo', LAST ? LAST.src : S.kb));
+/* the workshop: spend かけら on upgrades that last for every later run */
+function renderMeta(){
+  const M = metaGet();
+  $('#metaK').textContent = M.k;
+  const box = $('#shop'); box.textContent = '';
+  for (const u of META) {
+    const lv = M.lv[u.id] || 0, maxed = lv >= u.max, cost = u.cost(lv);
+    const row = document.createElement('div'); row.className = 'shop-row';
+    row.innerHTML = `<span class="tx"><b>${esc(u.name)}<span class="lv">${lv}/${u.max}</span></b><span>${esc(u.desc)}${lv ? '（' + esc(u.now(lv)) + '）' : ''}</span></span>`;
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'secondary small';
+    b.textContent = maxed ? 'いっぱい' : `かけら ${cost}`;
+    b.disabled = maxed || M.k < cost;
+    b.addEventListener('click', () => {
+      const M2 = metaGet(), l2 = M2.lv[u.id] || 0, c2 = u.cost(l2);
+      if (l2 >= u.max || M2.k < c2) return;
+      M2.k -= c2; M2.lv[u.id] = l2 + 1; store.set('meta', M2);
+      toast(`${u.name}で強くなりました`); renderMeta();
+    });
+    row.appendChild(b); box.appendChild(row);
+  }
+}
+let metaFrom = 'home';
+function openMeta(from){ metaFrom = from; show('meta'); renderMeta(); }
+$('#openMeta').addEventListener('click', () => openMeta('home'));
+$('#rOpenMeta').addEventListener('click', () => openMeta('result'));
+$('#metaBack').addEventListener('click', () => { if (metaFrom === 'result' && LAST) { show('result'); if (LAST.mode === 'monster') $('#rShards').textContent = `ことばのかけら +${LAST.shards}（いま ${metaGet().k}個）`; } else { show('home'); renderHome(); } });
 $('#rAch').addEventListener('click', () => { show('records'); renderRecords(); });
 
 /* ================= ads: 忍者AdMax, on the public site only, never on the typing screen ================= */
@@ -3050,14 +3359,20 @@ document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
   if (VIEW === 'play' && G && !G.ended) {
     if (e.key === 'Escape') { goHome(); return; }
+    if (G.lay) {
+      if (/^[1-9]$/.test(e.key)) { e.preventDefault(); layPick(+e.key - 1); }
+      else if ((e.key === 'Enter' || e.key === ' ') && G.lay.opts.length === 1) { e.preventDefault(); layPick(0); }
+      return;
+    }
+    if (G.paused) return;
     if (G.mode === 'monster' && (e.key === ' ' || e.key === 'Enter')) { e.preventDefault(); special(); return; }
-    if (G.conv && /^[1-9]$/.test(e.key)) { e.preventDefault(); unlockAudio(); pick(G.cands[+e.key - 1]); return; }
+    if (G.conv && /^[1-9]$/.test(e.key)) { e.preventDefault(); unlockAudio(); G.hw++; pick(G.cands[+e.key - 1]); return; }
     if (G.kb !== 'qwerty') return;
     if (e.key === 'Backspace') { e.preventDefault(); fnKey('bs'); return; }
     if (e.key.length === 1) {
       const k = e.key.toLowerCase();
       if (/^[a-z\-,.!?']$/.test(k)) {
-        e.preventDefault(); unlockAudio(); press(k);
+        e.preventDefault(); unlockAudio(); G.hw++; press(k);
         const el = kbEl.querySelector(`[data-k="${CSS.escape(k)}"]`);
         if (el) { el.classList.add('down'); setTimeout(() => el.classList.remove('down'), 90); }
       }
@@ -3073,7 +3388,7 @@ $('#candsIn').addEventListener('click', e => {
 });
 
 /* test hook for the engines (no UI effect) */
-window.__yubi = { buildUnits, createRomaji, createFlick, parseCustom, chunkify, prepare, lists:{ WORDS, PROVERBS, SENTENCES } };
+window.__yubi = { buildUnits, createRomaji, createFlick, parseCustom, chunkify, prepare, lists:{ WORDS, PROVERBS, SENTENCES }, game:() => G };
 
 applyHeight();
 show('home');
