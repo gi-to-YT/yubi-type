@@ -246,12 +246,12 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .viewhead h2{margin:0;font-size:20px}
 /* ---- monster battle ---- */
 .arena{position:relative;width:min(100%,520px);display:flex;gap:12px;align-items:center;padding:6px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);flex:none}
-.foe-art{width:84px;height:70px;flex:none}
+.foe-art{width:104px;height:86px;flex:none;position:relative}
 .foe-art svg{width:100%;height:100%;display:block}
 .foe-art.hit{animation:hit .22s}
-.foe-art.spawn{animation:spawn .35s ease-out}
+.foe-art.spawn{animation:spawn .55s cubic-bezier(.3,1.6,.5,1) .2s backwards}
 @keyframes hit{25%{transform:translateX(-4px) scale(.95);filter:brightness(1.5)}65%{transform:translateX(3px)}}
-@keyframes spawn{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes spawn{from{transform:translateY(-70px) scale(.5);opacity:0}to{transform:none;opacity:1}}
 .foe-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;text-align:left}
 .foe-name{margin:0;font-size:14px;font-weight:700;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .foe-name.boss{color:var(--miss)}
@@ -274,14 +274,83 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .pop-n.big{font-size:18px;color:var(--accent)}
 .chip.ach-chip b{color:var(--accent);font-family:var(--font-ui);font-size:14px}
 .pop-n.hurt{color:var(--miss);font-size:18px}
+@keyframes fadeq{0%,80%{opacity:1}100%{opacity:0}}
 @keyframes rise{from{translate:0 0;opacity:1}to{translate:0 -24px;opacity:0}}
 .arena.hurt{animation:hurt .32s}
 @keyframes hurt{30%{box-shadow:0 0 0 3px var(--miss)}}
-.play.monster .stage{justify-content:flex-start;gap:8px;padding-top:10px}
-.play.monster .ready{position:static;transform:none;order:-1}
+.play.monster .stage{justify-content:flex-start;gap:8px;padding-top:34px}
+.play.monster .ready{position:absolute;top:8px;left:16px;transform:none}
 .play.monster .disp.s1{font-size:34px}.play.monster .disp.s2{font-size:28px}.play.monster .disp.s3{font-size:22px}.play.monster .disp.s4{font-size:19px}
 .play.monster .peek{display:none}
 .stage.ended::after{content:attr(data-end)}
+/* ---- battle effects ---- */
+.fxcanvas{position:absolute;left:0;top:0;pointer-events:none;z-index:6}
+.confetti{position:fixed;left:0;top:0;pointer-events:none;z-index:90}
+.arena{overflow:visible;z-index:2}
+.foe-art svg{animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-3px)}}
+.foe-art.boss svg{animation:bob 2.2s ease-in-out infinite,aura 1.2s ease-in-out infinite}
+@keyframes aura{0%,100%{filter:drop-shadow(0 0 4px rgba(255,60,60,.7))}50%{filter:drop-shadow(0 0 12px rgba(255,60,60,1))}}
+.foe-art.dying{position:absolute;pointer-events:none;animation:die .45s ease-out forwards;z-index:3}
+@keyframes die{0%{filter:brightness(2.5) saturate(.2)}40%{transform:scale(1.3) rotate(-6deg);opacity:1}100%{transform:scale(1.7) rotate(10deg);opacity:0;filter:brightness(3) blur(3px)}}
+.slash{position:absolute;left:var(--x);top:var(--y);width:130px;height:7px;margin:-3.5px 0 0 -65px;border-radius:4px;pointer-events:none;z-index:4;
+  background:linear-gradient(90deg,transparent,#FFF6C8 25%,#FFB31A 50%,#FFF6C8 75%,transparent);box-shadow:0 0 12px #FF9A1A;animation:slash .24s ease-out forwards}
+.slash.r{transform:rotate(-32deg)}.slash.l{transform:rotate(32deg)}
+.slash.rb{background:linear-gradient(90deg,transparent,#ff3d7f 20%,#ffe23b 40%,#3ddc84 60%,#3db8ff 80%,transparent);box-shadow:0 0 14px #ff6bd5}
+@keyframes slash{0%{clip-path:inset(0 100% 0 0)}55%{clip-path:inset(0 0 0 0);opacity:1}100%{clip-path:inset(0 0 0 0);opacity:0}}
+.dmg{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);font:700 24px/1 var(--font-mono);color:#FFE14D;
+  -webkit-text-stroke:2.5px #1B2130;paint-order:stroke fill;pointer-events:none;z-index:5;white-space:nowrap;animation:dmg .75s ease-out forwards}
+.dmg.crit{font-size:32px;color:#FF6A1A;text-align:center}
+.dmg.crit::before{content:"CRITICAL!";display:block;font:700 12px/1.2 var(--font-ui);color:#fff;-webkit-text-stroke:3px #E0222E;paint-order:stroke fill;letter-spacing:.06em}
+.dmg.conv{font-size:36px;color:#FF4FB8}
+.dmg.rb{color:#fff;-webkit-text-stroke:2.5px #B0005A}
+.dmg.hurt{color:#FF4757;font-size:28px;-webkit-text-stroke:2.5px #fff}
+@keyframes dmg{0%{transform:translate(-50%,-50%) scale(2.4);opacity:0}14%{transform:translate(-50%,-50%) scale(.85);opacity:1}28%{transform:translate(-50%,-50%) scale(1.12)}40%{transform:translate(-50%,-55%) scale(1)}100%{transform:translate(-50%,-150%) scale(1);opacity:0}}
+.cmb{position:absolute;right:6px;bottom:100%;margin-bottom:-6px;display:flex;align-items:baseline;gap:6px;pointer-events:none;z-index:5;line-height:1}
+.cmb b{font:700 30px/1 var(--font-mono);color:#4DD4FF;-webkit-text-stroke:2.5px #1B2130;paint-order:stroke fill}
+.cmb span{font:700 11px var(--font-mono);color:#fff;-webkit-text-stroke:3px #1B2130;paint-order:stroke fill;letter-spacing:.04em;margin-top:2px}
+.cmb.t2 b{color:#FFB31A}
+.cmb.t3 b,.cmb.t4 b{color:#fff;-webkit-text-stroke:2.5px #B0005A;animation:hue 1s linear infinite}
+.cmb.t4 b{font-size:36px}
+@keyframes hue{0%{text-shadow:0 0 10px #ff3d7f}33%{text-shadow:0 0 10px #ffe23b}66%{text-shadow:0 0 10px #3db8ff}100%{text-shadow:0 0 10px #ff3d7f}}
+.cmb.bump b{animation:bump .18s ease-out}
+.cmb.t3.bump b,.cmb.t4.bump b{animation:bump .18s ease-out,hue 1s linear infinite}
+@keyframes bump{40%{transform:scale(1.4)}}
+.bump{animation:bump .25s ease-out}
+.banner{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-4deg);font:700 32px/1 var(--font-ui);color:#FFE14D;-webkit-text-stroke:3.5px #1B2130;paint-order:stroke fill;
+  white-space:nowrap;pointer-events:none;z-index:7;letter-spacing:.04em;animation:slam .95s cubic-bezier(.2,1.4,.4,1) forwards}
+.banner.boss{font-size:36px;color:#FF4D4D;-webkit-text-stroke:4px #fff}
+.banner.conv{color:#FF4FB8;font-size:28px}
+.banner.combo{font-size:24px}
+.banner.combo.t1{color:#4DD4FF}.banner.combo.t2{color:#FFB31A}
+.banner.fever{color:#fff;-webkit-text-stroke:4px #B0005A;font-size:36px;text-shadow:0 0 16px #ff6bd5}
+@keyframes slam{0%{transform:translate(-50%,-50%) scale(3) rotate(-10deg);opacity:0}16%{transform:translate(-50%,-50%) scale(.9) rotate(-4deg);opacity:1}26%{transform:translate(-50%,-50%) scale(1.06) rotate(-4deg)}78%{opacity:1}100%{transform:translate(-50%,-80%) scale(1) rotate(-4deg);opacity:0}}
+.warn{position:absolute;left:-14px;right:-14px;top:50%;height:58px;margin-top:-29px;display:grid;place-items:center;z-index:8;pointer-events:none;overflow:hidden;
+  background:repeating-linear-gradient(-45deg,#1B2130 0 14px,#E0222E 14px 28px);background-size:40px 40px;animation:warn 1.5s ease-in-out forwards,stripes .6s linear infinite}
+.warn span{background:#1B2130;color:#fff;font:700 20px var(--font-ui);letter-spacing:.18em;padding:4px 14px;border-radius:4px}
+@keyframes warn{0%{transform:scaleY(0)}10%{transform:scaleY(1)}85%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:0}}
+@keyframes stripes{to{background-position:40px 0}}
+.shake-s{animation:shs .14s}
+@keyframes shs{25%{translate:-2px 1px}75%{translate:2px -1px}}
+.shake-l{animation:shl .42s}
+@keyframes shl{10%{translate:-7px 3px}30%{translate:6px -4px}50%{translate:-4px 3px}70%{translate:3px -2px}90%{translate:-1px 1px}}
+.vig{position:absolute;inset:0;pointer-events:none;z-index:9;box-shadow:inset 0 0 50px 12px rgba(255,30,60,.6);opacity:0}
+.vig.on{animation:vig .45s ease-out}
+@keyframes vig{20%{opacity:1}100%{opacity:0}}
+.play.lowhp .vig:not(.on){animation:heart 1.2s ease-in-out infinite}
+@keyframes heart{0%,100%{opacity:.12}50%{opacity:.45}}
+.gauge.hp{position:relative}
+.gauge.hp b{position:absolute;left:0;top:0;bottom:0;width:100%;background:#FFC68A;transition:width .45s ease .28s}
+.gauge.hp i{position:relative;transition:width .08s}
+.play.fever .arena{border-color:transparent;border-width:2.5px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(90deg,#ff3d7f,#ffb31a,#ffe23b,#3ddc84,#3db8ff,#8f6bff,#ff3d7f) border-box;
+  background-size:100% 100%,300% 100%;animation:rainbowBorder 1.4s linear infinite}
+@keyframes rainbowBorder{to{background-position:0 0,300% 0}}
+.play .arena.shake-s{animation:shs .14s}
+.play .arena.shake-l,.play .stage.shake-l{animation:shl .42s}
+.tally b,.score span{display:inline-block}
+.badge.pop{animation:badge .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes badge{0%{transform:scale(0) rotate(-20deg)}100%{transform:scale(1) rotate(0)}}
 /* ---- result additions ---- */
 .share{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .sharebox{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:13px/1.6 var(--font-ui);padding:8px}
@@ -360,7 +429,9 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
   .stage.miss .kana,.stage.miss .roma,.disp.pop{animation:none}
   .sw,.sw::before{transition:none}
   .out .caret,.cands.nudge{animation:none}
-  .foe-art.hit,.foe-art.spawn,.arena.hurt{animation:none}
+  .foe-art.hit,.foe-art.spawn,.arena.hurt,.foe-art svg,.cmb b,.shake-s,.shake-l,.badge.pop,.bump,.play.fever .arena{animation:none}
+  .banner,.warn{animation:fadeq 1s forwards}
+  .play.lowhp .vig:not(.on){animation:none;opacity:.3}
   .pop-n{animation-duration:.01s}
 }
 </style>
@@ -477,15 +548,17 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
   <div class="meter" aria-hidden="true"><i id="meter"></i></div>
   <main class="stage" id="stage">
     <p class="ready" id="ready">キーを押すとスタート</p>
+    <canvas class="fxcanvas" id="fxCanvas" aria-hidden="true"></canvas>
+    <div class="vig" id="vig" aria-hidden="true"></div>
     <div class="arena" id="arena" hidden>
       <div class="foe-art" id="foeArt"></div>
       <div class="foe-info">
         <p class="foe-name" id="foeName"></p>
-        <p class="you-row"><small id="foeLv" class="hpn"></small><span class="gauge hp"><i id="foeHp"></i></span><span class="hpn" id="foeHpN"></span></p>
+        <p class="you-row"><small id="foeLv" class="hpn"></small><span class="gauge hp"><b id="foeHpGhost"></b><i id="foeHp"></i></span><span class="hpn" id="foeHpN"></span></p>
         <span class="gauge atk" aria-hidden="true"><i id="foeAtk"></i></span>
         <p class="you-row"><span>あなた</span><span class="gauge you"><i id="youHp"></i></span><b id="youHpN">100</b></p>
-        <p class="combo" id="combo"></p>
       </div>
+      <div class="cmb" id="cmb" hidden aria-live="off"><b id="cmbN"></b><span id="cmbT"></span></div>
       <div class="fxl" id="fxl" aria-hidden="true"></div>
     </div>
     <p class="disp" id="disp"></p>
@@ -607,6 +680,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
   </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
+<canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
 <div id="keyPop" hidden></div>
 <div id="flickPop" hidden></div>
 
@@ -1538,7 +1612,7 @@ function startGame(){
         started:false, ended:false, t0:0, elapsed:0, raf:0,
         keys:0, misses:0, chars:0, done:0, skipped:0, missMap:{}, cands:[],
         combo:0, convOne:0, convMissed:false, maxConvWords:0,
-        defeated:0, bosses:0, damage:0, you:PLAYER_MAX, mon:null, bossPool:[] };
+        defeated:0, bosses:0, damage:0, you:PLAYER_MAX, mon:null, bossPool:[], fever:false };
   if (G.conv) buildIndex();
   buildKeyboard(G.kb);
   $('#cands').hidden = !G.conv;
@@ -1546,6 +1620,8 @@ function startGame(){
   const pv = $('#v-play');
   pv.classList.toggle('conv', G.conv);
   pv.classList.toggle('monster', mode === 'monster');
+  pv.classList.remove('fever', 'lowhp');
+  $('#arena').querySelectorAll('.dmg,.slash,.banner,.warn,.dying').forEach(e => e.remove());
   $('#arena').hidden = mode !== 'monster';
   $('#tUnit').textContent = mode === 'monster' ? '体' : '字';
   $('#fxl').textContent = '';
@@ -1692,8 +1768,7 @@ function pick(text){
   G.maxConvWords = Math.max(G.maxConvWords, words);
   if (cc.to > tp) { const n = cc.to - tp; startEngine(cc.to); addChars(n); }
   // a conversion lands an extra blow, bigger when several words go at once
-  if (G.mode === 'monster' && !G.ended) monHit((cc.to - from) * 0.5 * words, words >= 2);
-  if (words >= 2 && G.mode === 'monster') floatText('一気に変換！', 'big');
+  if (G.mode === 'monster' && !G.ended) convAttack((cc.to - from) * 0.5 * words, words);
   if (G.ended) return;
   while (G.ci < G.chunks.length && G.cs[G.ci] + G.chunks[G.ci].r.length <= cc.to) G.ci++;
   G.co = 0;
@@ -1751,7 +1826,7 @@ function onRoma(k){
   if (!ok) { registerMiss(KEY_LABEL[exp] || exp); return; }
   addChars(tpos() - before);
   if (G.ended) return;
-  fx('key');
+  if (G.mode !== 'monster') fx('key');
   afterInput();
 }
 function onFlick(keyId, dir){
@@ -1764,7 +1839,7 @@ function onFlick(keyId, dir){
   if (r === 'miss') { registerMiss(t || '？'); return; }
   addChars(tpos() - before);
   if (G.ended) return;
-  fx('key');
+  if (G.mode !== 'monster') fx('key');
   afterInput();
 }
 function registerMiss(label){
@@ -1777,7 +1852,7 @@ function registerMiss(label){
   const st = $('#stage');
   st.classList.remove('miss'); void st.offsetWidth; st.classList.add('miss');
   clearTimeout(G.missT); G.missT = setTimeout(() => st.classList.remove('miss'), 260);
-  if (G.mode === 'monster') { renderArena(); monAttack('miss'); }
+  if (G.mode === 'monster') { feverOff(); renderArena(); monAttack('miss'); }
 }
 function itemDone(){
   G.done++;
@@ -1800,6 +1875,7 @@ function finish(){
   renderHint(); renderCands();
   const st = $('#stage');
   st.dataset.end = G.mode === 'monster' && G.you <= 0 ? 'やられた…' : 'おわり';
+  $('#v-play').classList.remove('fever', 'lowhp');
   st.classList.add('ended');
   const R = results();
   R.newAch = G.started && G.chars > 0 ? recordGame(R) : [];
@@ -1923,7 +1999,7 @@ function renderResult(R){
   const mon = R.mode === 'monster';
   $('#rMeta').textContent = metaText(R);
   $('#rRank').textContent = R.rank;
-  $('#rScore').textContent = mon ? R.defeated : R.cpm;
+  countUp($('#rScore'), mon ? R.defeated : R.cpm, R.newBest);
   $('#rScoreLabel').textContent = mon ? 'たおしたモンスター（体）' : '1分あたりの文字数';
   $('#rBadge').hidden = !R.newBest;
   const pv = R.prev ? (mon ? `${R.prev.defeated || 0}体・${R.prev.cpm} 文字/分` : `${R.prev.cpm} 文字/分`) : '';
@@ -2070,6 +2146,139 @@ function monSvg(m){
   else b = `<path d="M8 94 C4 52 30 28 60 28 C90 28 116 52 112 94 Z" fill="${c}"/><path d="M36 32 L40 8 L52 22 L60 4 L68 22 L80 8 L84 32 Z" fill="#E9B832" stroke="#A97A16" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="17" r="3.5" fill="#D94A4A"/><path d="M34 54 L52 60 M86 54 L68 60" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>${eye(46, 66, 8)}${eye(74, 66, 8)}<path d="M44 84 L50 78 L56 84 L62 78 L68 84 L74 78" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>`;
   return `<svg viewBox="0 0 120 100" aria-hidden="true">${b}</svg>`;
 }
+/* ---------- battle effects: particles, slashes, numbers, banners, sounds ---------- */
+const RM = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) { return false; } })();
+function makeFX(cv, sizeOf){
+  const o = { cv, ctx:cv.getContext('2d'), parts:[], raf:0, w:0, h:0, dpr:0 };
+  o.fit = () => {
+    const r = sizeOf(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (r.width !== o.w || r.height !== o.h || dpr !== o.dpr) {
+      o.w = r.width; o.h = r.height; o.dpr = dpr;
+      cv.width = Math.max(1, Math.round(r.width * dpr)); cv.height = Math.max(1, Math.round(r.height * dpr));
+      cv.style.width = r.width + 'px'; cv.style.height = r.height + 'px';
+      o.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    return r;
+  };
+  o.add = p => { if (o.parts.length < 360) o.parts.push(p); if (!o.raf) o.raf = requestAnimationFrame(o.step); };
+  o.step = () => {
+    const c = o.ctx;
+    c.clearRect(0, 0, o.w, o.h);
+    o.parts = o.parts.filter(p => (++p.t <= p.life) && (drawP(c, p), true));
+    o.raf = o.parts.length ? requestAnimationFrame(o.step) : 0;
+    if (!o.raf) c.clearRect(0, 0, o.w, o.h);
+  };
+  return o;
+}
+function drawP(c, p){
+  const k = 1 - p.t / p.life;
+  const drag = p.drag || 0.95;
+  p.vx *= drag; p.vy = p.vy * drag + (p.g || 0); p.x += p.vx; p.y += p.vy; p.rot = (p.rot || 0) + (p.vr || 0);
+  c.globalAlpha = Math.max(0, Math.min(1, k * 1.5));
+  if (p.kind === 'spark') {
+    c.strokeStyle = p.color; c.lineWidth = p.w * k + 0.6; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(p.x, p.y); c.lineTo(p.x - p.vx * 2.6, p.y - p.vy * 2.6); c.stroke();
+  } else if (p.kind === 'star') {
+    const s = p.size * (0.4 + k * 0.6);
+    c.save(); c.translate(p.x, p.y); c.rotate(p.rot); c.fillStyle = p.color; c.beginPath();
+    for (let i = 0; i < 8; i++) { const r = i % 2 ? s * 0.38 : s, a = i * Math.PI / 4; c.lineTo(Math.cos(a) * r, Math.sin(a) * r); }
+    c.closePath(); c.fill(); c.restore();
+  } else if (p.kind === 'ring') {
+    c.strokeStyle = p.color; c.lineWidth = 7 * k + 0.5;
+    c.beginPath(); c.arc(p.x, p.y, p.r0 + (p.r1 - p.r0) * (1 - k * k), 0, Math.PI * 2); c.stroke();
+  } else {
+    c.save(); c.translate(p.x, p.y); c.rotate(p.rot); c.scale(1, Math.cos(p.t * 0.22)); c.fillStyle = p.color;
+    c.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2); c.restore();
+  }
+  c.globalAlpha = 1;
+}
+const HUES = { hit:['#FFE14D', '#FFB31A', '#FF8A1A', '#FFF1A8'], crit:['#FF5A1F', '#FFE14D', '#FF2E4D', '#FFFFFF'], conv:['#FF4FB8', '#B06BFF', '#4DD4FF', '#FFE14D'] };
+const rainbow = i => `hsl(${(Date.now() / 4 + i * 47) % 360} 100% 60%)`;
+const pickHue = (set, i) => G && G.fever ? rainbow(i) : set[i % set.length];
+let SFX = null, BIG = null;
+function sfxLayer(){ if (!SFX) SFX = makeFX($('#fxCanvas'), () => $('#stage').getBoundingClientRect()); SFX.fit(); return SFX; }
+function bigLayer(){ if (!BIG) BIG = makeFX($('#confetti'), () => ({ width:window.innerWidth, height:window.innerHeight })); BIG.fit(); return BIG; }
+function foePoint(){
+  const L = sfxLayer(), s = $('#stage').getBoundingClientRect(), a = $('#foeArt').getBoundingClientRect();
+  return { L, x:a.left - s.left + a.width / 2, y:a.top - s.top + a.height / 2 };
+}
+function burst(L, x, y, n, set, speed, opt){
+  if (RM) n = Math.ceil(n / 4);
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = speed * (0.35 + Math.random() * 0.8);
+    L.add({ kind:'spark', x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v, g:0.12, w:2 + Math.random() * 2.5, color:pickHue(set, i), life:18 + Math.random() * 16, t:0 });
+  }
+  for (let i = 0; i < ((opt && opt.stars) || 0) && !RM; i++) {
+    const a = Math.random() * Math.PI * 2, v = speed * (0.2 + Math.random() * 0.6);
+    L.add({ kind:'star', x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v - 1.5, g:0.08, size:5 + Math.random() * 6, vr:(Math.random() - 0.5) * 0.3, color:pickHue(set, i + 2), life:34 + Math.random() * 20, t:0 });
+  }
+  if (opt && opt.ring) L.add({ kind:'ring', x, y, vx:0, vy:0, r0:6, r1:opt.ring, color:pickHue(set, 1), life:22, t:0 });
+}
+function confetti(n){
+  if (RM) return;
+  const L = bigLayer();
+  for (let i = 0; i < n; i++) L.add({ kind:'conf', x:Math.random() * L.w, y:-20 - Math.random() * L.h * 0.4, vx:(Math.random() - 0.5) * 2, vy:2 + Math.random() * 3, g:0.03, drag:0.995, size:7 + Math.random() * 7, rot:Math.random() * 6, vr:(Math.random() - 0.5) * 0.25, color:rainbow(i * 3), life:120 + Math.random() * 60, t:0 });
+}
+function fxEl(cls, text, parent, life, vars){
+  const e = document.createElement('div');
+  e.className = cls;
+  if (text) e.textContent = text;
+  if (vars) for (const [k, v] of Object.entries(vars)) e.style.setProperty(k, v);
+  parent.appendChild(e);
+  setTimeout(() => e.remove(), life);
+  return e;
+}
+function shake(el, big){
+  if (RM) return;
+  const c = big ? 'shake-l' : 'shake-s';
+  el.classList.remove('shake-s', 'shake-l'); void el.offsetWidth; el.classList.add(c);
+}
+const artXY = () => { const a = $('#foeArt'); return { x:a.offsetLeft + a.offsetWidth / 2, y:a.offsetTop + a.offsetHeight / 2 }; };
+function banner(text, kind){
+  const ar = $('#arena');
+  ar.querySelectorAll('.banner').forEach(b => b.remove());
+  fxEl('banner ' + kind, text, ar, 1000);
+}
+let NOISE = null;
+function nburst(dur, freq, q, vol, delay, type){
+  const t = AC.currentTime + (delay || 0);
+  if (!NOISE) { const len = AC.sampleRate * 0.6; NOISE = AC.createBuffer(1, len, AC.sampleRate); const d = NOISE.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1; }
+  const s = AC.createBufferSource(), f = AC.createBiquadFilter(), g = AC.createGain();
+  s.buffer = NOISE; f.type = type || 'bandpass'; f.frequency.setValueAtTime(freq, t); f.Q.value = q || 1;
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  s.connect(f); f.connect(g); g.connect(AC.destination); s.start(t); s.stop(t + dur + 0.02);
+}
+function sfx(kind, k){
+  if (!S.sound || !AC) return;
+  try {
+    if (kind === 'hit') { const p = 520 * Math.pow(2, Math.min(k || 0, 36) / 24); nburst(0.05, 2400, 1.2, 0.08); tone(p, 0.07, 'square', 0.03, 0, p * 0.55); }
+    else if (kind === 'crit') { nburst(0.09, 3200, 0.8, 0.12); tone(1500, 0.12, 'triangle', 0.06, 0, 2700); tone(2600, 0.1, 'sine', 0.04, 0.05); }
+    else if (kind === 'kill') { nburst(0.35, 900, 0.6, 0.18, 0, 'lowpass'); [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.12, 'square', 0.045, 0.04 + i * 0.06)); }
+    else if (kind === 'boss') { nburst(0.7, 520, 0.5, 0.22, 0, 'lowpass'); [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => tone(f, 0.16, 'square', 0.05, 0.05 + i * 0.07)); tone(262, 0.7, 'sawtooth', 0.035, 0.5); tone(392, 0.7, 'sawtooth', 0.03, 0.5); }
+    else if (kind === 'warn') { for (let i = 0; i < 3; i++) { tone(880, 0.14, 'square', 0.05, i * 0.32); tone(622, 0.14, 'square', 0.05, i * 0.32 + 0.16); } }
+    else if (kind === 'hurt') { tone(170, 0.2, 'sine', 0.13, 0, 55); nburst(0.14, 420, 0.7, 0.13, 0, 'lowpass'); }
+    else if (kind === 'fever') { tone(300, 0.45, 'sawtooth', 0.045, 0, 1500); tone(600, 0.45, 'square', 0.03, 0.05, 2200); }
+    else if (kind === 'milestone') { tone(1320, 0.1, 'sine', 0.06); tone(1760, 0.16, 'sine', 0.06, 0.08); }
+    else if (kind === 'multi') { nburst(0.07, 2800, 1, 0.1); tone(800 + (k || 0) * 140, 0.08, 'square', 0.04); }
+    else if (kind === 'count') tone(900 + (k || 0) * 25, 0.035, 'triangle', 0.035);
+    else if (kind === 'fanfare') [784, 988, 1175, 1568].forEach((f, i) => tone(f, i === 3 ? 0.35 : 0.1, 'square', 0.045, i * 0.09));
+  } catch(e) {}
+}
+const vib = p => { if (S.vibe && navigator.vibrate) try { navigator.vibrate(p); } catch(e) {} };
+
+/* ---------- battle rules ---------- */
+const comboMult = () => G.combo >= 100 ? 2.5 : G.combo >= 50 ? 2 : G.combo >= 30 ? 1.5 : 1;
+const COMBO_CALLS = [[10, 'Nice!', 'combo t1'], [30, 'Great!!', 'combo t2'], [100, 'GOD!!!!', 'fever'], [150, 'UNSTOPPABLE!!', 'fever'], [200, 'LEGEND!!!', 'fever']];
+function comboCheck(a, b){
+  if (a < 50 && b >= 50) { feverOn(); return; }
+  for (const [m, text, kind] of COMBO_CALLS) if (a < m && b >= m) { banner(text, kind); sfx('milestone'); }
+}
+function feverOn(){
+  G.fever = true; $('#v-play').classList.add('fever');
+  banner('FEVER!!!', 'fever'); sfx('fever'); vib([20, 40, 20]);
+  const { L, x, y } = foePoint(); burst(L, x, y, 30, HUES.conv, 7, { stars:10, ring:90 });
+}
+function feverOff(){ if (G && G.fever) { G.fever = false; $('#v-play').classList.remove('fever'); } }
 function spawnMonster(n){
   const boss = n % 5 === 0;
   const t = boss ? BOSS_TYPES[(n / 5 - 1) % BOSS_TYPES.length] : MON_TYPES[(n - 1 - Math.floor(n / 5)) % MON_TYPES.length];
@@ -2077,36 +2286,70 @@ function spawnMonster(n){
   G.mon = { n, boss, name:t.name, kind:t.kind, color:t.color, hp, max:hp,
             atk: boss ? 9 + n : 5 + Math.floor(n / 2),
             every: Math.max(3.5, (boss ? 7 : 9) - 0.35 * (n - 1)) };
-  G.mon.next = G.started ? G.elapsed + G.mon.every : null;
+  // a boss gives you a moment to read the warning before it starts attacking
+  G.mon.next = G.started ? G.elapsed + G.mon.every + (boss ? 1.5 : 0) : null;
   const art = $('#foeArt');
   art.innerHTML = monSvg(G.mon);
+  art.classList.toggle('boss', boss);
   art.classList.remove('spawn'); void art.offsetWidth; art.classList.add('spawn');
+  clearTimeout(art._sp); art._sp = setTimeout(() => art.classList.remove('spawn'), 800);
+  if (boss) {
+    const w = fxEl('warn', '', $('#arena'), 1500);
+    w.innerHTML = '<span>WARNING　ボス出現</span>';
+    sfx('warn'); vib([60, 60, 60, 60, 60]);
+  }
+  $('#foeHpGhost').style.transition = 'none';
   renderArena();
+  void $('#foeHpGhost').offsetWidth; $('#foeHpGhost').style.transition = '';
 }
-/* damage numbers rise over the monster; messages and your own damage get their own spots */
-function floatText(text, cls, side){
-  const layer = $('#fxl'), s = document.createElement('span');
-  const msg = cls === 'big' && /[^\d.-]/.test(text);
-  s.className = 'pop-n ' + (cls || '') + (msg ? ' msg' : side === 'you' ? ' at-you' : ' at-foe');
-  s.textContent = text;
-  if (!msg && side !== 'you') s.style.marginLeft = (Math.random() * 24 - 12) + 'px';
-  layer.appendChild(s);
-  const all = layer.querySelectorAll('.pop-n' + (msg ? '.msg' : side === 'you' ? '.at-you' : '.at-foe'));
-  for (let i = 0; i < all.length - (msg ? 1 : 3); i++) all[i].remove();
-  setTimeout(() => s.remove(), 750);
+function hitFx(dmg, kind){
+  const { L, x, y } = foePoint();
+  const crit = kind === 'crit', conv = kind === 'conv';
+  const set = conv ? HUES.conv : crit ? HUES.crit : HUES.hit;
+  burst(L, x + (Math.random() - 0.5) * 20, y + (Math.random() - 0.5) * 16, conv ? 22 : crit ? 16 : 7, set, conv ? 7 : crit ? 6 : 4.2, { stars:conv ? 6 : crit ? 4 : 0, ring:conv ? 70 : crit ? 46 : 0 });
+  const ar = $('#arena'), p = artXY();
+  if (!RM) fxEl('slash ' + (G.combo % 2 ? 'l' : 'r') + (G.fever ? ' rb' : ''), '', ar, 260, { '--x':p.x + 'px', '--y':p.y + 'px' });
+  const nums = ar.querySelectorAll('.dmg:not(.hurt)');
+  for (let i = 0; i < nums.length - 3; i++) nums[i].remove();
+  fxEl('dmg' + (crit ? ' crit' : '') + (conv ? ' conv' : '') + (G.fever ? ' rb' : ''), String(Math.round(dmg * 10) / 10), ar, 760,
+       { '--x':(p.x + (Math.random() - 0.5) * 44) + 'px', '--y':(p.y - 10 - Math.random() * 14) + 'px' });
+  const art = $('#foeArt');
+  art.classList.remove('hit'); void art.offsetWidth; art.classList.add('hit');
+  if (crit || conv) { shake(ar); vib(crit ? 15 : 25); }
+  sfx(crit || conv ? 'crit' : 'hit', G.combo);
 }
-function monHit(dmg, big){
+function killFx(m){
+  const { L, x, y } = foePoint(), ar = $('#arena'), art = $('#foeArt');
+  const ghost = art.cloneNode(true);
+  ghost.removeAttribute('id'); ghost.className = 'foe-art dying';
+  ghost.style.left = art.offsetLeft + 'px'; ghost.style.top = art.offsetTop + 'px';
+  ar.appendChild(ghost); setTimeout(() => ghost.remove(), 500);
+  burst(L, x, y, m.boss ? 70 : 40, m.boss ? HUES.conv : HUES.crit, m.boss ? 10 : 8, { stars:m.boss ? 22 : 12, ring:m.boss ? 160 : 110 });
+  if (m.boss) setTimeout(() => G && burst(L, x, y, 40, HUES.hit, 9, { stars:12, ring:200 }), 160);
+  banner(m.boss ? 'BOSS 撃破!!!' : '撃破!!', m.boss ? 'boss' : 'kill');
+  shake(m.boss ? $('#stage') : ar, true);
+  if (m.boss) confetti(140);
+  sfx(m.boss ? 'boss' : 'kill'); vib(m.boss ? [60, 40, 60, 40, 160] : [30, 30, 60]);
+  const cnt = $('#tChars'); cnt.classList.remove('bump'); void cnt.offsetWidth; cnt.classList.add('bump');
+}
+let vigAt = 0;
+function hurtFx(dmg){
+  const ar = $('#arena');
+  fxEl('dmg hurt', '-' + dmg, ar, 760, { '--x':(ar.offsetWidth - 46) + 'px', '--y':(ar.offsetHeight - 30) + 'px' });
+  shake(ar, true);
+  // the red edge glow flashes at most twice a second
+  if (Date.now() - vigAt > 500) { vigAt = Date.now(); const v = $('#vig'); v.classList.remove('on'); void v.offsetWidth; v.classList.add('on'); }
+  sfx('hurt'); vib(70);
+}
+function monHit(dmg, kind){
   const m = G.mon;
   if (!m || G.ended || dmg <= 0) return;
   m.hp -= dmg; G.damage += dmg;
-  floatText('-' + (Math.round(dmg * 10) / 10), big ? 'big' : '');
-  const art = $('#foeArt');
-  art.classList.remove('hit'); void art.offsetWidth; art.classList.add('hit');
+  hitFx(dmg, kind);
   if (m.hp <= 0) {
     G.defeated++; if (m.boss) G.bosses++;
-    floatText(m.boss ? 'ボス撃破！' : 'たおした！', 'big');
     G.you = Math.min(PLAYER_MAX, G.you + (m.boss ? 25 : 8));
-    fx('done');
+    killFx(m);
     spawnMonster(m.n + 1);
   } else renderArena();
 }
@@ -2115,29 +2358,51 @@ function monAttack(why){
   if (!m || G.ended) return;
   const dmg = why === 'miss' ? Math.ceil(m.atk * 0.6) : m.atk;
   G.you = Math.max(0, G.you - dmg);
-  floatText('-' + dmg, 'hurt', 'you');
-  const a = $('#arena');
-  a.classList.remove('hurt'); void a.offsetWidth; a.classList.add('hurt');
-  if (why !== 'miss') { fx('miss'); }
+  hurtFx(dmg);
   renderArena();
   if (G.you <= 0) finish();
+}
+/* a conversion is a special move: one hit per word, bigger when several words go at once */
+function convAttack(total, words){
+  const g = G, hits = Math.max(1, Math.min(words, 6)), part = total * (words >= 2 ? 1.5 : 1) / hits;
+  if (words >= 2) { banner(`一気に変換!! ×${words}`, 'conv'); sfx('fever'); }
+  for (let i = 0; i < hits; i++) setTimeout(() => {
+    if (G !== g || G.ended) return;
+    monHit(part, words >= 2 ? 'conv' : 'crit');
+    if (words >= 2) sfx('multi', i);
+  }, i * 110);
 }
 function renderArena(){
   const m = G.mon; if (!m) return;
   $('#foeName').textContent = m.name;
   $('#foeName').classList.toggle('boss', m.boss);
   $('#foeLv').textContent = (m.boss ? 'BOSS ' : '') + 'Lv.' + m.n;
-  $('#foeHp').style.width = Math.max(0, m.hp / m.max * 100) + '%';
+  const w = Math.max(0, m.hp / m.max * 100) + '%';
+  $('#foeHp').style.width = w; $('#foeHpGhost').style.width = w;
   $('#foeHpN').textContent = Math.max(0, Math.ceil(m.hp)) + '/' + m.max;
   $('#youHp').style.width = (G.you / PLAYER_MAX * 100) + '%';
   $('#youHpN').textContent = G.you;
-  $('#combo').textContent = G.combo >= 10 ? `コンボ ${G.combo}${G.combo >= 30 ? '　1.5倍' : ''}` : '';
+  $('#v-play').classList.toggle('lowhp', G.you > 0 && G.you <= 30);
+  const c = $('#cmb'), tier = G.combo >= 100 ? 4 : G.combo >= 50 ? 3 : G.combo >= 30 ? 2 : G.combo >= 10 ? 1 : 0;
+  c.hidden = !tier;
+  if (tier) {
+    const n = String(G.combo);
+    if ($('#cmbN').textContent !== n) { $('#cmbN').textContent = n; c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump'); }
+    c.className = 'cmb t' + tier + (c.classList.contains('bump') ? ' bump' : '');
+    $('#cmbT').textContent = `COMBO　×${comboMult()}`;
+  }
 }
 /* typed kana add to the count and, in a battle, hit the monster */
 function addChars(n){
   if (n <= 0) return;
+  const before = G.combo;
   G.chars += n; G.combo += n;
-  if (G.mode === 'monster') monHit(n * (G.combo >= 30 ? 1.5 : 1));
+  if (G.mode !== 'monster') return;
+  comboCheck(before, G.combo);
+  for (let i = 0; i < n && !G.ended; i++) {
+    const crit = Math.random() < (G.fever ? 0.16 : 0.08);
+    monHit(comboMult() * (crit ? 2 : 1), crit ? 'crit' : 'hit');
+  }
 }
 
 /* ================= records view & growth chart ================= */
@@ -2594,6 +2859,27 @@ function loadAd(slot, minGap){
   };
   f.addEventListener('load', fit);
   box.appendChild(f);
+}
+
+/* the headline number rolls up; a new best gets a fanfare and confetti */
+let countT = 0;
+function countUp(el, to, best){
+  clearInterval(countT);
+  const badge = $('#rBadge');
+  if (RM || to <= 0) { el.textContent = to; return; }
+  let i = 0; const steps = Math.min(28, Math.max(8, to));
+  el.textContent = '0';
+  badge.classList.remove('pop');
+  countT = setInterval(() => {
+    i++;
+    el.textContent = Math.round(to * (1 - Math.pow(1 - i / steps, 3)));
+    if (i % 2) sfx('count', i);
+    if (i >= steps) {
+      clearInterval(countT); el.textContent = to;
+      el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+      if (best) { badge.classList.add('pop'); confetti(160); sfx('fanfare'); vib([40, 40, 120]); }
+    }
+  }, 32);
 }
 
 function goHome(){
