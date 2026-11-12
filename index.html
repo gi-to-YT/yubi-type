@@ -345,6 +345,11 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .nickrow input{flex:1;min-width:0;font:16px var(--font-ui);padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
 .primary.small{font-size:15px;padding:8px 16px;width:auto;letter-spacing:.06em}
 .foot a{color:var(--mute)}
+.adslot{display:flex;flex-direction:column;align-items:center;gap:4px}
+.adlabel{margin:0;font-size:11px;color:var(--mute);letter-spacing:.1em}
+.adslot iframe{display:block;border:0;width:100%;max-width:336px;background:transparent}
+#ad-menu iframe{height:50px}
+#ad-result iframe{height:250px}
 
 @media (max-width:360px){
   .disp.s1{font-size:40px}.disp.s2{font-size:30px}
@@ -420,6 +425,8 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
         <button class="secondary small" id="openRank">ランキング</button>
       </div>
     </div>
+
+    <div class="adslot" id="ad-menu" hidden><p class="adlabel">広告</p></div>
 
     <details class="settings" id="settings">
       <summary>設定</summary>
@@ -510,6 +517,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
       <h2 class="label">ミスした字</h2>
       <div class="weak" id="rWeak"></div>
     </div>
+    <div class="adslot" id="ad-result" hidden><p class="adlabel">広告</p></div>
     <div class="group">
       <h2 class="label">結果をシェア</h2>
       <div class="share">
@@ -1104,6 +1112,8 @@ function show(v){
   if (v !== 'play') { $('#keyPop').hidden = true; $('#flickPop').hidden = true; }
   if (v !== 'result') $('#cardModal').hidden = true;
   const sc = $('#v-' + v); if (sc) sc.scrollTop = 0;
+  if (v === 'home') loadAd('menu', 60000);
+  if (v === 'result') loadAd('result', 30000);
 }
 const LIMIT = 60, COUNT = 10;
 const RANKS = [[0,'指ならし'],[60,'見習い'],[120,'一人前'],[180,'達人'],[240,'名人'],[300,'神業']];
@@ -2558,6 +2568,33 @@ $('#recBack').addEventListener('click', () => { show('home'); renderHome(); });
 $('#rankBack').addEventListener('click', () => { show('home'); renderHome(); });
 $('#rOpenRank').addEventListener('click', () => openRank(LAST && LAST.course === 'daily' ? 'daily' : 'combo'));
 $('#rAch').addEventListener('click', () => { show('records'); renderRecords(); });
+
+/* ================= ads: 忍者AdMax, on the public site only, never on the typing screen ================= */
+const ADS = { menu:'203bac9dfb197fec35db4cc7f006ad28', result:'ed74bb3c9a5988a9c0ce6b4cb8e46a44' };
+const adsOn = () => !inClaude() && location.hostname === 'gi-to-yt.github.io';
+const adLast = {};
+// each tag runs in its own small frame: a tag that writes into the page as it loads cannot run after load
+function loadAd(slot, minGap){
+  if (!adsOn() || !ADS[slot]) return;
+  const box = $('#ad-' + slot);
+  const now = Date.now();
+  if (!box || (adLast[slot] && now - adLast[slot] < minGap)) return;
+  adLast[slot] = now;
+  box.hidden = false;
+  const old = box.querySelector('iframe'); if (old) old.remove();
+  const f = document.createElement('iframe');
+  f.title = '広告'; f.scrolling = 'no'; f.setAttribute('frameborder', '0');
+  f.srcdoc = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<style>html,body{margin:0;padding:0;background:transparent;overflow:hidden}body{display:flex;justify-content:center}</style></head>'
+    + '<body><script src="https://adm.shinobi.jp/s/' + ADS[slot] + '"><\/script></body></html>';
+  let n = 0;
+  const fit = () => {
+    try { const d = f.contentDocument; if (d && d.body && d.body.scrollHeight > 0) f.style.height = d.body.scrollHeight + 'px'; } catch(e) {}
+    if (++n < 20) setTimeout(fit, 500);
+  };
+  f.addEventListener('load', fit);
+  box.appendChild(f);
+}
 
 function goHome(){
   if (G) { G.ended = true; cancelAnimationFrame(G.raf); }
