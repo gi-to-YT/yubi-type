@@ -2353,13 +2353,21 @@ $('#cardSave').addEventListener('click', async () => {
 /* ================= ranking: claude.ai's shared store, or Firebase on the public site ================= */
 // Firebase web settings for the public site. These values ship inside the page and are not secrets;
 // what each visitor may write is decided by firestore.rules in the public repository.
-const FIREBASE_CONFIG = null;
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyCsxfZHIsB6sbNPYVxjFUnGt4YbrpApV4k',
+  authDomain: 'yubi-type.firebaseapp.com',
+  projectId: 'yubi-type',
+  storageBucket: 'yubi-type.firebasestorage.app',
+  messagingSenderId: '254834371999',
+  appId: '1:254834371999:web:2b9c6fc903b87c133821aa'
+};   // measurementId is left out on purpose: no analytics is loaded
 const FB_SDK = 'https://www.gstatic.com/firebasejs/10.14.1/';
 const MAX_SCORE = 1500;          // the rules refuse anything above this, so do not send it
 const RANK = { ready:null, be:null };
 const boardKeyOf = (kb, ck, mode, conv, punct) => `${kb}_${ck}_${mode}_${conv ? 1 : 0}${punct ? 1 : 0}`;
 const inClaude = () => !!(window.claude && typeof window.claude.use === 'function');
-const rankOffText = () => inClaude() ? 'みんなのランキングは、claude.ai でこのページを開いたときに使えます。' : 'みんなのランキングは準備中です。';
+const rankOffText = () => inClaude() ? 'みんなのランキングは、claude.ai でこのページを開いたときに使えます。'
+  : FIREBASE_CONFIG ? 'ランキングにつなげませんでした。時間をおいて開き直してください。' : 'みんなのランキングは準備中です。';
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
 const scoreOf = R => R.mode === 'monster' ? [R.defeated, R.cpm] : [R.cpm, R.acc];
 const beats = (a, b) => !b || a[0] > b[0] || (a[0] === b[0] && a[1] > b[1]);
@@ -2419,7 +2427,7 @@ async function firebaseBackend(){
   const [{ initializeApp }, A, F] = await Promise.all(['firebase-app.js', 'firebase-auth.js', 'firebase-firestore.js'].map(f => import(FB_SDK + f)));
   const app = initializeApp(FIREBASE_CONFIG);
   const auth = A.getAuth(app);
-  await auth.authStateReady();
+  await (typeof auth.authStateReady === 'function' ? auth.authStateReady() : new Promise(r => { const off = A.onAuthStateChanged(auth, () => { off(); r(); }); }));
   if (!auth.currentUser) await A.signInAnonymously(auth);
   const uid = auth.currentUser.uid, db = F.getFirestore(app);
   const col = key => F.collection(db, 'boards', key, 'entries');
