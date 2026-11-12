@@ -470,7 +470,6 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .primary.small{font-size:15px;padding:8px 16px;width:auto;letter-spacing:.06em}
 .foot a{color:var(--mute)}
 .fanmade{margin:0;font-size:12px;line-height:1.6;color:var(--mute)}
-.howline + .fanmade{margin-top:-4px}
 .fanplay{position:absolute;top:38px;left:16px;right:16px;margin:0;font-size:11px;line-height:1.5;color:var(--mute);text-align:center;pointer-events:none}
 .play.monster .fanplay{top:auto;bottom:36px}
 .adslot{display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -768,7 +767,20 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .ghost.ahead b{color:var(--accent)}
 /* romaji spellings */
 .nickset{border-color:var(--line);margin-bottom:8px}
-:root.yuki .home .tag{color:var(--accent)}
+/* the 魔女裁判 room */
+.yroom .tag{margin:9px 0 0;font:800 13px var(--font-mincho);letter-spacing:.3em;color:var(--mute)}
+.ywin{flex:none;width:76px;height:88px;margin-top:2px;color:var(--ink)}
+.ywin .moon{fill:var(--marker);stroke:none}
+.ynote{margin:0;padding:12px 14px;border-left:3px solid var(--accent);background:var(--card);border-radius:2px}
+.ynote b{display:block;font:800 14px var(--font-mincho);letter-spacing:.12em;color:var(--accent);margin-bottom:4px}
+.ynote p{margin:0;font-size:13px;line-height:1.7}
+.ynote ul{margin:8px 0 0;padding-left:1.2em;font-size:12px;line-height:1.7;color:var(--mute)}
+.door .bars{position:absolute;left:14px;bottom:14px;width:150px;height:52px;opacity:.26;z-index:-1;color:var(--field-mute)}
+:root.night .door.deep::before{border-color:var(--accent)}
+.ygate{position:fixed;inset:0;z-index:95;background:#0E0F14;display:grid;place-items:center;opacity:0;transition:opacity .45s ease}
+.ygate.in{opacity:1}
+.ygate.out{opacity:0;transition-duration:.7s}
+.ygate p{margin:0;font:400 24px var(--font-brush);letter-spacing:.3em;color:#D6D0DE}
 .setrow .seg.keysnd{grid-template-columns:repeat(4,minmax(0,1fr));width:200px}
 .setrow .seg.keysnd .opt{padding:9px 2px}
 .setrow .seg.keysnd .opt b{white-space:nowrap}
@@ -792,6 +804,21 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .arena[data-area="5"] .scene{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='34'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='18'/%3E%3CfeGaussianBlur stdDeviation='.7'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='326' cy='58' r='22' fill='%23B8862B' fill-opacity='.5' filter='url(%23g)'/%3E%3Ccircle cx='326' cy='58' r='14' fill='%23B8862B' fill-opacity='.6'/%3E%3Cpath d='M-30-20H430V150C350 120 300 170 220 140S90 160-30 130Z' fill='%23202838' fill-opacity='0.3' stroke='%23202838' stroke-opacity='0.5' stroke-width='3.5' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 204C90 192 170 206 250 196S380 202 430 194V240H-30Z' fill='%231D1A16' fill-opacity='0.26' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='3' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .arena .scene{background-color:#ECE4D2} }
 :root[data-theme="dark"] .arena .scene{background-color:#ECE4D2}
+/* 夜の牢屋敷: the colours of the 魔女裁判 room, and of the games played from it */
+:root.night{
+  --paper:#13141B; --card:#1C1D27; --ink:#E7E3EC; --mute:#A19CAD; --line:#343542;
+  --tray:#0C0D12; --key:#272834; --key-fn:#1A1B24; --key-down:#3B3C4B; --key-edge:#060609;
+  --accent:#E0596B; --accent-soft:#3A1A22; --on-accent:#17080C;
+  --marker:#D9A441; --marker-ink:#13141B; --faint:#6C6879; --ok:#E7E3EC;
+  --s1:#E7E3EC; --s2:#E0596B;
+  --miss:#FF8C8C; --miss-soft:#48212B;
+  --shadow:0 6px 18px rgba(0,0,0,.6);
+  --usuzumi:#8F8A9C; --shu:#B4323F; --shu-ink:#FFF1F2; --kin:#D9A441;
+  --field:#3A1621; --field-ink:#F4EAEE; --field-mute:#CBAAB5;
+  --washi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .86 0 0 0 0 .78 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),var(--fiber-d);
+  color-scheme:dark;
+}
+:root.night .arena .scene{background-color:#E6E1E8}
 .play.fever .arena .scene{animation:none}
 .play.fever .arena{animation:feverGlow 1.2s linear infinite;border-radius:6px}
 /* the enemy's life is drawn in ink; 朱 stays for what you press and for seals */
@@ -858,7 +885,6 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </header>
 
     <button class="howline" id="openSetup" type="button"><span>打ち方</span><b id="howNow"></b><u>変える</u></button>
-    <p class="fanmade" id="fanHome" hidden></p>
 
     <div class="doors" role="group" aria-label="遊び方を選ぶ">
       <button class="door deep" type="button" data-door="monster">
@@ -923,11 +949,10 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <div class="optbox setrows romarows" id="romaRows"></div>
     </div>
 
-    <div class="group">
+    <div class="group" id="courseGroup">
       <h2 class="label">コース</h2>
       <div class="courses" id="courses" role="group" aria-label="コース"></div>
       <button class="linkbtn" id="editCustom" hidden>「じぶんで追加」の文を編集する</button>
-      <p class="fanmade" id="fanSetup" hidden></p>
     </div>
 
     <div class="group">
@@ -991,6 +1016,67 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     <button class="primary" id="customSave">保存する</button>
   </div>
 </section>
+
+<section id="v-yuki" class="view scroll" hidden>
+  <div class="wrap home yroom">
+    <div class="viewhead"><button class="barbtn" id="yukiBack" type="button">もどる</button></div>
+    <header class="brand">
+      <div>
+        <h1 class="logo">魔女裁判</h1>
+        <p class="tag">ゆびタイプ・夜の牢屋敷</p>
+      </div>
+      <svg class="ywin" viewBox="0 0 100 116" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <defs><clipPath id="ywinClip"><path d="M12 110V50a38 38 0 0 1 76 0v60z"/></clipPath></defs>
+        <circle class="moon" cx="62" cy="44" r="15"/>
+        <g filter="url(#rough2)"><g clip-path="url(#ywinClip)" stroke-width="5"><path d="M34 0v116M56 0v116M78 0v116"/></g><path d="M12 110V50a38 38 0 0 1 76 0v60z" stroke-width="4.5"/><path d="M6 110h88" stroke-width="5"/></g>
+      </svg>
+    </header>
+
+    <div class="ynote" role="note">
+      <b>非公式ファンメイド</b>
+      <p id="yFan"></p>
+      <ul>
+        <li>公式の画像（ロゴ・立ち絵・スチル・UI）、ボイス、BGM、効果音は使っていません。</li>
+        <li>問題文は、登場人物の名前、作品の用語、公式の宣伝文句と、口癖を日常のフレーズに置き換えたものです。物語の核心にふれる言葉（ネタバレ）は入れていません。</li>
+      </ul>
+    </div>
+
+    <button class="howline" id="yHowBtn" type="button"><span>打ち方</span><b id="yHow"></b><u>変える</u></button>
+
+    <div class="doors" role="group" aria-label="遊び方を選ぶ">
+      <button class="door deep" type="button" data-ydoor="monster">
+        <svg class="bars" viewBox="0 0 120 44" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><g filter="url(#rough2)" stroke-width="6"><path d="M8 4v36M32 4v36M56 4v36M80 4v36M104 4v36M2 10h116"/></g></svg>
+        <span class="nm">モンスター戦</span>
+        <span class="ds">牢屋敷の地下へ。やられたら最初から</span>
+        <span class="bs"></span>
+        <span class="rs" hidden></span>
+      </button>
+      <button class="linkbtn door-new" type="button" data-ynew="monster" hidden>中断した回を消して、はじめから</button>
+      <button class="door" type="button" data-ydoor="time">
+        <span class="nm">60秒</span>
+        <span class="ds">時間内にどれだけ打てるか</span>
+        <span class="bs"></span>
+        <span class="rs" hidden></span>
+      </button>
+      <button class="linkbtn door-new" type="button" data-ynew="time" hidden>中断した回を消して、はじめから</button>
+      <button class="door" type="button" data-ydoor="count">
+        <span class="nm">10問</span>
+        <span class="ds">打ち終えるまでの速さ</span>
+        <span class="bs"></span>
+        <span class="rs" hidden></span>
+      </button>
+      <button class="linkbtn door-new" type="button" data-ynew="count" hidden>中断した回を消して、はじめから</button>
+    </div>
+    <p class="msg" id="yMsg" hidden></p>
+
+    <nav class="links" aria-label="ほかの画面">
+      <button type="button" id="yRank">このコースのランキング</button>
+      <button type="button" id="yLeave">ふつうのゆびタイプへ</button>
+    </nav>
+    <p class="foot" id="yCount"></p>
+  </div>
+</section>
+<div class="ygate" id="yGate" hidden aria-hidden="true"><p>……夜の牢屋敷へ</p></div>
 
 <section id="v-play" class="view play" hidden>
   <header class="bar">
@@ -1654,7 +1740,6 @@ const MANOSABA = `桜羽エマ|さくらばえま
 あのー……本日の業務は終わりです|あのーほんじつのぎょうむはおわりです`;
 const YUKI = '月代ユキ';
 const FAN_NOTE = 'このコースは『魔法少女ノ魔女裁判』の非公式ファンメイドです。公式（Acacia／合同会社Re,AER）とは関係ありません。';
-const FAN_NOTE_LIST = '「魔女裁判」コースは、『魔法少女ノ魔女裁判』の非公式ファンメイドです。公式（Acacia／合同会社Re,AER）とは関係ありません。';
 /* 段位認定: the same ten problems for everyone, 変換なし・句読点あり, in this order */
 const DAN_ITEMS = `新幹線|しんかんせん
 図書館|としょかん
@@ -2126,9 +2211,17 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 let VIEW = 'home';
+let YROOM = false;       // in the 魔女裁判 room, or in a game started from it
 function show(v){
-  for (const id of ['home','setup','custom','play','result','records','rank','meta','zukan','dan','shuin']) $('#v-' + id).hidden = id !== v;
+  for (const id of ['home','setup','custom','play','result','records','rank','meta','zukan','dan','shuin','yuki']) $('#v-' + id).hidden = id !== v;
   VIEW = v; document.documentElement.dataset.view = v;
+  if (v === 'home') YROOM = false;
+  if (v === 'yuki') YROOM = true;
+  document.documentElement.classList.toggle('night', YROOM);
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m => { if (!m.dataset.c) m.dataset.c = m.content; m.content = YROOM ? '#13141B' : m.dataset.c; });
+  if (v === 'setup') $('#courseGroup').hidden = YROOM;
+  // a finger still typing when the game ends must not press something on the result screen
+  if (v === 'result') { const r = $('#v-result'); r.style.pointerEvents = 'none'; clearTimeout(show.guard); show.guard = setTimeout(() => { r.style.pointerEvents = ''; }, 500); }
   if (v !== 'play') { $('#keyPop').hidden = true; $('#flickPop').hidden = true; }
   if (v !== 'result') $('#cardModal').hidden = true;
   const sc = $('#v-' + v); if (sc) sc.scrollTop = 0;
@@ -2145,16 +2238,14 @@ const bestKey = (kb, course, mode, conv, punct) => `best:${kb}:${course}:${BMODE
 /* ================= menu ================= */
 function renderHome(){
   if (S.course === 'daily') { S.course = 'words'; saveS(); }     // 今日のお題 has its own entrance now
-  if (S.course === 'manosaba' && !yukiOn()) { S.course = 'words'; saveS(); }
-  document.documentElement.classList.toggle('yuki', yukiOn());
-  $('#v-home .tag').textContent = yukiOn() ? 'ことばの迷宮・魔女裁判' : 'ことばの迷宮';
+  if (S.course === 'manosaba') { S.course = 'words'; saveS(); }   // it has a room of its own now
   document.querySelectorAll('[data-set]').forEach(b => b.setAttribute('aria-pressed', String(S[b.dataset.set] === b.dataset.val)));
   $('#kbNote').textContent = S.kb === 'qwerty'
     ? 'ローマ字で打ちます。shi と si、tsu と tu など、どの打ち方でも正解です。'
     : 'フリックでも、同じキーを続けて押すトグル入力でも打てます。濁点と小さい字は「小゛゜」キーで。';
   const box = $('#courses'); box.textContent = '';
   for (const c of COURSES) {
-    if (c.id === 'daily' || c.special || (c.hidden && !yukiOn())) continue;
+    if (c.id === 'daily' || c.special || c.hidden) continue;
     const items = itemsOf(c.id);
     let sample = items.slice(0, 2).map(x => clean(splitItem(x)[0])).join('・') + '…';
     if (c.id === 'weak') sample = items.length ? '苦手：' + weakTop(S.kb, 4).map(x => x[0]).join('・') : 'ミスした字から問題を作ります';
@@ -2166,8 +2257,6 @@ function renderHome(){
     box.appendChild(b);
   }
   $('#editCustom').hidden = S.course !== 'custom';
-  $('#fanHome').hidden = S.course !== 'manosaba';
-  $('#fanSetup').hidden = !yukiOn();
   renderRoma();
   $('#howNow').textContent = `${KB_NAME[S.kb]}・${courseById(S.course).name}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
   // the three entrances: each one starts its game, or picks up the one left halfway
@@ -2246,7 +2335,7 @@ function openSetup(toSettings){
 }
 $('#openSetup').addEventListener('click', () => openSetup(false));
 $('#openSettings').addEventListener('click', () => openSetup(true));
-$('#setupBack').addEventListener('click', () => { show('home'); renderHome(); });
+$('#setupBack').addEventListener('click', menuView);
 $('#curTitle').addEventListener('click', () => openShuin());
 document.querySelectorAll('[data-set]').forEach(b => b.addEventListener('click', () => {
   S[b.dataset.set] = b.dataset.val; saveS(); applyHeight(); renderHome();
@@ -2689,7 +2778,7 @@ function playView(){
 const SNAP = ['kb','course','courseKey','mode','conv','punct','pool','queue','qi','elapsed','keys','misses','chars','done','skipped','missMap',
   'combo','convOne','convMissed','maxConvWords','defeated','bosses','damage','you','maxHp','mon','bossPool','fever','sp','specials',
   'hw','floor','path','pw','shards','revives','freeMiss','ml','pending'];
-const slotOf = g => g.course === 'daily' ? 'daily' : g.mode;
+const slotOf = g => g.course === 'daily' ? 'daily' : g.course === 'manosaba' ? 'yuki-' + g.mode : g.mode;
 function dropSuspend(slot){ try { localStorage.removeItem('yubi:suspend:' + slot); } catch(e) {} }
 function saveSuspend(){
   if (!G || G.ended || G.course === 'dan') return;
@@ -4506,10 +4595,9 @@ async function rankAfterGame(R){
 function saveNick(input, msg){
   const v = cleanNick(input.value);
   if (!v) { msg.textContent = '1文字以上で入れてください。'; msg.hidden = false; return false; }
-  const was = yukiOn();
   store.set('nick', v); msg.hidden = true;
-  if (!was && yukiOn()) { S.course = 'manosaba'; saveS(); setTimeout(() => toast('……隠しコース「魔女裁判」が開きました'), 900); }
-  if (was && !yukiOn() && S.course === 'manosaba') { S.course = 'words'; saveS(); }
+  if (yukiOn()) setTimeout(enterYuki, 300);
+  else YROOM = false;
   return true;
 }
 $('#nickForm').addEventListener('submit', e => {
@@ -4520,17 +4608,16 @@ $('#nickForm2').addEventListener('submit', e => {
   e.preventDefault();
   if (saveNick($('#nickInput2'), $('#nickMsg2'))) { $('#nickForm2').hidden = true; renderRankView(); toast('名前を変えました。次に記録を更新したときから、この名前で載ります'); }
 });
-for (const id of ['fanHome', 'fanPlay', 'rFan', 'rankFan']) $('#' + id).textContent = FAN_NOTE;
-$('#fanSetup').textContent = FAN_NOTE_LIST;   // under the list of all courses, so it names the course
+for (const id of ['yFan', 'fanPlay', 'rFan', 'rankFan']) $('#' + id).textContent = FAN_NOTE;
 $('#nickForm3').addEventListener('submit', e => {
   e.preventDefault();
-  if (saveNick($('#nickInput3'), $('#nickMsg3'))) { $('#nickInput3').blur(); renderHome(); if (!yukiOn()) toast('名前を決めました'); }
+  if (saveNick($('#nickInput3'), $('#nickMsg3'))) { $('#nickInput3').blur(); if (!yukiOn()) { renderHome(); toast('名前を決めました'); } }
 });
 $('#nickEdit').addEventListener('click', () => { $('#nickInput2').value = getNick(); $('#nickForm2').hidden = false; $('#nickInput2').focus(); });
 let RTAB = 'daily', RKB = 'qwerty', RPER = 'week';
 function rankBoardNow(){
   const daily = RTAB === 'daily' || S.course === 'daily';
-  const course = daily ? 'daily' : S.course;
+  const course = daily ? 'daily' : YROOM ? 'manosaba' : S.course;
   const mode = daily ? 'monster' : S.mode;
   const week = !daily && RPER === 'week';
   return { course, ck:courseKey(course), mode, week, key:boardKeyOf(RKB, courseKey(course) + (week ? '-' + weekKey() : ''), mode, S.conv, S.punct) };
@@ -4542,6 +4629,9 @@ async function renderRankView(){
   $('#weekTxt').textContent = weekLabel() + '。毎週リセット';
   const bd = rankBoardNow();
   $('#rankPer').hidden = bd.course === 'daily';
+  const cb = document.querySelector('[data-rtab="combo"]');
+  cb.querySelector('b').textContent = YROOM ? '魔女裁判' : 'いまの組み合わせ';
+  cb.querySelector('span').textContent = YROOM ? 'このコースと、最後に遊んだルール' : '打ち方のコースと、最後に遊んだルール';
   $('#rankFan').hidden = bd.course !== 'manosaba';
   $('#rankWhat').textContent = metaText({ kb:RKB === 'pc' ? S.kb : RKB, src:RKB, course:bd.course, mode:bd.mode, conv:S.conv, punct:S.punct }) + (bd.course === 'daily' ? `（${md(todayKey())}）` : bd.week ? `・今週（${weekLabel()}）` : '');
   // this device's own records for the same board
@@ -4569,8 +4659,8 @@ document.querySelectorAll('[data-rkb]').forEach(b => b.addEventListener('click',
 document.querySelectorAll('[data-rper]').forEach(b => b.addEventListener('click', () => { RPER = b.dataset.rper; renderRankView(); }));
 $('#openRank').addEventListener('click', () => openRank('daily', store.get('lastSrc', '') === 'pc' ? 'pc' : S.kb));
 $('#openRecords').addEventListener('click', () => { show('records'); renderRecords(); });
-$('#recBack').addEventListener('click', () => { show('home'); renderHome(); });
-$('#rankBack').addEventListener('click', () => { show('home'); renderHome(); });
+$('#recBack').addEventListener('click', menuView);
+$('#rankBack').addEventListener('click', menuView);
 $('#rOpenRank').addEventListener('click', () => openRank(LAST && LAST.course === 'daily' ? 'daily' : 'combo', LAST ? LAST.src : S.kb));
 /* the workshop: spend かけら on upgrades that last for every later run */
 function renderMeta(){
@@ -4604,7 +4694,7 @@ function renderDan(){
 function startDan(kb){ S.kb = kb; saveS(); unlockAudio(); startGame({ course:'dan', mode:'count', conv:false, punct:true }); }
 $('#danQwerty').addEventListener('click', () => startDan('qwerty'));
 $('#danFlick').addEventListener('click', () => startDan('flick'));
-$('#danBack').addEventListener('click', () => { show('home'); renderHome(); });
+$('#danBack').addEventListener('click', menuView);
 /* 朱印帳: every title as a seal; the ones earned are pressed in 朱 with their date */
 const sealTilt = id => ((hashStr(id) % 9) - 4) * 0.9;
 function renderShuin(){
@@ -4624,7 +4714,7 @@ $('#shuinGrid').addEventListener('click', e => {
   S.title = b.dataset.ach; saveS(); renderShuin(); toast('いまの称号にしました');
 });
 function openShuin(){ show('shuin'); renderShuin(); }
-$('#shuinBack').addEventListener('click', () => { show('home'); renderHome(); });
+$('#shuinBack').addEventListener('click', menuView);
 $('#openShuin2').addEventListener('click', openShuin);
 let ZTAB = 'mon';
 function renderZukan(){
@@ -4652,13 +4742,13 @@ function renderZukan(){
 $('#openZukan').addEventListener('click', () => { show('zukan'); renderZukan(); });
 $('#openShuin').addEventListener('click', openShuin);
 $('#openDan').addEventListener('click', () => { show('dan'); renderDan(); });
-$('#zukanBack').addEventListener('click', () => { show('home'); renderHome(); });
+$('#zukanBack').addEventListener('click', menuView);
 document.querySelectorAll('[data-ztab]').forEach(b => b.addEventListener('click', () => { ZTAB = b.dataset.ztab; renderZukan(); }));
 let metaFrom = 'home';
 function openMeta(from){ metaFrom = from; show('meta'); renderMeta(); }
 $('#openMeta').addEventListener('click', () => openMeta('home'));
 $('#rOpenMeta').addEventListener('click', () => openMeta('result'));
-$('#metaBack').addEventListener('click', () => { if (metaFrom === 'result' && LAST) { show('result'); if (LAST.mode === 'monster') $('#rShards').textContent = `ことばのかけら +${LAST.shards}（いま ${metaGet().k}個）`; } else { show('home'); renderHome(); } });
+$('#metaBack').addEventListener('click', () => { if (metaFrom === 'result' && LAST) { show('result'); if (LAST.mode === 'monster') $('#rShards').textContent = `ことばのかけら +${LAST.shards}（いま ${metaGet().k}個）`; } else menuView(); });
 $('#rAch').addEventListener('click', () => openShuin());
 
 /* ================= ads: 忍者AdMax, on the public site only, never on the typing screen ================= */
@@ -4688,6 +4778,54 @@ function loadAd(slot, minGap){
   box.appendChild(f);
 }
 
+/* ================= 魔女裁判の部屋: a screen of its own, opened by setting the name 月代ユキ (every time) ================= */
+function enterYuki(){
+  if (G && !G.ended && VIEW === 'play') return;
+  const go = () => { YROOM = true; show('yuki'); renderYuki(); };
+  const gate = $('#yGate');
+  if (RM) { go(); return; }
+  gate.hidden = false; gate.classList.remove('out'); void gate.offsetWidth; gate.classList.add('in');
+  setTimeout(() => {
+    go();
+    gate.classList.remove('in'); gate.classList.add('out');
+    setTimeout(() => { gate.hidden = true; gate.classList.remove('out'); }, 750);
+  }, 700);
+}
+function renderYuki(){
+  $('#yHow').textContent = `${KB_NAME[S.kb]}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
+  $('#yCount').textContent = `${courseById('manosaba').items.length}語。名前を「月代ユキ」に決めるたびに、ここへ来られます。`;
+  for (const m of ['monster', 'time', 'count']) {
+    const door = document.querySelector(`[data-ydoor="${m}"]`);
+    const best = store.get(bestKey(S.kb, courseKey('manosaba'), m, S.conv, S.punct), null);
+    door.querySelector('.bs').innerHTML = !best ? 'まだ記録なし'
+      : m === 'monster' ? `いちばん深く<b>地下${best.floor || 0}階</b>` : `いちばん速く<b>${best.cpm}字/分</b>`;
+    const sv = store.get('suspend:yuki-' + m, null), ok = !!(sv && sv.v === 1 && sv.g);
+    const rs = door.querySelector('.rs');
+    rs.hidden = !ok; door.dataset.resume = ok ? '1' : '';
+    if (ok) { const t = suspendText(sv); rs.textContent = `続きから　${t.where}`; door.setAttribute('aria-label', `${MODE_NAME[m]}　続きから　${t.where}`); }
+    else door.removeAttribute('aria-label');
+    document.querySelector(`[data-ynew="${m}"]`).hidden = !ok;
+  }
+}
+document.querySelectorAll('[data-ydoor]').forEach(b => b.addEventListener('click', () => {
+  unlockAudio();
+  const m = b.dataset.ydoor;
+  if (b.dataset.resume === '1') { restoreGame('yuki-' + m); return; }
+  S.mode = m; saveS();
+  startGame({ course:'manosaba', mode:m });
+}));
+document.querySelectorAll('[data-ynew]').forEach(b => b.addEventListener('click', () => { dropSuspend('yuki-' + b.dataset.ynew); renderYuki(); toast('中断した回を消しました'); }));
+$('#yHowBtn').addEventListener('click', () => openSetup(false));
+$('#yRank').addEventListener('click', () => openRank('combo'));
+const leaveYuki = () => { YROOM = false; show('home'); renderHome(); };
+$('#yukiBack').addEventListener('click', leaveYuki);
+$('#yLeave').addEventListener('click', leaveYuki);
+// a game of this course left halfway in the old shared slots moves to the room's own slots
+for (const m of ['monster', 'time', 'count']) {
+  const sv = store.get('suspend:' + m, null);
+  if (sv && sv.g && sv.g.course === 'manosaba') { if (!store.get('suspend:yuki-' + m, null)) store.set('suspend:yuki-' + m, sv); dropSuspend(m); }
+}
+
 /* the headline number rolls up; a new best gets a fanfare and confetti */
 let countT = 0;
 function countUp(el, to, best){
@@ -4712,8 +4850,9 @@ function countUp(el, to, best){
 function goHome(){
   if (G) { G.ended = true; cancelAnimationFrame(G.raf); }
   G = null;
-  show('home'); renderHome();
+  menuView();
 }
+function menuView(){ if (YROOM) { show('yuki'); renderYuki(); } else { show('home'); renderHome(); } }
 $('#quitBtn').addEventListener('click', () => { if (G && !G.ended) openPause(); else goHome(); });
 $('#spBtn').addEventListener('click', () => { unlockAudio(); special(); });
 $('#toMenu').addEventListener('click', goHome);
