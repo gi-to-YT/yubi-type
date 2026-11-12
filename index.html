@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ゆびタイプ</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="スマホの指で打つ日本語タイピング練習。QWERTY とテンキー（フリック）に対応。変換、モンスター戦、今日のお題も。">
+<meta name="description" content="スマホの指で打つ日本語タイピング練習。QWERTY とテンキー（フリック）に対応。変換、モンスター戦、今日のダンジョンも。">
 <meta property="og:title" content="ゆびタイプ">
-<meta property="og:description" content="スマホの指で打つ日本語タイピング練習。QWERTY とテンキー（フリック）に対応。変換、モンスター戦、今日のお題も。">
+<meta property="og:description" content="スマホの指で打つ日本語タイピング練習。QWERTY とテンキー（フリック）に対応。変換、モンスター戦、今日のダンジョンも。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://gi-to-yt.github.io/yubi-type/">
 <meta name="twitter:card" content="summary">
@@ -469,6 +469,10 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .nickrow input{flex:1;min-width:0;font:16px var(--font-ui);padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
 .primary.small{font-size:15px;padding:8px 16px;width:auto;letter-spacing:.06em}
 .foot a{color:var(--mute)}
+.fanmade{margin:0;font-size:12px;line-height:1.6;color:var(--mute)}
+.howline + .fanmade{margin-top:-4px}
+.fanplay{position:absolute;top:38px;left:16px;right:16px;margin:0;font-size:11px;line-height:1.5;color:var(--mute);text-align:center;pointer-events:none}
+.play.monster .fanplay{top:auto;bottom:36px}
 .adslot{display:flex;flex-direction:column;align-items:center;gap:4px}
 .adlabel{margin:0;font-size:11px;color:var(--mute);letter-spacing:.1em}
 .adslot iframe{display:block;border:0;width:100%;max-width:336px;background:transparent}
@@ -854,6 +858,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </header>
 
     <button class="howline" id="openSetup" type="button"><span>打ち方</span><b id="howNow"></b><u>変える</u></button>
+    <p class="fanmade" id="fanHome" hidden></p>
 
     <div class="doors" role="group" aria-label="遊び方を選ぶ">
       <button class="door deep" type="button" data-door="monster">
@@ -894,7 +899,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </nav>
 
     <div class="adslot" id="ad-menu" hidden><p class="adlabel">広告</p></div>
-    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。<br><a href="https://gi-to-yt.github.io/yubi-type/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
+    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。<br>隠しコース「魔女裁判」は、『魔法少女ノ魔女裁判』の非公式ファンメイドです。公式（Acacia／合同会社Re,AER）とは関係ありません。<br><a href="https://gi-to-yt.github.io/yubi-type/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
   </div>
 </section>
 
@@ -922,6 +927,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <h2 class="label">コース</h2>
       <div class="courses" id="courses" role="group" aria-label="コース"></div>
       <button class="linkbtn" id="editCustom" hidden>「じぶんで追加」の文を編集する</button>
+      <p class="fanmade" id="fanSetup" hidden></p>
     </div>
 
     <div class="group">
@@ -996,6 +1002,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
   <div class="ghost" id="ghost" hidden><span class="gl">影</span><span class="gt"><i class="gs" id="ghostS"></i><i class="gy" id="ghostY"></i></span><b id="ghostT"></b></div>
   <main class="stage" id="stage">
     <p class="ready" id="ready">キーを押すとスタート</p>
+    <p class="fanplay" id="fanPlay" hidden></p>
     <canvas class="fxcanvas" id="fxCanvas" aria-hidden="true"></canvas>
     <div class="vig" id="vig" aria-hidden="true"></div>
     <div class="arena" id="arena" data-area="1" hidden>
@@ -1057,6 +1064,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     <div class="adslot" id="ad-result" hidden><p class="adlabel">広告</p></div>
     <div class="group">
       <h2 class="label">結果をシェア</h2>
+      <p class="fanmade" id="rFan" hidden></p>
       <div class="share">
         <button class="secondary small" id="shareCopy">結果をコピー</button>
         <a class="secondary small" id="shareX" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">X に投稿</a>
@@ -1176,6 +1184,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </div>
     <p class="note">PC は、本物のキーボードで打った記録です。スマホの画面で打った記録とは分けています。</p>
     <p class="note" id="rankWhat"></p>
+    <p class="fanmade" id="rankFan" hidden></p>
     <p class="note" id="nickLine" hidden>ランキングでの名前：<b id="nickNow"></b>　<button class="linkbtn" id="nickEdit" type="button">変える</button></p>
     <form class="nickform" id="nickForm2" hidden>
       <label for="nickInput2">ランキングに出す名前（12文字まで）</label>
@@ -1505,8 +1514,10 @@ const CUSTOM_DEFAULT = `生麦生米生卵/なまむぎなまごめなまたま�
 赤巻紙青巻紙黄巻紙/あかまきがみあおまきがみきまきがみ
 バスガス爆発/ばすがすばくはつ`;
 
-/* 裏コース「魔女裁判」: opens when the name is 月代ユキ. Names, the words of the world, and only short pieces of
-   well-known lines or everyday phrases made from them, never whole lines from the scenario */
+/* 裏コース「魔女裁判」: opens when the name is 月代ユキ (the name is only the key, it is not one of the problems).
+   An unofficial fan-made course of 『魔法少女ノ魔女裁判』: names, the words of the world, the official catchphrases,
+   and only short pieces of well-known lines or everyday phrases made from them, never whole lines from the scenario.
+   Nothing that gives the story away: no 魔女殺し, and none of the magics that are revealed later in the story */
 const MANOSABA = `桜羽エマ|さくらばえま
 二階堂ヒロ|にかいどうひろ
 夏目アンアン|なつめあんあん
@@ -1520,16 +1531,14 @@ const MANOSABA = `桜羽エマ|さくらばえま
 遠野ハンナ|とおのはんな
 沢渡ココ|さわたりここ
 氷上メルル|ひかみめるる
-月代ユキ|つきしろゆき
 ゴクチョー|ごくちょー
 魔法少女ノ魔女裁判|まほうしょうじょのまじょさいばん
 まのさば|まのさば
 魔女裁判|まじょさいばん
 牢屋敷|ろうやしき
-獄長|ごくちょー
+獄長|ごくちょう
 魔女|まじょ
 大魔女|だいまじょ
-魔女殺し|まじょごろし
 魔法議論|まほうぎろん
 絶海の孤島|ぜっかいのことう
 十三人の少女|じゅうさんにんのしょうじょ
@@ -1559,8 +1568,93 @@ const MANOSABA = `桜羽エマ|さくらばえま
 今日の魔女裁判はお休みです|きょうのまじょさいばんはおやすみです
 処刑ボタンは押さないで|しょけいぼたんはおさないで
 牢屋敷の朝ごはん|ろうやしきのあさごはん
-十三人の少女と獄長|じゅうさんにんのしょうじょとごくちょー`;
+十三人の少女と獄長|じゅうさんにんのしょうじょとごくちょう
+この中に、魔女になった少女がいる|このなかに、まじょになったしょうじょがいる
+魔女裁判を執り行う|まじょさいばんをとりおこなう
+本格ゴシック・ミステリ|ほんかくごしっくみすてり
+魔法議論ミステリー|まほうぎろんみすてりー
+牢屋敷の謎を解く|ろうやしきのなぞをとく
+高校1年生になるはずの朝|こうこういちねんせいになるはずのあさ
+当たり前だと思っていた日常|あたりまえだとおもっていたにちじょう
+13名の魔女候補たち|じゅうさんめいのまじょこうほたち
+共犯の皆様|きょうはんのみなさま
+魔女の魔法と嘘を暴き、処刑せよ。|まじょのまほうとうそをあばき、しょけいせよ。
+死ぬ前に推せ！|しぬまえにおせ！
+このあと、死にます。|このあと、しにます。
+魔女候補|まじょこうほ
+魔女因子|まじょいんし
+なれはて|なれはて
+魔女図鑑|まじょずかん
+囚人番号|しゅうじんばんごう
+捜査パート|そうさぱーと
+魔女裁判パート|まじょさいばんぱーと
+謎のフクロウ|なぞのふくろう
+看守|かんしゅ
+原罪|げんざい
+ノアの魔法は液体操作|のあのまほうはえきたいそうさ
+アリサの魔法は発火|ありさのまほうははっか
+シェリーの魔法は怪力|しぇりーのまほうはかいりき
+ハンナの魔法は浮遊|はんなのまほうはふゆう
+メルルの魔法は治癒|めるるのまほうはちゆ
+忌み嫌われるもの|いみきらわれるもの
+正義の執行者|せいぎのしっこうしゃ
+嘘言の眠り姫|そらごとのねむりひめ
+偽りの芸術家|いつわりのあーてぃすと
+舞台上の偶像|ぶたいじょうのあいどる
+高校デビューギャル|こうこうでびゅーぎゃる
+愛を知る人|あいをしるひと
+過去からの狙撃手|かこからのすないぱー
+自罰中毒|じばつちゅうどく
+破壊探偵|くらっしゃー
+空想令嬢|くうそうれいじょう
+孤独な配信者|こどくなはいしんしゃ
+怯える天使|おびえるてんし
+嘘つきの魔女を探し出せ|うそつきのまじょをさがしだせ
+発言の矛盾を暴く|はつげんのむじゅんをあばく
+自称名探偵のシェリー|じしょうめいたんていのしぇりー
+詐欺師の少女_マーゴ|さぎしのしょうじょ_まーご
+ストリーマーのココ|すとりーまーのここ
+ストリートアーティストのノア|すとりーとあーてぃすとののあ
+有名な役者のレイア|ゆうめいなやくしゃのれいあ
+白ギャル風のミリア|しろぎゃるふうのみりあ
+不良の家出少女_アリサ|ふりょうのいえでしょうじょ_ありさ
+お嬢様言葉のハンナ|おじょうさまことばのはんな
+引きこもりのアンアン|ひきこもりのあんあん
+いつも半泣きのメルル|いつもはんなきのめるる
+ポジティブで元気なエマ|ぽじてぃぶでげんきなえま
+単独行動が好きなナノカ|たんどくこうどうがすきななのか
+ヒロは正しい人、エマは正しくない人|ひろはただしいひと、えまはただしくないひと
+今日はヒロが生まれてしまった日|きょうはひろがうまれてしまったひ
+桜羽……エマッ！！|さくらばえまっ！！
+エマっち|えまっち
+牢屋敷から脱出してみせる|ろうやしきからだっしゅつしてみせる
+シェリーちゃん可愛い_大好きえらいねすごいね天才|しぇりーちゃんかわいい_だいすきえらいねすごいねてんさい
+炙りビン|あぶりびん
+カレーセットふたつ|かれーせっとふたつ
+成績優秀な大和撫子|せいせきゆうしゅうなやまとなでしこ
+正しくないものに容赦しない|ただしくないものにようしゃしない
+二度寝は正しくない|にどねはただしくない
+歩きスマホは正しくない|あるきすまほはただしくない
+ピーマンを残すのは正しくない|ぴーまんをのこすのはただしくない
+わがはいは外に出たくないのだ|わがはいはそとにでたくないのだ
+わがはいはお昼寝したいのだ|わがはいはおひるねしたいのだ
+わたくしは名家の令嬢ですわ|わたくしはめいかのれいじょうですわ
+今日もいいお天気ですわ|きょうもいいおてんきですわ
+おやつの時間ですわ|おやつのじかんですわ
+あてぃしの配信、最高じゃん|あてぃしのはいしん、さいこうじゃん
+ウチは朝が苦手なんだよ|うちはあさがにがてなんだよ
+おじさんも眠くなってきた|おじさんもねむくなってきた
+のあね、お絵描きが好きなんだよ？|のあね、おえかきがすきなんだよ？
+ボクはみんなと仲良くしたい|ぼくはみんなとなかよくしたい
+名探偵の出番ですね！|めいたんていのでばんですね！
+自称かわいいフクロウ|じしょうかわいいふくろう
+ゴクチョーは今日も残業です|ごくちょーはきょうもざんぎょうです
+その証言、ちょっと待って！|そのしょうげん、ちょっとまって！
+わがはいはいつも、寝るのが遅い|わがはいはいつも、ねるのがおそい
+あのー……本日の業務は終わりです|あのーほんじつのぎょうむはおわりです`;
 const YUKI = '月代ユキ';
+const FAN_NOTE = 'このコースは『魔法少女ノ魔女裁判』の非公式ファンメイドです。公式（Acacia／合同会社Re,AER）とは関係ありません。';
+const FAN_NOTE_LIST = '「魔女裁判」コースは、『魔法少女ノ魔女裁判』の非公式ファンメイドです。公式（Acacia／合同会社Re,AER）とは関係ありません。';
 /* 段位認定: the same ten problems for everyone, 変換なし・句読点あり, in this order */
 const DAN_ITEMS = `新幹線|しんかんせん
 図書館|としょかん
@@ -2072,6 +2166,8 @@ function renderHome(){
     box.appendChild(b);
   }
   $('#editCustom').hidden = S.course !== 'custom';
+  $('#fanHome').hidden = S.course !== 'manosaba';
+  $('#fanSetup').hidden = !yukiOn();
   renderRoma();
   $('#howNow').textContent = `${KB_NAME[S.kb]}・${courseById(S.course).name}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
   // the three entrances: each one starts its game, or picks up the one left halfway
@@ -2585,6 +2681,7 @@ function playView(){
   $('#fxl').textContent = '';
   $('#ready').textContent = G.resumed ? 'キーを押すと続きから' : 'キーを押すとスタート';
   $('#ready').hidden = false;
+  $('#fanPlay').hidden = G.course !== 'manosaba';
   $('#stage').classList.remove('ended', 'miss');
 }
 
@@ -2811,7 +2908,7 @@ function afterInput(){
 function begin(){
   if (G.started) return;
   G.started = true; G.t0 = performance.now() - (G.elapsed || 0) * 1000;
-  $('#ready').hidden = true;
+  $('#ready').hidden = true; $('#fanPlay').hidden = true;
   tick();
 }
 function tick(){
@@ -3036,6 +3133,9 @@ function renderCands(){
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'cand' + (t === hintText ? ' hint' : '');
       b.textContent = t; b.dataset.i = i;
+      // a long phrase gets smaller letters, so the whole of it fits on the screen
+      const n = [...t].length, room = ($('#cands').clientWidth || innerWidth) - 56;
+      if (n * 18 > room) { b.style.fontSize = Math.max(11, Math.floor(room / n)) + 'px'; b.style.padding = '0 10px'; }
       box.appendChild(b);
     });
   }
@@ -3074,6 +3174,7 @@ function updateBar(){
 function renderResult(R){
   const mon = R.mode === 'monster';
   $('#rMeta').textContent = metaText(R);
+  $('#rFan').hidden = R.course !== 'manosaba';
   const rk = $('#rRank');
   const dan = R.course === 'dan', dname = dan ? (R.danIdx >= 0 ? DAN[R.danIdx][1] : '修行中') : null;
   rk.textContent = dan ? dname : R.rank; rk.dataset.len = [...rk.textContent].length;
@@ -4039,6 +4140,7 @@ function shareText(R){
   const out = [`ゆびタイプ｜${metaText(R)}`,
     R.mode === 'monster' ? `地下${R.floor}階まで到達・${R.defeated}体撃破・${R.cpm}文字/分・1秒あたり${R.kps.toFixed(1)}打` : `${R.cpm}文字/分（${R.rank}）1秒あたり${R.kps.toFixed(1)}打・正確率${R.acc}%`];
   const t = curTitle(); if (t) out.push(`称号：${t.name}`);
+  if (R.course === 'manosaba') out.push('※非公式ファンメイドのコースです（公式とは関係ありません）');
   out.push('#ゆびタイプ');
   if (SHARE_URL) out.push(SHARE_URL);
   return out.join('\n');
@@ -4132,7 +4234,7 @@ async function makeCard(R){
   const x = cv.getContext('2d');
   const F = '"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif', BR = '"Yuji Syuku","Hiragino Mincho ProN",serif', MC = '"Shippori Mincho B1","Hiragino Mincho ProN",serif';
   const title = curTitle(), mon = R.mode === 'monster';
-  const words = [metaText(R), '1分あたりの文字数1秒あたり打たどり着いた階地下たおした正確率ミス打てた文字時間称号', title ? title.name : ''].join('');
+  const words = [metaText(R), '1分あたりの文字数1秒あたり打たどり着いた階地下たおした正確率ミス打てた文字時間称号', title ? title.name : '', R.course === 'manosaba' ? FAN_NOTE : ''].join('');
   try { await Promise.all([document.fonts.load(`400 40px "Yuji Syuku"`, 'ゆびタイプ階字分称号' + R.rank + (title ? title.name : '')), document.fonts.load(`800 40px "Shippori Mincho B1"`, 'ことばの迷宮0123456789.%体秒字'), document.fonts.load(`500 40px "Zen Kaku Gothic New"`, words)]); } catch(e) {}
   const C = { paper:'#F1EBDD', ink:'#1D1A16', mute:'#6A6357', line:'#CFC5B2' };
   const rnd = seeded(hashStr(todayKey() + R.cpm + R.rank));
@@ -4155,6 +4257,12 @@ async function makeCard(R){
   x.fillStyle = C.ink; x.font = `800 26px ${MC}`; x.fillText(todayKey().replace(/-/g, '.'), W - 96, 118);
   x.fillStyle = C.mute; x.font = `500 23px ${F}`; x.fillText(metaText(R), W - 96, 156);
   x.textAlign = 'left';
+  if (R.course === 'manosaba') {
+    // the fan-made notice, small along the top edge inside the frame
+    let fs = 17; x.font = `500 ${fs}px ${F}`;
+    while (fs > 12 && x.measureText(FAN_NOTE).width > W - 192) { fs--; x.font = `500 ${fs}px ${F}`; }
+    x.fillStyle = C.mute; x.fillText(FAN_NOTE, 96, 76);
+  }
   // the headline number
   const big = String(mon ? R.floor : R.cpm);
   x.fillStyle = C.ink; x.font = `800 196px ${MC}`; x.fillText(big, 88, 436);
@@ -4412,6 +4520,8 @@ $('#nickForm2').addEventListener('submit', e => {
   e.preventDefault();
   if (saveNick($('#nickInput2'), $('#nickMsg2'))) { $('#nickForm2').hidden = true; renderRankView(); toast('名前を変えました。次に記録を更新したときから、この名前で載ります'); }
 });
+for (const id of ['fanHome', 'fanPlay', 'rFan', 'rankFan']) $('#' + id).textContent = FAN_NOTE;
+$('#fanSetup').textContent = FAN_NOTE_LIST;   // under the list of all courses, so it names the course
 $('#nickForm3').addEventListener('submit', e => {
   e.preventDefault();
   if (saveNick($('#nickInput3'), $('#nickMsg3'))) { $('#nickInput3').blur(); renderHome(); if (!yukiOn()) toast('名前を決めました'); }
@@ -4432,6 +4542,7 @@ async function renderRankView(){
   $('#weekTxt').textContent = weekLabel() + '。毎週リセット';
   const bd = rankBoardNow();
   $('#rankPer').hidden = bd.course === 'daily';
+  $('#rankFan').hidden = bd.course !== 'manosaba';
   $('#rankWhat').textContent = metaText({ kb:RKB === 'pc' ? S.kb : RKB, src:RKB, course:bd.course, mode:bd.mode, conv:S.conv, punct:S.punct }) + (bd.course === 'daily' ? `（${md(todayKey())}）` : bd.week ? `・今週（${weekLabel()}）` : '');
   // this device's own records for the same board
   const ws = weekStart();
