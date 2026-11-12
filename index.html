@@ -86,11 +86,6 @@ button{font:inherit;color:inherit}
 
 /* ---- menu ---- */
 .brand{display:flex;align-items:center;gap:14px}
-.mark{display:grid;grid-template-columns:repeat(3,19px);grid-template-rows:repeat(3,19px);gap:2px;flex:none}
-.mark span{display:grid;place-items:center;font-size:11px;font-weight:700;border-radius:4px;background:var(--card);color:var(--mute);line-height:1}
-.mark .c{background:var(--key-fn);color:var(--ink)}
-.mark .on{background:var(--accent);color:var(--on-accent)}
-.mark .x{visibility:hidden}
 h1{font-size:27px;line-height:1.2;margin:0;font-weight:700;letter-spacing:.03em}
 .tag{margin:3px 0 0;color:var(--mute);font-size:13px}
 .group{display:flex;flex-direction:column;gap:8px}
@@ -108,25 +103,17 @@ h1{font-size:27px;line-height:1.2;margin:0;font-weight:700;letter-spacing:.03em}
 .note{margin:0;font-size:13px;color:var(--mute);line-height:1.6}
 .courses{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .linkbtn{appearance:none;border:0;background:none;padding:2px 0;color:var(--accent);font-size:13px;font-weight:700;text-align:left;cursor:pointer;text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
-.startbox{display:flex;flex-direction:column;gap:10px}
-.best{margin:0;font-size:13px;color:var(--mute);text-align:center;font-variant-numeric:tabular-nums}
-.best b{font-family:var(--font-mono);color:var(--ink);font-size:16px}
 .primary{appearance:none;border:0;border-radius:14px;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:18px;padding:15px;width:100%;cursor:pointer;letter-spacing:.12em}
 .primary:active{filter:brightness(.92)}
 .secondary{appearance:none;border:1.5px solid var(--line);border-radius:14px;background:var(--card);font-weight:700;font-size:16px;padding:13px;width:100%;cursor:pointer}
 .msg{margin:0;font-size:13px;color:var(--miss);text-align:center}
-details.settings{border-top:1px solid var(--line);padding-top:6px}
-details.settings summary{cursor:pointer;font-weight:700;font-size:14px;padding:8px 0;list-style:none;display:flex;justify-content:space-between;align-items:center}
-details.settings summary::-webkit-details-marker{display:none}
-details.settings summary::after{content:"＋";color:var(--mute);font-weight:400}
-details.settings[open] summary::after{content:"－"}
 .setrows{display:flex;flex-direction:column;gap:2px;padding-bottom:6px}
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
 .setrow:last-child{border-bottom:0}
 .setrow label,.setrow .lt{display:flex;flex-direction:column;gap:1px;font-size:14px;min-width:0}
 .setrow small{font-size:12px;color:var(--mute)}
-.sw{appearance:none;-webkit-appearance:none;flex:none;width:46px;height:28px;border-radius:14px;background:var(--line);position:relative;cursor:pointer;margin:0;transition:background .15s}
-.sw::before{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+.sw{appearance:none;-webkit-appearance:none;flex:none;width:46px;height:28px;border-radius:3px;background:var(--line);position:relative;cursor:pointer;margin:0;transition:background .15s}
+.sw::before{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:2px;background:var(--card);box-shadow:inset 0 0 0 1px var(--key-edge);transition:transform .15s}
 .sw:checked{background:var(--accent)}
 .sw:checked::before{transform:translateX(18px)}
 .setrow .seg.three{width:190px;flex:none}
@@ -249,12 +236,9 @@ html[data-kb-style="flat"] .cands{background:var(--key)}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
 /* ---- menu additions ---- */
-.titleline{margin:4px 0 0;font-size:12px;color:var(--mute)}
-.titleline b{color:var(--marker-ink);background:var(--marker);border-radius:4px;padding:0 6px;font-weight:700}
 .seg.rules{grid-template-columns:repeat(3,minmax(0,1fr))}
 .seg.rules .opt{padding:10px}
 .seg.rules .opt b{font-size:clamp(13px,3.8vw,17px);white-space:nowrap}
-.menu-links{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .secondary.small{font-size:14px;padding:10px 8px}
 a.secondary{display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--ink);text-align:center}
 .viewhead{display:flex;align-items:center;gap:12px}
@@ -268,7 +252,6 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .foe-art.spawn{animation:spawn .8s ease-out .15s backwards}
 @keyframes hit{25%{transform:translateX(-4px) scale(.95);filter:brightness(1.5)}65%{transform:translateX(3px)}}
 @keyframes spawn{0%{transform:translateY(-60px) scale(.6);opacity:0;filter:brightness(0)}35%{transform:translateY(4px) scale(1.04);opacity:1;filter:brightness(0)}55%{transform:none;filter:brightness(0)}100%{transform:none;opacity:1;filter:none}}
-.foe-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;text-align:left}
 .scene{position:absolute;inset:0;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.2);background:linear-gradient(#6EC2F2,#CDEEFF)}
 .scene::before{content:"";position:absolute;inset:0;pointer-events:none}
 .foe-top{position:absolute;left:10px;right:10px;top:8px;display:flex;flex-direction:column;gap:3px;z-index:2}
@@ -300,26 +283,15 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 @keyframes snow{to{transform:translateY(34px)}}
 @keyframes twinkle{50%{opacity:.25}}
 .foe-name small,.hpn{font:500 11px var(--font-mono)}
-.gauge{display:block;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.gauge{display:block;height:8px;border-radius:1px;background:var(--line);overflow:hidden}
 .gauge i{display:block;height:100%;width:100%;transition:width .15s}
 .gauge.hp i{background:var(--miss)}
 .gauge.atk{height:4px}
 .gauge.atk i{background:var(--marker);transition:none;width:0}
-.you-row{margin:0;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mute)}
-.you-row .gauge{flex:1}
 .gauge.you i{background:var(--ok)}
-.you-row b{font:700 12px var(--font-mono);color:var(--ink);min-width:26px;text-align:right}
-.combo{margin:0;font:700 11px var(--font-mono);color:var(--accent);min-height:1em}
 .fxl{position:absolute;inset:0;pointer-events:none}
-.pop-n{position:absolute;font:700 16px var(--font-mono);color:var(--ink);white-space:nowrap;animation:rise .7s ease-out forwards;transform:translateX(-50%)}
-.pop-n.at-foe{left:54px;top:8px}
-.pop-n.at-you{right:44px;top:auto;bottom:22px;transform:none}
-.pop-n.msg{left:50%;top:-6px;font:700 15px var(--font-ui);background:var(--accent);color:var(--on-accent);padding:1px 10px;border-radius:999px}
-.pop-n.big{font-size:18px;color:var(--accent)}
 .chip.ach-chip b{color:var(--accent);font-family:var(--font-ui);font-size:14px}
-.pop-n.hurt{color:var(--miss);font-size:18px}
 @keyframes fadeq{0%,80%{opacity:1}100%{opacity:0}}
-@keyframes rise{from{translate:0 0;opacity:1}to{translate:0 -24px;opacity:0}}
 .arena.hurt{animation:hurt .32s}
 @keyframes hurt{30%{box-shadow:0 0 0 3px var(--miss)}}
 .play.monster .stage{justify-content:flex-start;gap:8px;padding-top:12px}
@@ -349,12 +321,6 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .foe-art.elite svg{animation:bob 2.2s ease-in-out infinite,eliteAura 1.4s ease-in-out infinite}
 @keyframes eliteAura{0%,100%{filter:drop-shadow(0 0 4px rgba(214,51,51,.7))}50%{filter:drop-shadow(0 0 11px rgba(214,51,51,1))}}
 .foe-name.elite span{color:#FFC9C9}
-.resume{display:flex;flex-direction:column;gap:8px}
-.resume-row{display:flex;align-items:center;gap:12px}
-.resume-go{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;border-color:var(--accent)}
-.resume-go b{color:var(--accent)}
-.resume-go span{font-size:12px;font-weight:500;color:var(--mute)}
-.resume-row .linkbtn{flex:none;align-self:center}
 /* ---- the workshop (かけら) ---- */
 .shards{margin:0;font-size:15px;font-weight:700;display:flex;align-items:baseline;gap:10px}
 .shards b{font:700 26px var(--font-mono);color:var(--accent)}
@@ -419,10 +385,8 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .kb .key.fn.charged[data-k="@special"] b{text-shadow:0 1px 2px rgba(0,0,0,.7);font-size:14px}
 @keyframes slam{0%{transform:translate(-50%,-50%) scale(3) rotate(-10deg);opacity:0}16%{transform:translate(-50%,-50%) scale(.9) rotate(-4deg);opacity:1}26%{transform:translate(-50%,-50%) scale(1.06) rotate(-4deg)}78%{opacity:1}100%{transform:translate(-50%,-80%) scale(1) rotate(-4deg);opacity:0}}
 .warn{position:absolute;left:-14px;right:-14px;top:50%;height:58px;margin-top:-29px;display:grid;place-items:center;z-index:8;pointer-events:none;overflow:hidden;
-  animation:warn 1.5s ease-in-out forwards}
+}
 .warn span{background:#1B2130;color:#fff;font:700 20px var(--font-ui);letter-spacing:.18em;padding:4px 14px;border-radius:4px}
-@keyframes warn{0%{transform:scaleY(0)}10%{transform:scaleY(1)}85%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:0}}
-@keyframes stripes{to{background-position:40px 0}}
 .shake-s{animation:shs .14s}
 @keyframes shs{25%{translate:-2px 1px}75%{translate:2px -1px}}
 .shake-l{animation:shl .42s}
@@ -437,7 +401,6 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .gauge.hp i{position:relative;transition:width .08s}
 .play.fever .arena .scene{animation:feverGlow 1.2s linear infinite}
 @keyframes feverGlow{0%,100%{box-shadow:inset 0 0 0 3px #ff3d7f,0 0 16px #ff3d7f}25%{box-shadow:inset 0 0 0 3px #ffe23b,0 0 16px #ffe23b}50%{box-shadow:inset 0 0 0 3px #3ddc84,0 0 16px #3ddc84}75%{box-shadow:inset 0 0 0 3px #3db8ff,0 0 16px #3db8ff}}
-@keyframes rainbowBorder{to{background-position:0 0,300% 0}}
 .play .arena.shake-s{animation:shs .14s}
 .play .arena.shake-l,.play .stage.shake-l{animation:shl .42s}
 .tally b,.score span{display:inline-block}
@@ -776,7 +739,6 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
   .foe-art.hit,.foe-art.spawn,.arena.hurt,.foe-art svg,.cmb b,.shake-s,.shake-l,.badge.pop,.bump,.play.fever .arena .scene,.scene::before,.sp-btn.charged,.sp-btn.charged .sp-fill{animation:none}
   .banner,.warn{animation:fadeq 1s forwards}
   .play.lowhp .vig:not(.on){animation:none;opacity:.3}
-  .pop-n{animation-duration:.01s}
 }
 </style>
 </head>
@@ -2681,11 +2643,11 @@ const PLAYER_MAX = 100;
 const POWERS = [
   { id:'crit',    name:'会心の指', desc:'会心の確率 +8%' },
   { id:'armor',   name:'鉄の表紙', desc:'受けるダメージ -2' },
-  { id:'mark',    name:'しおり',   desc:'勝つたびに体力 +6' },
+  { id:'mark',    name:'しおり',   desc:'勝つたびに体力 +4' },
   { id:'slow',    name:'速読',     desc:'敵の攻撃が15%ゆっくりになる' },
   { id:'punct',   name:'句読点',   desc:'ミスで受けるダメージが半分', once:true },
   { id:'red',     name:'赤ペン',   desc:'1字のダメージ +20%' },
-  { id:'margin',  name:'余白',     desc:'最大体力 +15（そのぶん回復も）' },
+  { id:'margin',  name:'余白',     desc:'最大体力 +10（そのぶん回復も）' },
   { id:'dict',    name:'辞書',     desc:'必殺ゲージのたまり方 +40%' },
   { id:'first',   name:'先手',     desc:'戦いの最初の攻撃が3秒おそくなる' },
   { id:'ink',     name:'墨つぎ',   desc:'ミスしてもコンボが半分残る', once:true },
@@ -2724,7 +2686,7 @@ const NODE = {
   elite:    { name:'強敵',       desc:() => '手ごわい。めずらしいちからが出る・かけら+3' },
   rest:     { name:'休憩',       desc:() => `体力を${restPct()}%回復（いま ${G.you}/${G.maxHp}）` },
   treasure: { name:'宝箱',       desc:() => 'ちからが1つ入っている・かけら+2' },
-  boss:     { name:'ボスの部屋', desc:() => '倒すと体力が40%回復・かけら+5' }
+  boss:     { name:'ボスの部屋', desc:() => '倒すと体力が25%回復・かけら+5' }
 };
 function pauseRun(){
   if (!G || G.paused) return;
@@ -2792,7 +2754,7 @@ function rollPowers(n, rare){
 const powOpt = id => { const p = POWERS.find(q => q.id === id); return { icon:p.rare ? 'rare' : 'power', name:p.name + (P(id) ? `（いま×${P(id)}）` : ''), desc:p.desc, rare:!!p.rare }; };
 function applyPower(id){
   G.pw[id] = (G.pw[id] || 0) + 1;
-  if (id === 'margin') { G.maxHp += 15; G.you += 15; }
+  if (id === 'margin') { G.maxHp += 10; G.you += 10; }
   renderArena();
 }
 function openPending(){
@@ -2810,7 +2772,7 @@ function offerPowers(kind, sh, ids){
   ids = ids || rollPowers(3, kind === 'battle' ? 0.15 : kind === 'start' ? 0.2 : 1);
   G.pending = { t:'pow', kind, sh, ids };
   const title = kind === 'start' ? 'はじまりのちからを選ぶ' : kind === 'boss' ? 'ボスをたおした！　ちからを選ぶ' : '勝った！　ちからを1つ選ぶ';
-  const sub = kind === 'start' ? 'はじまりの書の力で、ひとつ持って出発します。' : `ことばのかけら +${sh}` + (kind === 'boss' ? '・体力が40%回復した' : '');
+  const sub = kind === 'start' ? 'はじまりの書の力で、ひとつ持って出発します。' : `ことばのかけら +${sh}` + (kind === 'boss' ? '・体力が25%回復した' : '');
   openLay(title, sub, ids.map(powOpt), i => { G.pending = null; applyPower(ids[i]); if (kind === 'start') enterNode('battle'); else nextFloor(); });
 }
 function makeNodes(f){
@@ -3075,9 +3037,12 @@ function spawnMonster(n, type){
   const ai = Math.floor((n - 1) / 5) % AREAS.length, area = AREAS[ai], boss = type === 'boss', elite = type === 'elite';
   const t = boss ? area.boss : area.mons[Math.floor(Math.random() * area.mons.length)];
   let hp, atk, every;
-  if (boss) { hp = 60 + 26 * (n / 5 - 1); atk = 5 + Math.floor(n * 0.45); every = Math.max(4.5, 8 - 0.12 * (n - 1)); }
+  // tuned by play-testing: about 地下7階 at 60 kana a minute, 地下15階 at 160, 地下30階 at 300;
+  // past 地下25階 the dungeon closes in on anyone, so even the fastest run ends
+  const grow = (g, from) => Math.pow(g, n - from) * (n > 25 ? Math.pow(1.09, n - 25) : 1);
+  if (boss) { hp = Math.round((60 + 35 * (n / 5 - 1)) * grow(1.06, 5)); atk = Math.round((6 + 0.6 * n) * grow(1.035, 5)); every = Math.max(3, 7.5 - 0.18 * (n - 1)); }
   else {
-    hp = 20 + 4 * (n - 1); atk = 3 + Math.floor(n * 0.4); every = Math.max(5, 10 - 0.2 * (n - 1));
+    hp = Math.round((20 + 5 * (n - 1)) * grow(1.06, 1)); atk = Math.round((4 + 0.5 * n) * grow(1.035, 1)); every = Math.max(3, 9 - 0.25 * (n - 1));
     if (elite) { hp = Math.round(hp * 1.5); atk = Math.ceil(atk * 1.3); every *= 0.9; }
   }
   every *= 1 + 0.15 * P('slow');
@@ -3159,7 +3124,7 @@ function monHit(dmg, kind){
     G.defeated++; if (m.boss) G.bosses++;
     const sh = m.boss ? 5 : m.elite ? 3 : 1;
     G.shards += sh;
-    G.you = Math.min(G.maxHp, G.you + 6 * P('mark') + (m.boss ? Math.round(G.maxHp * 0.4) : 0));
+    G.you = Math.min(G.maxHp, G.you + 4 * P('mark') + (m.boss ? Math.round(G.maxHp * 0.25) : 0));
     killFx(m);
     // the floor is cleared: stop the clock and, after the explosion, choose a ちから and the next path
     G.mon = null; pauseRun();
@@ -3173,7 +3138,7 @@ function monHit(dmg, kind){
 function monAttack(why){
   const m = G.mon;
   if (!m || G.ended || G.paused) return;
-  let dmg = why === 'miss' ? Math.ceil(m.atk * 0.4) : m.atk;
+  let dmg = why === 'miss' ? Math.ceil(m.atk * 0.5) : m.atk;
   if (why === 'miss') {
     if (G.freeMiss > 0) { G.freeMiss--; banner('推敲！　ダメージなし', 'ok'); return; }
     if (P('punct')) dmg = Math.ceil(dmg / 2);
@@ -3228,7 +3193,7 @@ function renderArena(){
   sp.classList.toggle('charged', G.sp >= 100);
   kbEl.querySelectorAll('[data-k="@special"]').forEach(k => { k.querySelector('.sp-fill').style.width = G.sp + '%'; k.classList.toggle('charged', G.sp >= 100); });
 }
-/* the special gauge fills as you type; when full, 必殺技 lands a flurry worth about half the foe's health */
+/* the special gauge fills as you type; when full, 必殺技 lands a flurry worth about a third of the foe's health */
 function gainSp(v){
   if (G.mode !== 'monster' || G.sp >= 100) return;
   G.sp = Math.min(100, G.sp + v * (1 + 0.4 * P('dict')));
@@ -3246,7 +3211,7 @@ function special(){
   for (let i = 0; i < 8; i++) setTimeout(() => {
     if (G !== g || G.ended || !G.mon) return;
     const last = i === 7;
-    monHit(Math.max(3, G.mon.max * (last ? 0.16 : 0.05)), last ? 'conv' : 'crit');
+    monHit(Math.max(2, G.mon.max * (last ? 0.11 : 0.03)), last ? 'conv' : 'crit');
     sfx('multi', i);
   }, 300 + i * 90);
 }
@@ -3257,7 +3222,7 @@ function addChars(n){
   G.chars += n; G.combo += n;
   if (G.mode !== 'monster' || !G.mon) return;
   comboCheck(before, G.combo);
-  gainSp(n * (G.fever ? 3 : 1.6));
+  gainSp(n * (G.fever ? 2.4 : 1.3));
   const seal = P('seal');
   if (seal && Math.floor(G.combo / 10) > Math.floor(before / 10) && G.mon.next != null) G.mon.next = Math.min(G.mon.next + 0.8 * seal, G.elapsed + G.mon.every);
   const red = 1 + 0.2 * P('red'), cm = P('double') ? 3 : 2;
