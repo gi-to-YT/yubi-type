@@ -719,6 +719,49 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .zkp.rare svg,.zkp.rare b{color:var(--kin)}
 .zkp.curse svg,.zkp.curse b{color:var(--miss)}
 .zkp.unseen{opacity:.62}
+/* 朱印帳 */
+.shuin{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 10px}
+.si{appearance:none;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink);cursor:default;min-width:0}
+.si.on{cursor:pointer}
+.si .stamp{width:84px;height:84px;display:grid;place-items:center;writing-mode:vertical-rl;font:400 var(--fs) / 1.08 var(--font-brush);letter-spacing:.02em;border-radius:5px;transform:rotate(var(--tilt));
+  border:2px dashed var(--line);color:var(--faint);padding:6px}
+.si.on .stamp{border:0;background:var(--shu);color:var(--shu-ink);filter:url(#rough2);box-shadow:inset 0 0 0 4px var(--shu),inset 0 0 0 6px rgba(255,246,234,.8)}
+.si.cur .stamp{outline:2px solid var(--kin);outline-offset:4px}
+.si small{font:700 11px/1.45 var(--font-ui);color:var(--mute);text-align:center;max-width:100%}
+.si.on small{font:800 11px var(--font-mincho)}
+/* 苦手キーの地図 */
+.heat{display:flex;flex-direction:column;gap:5px}
+.hrow{display:flex;gap:4px;justify-content:center}
+.hk{flex:1 1 0;max-width:34px;min-width:0;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:4px;background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.hk b{font:700 14px var(--font-ui)}
+.hk small{font:800 10px var(--font-mincho)}
+.hk.dark{color:var(--paper)}
+.hgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.hgrid .hk{max-width:none;aspect-ratio:auto;padding:10px 4px}
+/* 段位認定 */
+.dan-now{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.dn{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.dn b{font:800 13px var(--font-mincho)}
+.dn small{font-size:11px;color:var(--mute)}
+.seal-s{width:66px;height:66px;display:grid;place-items:center;writing-mode:vertical-rl;background:var(--shu);color:var(--shu-ink);font:400 20px/1.05 var(--font-brush);border-radius:4px;filter:url(#rough2);transform:rotate(-4deg)}
+.seal-s.none{background:none;border:2px dashed var(--line);color:var(--faint);filter:none}
+.dan-table{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 12px;border-block:2px solid var(--ink);padding-block:8px}
+.dan-table li{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;padding:3px 0;border-bottom:1px solid var(--line)}
+.dan-table b{font:400 16px var(--font-brush)}
+.dan-table span{font:800 12px var(--font-mincho);color:var(--mute)}
+#v-dan .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#v-dan .primary{font-size:17px;letter-spacing:.04em;padding:14px 8px}
+.rank.fail{background:none;color:var(--mute);border:2px dashed var(--line);box-shadow:none;filter:none}
+/* ゴースト */
+.ghost{display:flex;align-items:center;gap:8px;padding:3px var(--gut-r) 0 var(--gut-l);font:800 11px var(--font-mincho);color:var(--mute)}
+.ghost .gl{font:400 13px var(--font-brush);color:var(--ink)}
+.ghost .gt{position:relative;flex:1;height:10px}
+.ghost .gt::before{content:"";position:absolute;left:0;right:0;top:4.5px;height:1px;background:var(--line)}
+.ghost i{position:absolute;top:0;width:10px;height:10px;margin-left:-5px;border-radius:50%;transition:left .2s linear}
+.ghost .gs{background:var(--usuzumi);opacity:.7}
+.ghost .gy{background:var(--shu)}
+.ghost b{min-width:76px;text-align:right;font-weight:800}
+.ghost.ahead b{color:var(--accent)}
 /* romaji spellings */
 .nickset{border-color:var(--line);margin-bottom:8px}
 :root.yuki .home .tag{color:var(--accent)}
@@ -841,7 +884,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     <p class="msg" id="startMsg" hidden></p>
 
     <nav class="links" aria-label="ほかの画面">
-      <button type="button" id="openRecords">記録・称号</button>
+      <button type="button" id="openRecords">記録</button>
+      <button type="button" id="openShuin">朱印帳</button>
+      <button type="button" id="openDan">段位認定</button>
       <button type="button" id="openRank">ランキング</button>
       <button type="button" id="openZukan">図鑑</button>
       <button type="button" id="openMeta">かけら</button>
@@ -904,6 +949,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
             <button class="opt" data-set="keySnd" data-val="kami"><b>紙</b></button>
           </div>
         </div>
+        <div class="setrow"><label for="setGhost">ゴースト<small>60秒と10問で、自分のベストの回の「影」と競います</small></label><input class="sw" type="checkbox" role="switch" id="setGhost"></div>
         <div class="setrow"><label for="setBgm">BGM<small>モンスター戦で、エリアごとに和風の曲を流します</small></label><input class="sw" type="checkbox" role="switch" id="setBgm"></div>
         <div class="setrow"><label for="setVibe">ミスで振動<small>Android のみ。iPhone は振動しません</small></label><input class="sw" type="checkbox" role="switch" id="setVibe"></div>
         <div class="setrow"><label for="setGuide">次のキーを光らせる<small>キーボードの上で、次に押すキーを示します</small></label><input class="sw" type="checkbox" role="switch" id="setGuide"></div>
@@ -947,6 +993,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     <div class="tally"><b id="tChars">0</b> <span id="tUnit">字</span><span class="ms" id="tMiss"></span><span class="kps" id="tKps"></span></div>
   </header>
   <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+  <div class="ghost" id="ghost" hidden><span class="gl">影</span><span class="gt"><i class="gs" id="ghostS"></i><i class="gy" id="ghostY"></i></span><b id="ghostT"></b></div>
   <main class="stage" id="stage">
     <p class="ready" id="ready">キーを押すとスタート</p>
     <canvas class="fxcanvas" id="fxCanvas" aria-hidden="true"></canvas>
@@ -1047,14 +1094,21 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <div class="tablewrap" id="recTable" hidden></div>
     </div>
     <div class="group">
+      <h2 class="label">苦手キーの地図</h2>
+      <div class="seg" role="group" aria-label="キーボード"><button class="opt" type="button" data-hkb="qwerty"><b>QWERTY</b></button><button class="opt" type="button" data-hkb="flick"><b>テンキー</b></button></div>
+      <div class="heat" id="heat"></div>
+      <p class="note">ミスが多いキーほど濃い墨で塗ります（最近のミスほど重く数えます）。</p>
+      <button class="secondary small" id="heatTrain" type="button">この打ち方で苦手特訓（60秒）</button>
+    </div>
+    <div class="group">
       <h2 class="label">苦手な字（多い順）</h2>
       <div id="recWeak"></div>
       <p class="note">「苦手特訓」コースは、ここに出ている字が多い問題を選んで出します。</p>
     </div>
     <div class="group">
       <h2 class="label">称号　<span id="achCount"></span></h2>
-      <p class="note">手に入れた称号をタップすると、いまの称号にできます。</p>
-      <div class="achs" id="achList"></div>
+      <button class="secondary small" id="openShuin2" type="button">朱印帳をひらく</button>
+      <div class="achs" id="achList" hidden></div>
     </div>
     <button class="secondary small danger" id="recClear">記録を消す</button>
   </div>
@@ -1077,6 +1131,30 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <button class="opt" data-ztab="pow" type="button"><b>ちから</b><span id="zkPowN"></span></button>
     </div>
     <div id="zkList"></div>
+  </div>
+</section>
+
+<section id="v-shuin" class="view scroll" hidden>
+  <div class="wrap">
+    <div class="viewhead"><button class="barbtn" id="shuinBack" type="button">もどる</button><h2>朱印帳</h2></div>
+    <p class="note"><span id="shuinCount"></span>　押した印をタップすると、いまの称号にできます。</p>
+    <div class="shuin" id="shuinGrid"></div>
+  </div>
+</section>
+
+<section id="v-dan" class="view scroll" hidden>
+  <div class="wrap">
+    <div class="viewhead"><button class="barbtn" id="danBack" type="button">もどる</button><h2>段位認定</h2></div>
+    <p class="note">決まった10問（変換なし・句読点あり）を打ちます。1分あたりの文字数で段位が決まり、正確率は90%以上が必要です。合格すると朱印の認定証を画像で残せます。段位は打ち方ごと（QWERTY・テンキー・PC）です。</p>
+    <div class="dan-now" id="danNow"></div>
+    <div class="row2">
+      <button class="primary" id="danQwerty" type="button">QWERTY で受ける</button>
+      <button class="primary" id="danFlick" type="button">テンキーで受ける</button>
+    </div>
+    <div class="group">
+      <h2 class="label">段位の目安（1分あたりの文字数）</h2>
+      <ol class="dan-table" id="danTable"></ol>
+    </div>
   </div>
 </section>
 
@@ -1427,8 +1505,8 @@ const CUSTOM_DEFAULT = `生麦生米生卵/なまむぎなまごめなまたま�
 赤巻紙青巻紙黄巻紙/あかまきがみあおまきがみきまきがみ
 バスガス爆発/ばすがすばくはつ`;
 
-/* 裏コース「魔女裁判」: opens when the name is 月代ユキ. Only names and the words of the world, never lines from
-   the game's scenario (the fan guideline does not allow its scenario as material for fan works) */
+/* 裏コース「魔女裁判」: opens when the name is 月代ユキ. Names, the words of the world, and only short pieces of
+   well-known lines or everyday phrases made from them, never whole lines from the scenario */
 const MANOSABA = `桜羽エマ|さくらばえま
 二階堂ヒロ|にかいどうひろ
 夏目アンアン|なつめあんあん
@@ -1437,7 +1515,7 @@ const MANOSABA = `桜羽エマ|さくらばえま
 佐伯ミリア|さえきみりあ
 宝生マーゴ|ほうしょうまーご
 黒部ナノカ|くろべなのか
-紫藤アリサ|しどうありさ
+紫藤アリサ|しとうありさ
 橘シェリー|たちばなしぇりー
 遠野ハンナ|とおのはんな
 沢渡ココ|さわたりここ
@@ -1448,7 +1526,7 @@ const MANOSABA = `桜羽エマ|さくらばえま
 まのさば|まのさば
 魔女裁判|まじょさいばん
 牢屋敷|ろうやしき
-獄長|ごくちょう
+獄長|ごくちょー
 魔女|まじょ
 大魔女|だいまじょ
 魔女殺し|まじょごろし
@@ -1464,8 +1542,40 @@ const MANOSABA = `桜羽エマ|さくらばえま
 犯人|はんにん
 囚人|しゅうじん
 共犯者|きょうはんしゃ
-ネタバレ注意|ねたばれちゅうい`;
+ネタバレ注意|ねたばれちゅうい
+それは正しくない|それはただしくない
+正しい話をしよう|ただしいはなしをしよう
+私が君を嫌いなことは変わらない|わたしがきみをきらいなことはかわらない
+夜ふかしは正しくない|よふかしはただしくない
+宿題を忘れるのは正しくない|しゅくだいをわすれるのはただしくない
+打ちまちがいは正しくない|うちまちがいはただしくない
+廊下を走るのは正しくない|ろうかをはしるのはただしくない
+騒がしい教室は正しくない|さわがしいきょうしつはただしくない
+わがはいは筆談で話す|わがはいはひつだんではなす
+わがはいのスケッチブック|わがはいのすけっちぶっく
+お嬢と呼ばないでくださいまし|おじょうとよばないでくださいまし
+ご共犯ください|ごきょうはんください
+証言の矛盾を見つけた|しょうげんのむじゅんをみつけた
+今日の魔女裁判はお休みです|きょうのまじょさいばんはおやすみです
+処刑ボタンは押さないで|しょけいぼたんはおさないで
+牢屋敷の朝ごはん|ろうやしきのあさごはん
+十三人の少女と獄長|じゅうさんにんのしょうじょとごくちょー`;
 const YUKI = '月代ユキ';
+/* 段位認定: the same ten problems for everyone, 変換なし・句読点あり, in this order */
+const DAN_ITEMS = `新幹線|しんかんせん
+図書館|としょかん
+天気予報|てんきよほう
+自動販売機|じどうはんばいき
+急がば回れ|いそがばまわれ
+弘法も筆の誤り|こうぼうもふでのあやまり
+石橋を叩いて渡る|いしばしをたたいてわたる
+駅前の本屋で新しい漫画を買った。|えきまえのほんやであたらしいまんがをかった。
+雨がやんだら公園に行こう。|あめがやんだらこうえんにいこう。
+打ちまちがえても、あきらめずに続けよう。|うちまちがえても、あきらめずにつづけよう。`;
+// 1分あたりの文字数 for each grade; 正確率 90% or more is needed
+const DAN = [[40, '五級'], [60, '四級'], [80, '三級'], [100, '二級'], [120, '一級'], [140, '初段'], [165, '二段'], [190, '三段'], [220, '四段'], [250, '五段'], [290, '六段'], [330, '七段'], [380, '八段'], [440, '九段'], [500, '十段']];
+const DAN_ACC = 90;
+const danOf = (cpm, acc) => { if (acc < DAN_ACC) return -1; let i = -1; DAN.forEach(([v], j) => { if (cpm >= v) i = j; }); return i; };
 const yukiOn = () => getNick() === YUKI;
 const lines = s => s.trim().split('\n').map(x => x.trim()).filter(Boolean);
 const COURSES = [
@@ -1475,7 +1585,8 @@ const COURSES = [
   { id:'daily',     name:'今日のダンジョン', unit:'問', items: null },
   { id:'weak',      name:'苦手特訓',   unit:'問', items: null },
   { id:'custom',    name:'じぶんで追加', unit:'件', items: null },
-  { id:'manosaba',  name:'魔女裁判',   unit:'語', items: lines(MANOSABA), hidden:true }
+  { id:'manosaba',  name:'魔女裁判',   unit:'語', items: lines(MANOSABA), hidden:true },
+  { id:'dan',       name:'段位認定',   unit:'問', items: lines(DAN_ITEMS), special:true }
 ];
 const courseById = id => COURSES.find(c => c.id === id) || COURSES[0];
 const splitItem = raw => { const i = raw.indexOf('|'); return i < 0 ? [raw, raw] : [raw.slice(0, i), raw.slice(i + 1)]; };
@@ -1725,7 +1836,7 @@ function createFlick(reading, opt){
 }
 
 /* ================= settings ================= */
-const S = Object.assign({ kb:'qwerty', course:'words', mode:'time', sound:true, bgm:true, keySnd:'std', vibe:true, toggle:true, guide:true, height:'m', kbStyle:'gap', conv:false, punct:true }, store.get('settings', {}));
+const S = Object.assign({ kb:'qwerty', course:'words', mode:'time', sound:true, bgm:true, ghost:true, keySnd:'std', vibe:true, toggle:true, guide:true, height:'m', kbStyle:'gap', conv:false, punct:true }, store.get('settings', {}));
 // the spelling the romaji guide shows; any spelling is accepted while typing
 const ROMA_DEF = { shi:'shi', chi:'chi', tsu:'tsu', fu:'fu', ji:'ji', sha:'sha', cha:'cha', ja:'ja', n:'auto', xtu:'double', small:'x' };
 S.roma = Object.assign({}, ROMA_DEF, S.roma);
@@ -1922,7 +2033,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 let VIEW = 'home';
 function show(v){
-  for (const id of ['home','setup','custom','play','result','records','rank','meta','zukan']) $('#v-' + id).hidden = id !== v;
+  for (const id of ['home','setup','custom','play','result','records','rank','meta','zukan','dan','shuin']) $('#v-' + id).hidden = id !== v;
   VIEW = v; document.documentElement.dataset.view = v;
   if (v !== 'play') { $('#keyPop').hidden = true; $('#flickPop').hidden = true; }
   if (v !== 'result') $('#cardModal').hidden = true;
@@ -1949,7 +2060,7 @@ function renderHome(){
     : 'フリックでも、同じキーを続けて押すトグル入力でも打てます。濁点と小さい字は「小゛゜」キーで。';
   const box = $('#courses'); box.textContent = '';
   for (const c of COURSES) {
-    if (c.id === 'daily' || (c.hidden && !yukiOn())) continue;
+    if (c.id === 'daily' || c.special || (c.hidden && !yukiOn())) continue;
     const items = itemsOf(c.id);
     let sample = items.slice(0, 2).map(x => clean(splitItem(x)[0])).join('・') + '…';
     if (c.id === 'weak') sample = items.length ? '苦手：' + weakTop(S.kb, 4).map(x => x[0]).join('・') : 'ミスした字から問題を作ります';
@@ -1989,7 +2100,7 @@ function renderHome(){
   const t = curTitle(), tl = $('#curTitle');
   tl.hidden = !t; if (t) tl.querySelector('b').textContent = t.name;
   if (document.activeElement !== $('#nickInput3')) $('#nickInput3').value = getNick();
-  $('#setSound').checked = S.sound; $('#setBgm').checked = S.bgm; $('#setVibe').checked = S.vibe;
+  $('#setSound').checked = S.sound; $('#setBgm').checked = S.bgm; $('#setGhost').checked = S.ghost; $('#setVibe').checked = S.vibe;
   $('#setGuide').checked = S.guide; $('#setToggle').checked = S.toggle;
   $('#setConv').checked = S.conv; $('#setPunct').checked = S.punct;
   $('#startMsg').hidden = true;
@@ -2040,12 +2151,12 @@ function openSetup(toSettings){
 $('#openSetup').addEventListener('click', () => openSetup(false));
 $('#openSettings').addEventListener('click', () => openSetup(true));
 $('#setupBack').addEventListener('click', () => { show('home'); renderHome(); });
-$('#curTitle').addEventListener('click', () => { show('records'); renderRecords(); });
+$('#curTitle').addEventListener('click', () => openShuin());
 document.querySelectorAll('[data-set]').forEach(b => b.addEventListener('click', () => {
   S[b.dataset.set] = b.dataset.val; saveS(); applyHeight(); renderHome();
   if (b.dataset.set === 'keySnd') { unlockAudio(); setTimeout(() => fx('key'), 40); }   // let them hear it
 }));
-[['#setSound','sound'],['#setBgm','bgm'],['#setVibe','vibe'],['#setGuide','guide'],['#setToggle','toggle'],['#setConv','conv'],['#setPunct','punct']].forEach(([sel, k]) => {
+[['#setSound','sound'],['#setBgm','bgm'],['#setGhost','ghost'],['#setVibe','vibe'],['#setGuide','guide'],['#setToggle','toggle'],['#setConv','conv'],['#setPunct','punct']].forEach(([sel, k]) => {
   $(sel).addEventListener('change', e => { S[k] = e.target.checked; saveS(); if (k === 'sound' && S.sound) unlockAudio(); if (k === 'conv' || k === 'punct') renderHome(); });
 });
 $('#editCustom').addEventListener('click', openCustom);
@@ -2256,7 +2367,7 @@ function chunkify(disp, read, greedy){
 function prepare(raw, keepPunct){
   const [d, r] = splitItem(raw);
   const chunks = chunkify(d, r).map(c => {
-    if (S.punct || keepPunct) return c;
+    if (keepPunct) return c;
     if (c.punct) return Object.assign({}, c, { r:'' });
     if (c.conv) return Object.assign({}, c, { r:c.r.replace(/[、。！？]/g, '') });
     return c;
@@ -2426,11 +2537,15 @@ function startGame(over){
     m.textContent = course === 'weak' ? 'まだミスの記録がありません。ほかのコースで遊ぶと、ミスした字から問題を作ります。' : '「じぶんで追加」に文がありません。先に追加してください。';
     m.hidden = false; if (VIEW !== 'home') { show('home'); renderHome(); m.hidden = false; } return;
   }
-  G = freshG({ kb:S.kb, course, courseKey:courseKey(course), mode, conv:S.conv, punct:S.punct,
-        pool:items.slice(), queue:course === 'daily' ? items.slice() : shuffle(items.slice()),
+  G = freshG({ kb:S.kb, course, courseKey:courseKey(course), mode, conv:over.conv != null ? over.conv : S.conv, punct:over.punct != null ? over.punct : S.punct,
+        pool:items.slice(), queue:course === 'daily' || course === 'dan' ? items.slice() : shuffle(items.slice()),
         // 今日のダンジョン is the same for everyone: no upgrades bought with かけら
         ml:course === 'daily' ? {} : metaGet().lv });
   G.seedBase = course === 'daily' ? 'yubi-' + G.courseKey : null;
+  G.trace = [];
+  const gh = mode !== 'monster' && S.ghost ? store.get('ghost:' + bestKey(G.kb, G.courseKey, mode, G.conv, G.punct), null) : null;
+  G.ghost = gh && Array.isArray(gh.t) && gh.t.length > 2 ? gh : null;
+  $('#ghost').hidden = !G.ghost;
   dropSuspend(slotOf(G));     // a new game of this rule replaces the one left halfway
   playView();
   if (mode === 'monster') {
@@ -2480,7 +2595,7 @@ const SNAP = ['kb','course','courseKey','mode','conv','punct','pool','queue','qi
 const slotOf = g => g.course === 'daily' ? 'daily' : g.mode;
 function dropSuspend(slot){ try { localStorage.removeItem('yubi:suspend:' + slot); } catch(e) {} }
 function saveSuspend(){
-  if (!G || G.ended) return;
+  if (!G || G.ended || G.course === 'dan') return;
   if (G.started && !G.paused) G.elapsed = (performance.now() - G.t0) / 1000;
   const g = {};
   for (const k of SNAP) g[k] = G[k];
@@ -2500,6 +2615,7 @@ function restoreGame(slot){
   if (!sv || sv.v !== 1 || !sv.g || (slot === 'daily' && sv.g.courseKey !== courseKey('daily'))) { dropSuspend(slot); renderHome(); return; }
   G = freshG(sv.g);
   G.resumed = true;
+  $('#ghost').hidden = true;
   G.seedBase = G.course === 'daily' ? 'yubi-' + G.courseKey : null;
   playView();
   if (G.mode === 'monster') {
@@ -2522,13 +2638,14 @@ function openPause(){
   const sub = mon ? `いま地下${G.floor}階。中断すると、メニューから同じところの続きができます。`
     : G.mode === 'time' ? `のこり ${Math.max(0, Math.ceil(LIMIT - G.elapsed))}秒。中断すると、メニューから続きができます。`
     : `${G.done}/${COUNT}問。中断すると、メニューから続きができます。`;
-  openLay('ひと休み', sub, [
-    { icon:'go', name:'つづける' },
-    { icon:'mark', name:'中断する', desc:'メニューにもどる。あとで、ここから続けられます' },
-    { icon:'quit', name:'やめる', desc:'この回は記録しないで、メニューにもどる' }
-  ], i => {
-    if (i === 0) { if (G.mode === 'monster' && G.pending) openPending(); else resumeRun(); }
-    else if (i === 1) { saveSuspend(); goHome(); toast('中断しました。メニューの「続きから」で再開できます'); }
+  const dan = G.course === 'dan';
+  const opts = [{ icon:'go', name:'つづける' }];
+  if (!dan) opts.push({ icon:'mark', name:'中断する', desc:'メニューにもどる。あとで、ここから続けられます' });
+  opts.push({ icon:'quit', name:'やめる', desc:dan ? '段位認定は1回で受けきります。やめると記録されません' : 'この回は記録しないで、メニューにもどる' });
+  openLay('ひと休み', dan ? '段位認定は中断できません。' : sub, opts, i => {
+    const pick = dan && i === 1 ? 2 : i;
+    if (pick === 0) { if (G.mode === 'monster' && G.pending) openPending(); else resumeRun(); }
+    else if (pick === 1) { saveSuspend(); goHome(); toast('中断しました。メニューの「続きから」で再開できます'); }
     else { dropSuspend(slotOf(G)); goHome(); }
   }, { pause:true, hideHp:!mon });
 }
@@ -2553,7 +2670,7 @@ function nextItem(){
     const list = pool.length ? pool : G.bossPool;
     raw = list[Math.floor(dayRng('boss' + G.floor + '-' + G.qi)() * list.length)];
   }
-  G.item = prepare(raw, G.gimNow === 'punct');
+  G.item = prepare(raw, G.gimNow === 'punct' || G.punct);
   G.R = G.item.R; G.chunks = G.item.chunks; G.cs = G.item.cs;
   G.fake = G.gimNow === 'yomi' ? misread(G.item, dayRng('yomi' + G.floor + '-' + G.qi)) : null;
   G.gone = G.gimNow === 'datsu' ? dropKana(G.R, dayRng('datsu' + G.floor + '-' + G.qi)) : null;
@@ -2700,6 +2817,7 @@ function begin(){
 function tick(){
   if (!G || G.ended || G.paused) return;
   G.elapsed = (performance.now() - G.t0) / 1000;
+  if (G.trace && G.mode !== 'monster') while (G.trace.length <= G.elapsed * 2 && G.trace.length < 600) G.trace.push(G.chars);
   if (G.mode === 'time' && G.elapsed >= LIMIT) { G.elapsed = LIMIT; updateBar(); finish(); return; }
   if (G.mode === 'monster' && G.mon) {
     if (G.mon.next == null) G.mon.next = G.elapsed + G.mon.every + G.mon.delay;
@@ -2825,6 +2943,8 @@ function results(){
     : !prev || cpm > prev.cpm;
   const newBest = G.chars > 0 && better;
   if (newBest) store.set(key, { cpm, acc, floor:G.floor, defeated:G.defeated, at:todayKey() });
+  // the best run becomes the ghost of this combination
+  if (newBest && G.mode !== 'monster' && G.trace && G.trace.length > 2) store.set('ghost:' + key, { t:G.trace.concat([G.chars]), cpm });
   const weak = Object.entries(G.missMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
   return { cpm, acc, kpm, kps, el, rank, next, newBest, prev, weak,
            chars:G.chars, keys:G.keys, misses:G.misses, done:G.done, skipped:G.skipped,
@@ -2833,6 +2953,7 @@ function results(){
            powers:Object.values(G.pw).reduce((a, b) => a + b, 0),
            cursed:POWERS.some(p => p.curse && G.pw[p.id]),
            path:(G.path || []).slice(), died:G.you <= 0,
+           danIdx:G.course === 'dan' ? danOf(cpm, acc) : null,
            // typed on a real keyboard: those records go to the PC ranking
            src:G.hw > 0 ? 'pc' : G.kb };
 }
@@ -2941,13 +3062,22 @@ function updateBar(){
   $('#tChars').textContent = G.mode === 'monster' ? el.toFixed(1) : G.chars;
   $('#tMiss').textContent = G.misses ? `　ミス${G.misses}` : '';
   const ke = G.started || G.resumed ? Math.min(G.elapsed, G.mode === 'time' ? LIMIT : Infinity) : 0;
+  if (G.ghost) {
+    const t = G.ghost.t, i = Math.min(t.length - 1, ke * 2), lo = Math.floor(i), gc = t[lo] + (t[Math.min(t.length - 1, lo + 1)] - t[lo]) * (i - lo);
+    const top = Math.max(t[t.length - 1], G.chars, 1), diff = Math.round(G.chars - gc);
+    $('#ghostS').style.left = (gc / top * 100) + '%'; $('#ghostY').style.left = (G.chars / top * 100) + '%';
+    $('#ghostT').textContent = !ke ? `ベスト ${G.ghost.cpm}字/分` : diff >= 0 ? `影より +${diff}字` : `影まで ${-diff}字`;
+    $('#ghost').classList.toggle('ahead', ke > 0 && diff >= 0);
+  }
   $('#tKps').textContent = ke >= 2 ? `${((G.keys - G.misses) / ke).toFixed(1)}打/秒` : '';
 }
 function renderResult(R){
   const mon = R.mode === 'monster';
   $('#rMeta').textContent = metaText(R);
   const rk = $('#rRank');
-  rk.textContent = R.rank; rk.dataset.len = [...R.rank].length;
+  const dan = R.course === 'dan', dname = dan ? (R.danIdx >= 0 ? DAN[R.danIdx][1] : '修行中') : null;
+  rk.textContent = dan ? dname : R.rank; rk.dataset.len = [...rk.textContent].length;
+  rk.classList.toggle('fail', dan && R.danIdx < 0);
   if (!RM) { rk.classList.remove('stamp'); void rk.offsetWidth; rk.classList.add('stamp'); }
   countUp($('#rScore'), mon ? R.floor : R.cpm, R.newBest);
   $('#rScoreLabel').textContent = mon ? `たどり着いた階（地下${R.floor}階）` : '1分あたりの文字数';
@@ -2955,6 +3085,13 @@ function renderResult(R){
   const pv = R.prev ? (mon ? `地下${R.prev.floor || 0}階・${R.prev.cpm} 文字/分` : `${R.prev.cpm} 文字/分`) : '';
   $('#rBest').textContent = R.newBest ? (R.prev ? `これまでのベストは ${pv} でした` : 'この組み合わせの最初の記録です') : (R.prev ? `ベストは ${pv}` : '');
   $('#rNext').textContent = R.next ? `あと ${R.next.need} 文字/分で「${R.next.name}」` : 'いちばん上のランクです';
+  if (dan) {
+    const nx = DAN[R.danIdx + 1];
+    $('#rNext').textContent = R.danIdx < 0 && R.acc < DAN_ACC ? `正確率 ${DAN_ACC}%以上で段位がつきます（いま ${R.acc}%）`
+      : nx ? `あと ${nx[0] - R.cpm} 文字/分で「${nx[1]}」` : 'いちばん上の段位です';
+    $('#rBest').textContent = R.danPrev != null && R.danIdx > R.danPrev ? `昇段！　${R.danPrev >= 0 ? DAN[R.danPrev][1] : '段位なし'} → ${dname}` : R.danPrev != null && R.danPrev >= 0 ? `これまでの段位は ${DAN[R.danPrev][1]}` : $('#rBest').textContent;
+  }
+  $('#shareImg').textContent = dan && R.danIdx >= 0 ? '認定証を保存' : '画像で保存';
   $('#rShards').hidden = !mon;
   $('#rPath').hidden = !(mon && R.path && R.path.length);
   if (mon && R.path && R.path.length) $('#rPathSvg').innerHTML = pathSvg(R.path, R.died);
@@ -3070,6 +3207,8 @@ const ACH = [
   { id:'pow5',    name:'ちから持ち',       desc:'モンスター戦の1回で、ちからを5つ集める', test:c => c.powers >= 5 },
   { id:'zukan10', name:'図鑑づくり',       desc:'図鑑のモンスターを10体うめる',           test:c => Object.keys(ZK().m).length >= 10 },
   { id:'cursed',  name:'呪われた指',       desc:'呪いのちからを持ったまま地下10階に着く', test:c => c.floor >= 10 && c.cursed },
+  { id:'dan1',    name:'有段者',           desc:'段位認定で初段をとる',                   test:c => c.course === 'dan' && c.danIdx >= 5 },
+  { id:'dan10',   name:'十段の指',         desc:'段位認定で十段をとる',                   test:c => c.course === 'dan' && c.danIdx >= 14 },
   { id:'both',    name:'二刀流',           desc:'QWERTY とテンキーの両方で遊ぶ',          test:c => !!(c.tot.kbs.qwerty && c.tot.kbs.flick) },
   { id:'weakfix', name:'苦手克服',         desc:'苦手特訓で、正確率95%以上・30文字以上',  test:c => c.course === 'weak' && c.acc >= 95 && c.chars >= 30 },
   { id:'daily',   name:'今日の冒険',       desc:'今日のダンジョンに潜る',                 test:c => c.course === 'daily' },
@@ -3086,7 +3225,14 @@ function curTitle(){
   const id = S.title && got[S.title] ? S.title : store.get('achLast', null);
   return id && got[id] ? ACH.find(a => a.id === id) : null;
 }
+function recordDan(R){
+  if (R.course !== 'dan') return;
+  const key = 'dan:' + R.src, prev = store.get(key, null);
+  R.danPrev = prev ? prev.idx : null;
+  if (R.danIdx >= 0 && (!prev || R.danIdx > prev.idx)) store.set(key, { idx:R.danIdx, cpm:R.cpm, acc:R.acc, at:todayKey() });
+}
 function recordGame(R){
+  recordDan(R);
   const day = todayKey();
   const hist = store.get('history', []);
   hist.push({ t:Date.now(), day, kb:R.kb, src:R.src, course:R.courseKey, mode:BMODE(R.mode), conv:R.conv, punct:R.punct, cpm:R.cpm, acc:R.acc, chars:R.chars, misses:R.misses, el:Math.round(R.el * 10) / 10, defeated:R.defeated, floor:R.mode === 'monster' ? R.floor : undefined });
@@ -3827,6 +3973,7 @@ function renderRecords(){
   $('#recTiles').innerHTML = [['遊んだ回数', tot.plays, '回'], ['打った文字', tot.chars.toLocaleString('ja-JP'), '字'], ['続けて遊んだ日', streakDays(), '日'], ['いちばん速い記録', best, '文字/分']]
     .map(([t, v, u]) => `<div><dt>${t}</dt><dd>${v}<small>${u}</small></dd></div>`).join('');
   drawChart();
+  renderHeat();
   $('#recWeak').innerHTML = [['qwerty', 'QWERTY'], ['flick', 'テンキー']].map(([kb, nm]) => {
     const top = weakTop(kb, 8);
     return `<div class="weakrow"><span class="wk-kb">${nm}</span><div class="weak">${top.length ? top.map(([k, w]) => `<span class="chip"><b>${esc(k)}</b>${Math.max(1, Math.round(w))}</span>`).join('') : '<span class="note">まだありません</span>'}</div></div>`;
@@ -3838,6 +3985,33 @@ function renderRecords(){
     return `<button type="button" class="ach${on ? ' on' : ''}${isCur ? ' cur' : ''}" data-ach="${a.id}" ${on ? '' : 'disabled'}><b>${esc(a.name)}</b><span>${esc(a.desc)}</span>${on ? `<small>${isCur ? 'いまの称号' : got[a.id].replace(/-/g, '/')}</small>` : ''}</button>`;
   }).join('');
 }
+/* 苦手キーの地図 */
+let HKB = null;
+const FL_ROWS = [['あ', 'あいうえおぁぃぅぇぉゔ'], ['か', 'かきくけこがぎぐげご'], ['さ', 'さしすせそざじずぜぞ'], ['た', 'たちつてとだぢづでどっ'], ['な', 'なにぬねの'], ['は', 'はひふへほばびぶべぼぱぴぷぺぽ'],
+  ['ま', 'まみむめも'], ['や', 'やゆよゃゅょ'], ['ら', 'らりるれろ'], ['小゛゜', ''], ['わ', 'わをんーゎ'], ['、。?!', '、。？！']];
+function renderHeat(){
+  const kb = HKB || S.kb;
+  document.querySelectorAll('[data-hkb]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.hkb === kb)));
+  const w = store.get('weak:' + kb, {});
+  const cell = (label, v, max, sub) => {
+    const pct = max ? Math.round(8 + 80 * v / max) : 0;
+    return `<span class="hk${pct > 50 ? ' dark' : ''}" style="${v ? `background:color-mix(in srgb,var(--ink) ${pct}%,var(--card))` : ''}"><b>${esc(label)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span>`;
+  };
+  let html = '';
+  if (kb === 'qwerty') {
+    const rows = ['qwertyuiop', 'asdfghjklー', 'zxcvbnm', '!、。?'].map(r => [...r]);
+    const val = k => w[k] || w[k.toUpperCase()] || 0;
+    const max = Math.max(0, ...rows.flat().map(val));
+    html = rows.map(r => `<div class="hrow">${r.map(k => cell(k, val(k), max)).join('')}</div>`).join('');
+  } else {
+    const sums = FL_ROWS.map(([lab, kana]) => { let t = 0, top = '', tv = 0; for (const c of kana) { const v = w[c] || 0; t += v; if (v > tv) { tv = v; top = c; } } return [lab, t, top]; });
+    const max = Math.max(0, ...sums.map(x => x[1]));
+    html = '<div class="hgrid">' + sums.map(([lab, t, top]) => cell(lab, t, max, top && t ? top : '')).join('') + '</div>';
+  }
+  $('#heat').innerHTML = Object.keys(w).length ? html : '<p class="note">まだミスの記録がありません。</p>';
+}
+document.querySelectorAll('[data-hkb]').forEach(b => b.addEventListener('click', () => { HKB = b.dataset.hkb; renderHeat(); }));
+$('#heatTrain').addEventListener('click', () => { const kb = HKB || S.kb; S.kb = kb; saveS(); unlockAudio(); startGame({ course:'weak', mode:'time' }); });
 $('#achList').addEventListener('click', e => {
   const b = e.target.closest('.ach.on'); if (!b) return;
   S.title = b.dataset.ach; saveS(); renderRecords();
@@ -3924,7 +4098,35 @@ function sealOn(x, cx, cy, size, text, rot, rnd, BR){
   chars.forEach((ch, i) => x.fillText(ch, 0, (i - (chars.length - 1) / 2) * fs * 1.04));
   x.restore();
 }
+async function makeCert(R){
+  const W = 1200, H = 848, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const x = cv.getContext('2d'), rnd = seeded(hashStr('cert' + R.cpm + todayKey()));
+  const F = '"Zen Kaku Gothic New","Hiragino Sans",sans-serif', BR = '"Yuji Syuku","Hiragino Mincho ProN",serif', MC = '"Shippori Mincho B1","Hiragino Mincho ProN",serif';
+  const dn = DAN[R.danIdx][1], kbn = KB_NAME[R.src === 'pc' ? 'pc' : R.kb], nick = getNick();
+  try { await Promise.all([document.fonts.load(`400 40px "Yuji Syuku"`, '段位認定証ゆびタイプ認定' + dn + nick), document.fonts.load(`800 40px "Shippori Mincho B1"`, '右の者は試験において一分あたり文字正確率を記録し上記の段位に認定する年月日殿0123456789.%（）' + kbn + nick)]); } catch(e) {}
+  x.fillStyle = '#F1EBDD'; x.fillRect(0, 0, W, H);
+  x.strokeStyle = '#6B5A40';
+  for (let i = 0; i < 600; i++) { const px = rnd() * W, py = rnd() * H, l = 6 + rnd() * 30, a = (rnd() - 0.5) * 3; x.globalAlpha = 0.04 + rnd() * 0.06; x.lineWidth = 0.6 + rnd() * 1.2; x.beginPath(); x.moveTo(px, py); x.lineTo(px + Math.cos(a) * l, py + Math.sin(a) * l); x.stroke(); }
+  x.globalAlpha = 1;
+  roughPath(x, 40, 40, W - 80, H - 80, rnd, 3); x.strokeStyle = '#1D1A16'; x.lineWidth = 5; x.stroke();
+  roughPath(x, 58, 58, W - 116, H - 116, rnd, 2); x.lineWidth = 1.6; x.stroke();
+  x.fillStyle = '#1D1A16'; x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+  x.font = `400 76px ${BR}`; x.fillText('段位認定証', W / 2, 170);
+  x.font = `800 28px ${MC}`; x.fillText(`${kbn}の部`, W / 2, 222);
+  x.font = `400 150px ${BR}`; x.fillText(dn, W / 2, 400);
+  if (nick) { x.font = `800 40px ${MC}`; x.fillText(`${nick}　殿`, W / 2, 470); }
+  x.font = `800 27px ${MC}`; x.fillStyle = '#3B362E';
+  x.fillText('右の者は ゆびタイプ段位認定試験において', W / 2, 540);
+  x.fillText(`一分あたり ${R.cpm} 字・正確率 ${R.acc}% を記録し`, W / 2, 584);
+  x.fillText('上記の段位に認定する', W / 2, 628);
+  const d = todayKey().split('-').map(Number);
+  x.font = `800 26px ${MC}`; x.fillText(`${d[0]}年${d[1]}月${d[2]}日`, W / 2, 700);
+  x.fillStyle = '#1D1A16'; x.font = `400 40px ${BR}`; x.textAlign = 'left'; x.fillText('ゆびタイプ', 120, 760);
+  sealOn(x, W - 220, 690, 150, '認定', 0.06, rnd, BR);
+  return cv;
+}
 async function makeCard(R){
+  if (R.course === 'dan' && R.danIdx >= 0) return makeCert(R);
   const W = 1200, H = 675, cv = document.createElement('canvas');
   cv.width = W; cv.height = H;
   const x = cv.getContext('2d');
@@ -4281,6 +4483,38 @@ function renderMeta(){
     row.appendChild(b); box.appendChild(row);
   }
 }
+function renderDan(){
+  $('#danNow').innerHTML = [['qwerty', 'QWERTY'], ['flick', 'テンキー'], ['pc', 'PC']].map(([k, nm]) => {
+    const d = store.get('dan:' + k, null);
+    return `<div class="dn"><span class="seal-s${d ? '' : ' none'}">${d ? esc(DAN[d.idx][1]) : '無段'}</span><b>${nm}</b><small>${d ? `${d.cpm}字/分・${md(d.at)}` : 'まだ受けていない'}</small></div>`;
+  }).join('');
+  $('#danTable').innerHTML = DAN.map(([v, n]) => `<li><b>${n}</b><span>${v}字〜</span></li>`).join('');
+}
+function startDan(kb){ S.kb = kb; saveS(); unlockAudio(); startGame({ course:'dan', mode:'count', conv:false, punct:true }); }
+$('#danQwerty').addEventListener('click', () => startDan('qwerty'));
+$('#danFlick').addEventListener('click', () => startDan('flick'));
+$('#danBack').addEventListener('click', () => { show('home'); renderHome(); });
+/* 朱印帳: every title as a seal; the ones earned are pressed in 朱 with their date */
+const sealTilt = id => ((hashStr(id) % 9) - 4) * 0.9;
+function renderShuin(){
+  const got = store.get('ach', {}), cur = curTitle();
+  const n = Object.keys(got).filter(id => ACH.some(a => a.id === id)).length;
+  $('#shuinCount').textContent = `${n} / ${ACH.length} の印`;
+  $('#shuinGrid').innerHTML = ACH.map(a => {
+    const on = !!got[a.id], isCur = cur && cur.id === a.id, len = [...a.name].length;
+    const fs = len <= 3 ? 24 : len === 4 ? 20 : len <= 6 ? 16 : 13;
+    return `<button type="button" class="si${on ? ' on' : ''}${isCur ? ' cur' : ''}" data-ach="${a.id}" ${on ? '' : 'aria-disabled="true"'}>`
+      + `<span class="stamp" style="--tilt:${sealTilt(a.id)}deg;--fs:${fs}px">${on ? esc(a.name) : '？'}</span>`
+      + `<small>${on ? (isCur ? 'いまの称号' : got[a.id].replace(/-/g, '/')) : esc(a.desc)}</small></button>`;
+  }).join('');
+}
+$('#shuinGrid').addEventListener('click', e => {
+  const b = e.target.closest('.si.on'); if (!b) return;
+  S.title = b.dataset.ach; saveS(); renderShuin(); toast('いまの称号にしました');
+});
+function openShuin(){ show('shuin'); renderShuin(); }
+$('#shuinBack').addEventListener('click', () => { show('home'); renderHome(); });
+$('#openShuin2').addEventListener('click', openShuin);
 let ZTAB = 'mon';
 function renderZukan(){
   const z = ZK(), allMons = AREAS.flatMap(a => [...a.mons, a.boss]);
@@ -4305,6 +4539,8 @@ function renderZukan(){
   }
 }
 $('#openZukan').addEventListener('click', () => { show('zukan'); renderZukan(); });
+$('#openShuin').addEventListener('click', openShuin);
+$('#openDan').addEventListener('click', () => { show('dan'); renderDan(); });
 $('#zukanBack').addEventListener('click', () => { show('home'); renderHome(); });
 document.querySelectorAll('[data-ztab]').forEach(b => b.addEventListener('click', () => { ZTAB = b.dataset.ztab; renderZukan(); }));
 let metaFrom = 'home';
@@ -4312,7 +4548,7 @@ function openMeta(from){ metaFrom = from; show('meta'); renderMeta(); }
 $('#openMeta').addEventListener('click', () => openMeta('home'));
 $('#rOpenMeta').addEventListener('click', () => openMeta('result'));
 $('#metaBack').addEventListener('click', () => { if (metaFrom === 'result' && LAST) { show('result'); if (LAST.mode === 'monster') $('#rShards').textContent = `ことばのかけら +${LAST.shards}（いま ${metaGet().k}個）`; } else { show('home'); renderHome(); } });
-$('#rAch').addEventListener('click', () => { show('records'); renderRecords(); });
+$('#rAch').addEventListener('click', () => openShuin());
 
 /* ================= ads: 忍者AdMax, on the public site only, never on the typing screen ================= */
 const ADS = { menu:'203bac9dfb197fec35db4cc7f006ad28', result:'ed74bb3c9a5988a9c0ce6b4cb8e46a44' };
