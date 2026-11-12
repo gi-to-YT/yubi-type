@@ -2640,22 +2640,23 @@ const PLAYER_MAX = 100;
 
 /* ---------- the dungeon run: one fight per floor, a fork in the road between floors,
    a ちから (power) after each win, health carried over, and かけら kept for good ---------- */
+// max: how many of the same ちから one run can hold (stacking without a limit broke the balance, e.g. many 辞書 = 必殺技 again and again)
 const POWERS = [
-  { id:'crit',    name:'会心の指', desc:'会心の確率 +8%' },
-  { id:'armor',   name:'鉄の表紙', desc:'受けるダメージ -2' },
-  { id:'mark',    name:'しおり',   desc:'勝つたびに体力 +4' },
-  { id:'slow',    name:'速読',     desc:'敵の攻撃が15%ゆっくりになる' },
-  { id:'punct',   name:'句読点',   desc:'ミスで受けるダメージが半分', once:true },
-  { id:'red',     name:'赤ペン',   desc:'1字のダメージ +20%' },
-  { id:'margin',  name:'余白',     desc:'最大体力 +10（そのぶん回復も）' },
-  { id:'dict',    name:'辞書',     desc:'必殺ゲージのたまり方 +40%' },
-  { id:'first',   name:'先手',     desc:'戦いの最初の攻撃が3秒おそくなる' },
-  { id:'ink',     name:'墨つぎ',   desc:'ミスしてもコンボが半分残る', once:true },
-  { id:'revise',  name:'推敲',     desc:'1回の戦いで最初のミスはダメージなし', rare:true },
-  { id:'seal',    name:'誤字封じ', desc:'10コンボごとに敵の攻撃が少しおそくなる', rare:true },
-  { id:'reprint', name:'再版',     desc:'やられたとき1回だけ、体力半分で立ち直る', rare:true },
-  { id:'rush',    name:'一気呵成', desc:'FEVER が30コンボで始まる', rare:true, once:true },
-  { id:'double',  name:'二重線',   desc:'会心のダメージが3倍', rare:true, once:true }
+  { id:'crit',    name:'会心の指', desc:'会心の確率 +8%', max:3 },
+  { id:'armor',   name:'鉄の表紙', desc:'受けるダメージ -2', max:2 },
+  { id:'mark',    name:'しおり',   desc:'勝つたびに体力 +4', max:3 },
+  { id:'slow',    name:'速読',     desc:'敵の攻撃が15%ゆっくりになる', max:2 },
+  { id:'punct',   name:'句読点',   desc:'ミスで受けるダメージが半分', max:1 },
+  { id:'red',     name:'赤ペン',   desc:'1字のダメージ +20%', max:3 },
+  { id:'margin',  name:'余白',     desc:'最大体力 +10（そのぶん回復も）', max:3 },
+  { id:'dict',    name:'辞書',     desc:'必殺ゲージのたまり方 +25%', max:2 },
+  { id:'first',   name:'先手',     desc:'戦いの最初の攻撃が3秒おそくなる', max:2 },
+  { id:'ink',     name:'墨つぎ',   desc:'ミスしてもコンボが半分残る', max:1 },
+  { id:'revise',  name:'推敲',     desc:'1回の戦いで最初のミスはダメージなし', rare:true, max:2 },
+  { id:'seal',    name:'誤字封じ', desc:'10コンボごとに敵の攻撃が少しおそくなる', rare:true, max:2 },
+  { id:'reprint', name:'再版',     desc:'やられたとき1回だけ、体力半分で立ち直る', rare:true, max:2 },
+  { id:'rush',    name:'一気呵成', desc:'フィーバーが30コンボで始まる', rare:true, max:1 },
+  { id:'double',  name:'二重線',   desc:'会心のダメージが3倍', rare:true, max:1 }
 ];
 const META = [
   { id:'hp',    name:'体力の書',     max:5, cost:l => 4 + 4 * l, desc:'最大体力 +10',                     now:l => `いま +${10 * l}` },
@@ -2740,7 +2741,7 @@ function layPick(i){
   L.onPick(i);
 }
 function rollPowers(n, rare){
-  const ok = p => !(p.once && P(p.id));
+  const ok = p => P(p.id) < p.max;
   const commons = shuffle(POWERS.filter(p => !p.rare && ok(p))), rares = shuffle(POWERS.filter(p => p.rare && ok(p)));
   const out = [];
   if (rare >= 1 && rares.length) out.push(rares.shift().id);
@@ -2751,7 +2752,7 @@ function rollPowers(n, rare){
   }
   return shuffle(out);
 }
-const powOpt = id => { const p = POWERS.find(q => q.id === id); return { icon:p.rare ? 'rare' : 'power', name:p.name + (P(id) ? `（いま×${P(id)}）` : ''), desc:p.desc, rare:!!p.rare }; };
+const powOpt = id => { const p = POWERS.find(q => q.id === id); return { icon:p.rare ? 'rare' : 'power', name:p.name + (P(id) ? `（いま×${P(id)}）` : ''), desc:p.desc + (p.max > 1 ? `（${p.max}つまで）` : ''), rare:!!p.rare }; };
 function applyPower(id){
   G.pw[id] = (G.pw[id] || 0) + 1;
   if (id === 'margin') { G.maxHp += 10; G.you += 10; }
@@ -2770,6 +2771,7 @@ function openGo(title, sub, opt){
 }
 function offerPowers(kind, sh, ids){
   ids = ids || rollPowers(3, kind === 'battle' ? 0.15 : kind === 'start' ? 0.2 : 1);
+  if (!ids.length) { G.shards += 2; G.pending = null; openGo(kind === 'boss' ? 'ボスをたおした！' : '勝った！', 'ちからはもう持ちきれない。かわりに、ことばのかけら +2', { icon:'go', name:'先へ進む' }); return; }
   G.pending = { t:'pow', kind, sh, ids };
   const title = kind === 'start' ? 'はじまりのちからを選ぶ' : kind === 'boss' ? 'ボスをたおした！　ちからを選ぶ' : '勝った！　ちからを1つ選ぶ';
   const sub = kind === 'start' ? 'はじまりの書の力で、ひとつ持って出発します。' : `ことばのかけら +${sh}` + (kind === 'boss' ? '・体力が25%回復した' : '');
@@ -2806,6 +2808,7 @@ function enterNode(type){
   }
   if (type === 'treasure') {
     const id = rollPowers(1, 0.35)[0];
+    if (!id) { G.shards += 4; openGo(`地下${f}階　宝箱をあけた`, 'ことばのかけら +4（ちからはもう持ちきれない）', { icon:'go', name:'先へ進む' }); return; }
     G.shards += 2;
     applyPower(id);
     openGo(`地下${f}階　宝箱をあけた`, 'このちからが入っていた・ことばのかけら +2', powOpt(id));
@@ -3196,7 +3199,7 @@ function renderArena(){
 /* the special gauge fills as you type; when full, 必殺技 lands a flurry worth about a third of the foe's health */
 function gainSp(v){
   if (G.mode !== 'monster' || G.sp >= 100) return;
-  G.sp = Math.min(100, G.sp + v * (1 + 0.4 * P('dict')));
+  G.sp = Math.min(100, G.sp + v * (1 + 0.25 * P('dict')));
   if (G.sp >= 100) { banner('必殺技、使える！', 'ok'); sfx('milestone'); vib(30); }
 }
 function special(){
