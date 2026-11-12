@@ -684,6 +684,16 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .shards b{font:800 26px var(--font-mincho);color:var(--accent)}
 .shop-row .tx .lv{font-family:var(--font-mincho);font-weight:800}
 
+/* romaji spellings */
+.romarows .setrow{padding:7px 0}
+.romarows .rk{font:800 18px var(--font-mincho)}
+.roma-seg{display:grid;gap:6px;flex:none;width:min(62%,228px)}
+.roma-seg .opt{padding:7px 4px;align-items:center}
+.roma-seg .opt b{font:700 14px var(--font-ui);letter-spacing:.02em}
+.roma-seg .opt[aria-pressed="true"] b::after{display:none}
+.roma-ex{margin:0;font:700 14px/1.9 var(--font-ui);letter-spacing:.04em;color:var(--ink)}
+.roma-ex .pr{display:inline-block;white-space:nowrap;margin-right:16px}
+.roma-ex .pr span{font:800 13px var(--font-mincho);color:var(--mute);letter-spacing:0}
 /* ---- finish review: the stage is ink wash on the page itself, not a boxed card ---- */
 .arena .scene{left:calc(-1 * var(--gut-l));right:calc(-1 * var(--gut-r));border-radius:0;box-shadow:none;overflow:hidden;background-color:transparent;
   -webkit-mask-image:linear-gradient(transparent,#000 12%,#000 74%,transparent),linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-composite:source-in;
@@ -813,6 +823,13 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
         <button class="opt" data-set="kb" data-val="flick"><b>テンキー</b><span>フリック・トグル入力</span></button>
       </div>
       <p class="note" id="kbNote"></p>
+    </div>
+
+    <div class="group" id="romaGroup">
+      <h2 class="label">ローマ字の表示</h2>
+      <p class="note">お手本に出すつづりを選べます。打つときは、どのつづりでも正解です。</p>
+      <p class="roma-ex" id="romaEx"></p>
+      <div class="optbox setrows romarows" id="romaRows"></div>
     </div>
 
     <div class="group">
@@ -1285,13 +1302,30 @@ const SINGLE_N_NEXT = /^[bcdfghjklmpqrstvwxz]/; // ん を n ひとつで打て�
 const uniq = a => [...new Set(a)];
 const prod = (a, b) => { const o = []; for (const x of a) for (const y of b) o.push(x + y); return o; };
 
+/* put the preferred spelling first: the guide shows the first one */
+function prefer(kana, cands){
+  const R = S.roma || ROMA_DEF;
+  let pick = null;
+  if (kana === 'し') pick = c => c === R.shi;
+  else if (kana === 'ち') pick = c => c === R.chi;
+  else if (kana === 'つ') pick = c => c === R.tsu;
+  else if (kana === 'ふ') pick = c => c === R.fu;
+  else if (kana === 'じ') pick = c => c === R.ji;
+  else if (/^し[ゃゅぇょ]$/.test(kana)) pick = c => c.startsWith(R.sha === 'sya' ? 'sy' : 'sh');
+  else if (/^ち[ゃゅぇょ]$/.test(kana)) pick = c => c.startsWith(R.cha.slice(0, 2));
+  else if (/^じ[ゃゅぇょ]$/.test(kana)) pick = c => R.ja === 'ja' ? /^j[aueo]$/.test(c) : c.startsWith(R.ja.slice(0, 2));
+  else if (/^[ぁぃぅぇぉゃゅょゎっ]$/.test(kana)) pick = c => c[0] === R.small;
+  if (!pick) return cands;
+  const i = cands.findIndex(pick);
+  return i > 0 ? [cands[i], ...cands.slice(0, i), ...cands.slice(i + 1)] : cands;
+}
 function buildUnits(reading){
   const s = [...reading], raw = [];
   for (let i = 0; i < s.length;) {
     const c = s[i], c2 = s[i + 1];
-    if (c2 && R2[c + c2]) { raw.push({ kana:c + c2, cands:uniq([...R2[c + c2], ...prod(R1[c] || [c], R1[c2] || [c2])]) }); i += 2; continue; }
+    if (c2 && R2[c + c2]) { raw.push({ kana:c + c2, cands:prefer(c + c2, uniq([...R2[c + c2], ...prod(R1[c] || [c], R1[c2] || [c2])])) }); i += 2; continue; }
     if (c === 'ん') { raw.push({ kana:c, cands:['nn', "n'", 'xn'], n:true }); i++; continue; }
-    raw.push({ kana:c, cands:(R1[c] || [c]).slice() }); i++;
+    raw.push({ kana:c, cands:prefer(c, (R1[c] || [c]).slice()) }); i++;
   }
   const out = [];
   for (let j = 0; j < raw.length; j++) {
@@ -1300,7 +1334,10 @@ function buildUnits(reading){
       const cands = [];
       for (const c of nx.cands) if (DOUBLE_OK.test(c)) { cands.push(c[0] + c); if (c.startsWith('ch')) cands.push('t' + c); }
       for (const x of u.cands) for (const c of nx.cands) cands.push(x + c);
-      out.push({ kana:u.kana + nx.kana, cands:uniq(cands) }); j++;
+      let cs = uniq(cands);
+      // shown as a separate small っ (xtu / ltu) instead of a doubled consonant
+      if ((S.roma || ROMA_DEF).xtu === 'small') { const i = cs.findIndex(c => c.startsWith(u.cands[0])); if (i > 0) cs = [cs[i], ...cs.slice(0, i), ...cs.slice(i + 1)]; }
+      out.push({ kana:u.kana + nx.kana, cands:cs }); j++;
     } else out.push(u);
   }
   return out;
@@ -1312,7 +1349,11 @@ function createRomaji(reading){
   const complete = s => { st.typed.push(s); st.ui++; st.buf = ''; };
   const unitDefault = j => {
     const u = units[j];
-    if (u.n) { const nx = units[j + 1]; return nx && SINGLE_N_NEXT.test(nx.cands[0]) ? 'n' : 'nn'; }
+    if (u.n) {
+      const pn = (S.roma || ROMA_DEF).n;
+      if (pn === 'nn' || pn === 'xn') return pn;
+      const nx = units[j + 1]; return nx && SINGLE_N_NEXT.test(nx.cands[0]) ? 'n' : 'nn';
+    }
     return u.cands[0];
   };
   function feed(k){
@@ -1462,6 +1503,9 @@ function createFlick(reading, opt){
 
 /* ================= settings ================= */
 const S = Object.assign({ kb:'qwerty', course:'words', mode:'time', sound:true, vibe:true, toggle:true, guide:true, height:'m', kbStyle:'gap', conv:false, punct:true }, store.get('settings', {}));
+// the spelling the romaji guide shows; any spelling is accepted while typing
+const ROMA_DEF = { shi:'shi', chi:'chi', tsu:'tsu', fu:'fu', ji:'ji', sha:'sha', cha:'cha', ja:'ja', n:'auto', xtu:'double', small:'x' };
+S.roma = Object.assign({}, ROMA_DEF, S.roma);
 const saveS = () => store.set('settings', S);
 const ROW_H = { s:'43px', m:'50px', l:'58px' };
 const applyHeight = () => {
@@ -1507,24 +1551,38 @@ const customText = () => store.get('customText', CUSTOM_DEFAULT);
 const itemsOf = id => id === 'custom' ? parseCustom(customText()).items : id === 'daily' ? dailyItems() : id === 'weak' ? weakItems(S.kb) : courseById(id).items;
 
 /* ================= sound & haptics ================= */
-let AC = null;
+let AC = null, OUT = null;
+/* every sound goes through one output with a limiter. Sounds asked for while the audio is still starting are
+   dropped, not queued: queued ones all played at once when it started, which made the first sounds too loud */
 function unlockAudio(){
   if (!S.sound) return;
   try {
-    if (!AC) { const C = window.AudioContext || window.webkitAudioContext; if (C) AC = new C(); }
-    if (AC && AC.state === 'suspended') AC.resume();
+    if (!AC) {
+      const C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      AC = new C();
+      const lim = AC.createDynamicsCompressor();
+      lim.threshold.value = -18; lim.knee.value = 6; lim.ratio.value = 10; lim.attack.value = 0.001; lim.release.value = 0.15;
+      OUT = AC.createGain(); OUT.gain.value = 0.9;
+      OUT.connect(lim); lim.connect(AC.destination);
+      // a silent sound starts the output now, so the first real sound is not the one that wakes it
+      const b = AC.createBuffer(1, 1, AC.sampleRate), src = AC.createBufferSource(); src.buffer = b; src.connect(OUT); src.start(0);
+    }
+    if (AC.state === 'suspended') AC.resume();
   } catch(e) {}
 }
+['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, () => unlockAudio(), { capture:true, passive:true }));
+const audioOn = () => S.sound && AC && OUT && AC.state === 'running';
 function tone(freq, dur, type, vol, delay, f2){
   const t = AC.currentTime + (delay || 0);
   const o = AC.createOscillator(), g = AC.createGain();
   o.type = type; o.frequency.setValueAtTime(freq, t);
   if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+  g.gain.value = 0;
   g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + dur + 0.02);
+  o.connect(g); g.connect(OUT); o.start(t); o.stop(t + dur + 0.02);
 }
 function fx(kind){
-  if (S.sound && AC) {
+  if (audioOn()) {
     try {
       if (kind === 'key') tone(1500, 0.035, 'triangle', 0.05, 0, 700);
       else if (kind === 'miss') tone(170, 0.12, 'square', 0.04);
@@ -1576,6 +1634,7 @@ function renderHome(){
     box.appendChild(b);
   }
   $('#editCustom').hidden = S.course !== 'custom';
+  renderRoma();
   $('#howNow').textContent = `${KB_NAME[S.kb]}・${courseById(S.course).name}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
   // the three entrances: each one starts its game, or picks up the one left halfway
   for (const m of ['monster', 'time', 'count']) {
@@ -1599,6 +1658,36 @@ function renderHome(){
   $('#setGuide').checked = S.guide; $('#setToggle').checked = S.toggle;
   $('#setConv').checked = S.conv; $('#setPunct').checked = S.punct;
   $('#startMsg').hidden = true;
+}
+const ROMA_SET = [
+  ['shi', 'し', [['shi', 'shi'], ['si', 'si'], ['ci', 'ci']]],
+  ['chi', 'ち', [['chi', 'chi'], ['ti', 'ti']]],
+  ['tsu', 'つ', [['tsu', 'tsu'], ['tu', 'tu']]],
+  ['fu', 'ふ', [['fu', 'fu'], ['hu', 'hu']]],
+  ['ji', 'じ', [['ji', 'ji'], ['zi', 'zi']]],
+  ['sha', 'しゃ', [['sha', 'sha'], ['sya', 'sya']]],
+  ['cha', 'ちゃ', [['cha', 'cha'], ['tya', 'tya'], ['cya', 'cya']]],
+  ['ja', 'じゃ', [['ja', 'ja'], ['zya', 'zya'], ['jya', 'jya']]],
+  ['n', 'ん', [['auto', 'n・nn'], ['nn', 'nn'], ['xn', 'xn']]],
+  ['xtu', 'っ', [['double', 'tte'], ['small', 'xtute']]],
+  ['small', '小さい字', [['x', 'xya'], ['l', 'lya']]]
+];
+const ROMA_SAMPLE = ['しんぶん', 'ちょっと', 'じゃんけん', 'ふつう', 'しゃしん', 'ちいさい'];
+function renderRoma(){
+  $('#romaGroup').hidden = S.kb !== 'qwerty';
+  const box = $('#romaRows');
+  if (!box.childElementCount) {
+    box.innerHTML = ROMA_SET.map(([k, kana, opts]) => `<div class="setrow"><span class="lt"><b class="rk">${esc(kana)}</b></span><div class="seg roma-seg" role="group" aria-label="${esc(kana)} のつづり" style="grid-template-columns:repeat(${opts.length},minmax(0,1fr))">`
+      + opts.map(([v, label]) => `<button class="opt" type="button" data-roma="${k}" data-val="${v}"><b>${esc(label)}</b></button>`).join('') + '</div></div>').join('');
+    box.addEventListener('click', e => {
+      const b = e.target.closest('[data-roma]'); if (!b) return;
+      S.roma[b.dataset.roma] = b.dataset.val; saveS(); renderRoma();
+    });
+  }
+  box.querySelectorAll('[data-roma]').forEach(b => b.setAttribute('aria-pressed', String(S.roma[b.dataset.roma] === b.dataset.val)));
+  // the っ choice shows the small-kana letter that is chosen
+  const sm = box.querySelector('[data-roma="xtu"][data-val="small"] b'); if (sm) sm.textContent = (S.roma.small === 'l' ? 'l' : 'x') + 'tute';
+  $('#romaEx').innerHTML = ROMA_SAMPLE.map(w => `<span class="pr"><span>${esc(w)}</span> ${esc(createRomaji(w).parts().rest)}</span>`).join('');
 }
 document.querySelectorAll('[data-door]').forEach(b => b.addEventListener('click', () => {
   unlockAudio();
@@ -2999,11 +3088,12 @@ function nburst(dur, freq, q, vol, delay, type){
   if (!NOISE) { const len = AC.sampleRate * 0.6; NOISE = AC.createBuffer(1, len, AC.sampleRate); const d = NOISE.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1; }
   const s = AC.createBufferSource(), f = AC.createBiquadFilter(), g = AC.createGain();
   s.buffer = NOISE; f.type = type || 'bandpass'; f.frequency.setValueAtTime(freq, t); f.Q.value = q || 1;
+  g.gain.value = 0;
   g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  s.connect(f); f.connect(g); g.connect(AC.destination); s.start(t); s.stop(t + dur + 0.02);
+  s.connect(f); f.connect(g); g.connect(OUT); s.start(t); s.stop(t + dur + 0.02);
 }
 function sfx(kind, k){
-  if (!S.sound || !AC) return;
+  if (!audioOn()) return;
   try {
     if (kind === 'hit') { const p = 520 * Math.pow(2, Math.min(k || 0, 36) / 24); nburst(0.05, 2400, 1.2, 0.08); tone(p, 0.07, 'square', 0.03, 0, p * 0.55); }
     else if (kind === 'crit') { nburst(0.09, 3200, 0.8, 0.12); tone(1500, 0.12, 'triangle', 0.06, 0, 2700); tone(2600, 0.1, 'sine', 0.04, 0.05); }
