@@ -21,3 +21,12 @@
 ## ファイル
 
 `index.html` 1つで動きます（外から読み込むのはフォントだけ）。
+
+## プライバシーポリシー
+
+https://gi-to-yt.github.io/yubi-type/privacy.html
+
+## 管理用メモ
+
+- ランキングは Firebase（Cloud Firestore）に保存します。書き込みの決まりは `firestore.rules` にあり、Firebase コンソールの Firestore Database →「ルール」に貼って公開します。
+- `index.html` の `FIREBASE_CONFIG` に Firebase のウェブアプリの設定を入れると、ランキングが動きます（この値はページに埋め込まれる公開情報で、パスワードではありません）。

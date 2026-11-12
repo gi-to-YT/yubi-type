@@ -1,0 +1,30 @@
+rules_version = '2';
+// ゆびタイプのランキング用。Firebase コンソールの Firestore Database →「ルール」に貼って「公開」する。
+// boards/<ランキングの名前>/entries/<匿名ログインのID> に、1人1件、いちばん良い点だけを置く。
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /boards/{board}/entries/{uid} {
+      // 誰でも読める（ランキングの表示）
+      allow read: if true;
+      // 書けるのは自分の記録だけ。形と値の範囲も確かめる
+      allow create, update: if request.auth != null
+        && request.auth.uid == uid
+        && board.matches('^(qwerty|flick)_[a-z0-9-]{1,40}_(time|count|monster)_[01][01]$')
+        && request.resource.data.keys().hasOnly(['name', 's', 's2', 'a', 't', 'at'])
+        && request.resource.data.keys().hasAll(['name', 's', 's2', 'a', 't', 'at'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 12
+        && request.resource.data.s is number && request.resource.data.s >= 0 && request.resource.data.s <= 1500
+        && request.resource.data.s2 is number && request.resource.data.s2 >= 0 && request.resource.data.s2 <= 1500
+        && request.resource.data.a is number && request.resource.data.a >= 0 && request.resource.data.a <= 100
+        && request.resource.data.t is string && request.resource.data.t.size() == 10
+        && request.resource.data.at == request.time;
+      // 消すのは管理者（コンソール）だけ
+      allow delete: if false;
+    }
+    // それ以外の場所は読み書きできない
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -339,6 +339,12 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .ach.cur small{color:var(--accent);font-family:var(--font-ui);font-weight:700}
 .ach:disabled{opacity:.6}
 .danger{color:var(--miss)}
+.nickform{display:flex;flex-direction:column;gap:6px;padding:12px;border:1.5px solid var(--accent);border-radius:12px;background:var(--card)}
+.nickform label{font-size:13px;font-weight:700}
+.nickrow{display:flex;gap:8px}
+.nickrow input{flex:1;min-width:0;font:16px var(--font-ui);padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+.primary.small{font-size:15px;padding:8px 16px;width:auto;letter-spacing:.06em}
+.foot a{color:var(--mute)}
 
 @media (max-width:360px){
   .disp.s1{font-size:40px}.disp.s2{font-size:30px}
@@ -437,7 +443,7 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
         </div>
       </div>
     </details>
-    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。</p>
+    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。<br><a href="https://gi-to-yt.github.io/yubi-type/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
   </div>
 </section>
 
@@ -516,6 +522,12 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
     <div class="group">
       <h2 class="label">ランキング</h2>
       <p class="note" id="rRankBox"></p>
+      <form class="nickform" id="nickForm" hidden>
+        <label for="nickInput">ランキングに出す名前（12文字まで）</label>
+        <div class="nickrow"><input id="nickInput" maxlength="12" autocomplete="nickname" enterkeyhint="done"><button class="primary small" type="submit">決める</button></div>
+        <p class="note">名前と点数は、誰でも見られるランキングに載ります。本名は使わないでください。</p>
+        <p class="msg" id="nickMsg" hidden></p>
+      </form>
       <ol class="ranklist" id="rRankList"></ol>
       <button class="linkbtn" id="rOpenRank">ランキングを見る</button>
     </div>
@@ -558,6 +570,13 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
       <button class="opt" data-rtab="combo"><b>いまの組み合わせ</b><span>メニューで選んだコースとルール</span></button>
     </div>
     <p class="note" id="rankWhat"></p>
+    <p class="note" id="nickLine" hidden>ランキングでの名前：<b id="nickNow"></b>　<button class="linkbtn" id="nickEdit" type="button">変える</button></p>
+    <form class="nickform" id="nickForm2" hidden>
+      <label for="nickInput2">ランキングに出す名前（12文字まで）</label>
+      <div class="nickrow"><input id="nickInput2" maxlength="12" autocomplete="nickname" enterkeyhint="done"><button class="primary small" type="submit">決める</button></div>
+      <p class="note">本名は使わないでください。</p>
+      <p class="msg" id="nickMsg2" hidden></p>
+    </form>
     <p class="note" id="rankStatus"></p>
     <ol class="ranklist" id="rankList"></ol>
     <div class="group">
@@ -2331,68 +2350,129 @@ $('#cardSave').addEventListener('click', async () => {
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
 });
 
-/* ================= ranking (shared through this page's own store) ================= */
-const RANK = { ready:null, db:null, user:null, uid:null, canWrite:null, own:null, chain:Promise.resolve() };
+/* ================= ranking: claude.ai's shared store, or Firebase on the public site ================= */
+// Firebase web settings for the public site. These values ship inside the page and are not secrets;
+// what each visitor may write is decided by firestore.rules in the public repository.
+const FIREBASE_CONFIG = null;
+const FB_SDK = 'https://www.gstatic.com/firebasejs/10.14.1/';
+const MAX_SCORE = 1500;          // the rules refuse anything above this, so do not send it
+const RANK = { ready:null, be:null };
 const boardKeyOf = (kb, ck, mode, conv, punct) => `${kb}_${ck}_${mode}_${conv ? 1 : 0}${punct ? 1 : 0}`;
-// claude.ai serves the shared store; anywhere else (GitHub Pages) the shared ranking is not set up yet
 const inClaude = () => !!(window.claude && typeof window.claude.use === 'function');
 const rankOffText = () => inClaude() ? 'みんなのランキングは、claude.ai でこのページを開いたときに使えます。' : 'みんなのランキングは準備中です。';
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
+const scoreOf = R => R.mode === 'monster' ? [R.defeated, R.cpm] : [R.cpm, R.acc];
+const beats = (a, b) => !b || a[0] > b[0] || (a[0] === b[0] && a[1] > b[1]);
+const cleanNick = s => String(s || '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 12);
+const getNick = () => cleanNick(store.get('nick', ''));
+const rankRow = (id, d) => ({ id, name:cleanNick(d.name) || 'だれか', s:+d.s, s2:+d.s2 || 0, t:String(d.t || '') });
+
+/* on claude.ai: one document per viewer in the artifact's store, names from claude.ai accounts */
+async function claudeBackend(){
+  const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+  if (!db || !user) return null;
+  const uid = await user.id();
+  let canWrite = await user.can('data.write'), own = null, chain = Promise.resolve();
+  return {
+    named:true, get canWrite(){ return canWrite; },
+    async submit(R, key){
+      if (!uid || canWrite === false) return 'nowrite';
+      const ref = db.collection('scores').doc(uid);
+      try {
+        if (!own) {
+          const snap = await ref.get();
+          own = snap.exists ? JSON.parse(JSON.stringify(snap.data())) : {};
+          if (!own.b || typeof own.b !== 'object') own.b = {};
+        }
+        const cur = own.b[key], sc = scoreOf(R);
+        if (cur && !beats(sc, [cur.s, cur.s2])) return 'kept';
+        own.b[key] = { s:sc[0], s2:sc[1], a:R.acc, t:todayKey() };
+        const cutoff = dayNum(todayKey()) - 14;
+        for (const k of Object.keys(own.b)) { const m = k.match(/daily-(\d{4}-\d{2}-\d{2})/); if (m && dayNum(m[1]) < cutoff) delete own.b[k]; }
+        const body = JSON.parse(JSON.stringify(own));
+        chain = chain.then(() => ref.set(body));
+        await chain;
+        return 'saved';
+      } catch(e) {
+        chain = Promise.resolve();
+        if (e && e.code === 'invalid_argument') { canWrite = false; return 'nowrite'; }
+        return 'error';
+      }
+    },
+    async fetch(key){
+      const snap = await db.collection('scores').limit(500).get();
+      const rows = [];
+      for (const d of snap.docs) {
+        const b = d.data() && d.data().b, e = b && b[key];
+        if (e && typeof e.s === 'number' && isFinite(e.s)) rows.push(rankRow(d.id, e));
+      }
+      rows.sort((p, q) => q.s - p.s || q.s2 - p.s2);
+      const ps = rows.length ? await user.profiles(rows.slice(0, 50).map(r => r.id)) : {};
+      const out = rows.map((r, i) => ({ ...r, place:i + 1, name:(ps[r.id] && ps[r.id].name) || 'だれか', me:r.id === uid }));
+      return { rows:out.slice(0, 50), meRow:out.find(r => r.me) || null, total:out.length };
+    }
+  };
+}
+
+/* on the public site: Firebase, signed in anonymously; boards/<board>/entries/<uid> */
+async function firebaseBackend(){
+  const [{ initializeApp }, A, F] = await Promise.all(['firebase-app.js', 'firebase-auth.js', 'firebase-firestore.js'].map(f => import(FB_SDK + f)));
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = A.getAuth(app);
+  await auth.authStateReady();
+  if (!auth.currentUser) await A.signInAnonymously(auth);
+  const uid = auth.currentUser.uid, db = F.getFirestore(app);
+  const col = key => F.collection(db, 'boards', key, 'entries');
+  return {
+    named:false, canWrite:true,
+    async submit(R, key){
+      const name = getNick();
+      if (!name) return 'needname';
+      const sc = scoreOf(R);
+      if (!(sc[0] <= MAX_SCORE && sc[1] <= MAX_SCORE)) return 'kept';
+      try {
+        const ref = F.doc(col(key), uid), cur = await F.getDoc(ref);
+        if (cur.exists() && !beats(sc, [cur.data().s, cur.data().s2])) return 'kept';
+        await F.setDoc(ref, { name, s:sc[0], s2:sc[1], a:R.acc, t:todayKey(), at:F.serverTimestamp() });
+        return 'saved';
+      } catch(e) { return 'error'; }
+    },
+    async fetch(key){
+      const snap = await F.getDocs(F.query(col(key), F.orderBy('s', 'desc'), F.limit(50)));
+      const rows = snap.docs.map(d => rankRow(d.id, d.data())).filter(r => isFinite(r.s));
+      rows.sort((p, q) => q.s - p.s || q.s2 - p.s2);
+      const out = rows.map((r, i) => ({ ...r, place:i + 1, me:r.id === uid }));
+      let meRow = out.find(r => r.me) || null;
+      if (!meRow) {
+        const mine = await F.getDoc(F.doc(col(key), uid));
+        if (mine.exists()) {
+          const m = rankRow(uid, mine.data());
+          const above = await F.getCountFromServer(F.query(col(key), F.where('s', '>', m.s)));
+          meRow = { ...m, me:true, place:above.data().count + 1 };
+        }
+      }
+      const total = out.length < 50 ? out.length : (await F.getCountFromServer(col(key))).data().count;
+      return { rows:out, meRow, total };
+    }
+  };
+}
 function rankInit(){
   if (RANK.ready) return RANK.ready;
   RANK.ready = (async () => {
     try {
-      if (!window.claude || typeof window.claude.use !== 'function') return false;
-      const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
-      if (!db || !user) return false;
-      RANK.db = db; RANK.user = user;
-      RANK.uid = await user.id();
-      RANK.canWrite = await user.can('data.write');
-      return true;
-    } catch(e) { return false; }
+      if (typeof window.__yubiRankBackend === 'function') RANK.be = await window.__yubiRankBackend();   // test stand-in
+      else if (inClaude()) RANK.be = await claudeBackend();
+      else if (FIREBASE_CONFIG) RANK.be = await withTimeout(firebaseBackend(), 15000);
+    } catch(e) { RANK.be = null; }
+    return !!RANK.be;
   })();
   return RANK.ready;
 }
-const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
-const scoreOf = R => R.mode === 'monster' ? [R.defeated, R.cpm] : [R.cpm, R.acc];
-const beats = (a, b) => !b || a[0] > b[0] || (a[0] === b[0] && a[1] > b[1]);
-async function rankSubmit(R, key){
-  if (!RANK.uid || RANK.canWrite === false) return 'nowrite';
-  const ref = RANK.db.collection('scores').doc(RANK.uid);
-  try {
-    if (!RANK.own) {
-      const snap = await ref.get();
-      RANK.own = snap.exists ? JSON.parse(JSON.stringify(snap.data())) : {};
-      if (!RANK.own.b || typeof RANK.own.b !== 'object') RANK.own.b = {};
-    }
-    const cur = RANK.own.b[key], sc = scoreOf(R);
-    if (cur && !beats(sc, [cur.s, cur.s2])) return 'kept';
-    RANK.own.b[key] = { s:sc[0], s2:sc[1], a:R.acc, t:todayKey() };
-    const cutoff = dayNum(todayKey()) - 14;
-    for (const k of Object.keys(RANK.own.b)) { const m = k.match(/daily-(\d{4}-\d{2}-\d{2})/); if (m && dayNum(m[1]) < cutoff) delete RANK.own.b[k]; }
-    const body = JSON.parse(JSON.stringify(RANK.own));
-    RANK.chain = RANK.chain.then(() => ref.set(body));
-    await RANK.chain;
-    return 'saved';
-  } catch(e) {
-    RANK.chain = Promise.resolve();
-    if (e && e.code === 'invalid_argument') { RANK.canWrite = false; return 'nowrite'; }
-    return 'error';
-  }
-}
-async function rankFetch(key){
-  const snap = await RANK.db.collection('scores').limit(500).get();
-  const rows = [];
-  for (const d of snap.docs) {
-    const b = d.data() && d.data().b, e = b && b[key];
-    if (e && typeof e.s === 'number' && isFinite(e.s)) rows.push({ id:d.id, s:e.s, s2:+e.s2 || 0, t:String(e.t || '') });
-  }
-  rows.sort((p, q) => q.s - p.s || q.s2 - p.s2);
-  const ps = rows.length ? await RANK.user.profiles(rows.slice(0, 50).map(r => r.id)) : {};
-  return rows.map((r, i) => ({ ...r, place:i + 1, name:(ps[r.id] && ps[r.id].name) || 'だれか', me:r.id === RANK.uid }));
-}
-function fillRankList(ol, rows, mode, max){
+function fillRankList(ol, rows, mode, max, extra){
   ol.textContent = '';
-  for (const r of rows.slice(0, max)) {
+  const list = rows.slice(0, max);
+  if (extra && !list.some(r => r.me)) list.push(extra);
+  for (const r of list) {
     const li = document.createElement('li'); if (r.me) li.className = 'me';
     const n = document.createElement('span'); n.className = 'rk'; n.textContent = r.place;
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.me ? `${r.name}（あなた）` : r.name;
@@ -2400,21 +2480,39 @@ function fillRankList(ol, rows, mode, max){
     li.append(n, nm, sc); ol.appendChild(li);
   }
 }
+const SENT_NOTE = { nowrite:'（このページの共有のしかたでは、あなたの点は送られません）', error:'（記録を送れませんでした）', needname:'' };
 async function rankAfterGame(R){
   const box = $('#rRankBox'), ol = $('#rRankList');
   ol.textContent = ''; box.textContent = 'ランキングを確かめています…';
+  $('#nickForm').hidden = true;
   if (!(await rankInit())) { box.textContent = rankOffText(); return; }
-  const key = boardKeyOf(R.kb, R.courseKey, R.mode, R.conv, R.punct);
-  const sent = R.chars > 0 ? await rankSubmit(R, key) : 'kept';
-  let rows = null;
-  try { rows = await withTimeout(rankFetch(key), 10000); } catch(e) {}
+  const be = RANK.be, key = boardKeyOf(R.kb, R.courseKey, R.mode, R.conv, R.punct);
+  let sent = 'kept';
+  if (R.chars > 0) sent = await be.submit(R, key);
+  let res = null;
+  try { res = await withTimeout(be.fetch(key), 10000); } catch(e) {}
   if (LAST !== R) return;
-  if (!rows) { box.textContent = 'ランキングを読み込めませんでした。'; return; }
-  const me = rows.find(r => r.me);
-  box.textContent = (me ? `${rows.length}人中 ${me.place}位` : `${rows.length}人が記録しています`)
-    + (sent === 'nowrite' ? '（このページでは記録を送れない共有のしかたのため、あなたの点は載っていません）' : sent === 'error' ? '（記録を送れませんでした）' : '');
-  fillRankList(ol, rows, R.mode, 3);
+  if (sent === 'needname') { $('#nickInput').value = ''; $('#nickForm').hidden = false; }
+  if (!res) { box.textContent = 'ランキングを読み込めませんでした。'; return; }
+  box.textContent = (res.meRow ? `${res.total}人中 ${res.meRow.place}位` : res.total ? `${res.total}人が記録しています` : 'まだだれも記録していません')
+    + (sent === 'needname' ? '。名前を決めると、この点がランキングに載ります' : SENT_NOTE[sent] || '');
+  fillRankList(ol, res.rows, R.mode, 3, res.meRow);
 }
+/* the nickname shown on the public ranking (claude.ai uses the account name instead) */
+function saveNick(input, msg){
+  const v = cleanNick(input.value);
+  if (!v) { msg.textContent = '1文字以上で入れてください。'; msg.hidden = false; return false; }
+  store.set('nick', v); msg.hidden = true; return true;
+}
+$('#nickForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if (saveNick($('#nickInput'), $('#nickMsg')) && LAST) { $('#nickForm').hidden = true; rankAfterGame(LAST); }
+});
+$('#nickForm2').addEventListener('submit', e => {
+  e.preventDefault();
+  if (saveNick($('#nickInput2'), $('#nickMsg2'))) { $('#nickForm2').hidden = true; renderRankView(); toast('名前を変えました。次に記録を更新したときから、この名前で載ります'); }
+});
+$('#nickEdit').addEventListener('click', () => { $('#nickInput2').value = getNick(); $('#nickForm2').hidden = false; $('#nickInput2').focus(); });
 let RTAB = 'daily';
 function rankBoardNow(){
   const daily = RTAB === 'daily' || S.course === 'daily';
@@ -2434,13 +2532,15 @@ async function renderRankView(){
   if (own.length) fillRankList(lo, own, bd.mode, 10); else lo.innerHTML = '<li class="empty">まだ記録がありません</li>';
   const st = $('#rankStatus'), ol = $('#rankList');
   ol.textContent = ''; st.textContent = '読み込んでいます…';
+  $('#nickLine').hidden = true;
   if (!(await rankInit())) { st.textContent = rankOffText() + '下は、この端末に残っている自分の記録です。'; return; }
-  let rows = null;
-  try { rows = await withTimeout(rankFetch(bd.key), 10000); } catch(e) {}
+  if (!RANK.be.named) { const n = getNick(); $('#nickLine').hidden = false; $('#nickNow').textContent = n || 'まだ決めていません'; }
+  let res = null;
+  try { res = await withTimeout(RANK.be.fetch(bd.key), 10000); } catch(e) {}
   if (VIEW !== 'rank' || rankBoardNow().key !== bd.key) return;
-  if (!rows) { st.textContent = 'ランキングを読み込めませんでした。'; return; }
-  st.textContent = rows.length ? `${rows.length}人が記録しています。` + (RANK.canWrite === false ? 'このページの共有のしかたでは、あなたの記録は送られません。' : '') : 'まだだれも記録していません。遊ぶと、ここに載ります。';
-  fillRankList(ol, rows, bd.mode, 50);
+  if (!res) { st.textContent = 'ランキングを読み込めませんでした。'; return; }
+  st.textContent = res.total ? `${res.total}人が記録しています。` + (RANK.be.canWrite === false ? 'このページの共有のしかたでは、あなたの記録は送られません。' : '') : 'まだだれも記録していません。遊ぶと、ここに載ります。';
+  fillRankList(ol, res.rows, bd.mode, 50, res.meRow);
 }
 function openRank(tab){ if (tab) RTAB = tab; show('rank'); renderRankView(); }
 document.querySelectorAll('[data-rtab]').forEach(b => b.addEventListener('click', () => { RTAB = b.dataset.rtab; renderRankView(); }));
