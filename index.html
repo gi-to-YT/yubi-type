@@ -749,7 +749,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .seal-s{width:66px;height:66px;display:grid;place-items:center;writing-mode:vertical-rl;background:var(--shu);color:var(--shu-ink);font:400 20px/1.05 var(--font-brush);border-radius:4px;filter:url(#rough2);transform:rotate(-4deg)}
 .seal-s.none{background:none;border:2px dashed var(--line);color:var(--faint);filter:none}
 .dan-table{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;border-block:2px solid var(--ink);padding-block:4px}
-.dan-table li{display:grid;grid-template-columns:1.2fr 1fr 1fr;align-items:baseline;font-size:13px;padding:4px 0;border-bottom:1px solid var(--line)}
+.dan-table li{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;align-items:baseline;font-size:13px;padding:4px 0;border-bottom:1px solid var(--line)}
 .dan-table li span{text-align:right}
 .dan-table li.hd b,.dan-table li.hd span{font:700 11px var(--font-ui);color:var(--mute);letter-spacing:.08em}
 .dan-table b{font:400 16px var(--font-brush)}
@@ -1259,7 +1259,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </div>
     <div class="group">
       <h2 class="label">段位の目安（1分あたりの文字数）</h2>
-      <p class="note">スマホの画面のキーボード（QWERTY・テンキー）と、本物のキーボード（PC）では、目安が違います。</p>
+      <p class="note">テンキー・QWERTY・本物のキーボード（PC）で、目安が違います。QWERTY はローマ字で1字に約1.7回押すので、フリック（約1.15回）のテンキーより低めです。</p>
       <ol class="dan-table" id="danTable"></ol>
     </div>
   </div>
@@ -1777,9 +1777,11 @@ const DAN_ITEMS = `新幹線|しんかんせん
 // have their own scales (2026-11-13: the single scale up to 500 was out of reach on a phone; the PC average is about
 // 110 kana a minute, so 初段 sits a little above it, and 十段 is for the very fastest)
 const DAN_NAMES = ['五級', '四級', '三級', '二級', '一級', '初段', '二段', '三段', '四段', '五段', '六段', '七段', '八段', '九段', '十段'];
-const DAN_MIN = { phone:[20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 145, 160, 180, 200],
+// QWERTY on the screen is about 0.8 of テンキー (romaji takes about 1.7 keys a kana, a flick about 1.15; a tap is quicker than a flick)
+const DAN_MIN = { flick:[20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 145, 160, 180, 200],
+                  qwerty:[15, 25, 30, 40, 50, 55, 65, 70, 80, 90, 105, 115, 130, 145, 160],
                   pc:[40, 55, 70, 85, 100, 115, 130, 150, 170, 190, 215, 240, 270, 300, 340] };
-const danTab = src => DAN_MIN[src === 'pc' ? 'pc' : 'phone'].map((v, i) => [v, DAN_NAMES[i]]);
+const danTab = src => DAN_MIN[src === 'pc' ? 'pc' : src === 'flick' ? 'flick' : 'qwerty'].map((v, i) => [v, DAN_NAMES[i]]);
 const DAN_ACC = 90;
 const danOf = (cpm, acc, src) => { if (acc < DAN_ACC) return -1; let i = -1; danTab(src).forEach(([v], j) => { if (cpm >= v) i = j; }); return i; };
 const yukiOn = () => getNick() === YUKI;
@@ -2265,7 +2267,16 @@ function show(v){
   if (v === 'result') { if (YROOM) $('#ad-result').hidden = true; else loadAd('result', 30000); }
 }
 const LIMIT = 60, COUNT = 10;
-const RANKS = [[0,'指ならし'],[30,'ひよっこ'],[50,'見習い'],[70,'駆け出し'],[90,'一人前'],[110,'腕利き'],[130,'熟練'],[150,'達人'],[170,'名人'],[190,'鉄人'],[210,'匠'],[240,'剣豪'],[270,'仙人'],[300,'神業'],[340,'神速'],[400,'伝説'],[460,'超人'],[540,'規格外']];
+// the result ranks, one scale for each way of typing (2026-11-13). PC is the old single scale; テンキー is about 0.59 of it
+// (so 神速 = 十段 on both), and QWERTY on the screen about 0.8 of テンキー: romaji takes about 1.7 keys a kana, a flick about 1.15
+const RANK_NAMES = ['指ならし', 'ひよっこ', '見習い', '駆け出し', '一人前', '腕利き', '熟練', '達人', '名人', '鉄人', '匠', '剣豪', '仙人', '神業', '神速', '伝説', '超人', '規格外'];
+const RANK_MIN = {
+  pc:    [0, 30, 50, 70, 90, 110, 130, 150, 170, 190, 210, 240, 270, 300, 340, 400, 460, 540],
+  flick: [0, 20, 30, 40, 55, 65, 75, 90, 100, 110, 125, 140, 160, 175, 200, 235, 270, 320],
+  qwerty:[0, 15, 25, 30, 45, 50, 60, 70, 80, 90, 100, 110, 130, 140, 160, 190, 215, 255]
+};
+const scaleOf = src => src === 'pc' ? 'pc' : src === 'flick' ? 'flick' : 'qwerty';
+const ranksOf = src => RANK_MIN[scaleOf(src)].map((v, i) => [v, RANK_NAMES[i]]);
 const KEY_LABEL = { '-':'ー', ',':'、', '.':'。', '!':'！', '?':'？' };
 // the monster battle became a dungeon run (score = floor reached), so its records start fresh under a new name
 const BMODE = m => m === 'monster' ? 'dungeon' : m;
@@ -3154,6 +3165,7 @@ function results(){
   const acc = G.keys ? Math.round((G.keys - G.misses) / G.keys * 1000) / 10 : 0;
   const kpm = Math.round((G.keys - G.misses) / min);
   const kps = Math.round((G.keys - G.misses) / el * 10) / 10;   // correct keystrokes a second
+  const RANKS = ranksOf(G.hw > 0 ? 'pc' : G.kb);
   let rank = RANKS[0][1], next = null;
   for (let i = 0; i < RANKS.length; i++) {
     if (cpm >= RANKS[i][0]) { rank = RANKS[i][1]; next = RANKS[i + 1] ? { need:RANKS[i + 1][0] - cpm, name:RANKS[i + 1][1] } : null; }
@@ -4814,8 +4826,8 @@ function renderDan(){
     const d = store.get('dan:' + k, null), di = d ? danOf(d.cpm, d.acc == null ? 100 : d.acc, k) : -1;
     return `<div class="dn"><span class="seal-s${di >= 0 ? '' : ' none'}">${di >= 0 ? esc(DAN_NAMES[di]) : '無段'}</span><b>${nm}</b><small>${d ? `${d.cpm}字/分・${md(d.at)}` : 'まだ受けていない'}</small></div>`;
   }).join('');
-  $('#danTable').innerHTML = '<li class="hd"><b>段位</b><span>スマホ</span><span>PC</span></li>'
-    + DAN_NAMES.map((n, i) => `<li><b>${n}</b><span>${DAN_MIN.phone[i]}字〜</span><span>${DAN_MIN.pc[i]}字〜</span></li>`).join('');
+  $('#danTable').innerHTML = '<li class="hd"><b>段位</b><span>テンキー</span><span>QWERTY</span><span>PC</span></li>'
+    + DAN_NAMES.map((n, i) => `<li><b>${n}</b><span>${DAN_MIN.flick[i]}字〜</span><span>${DAN_MIN.qwerty[i]}字〜</span><span>${DAN_MIN.pc[i]}字〜</span></li>`).join('');
 }
 function startDan(kb){ S.kb = kb; saveS(); unlockAudio(); startGame({ course:'dan', mode:'count', conv:false, punct:true }); }
 $('#danQwerty').addEventListener('click', () => startDan('qwerty'));
