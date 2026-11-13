@@ -776,7 +776,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .ynote p{margin:0;font-size:13px;line-height:1.7}
 .ynote ul{margin:8px 0 0;padding-left:1.2em;font-size:12px;line-height:1.7;color:var(--mute)}
 .yroom .door.deep .nm{font-size:min(40px, 7.8vw);white-space:nowrap}
-.door .bars{position:absolute;left:14px;bottom:14px;width:150px;height:52px;opacity:.26;z-index:-1;color:var(--field-mute)}
+.door .lift{position:absolute;left:16px;bottom:12px;width:92px;height:58px;opacity:.42;z-index:-1;color:var(--field-mute)}
 :root.night .door.deep::before{border-color:var(--accent)}
 .ygate{position:fixed;inset:0;z-index:95;background:#0E0F14;display:grid;place-items:center;opacity:0;transition:opacity .45s ease}
 .ygate.in{opacity:1}
@@ -933,7 +933,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </nav>
 
     <div class="adslot" id="ad-menu" hidden><p class="adlabel">広告</p></div>
-    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。<br>隠しコース「魔女裁判」は、『魔法少女ノ魔女裁判』の非公式ファンメイドです。公式（Acacia／合同会社Re,AER）とは関係ありません。<br><a href="https://gi-to-yt.github.io/yubi-type/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
+    <p class="foot">記録・称号・設定は、この端末のブラウザーにだけ保存されます。ランキングに載せる場合も、送るのは各組み合わせのいちばん良い点だけです。<br><a href="https://gi-to-yt.github.io/yubi-type/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></p>
   </div>
 </section>
 
@@ -1053,9 +1053,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 
     <div class="doors" role="group" aria-label="遊び方を選ぶ">
       <button class="door deep" type="button" data-ydoor="monster">
-        <svg class="bars" viewBox="0 0 120 44" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><g filter="url(#rough2)" stroke-width="6"><path d="M8 4v36M32 4v36M56 4v36M80 4v36M104 4v36M2 10h116"/></g></svg>
-        <span class="nm">異世界エスカレーター</span>
-        <span class="ds">牢屋敷の地下へ。やられたら最初から</span>
+        <svg class="lift" viewBox="0 0 100 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g filter="url(#rough2)" stroke-width="4.5"><path d="M6 62V22h60v40"/><path d="M36 24v38"/><path d="M80 30h14v26h-14Z"/><path d="M20 16a16 16 0 0 1 32 0"/></g><path d="M36 16 L27 7" stroke-width="3"/><path d="M87 35 l-4 6h8z M87 51 l-4 -6h8z" fill="currentColor" stroke="none"/></svg>
+        <span class="nm">異世界エレベーター</span>
+        <span class="ds">ボタンを押して地下へ。やられたら最初から</span>
         <span class="bs"></span>
         <span class="rs" hidden></span>
       </button>
@@ -1141,7 +1141,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <p class="sub" id="rBest"></p>
       <p class="sub" id="rNext"></p>
       <p class="sub" id="rShards" hidden></p>
-      <div class="pathmap" id="rPath" hidden><span>通った道</span><div id="rPathSvg"></div></div>
+      <div class="pathmap" id="rPath" hidden><span data-mt="通った道">通った道</span><div id="rPathSvg"></div></div>
     </div>
     <dl class="stats" id="rStats"></dl>
     <div class="group" id="rAchBox" hidden>
@@ -3351,7 +3351,7 @@ function weekStart(d = new Date()){ return todayKey(new Date(d.getFullYear(), d.
 const weekLabel = () => { const a = new Date(weekStart().replace(/-/g, '/')), b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + 6); return `${md(todayKey(a))}〜${md(todayKey(b))}`; };
 const MODE_NAME = { time:'60秒', count:'10問', monster:'モンスター戦' };
 const KB_NAME = { qwerty:'QWERTY', flick:'テンキー', pc:'PC（キーボード）' };
-const metaText = R => mtxt(metaText0(R));   // 魔女裁判モード: モンスター戦 is 異世界エスカレーター
+const metaText = R => mtxt(metaText0(R));   // 魔女裁判モード: モンスター戦 is 異世界エレベーター
 const metaText0 = R => R.course === 'daily' ? `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・今日のダンジョン` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし') : `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・${courseById(R.course).name}・${MODE_NAME[R.mode]}` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし');
 function streakDays(){
   const set = new Set(store.get('days', []).map(dayNum));
@@ -3763,7 +3763,7 @@ const MANO_POW = {
 const MANO_META = { hp:'生存の書', crit:'推理の書', sp:'告発の書', rest:'消灯の書', relic:'収監の書' };
 const MANO_NODE = { '戦闘':'捜査', '強敵':'大きな嘘', '休憩':'消灯', '宝箱':'証拠品', 'ボスの部屋':'開廷' };
 // the dungeon's words, said the 牢屋敷 way (longer phrases first)
-const MANO_WORDS = [['モンスター戦', '異世界エスカレーター'], ['ことばのかけら', '真実のかけら'], ['かけらで強くなる', '真実のかけらで強くなる'],
+const MANO_WORDS = [['モンスター戦', '異世界エレベーター'], ['どの道を進む？', 'どのボタンを押す？'], ['先へ進む', '次の階へ'], ['通った道', '止まった階'], ['ことばのかけら', '真実のかけら'], ['かけらで強くなる', '真実のかけらで強くなる'],
   ['かけらが手に入ります', '真実のかけら（ふつうのモードの「ことばのかけら」と同じもの）が手に入ります'],
   ['ボスをたおした！', '閉廷！'], ['勝った！', '看破！'], ['ボス撃破！！', '閉廷！！'], ['撃破！', '看破！'], ['ボスの気配がする', '開廷の気配がする'], ['階　ひと休み', '階　消灯'], ['宝箱をあけた', '証拠品を見つけた'],
   ['はじまりのちからを選ぶ', '最初の切り札を選ぶ'], ['はじまりの書', '収監の書'],
@@ -3963,6 +3963,7 @@ function sfx(kind, k){
     else if (kind === 'hurt') { tone(170, 0.2, 'sine', 0.13, 0, 55); nburst(0.14, 420, 0.7, 0.13, 0, 'lowpass'); }
     else if (kind === 'fever') { tone(300, 0.45, 'sawtooth', 0.045, 0, 1500); tone(600, 0.45, 'square', 0.03, 0.05, 2200); }
     else if (kind === 'milestone') { tone(1320, 0.1, 'sine', 0.06); tone(1760, 0.16, 'sine', 0.06, 0.08); }
+    else if (kind === 'ding') { tone(1175, 0.45, 'sine', 0.06); tone(932, 0.75, 'sine', 0.05, 0.26); }   // an elevator's arrival chime
     else if (kind === 'multi') { nburst(0.07, 2800, 1, 0.1); tone(800 + (k || 0) * 140, 0.08, 'square', 0.04); }
     else if (kind === 'count') tone(900 + (k || 0) * 25, 0.035, 'triangle', 0.035);
     else if (kind === 'special') { tone(180, 0.5, 'sawtooth', 0.05, 0, 1800); nburst(0.5, 1400, 0.5, 0.14, 0.1); [784, 1047, 1319, 1568].forEach((f, i) => tone(f, 0.12, 'square', 0.045, 0.2 + i * 0.06)); }
@@ -4014,7 +4015,7 @@ function showMon(m){
   // a new area every five monsters: new scene and a call-out
   if (ar.dataset.area !== String(ai + 1)) {
     ar.dataset.area = ai + 1;
-    if (n > 1) setTimeout(() => { if (G && !G.ended && G.mon && G.mon.n === n) { banner(`地下${n}階から　${area.name}`, 'area'); sfx('milestone'); } }, 520);
+    if (n > 1) setTimeout(() => { if (G && !G.ended && G.mon && G.mon.n === n) { if (mano()) { banner(`地下${n}階、${area.name}です`, 'area'); sfx('ding'); } else { banner(`地下${n}階から　${area.name}`, 'area'); sfx('milestone'); } } }, 520);
   }
   art.innerHTML = monSvg(G.mon);
   art.classList.toggle('boss', boss);
@@ -4429,7 +4430,7 @@ async function makeCard(R){
   const x = cv.getContext('2d');
   const F = '"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif', BR = '"Yuji Syuku","Hiragino Mincho ProN",serif', MC = '"Shippori Mincho B1","Hiragino Mincho ProN",serif';
   const title = curTitle(), mon = R.mode === 'monster';
-  const words = [metaText(R), '1分あたりの文字数1秒あたり打たどり着いた階地下たおした正確率ミス打てた文字時間称号', title ? title.name : '', R.course === 'manosaba' ? FAN_NOTE : ''].join('');
+  const words = [metaText(R), '1分あたりの文字数1秒あたり打たどり着いた階地下たおした正確率ミス打てた文字時間称号通った道止まった', title ? title.name : '', R.course === 'manosaba' ? FAN_NOTE : ''].join('');
   try { await Promise.all([document.fonts.load(`400 40px "Yuji Syuku"`, 'ゆびタイプ階字分称号' + R.rank + (title ? title.name : '')), document.fonts.load(`800 40px "Shippori Mincho B1"`, 'ことばの迷宮0123456789.%体秒字'), document.fonts.load(`500 40px "Zen Kaku Gothic New"`, words)]); } catch(e) {}
   const C = { paper:'#F1EBDD', ink:'#1D1A16', mute:'#6A6357', line:'#CFC5B2' };
   const rnd = seeded(hashStr(todayKey() + R.cpm + R.rank));
@@ -4474,7 +4475,7 @@ async function makeCard(R){
   }
   // the floors walked, as a brush line through the maze
   if (mon && R.path && R.path.length) {
-    x.fillStyle = C.mute; x.font = `500 19px ${F}`; x.fillText('通った道', 520, 456);
+    x.fillStyle = C.mute; x.font = `500 19px ${F}`; x.fillText(mtxt('通った道'), 520, 456);
     const pts = pathLayout(R.path, 528, W - 104, 486);
     x.strokeStyle = C.ink; x.lineWidth = 3.2; x.lineCap = 'round'; x.lineJoin = 'round';
     x.beginPath(); pts.forEach((p, i) => { const jx = (rnd() - 0.5) * 1.5, jy = (rnd() - 0.5) * 1.5; if (i) x.lineTo(p.x + jx, p.y + jy); else x.moveTo(p.x + jx, p.y + jy); }); x.stroke();
