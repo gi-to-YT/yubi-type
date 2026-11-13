@@ -775,6 +775,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .ynote b{display:block;font:800 14px var(--font-mincho);letter-spacing:.12em;color:var(--accent);margin-bottom:4px}
 .ynote p{margin:0;font-size:13px;line-height:1.7}
 .ynote ul{margin:8px 0 0;padding-left:1.2em;font-size:12px;line-height:1.7;color:var(--mute)}
+.yroom .door.deep .nm{font-size:min(40px, 7.8vw);white-space:nowrap}
 .door .bars{position:absolute;left:14px;bottom:14px;width:150px;height:52px;opacity:.26;z-index:-1;color:var(--field-mute)}
 :root.night .door.deep::before{border-color:var(--accent)}
 .ygate{position:fixed;inset:0;z-index:95;background:#0E0F14;display:grid;place-items:center;opacity:0;transition:opacity .45s ease}
@@ -1053,7 +1054,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     <div class="doors" role="group" aria-label="遊び方を選ぶ">
       <button class="door deep" type="button" data-ydoor="monster">
         <svg class="bars" viewBox="0 0 120 44" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><g filter="url(#rough2)" stroke-width="6"><path d="M8 4v36M32 4v36M56 4v36M80 4v36M104 4v36M2 10h116"/></g></svg>
-        <span class="nm">モンスター戦</span>
+        <span class="nm">異世界エスカレーター</span>
         <span class="ds">牢屋敷の地下へ。やられたら最初から</span>
         <span class="bs"></span>
         <span class="rs" hidden></span>
@@ -2812,7 +2813,7 @@ function suspendText(sv){
   const where = g.mode === 'monster' ? `地下${g.floor}階・体力 ${g.you}/${g.maxHp}` + (Object.keys(g.pw || {}).length ? `・${mtxt('ちから')}${Object.values(g.pw).reduce((a, b) => a + b, 0)}つ` : '')
     : g.mode === 'time' ? `のこり ${Math.max(0, Math.ceil(LIMIT - g.elapsed))}秒・${g.chars}字`
     : `${g.done}/${COUNT}問`;
-  return { head:g.course === 'daily' ? '今日のダンジョン' : `${MODE_NAME[g.mode]}（${KB_NAME[g.kb]}・${courseById(g.course).name}）`, where };
+  return { head:g.course === 'daily' ? '今日のダンジョン' : `${mtxt(MODE_NAME[g.mode])}（${KB_NAME[g.kb]}・${courseById(g.course).name}）`, where };
 }
 function restoreGame(slot){
   const sv = store.get('suspend:' + slot, null);
@@ -3350,7 +3351,8 @@ function weekStart(d = new Date()){ return todayKey(new Date(d.getFullYear(), d.
 const weekLabel = () => { const a = new Date(weekStart().replace(/-/g, '/')), b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + 6); return `${md(todayKey(a))}〜${md(todayKey(b))}`; };
 const MODE_NAME = { time:'60秒', count:'10問', monster:'モンスター戦' };
 const KB_NAME = { qwerty:'QWERTY', flick:'テンキー', pc:'PC（キーボード）' };
-const metaText = R => R.course === 'daily' ? `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・今日のダンジョン` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし') : `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・${courseById(R.course).name}・${MODE_NAME[R.mode]}` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし');
+const metaText = R => mtxt(metaText0(R));   // 魔女裁判モード: モンスター戦 is 異世界エスカレーター
+const metaText0 = R => R.course === 'daily' ? `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・今日のダンジョン` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし') : `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・${courseById(R.course).name}・${MODE_NAME[R.mode]}` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし');
 function streakDays(){
   const set = new Set(store.get('days', []).map(dayNum));
   let d = dayNum(todayKey()), n = 0;
@@ -3761,7 +3763,7 @@ const MANO_POW = {
 const MANO_META = { hp:'生存の書', crit:'推理の書', sp:'告発の書', rest:'消灯の書', relic:'収監の書' };
 const MANO_NODE = { '戦闘':'捜査', '強敵':'大きな嘘', '休憩':'消灯', '宝箱':'証拠品', 'ボスの部屋':'開廷' };
 // the dungeon's words, said the 牢屋敷 way (longer phrases first)
-const MANO_WORDS = [['ことばのかけら', '真実のかけら'], ['かけらで強くなる', '真実のかけらで強くなる'],
+const MANO_WORDS = [['モンスター戦', '異世界エスカレーター'], ['ことばのかけら', '真実のかけら'], ['かけらで強くなる', '真実のかけらで強くなる'],
   ['かけらが手に入ります', '真実のかけら（ふつうのモードの「ことばのかけら」と同じもの）が手に入ります'],
   ['ボスをたおした！', '閉廷！'], ['勝った！', '看破！'], ['ボス撃破！！', '閉廷！！'], ['撃破！', '看破！'], ['ボスの気配がする', '開廷の気配がする'], ['階　ひと休み', '階　消灯'], ['宝箱をあけた', '証拠品を見つけた'],
   ['はじまりのちからを選ぶ', '最初の切り札を選ぶ'], ['はじまりの書', '収監の書'],
@@ -4908,7 +4910,7 @@ function renderYuki(){
     const sv = store.get('suspend:yuki-' + m, null), ok = !!(sv && sv.v === 1 && sv.g);
     const rs = door.querySelector('.rs');
     rs.hidden = !ok; door.dataset.resume = ok ? '1' : '';
-    if (ok) { const t = suspendText(sv); rs.textContent = `続きから　${t.where}`; door.setAttribute('aria-label', `${MODE_NAME[m]}　続きから　${t.where}`); }
+    if (ok) { const t = suspendText(sv); rs.textContent = `続きから　${t.where}`; door.setAttribute('aria-label', `${mtxt(MODE_NAME[m])}　続きから　${t.where}`); }
     else door.removeAttribute('aria-label');
     document.querySelector(`[data-ynew="${m}"]`).hidden = !ok;
   }
