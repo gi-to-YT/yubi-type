@@ -14,6 +14,11 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23C0412A'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='700' text-anchor='middle' fill='%23FFF6EA' font-family='serif'%3E%E3%82%86%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#F1EBDD" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#16130F" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ゆびタイプ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Yuji+Syuku&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
@@ -92,6 +97,11 @@ h1{font-size:27px;line-height:1.2;margin:0;font-weight:700;letter-spacing:.03em}
 .label{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--mute);margin:0}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .seg.three{grid-template-columns:repeat(3,1fr)}
+/* the kinds of board: one a row, the name and what it is side by side */
+.seg.rtabs{grid-template-columns:1fr}
+.seg.rtabs .opt{flex-direction:row;align-items:baseline;justify-content:flex-start;gap:10px;text-align:left;padding:9px 12px}
+.seg.rtabs .opt b{flex:none}
+.seg.rtabs .opt span{margin:0}
 .opt{appearance:none;-webkit-appearance:none;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:11px 13px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:3px;min-width:0}
 .opt b{font-size:17px;line-height:1.3}
 .opt span{font-size:12px;color:var(--mute);line-height:1.45;overflow-wrap:anywhere}
@@ -536,6 +546,22 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .door .maze{position:absolute;right:14px;top:68px;width:124px;height:38px;opacity:.32;z-index:-1}
 .door.deep .bs{top:auto;bottom:14px}
 .door-new{margin:-6px 0 2px auto;font-size:12px}
+.books{display:flex;flex-direction:column;gap:10px}
+.bkrow{display:flex;flex-direction:column;gap:2px}
+.bk{appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border:1.5px solid var(--line);border-radius:3px;background:var(--card);color:var(--ink);cursor:pointer}
+.bk:active{transform:translateY(1px)}
+.bk .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.bk .bt{font:400 22px/1.25 var(--font-brush)}
+.bk .ba{font:800 12px var(--font-mincho);color:var(--mute);letter-spacing:.12em}
+.bk .bbar{display:block;height:4px;margin-top:6px;background:var(--line);border-radius:2px;overflow:hidden}
+.bk .bbar i{display:block;height:100%;background:var(--ink)}
+.bk .bn{font:700 12px var(--font-ui);color:var(--mute)}
+.bk .stamp{flex:none;width:44px;height:44px;display:grid;place-items:center;background:var(--shu);color:var(--shu-ink);font:400 24px var(--font-brush);border-radius:3px;transform:rotate(-6deg)}
+.bk-top{align-self:flex-end;font-size:12px}
+.depthrow{display:flex;flex-direction:column;gap:6px;margin-top:-4px}
+.dseg{display:flex;flex-wrap:wrap;gap:6px}
+.dseg button{appearance:none;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:700 12px var(--font-ui);padding:5px 10px;border-radius:3px;cursor:pointer}
+.dseg button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
 .today{appearance:none;border:0;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);background:none;display:flex;align-items:center;gap:10px;padding:11px 0;font-size:13px;color:var(--ink);cursor:pointer;text-align:left;width:100%}
 .today .st{background:var(--shu);color:var(--shu-ink);font:400 14px/1.2 var(--font-brush);padding:3px 6px;border-radius:2px;filter:url(#rough);flex:none}
 .today b{font:800 16px var(--font-mincho);flex:none}
@@ -905,6 +931,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
         <span class="rs" hidden></span>
       </button>
       <button class="linkbtn door-new" type="button" data-new="monster" hidden>中断した回を消して、はじめから</button>
+      <div class="depthrow" id="depthRow" hidden></div>
       <button class="door" type="button" data-door="time">
         <span class="nm">60秒</span>
         <span class="ds">時間内にどれだけ打てるか</span>
@@ -922,11 +949,13 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </div>
 
     <button class="today" id="startDaily" type="button"><span class="st">今日</span><span class="tt"><b>今日のダンジョン</b><span id="todayTxt"></span></span><span class="r" id="todayBest">全員同じ条件</span></button>
+    <button class="today" id="startShib" type="button"><span class="st">今週</span><span class="tt"><b id="shibName">今週の縛り</b><span id="shibTxt"></span></span><span class="r" id="shibBest"></span></button>
     <p class="msg" id="startMsg" hidden></p>
 
     <nav class="links" aria-label="ほかの画面">
       <button type="button" id="openRecords">記録</button>
       <button type="button" id="openShuin">朱印帳</button>
+      <button type="button" id="openBooks">書き写し</button>
       <button type="button" id="openDan">段位認定</button>
       <button type="button" id="openRank">ランキング</button>
       <button type="button" id="openZukan">図鑑</button>
@@ -980,6 +1009,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
         <div class="nickrow"><input id="nickInput3" maxlength="12" autocomplete="nickname" enterkeyhint="done"><button class="primary small" type="submit">決める</button></div>
         <p class="msg" id="nickMsg3" hidden></p>
       </form>
+      <div class="optbox setrows" id="installBox" hidden>
+        <div class="setrow"><span class="lt">ホーム画面に追加<small id="installNote">アプリのように開けて、電波がなくても遊べます</small></span><button class="secondary small" id="installBtn" type="button" hidden>追加する</button></div>
+      </div>
       <div class="optbox setrows">
         <div class="setrow"><label for="setSound">効果音<small>キーを押したときとミスしたときの音</small></label><input class="sw" type="checkbox" role="switch" id="setSound"></div>
         <div class="setrow"><span class="lt">打鍵音<small>キーを押したときの音</small></span>
@@ -1062,6 +1094,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
         <span class="rs" hidden></span>
       </button>
       <button class="linkbtn door-new" type="button" data-ynew="monster" hidden>中断した回を消して、はじめから</button>
+      <div class="depthrow" id="yDepthRow" hidden></div>
       <button class="door" type="button" data-ydoor="time">
         <span class="nm">60秒</span>
         <span class="ds">時間内にどれだけ打てるか</span>
@@ -1159,6 +1192,11 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <h2 class="label">ミスした字</h2>
       <div class="weak" id="rWeak"></div>
     </div>
+    <div class="group">
+      <h2 class="label">迷った字</h2>
+      <p class="note">打ち始めるまでに、いつもの2倍より長く止まった字です。</p>
+      <div class="weak" id="rHes"></div>
+    </div>
     <div class="adslot" id="ad-result" hidden><p class="adlabel">広告</p></div>
     <div class="group">
       <h2 class="label">結果をシェア</h2>
@@ -1248,6 +1286,15 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
   </div>
 </section>
 
+<section id="v-books" class="view scroll" hidden>
+  <div class="wrap">
+    <div class="viewhead"><button class="barbtn" id="booksBack" type="button">もどる</button><h2>書き写し</h2></div>
+    <p class="note">名作の冒頭を、5文ずつ打ち進めます。途中でやめても、次は続きから。最後まで打つと、朱の印が押されます。</p>
+    <div class="books" id="bookList"></div>
+    <p class="foot">本文は青空文庫（著作権の切れた作品）から。表記は青空文庫のままです。</p>
+  </div>
+</section>
+
 <section id="v-dan" class="view scroll" hidden>
   <div class="wrap">
     <div class="viewhead"><button class="barbtn" id="danBack" type="button">もどる</button><h2>段位認定</h2></div>
@@ -1268,8 +1315,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 <section id="v-rank" class="view scroll" hidden>
   <div class="wrap">
     <div class="viewhead"><button class="barbtn" id="rankBack">もどる</button><h2>ランキング</h2></div>
-    <div class="seg" role="group" aria-label="ランキングの種類">
+    <div class="seg rtabs" role="group" aria-label="ランキングの種類">
       <button class="opt" data-rtab="daily"><b>今日のダンジョン</b><span>毎日かわる迷宮。全員同じ条件</span></button>
+      <button class="opt" data-rtab="shibari"><b>今週の縛り</b><span id="shibTab">週ごとにかわる決まり</span></button>
       <button class="opt" data-rtab="combo"><b>いまの組み合わせ</b><span>打ち方のコースと、最後に遊んだルール</span></button>
     </div>
     <div class="seg three" role="group" aria-label="打ち方">
@@ -1762,6 +1810,116 @@ const MANOSABA = `桜羽エマ|さくらばえま
 月代ユキ|つきしろゆき`;
 const YUKI = '月代ユキ';
 const FAN_NOTE = 'このコースは『魔法少女ノ魔女裁判』の非公式ファンメイドです。公式（Acacia／合同会社Re,AER）とは関係ありません。';
+/* 書き写し: the openings of famous works from 青空文庫 (public domain), copied five lines at a time.
+   The shown lines put together are exactly the 青空文庫 text without its ruby (checked when they were made) */
+const BOOKS = [
+  { id:'meros', title:'走れメロス', author:'太宰治', text:`メロスは激怒した。|めろすはげきどした。
+必ず、かの邪智暴虐の王を|かならず、かのじゃちぼうぎゃくのおうを
+除かなければならぬと決意した。|のぞかなければならぬとけついした。
+メロスには政治がわからぬ。|めろすにはせいじがわからぬ。
+メロスは、村の牧人である。|めろすは、むらのぼくじんである。
+笛を吹き、羊と遊んで暮して来た。|ふえをふき、ひつじとあそんでくらしてきた。
+けれども邪悪に対しては、人一倍に敏感であった。|けれどもじゃあくにたいしては、ひといちばいにびんかんであった。
+きょう未明_メロスは村を出発し、|きょうみめい_めろすはむらをしゅっぱつし、
+野を越え山越え、十里はなれた|のをこえやまこえ、じゅうりはなれた
+此のシラクスの市にやって来た。|このしらくすのしにやってきた。
+メロスには父も、母も無い。|めろすにはちちも、ははもない。
+女房も無い。|にょうぼうもない。
+十六の、内気な妹と_二人暮しだ。|じゅうろくの、うちきないもうとと_ふたりぐらしだ。` },
+  { id:'neko', title:'吾輩は猫である', author:'夏目漱石', text:`吾輩_は猫である。|わがはい_はねこである。
+名前はまだ無い。|なまえはまだない。
+どこで生れたかとんと見当がつかぬ。|どこでうまれたかとんとけんとうがつかぬ。
+何でも薄暗いじめじめした所で|なんでもうすぐらいじめじめしたところで
+ニャーニャー_泣いていた事だけは記憶している。|にゃーにゃー_ないていたことだけはきおくしている。
+吾輩はここで始めて人間というものを見た。|わがはいはここではじめてにんげんというものをみた。
+しかもあとで聞くとそれは書生という|しかもあとできくとそれはしょせいという
+人間中で一番_獰悪な種族であったそうだ。|にんげんじゅうでいちばん_どうあくなしゅぞくであったそうだ。
+この書生というのは時々_我々を|このしょせいというのはときどき_われわれを
+捕えて煮て食うという話である。|つかまえてにてくうというはなしである。` },
+  { id:'botchan', title:'坊っちゃん', author:'夏目漱石', text:`親譲りの無鉄砲で|おやゆずりのむてっぽうで
+小供の時から損ばかりしている。|こどものときからそんばかりしている。
+小学校に居る時分_学校の二階から|しょうがっこうにいるじぶん_がっこうのにかいから
+飛び降りて一週間ほど腰を抜かした事がある。|とびおりていっしゅうかんほどこしをぬかしたことがある。
+なぜそんな無闇をしたと聞く人があるかも知れぬ。|なぜそんなむやみをしたときくひとがあるかもしれぬ。
+別段_深い理由でもない。|べつだん_ふかいりゆうでもない。
+新築の二階から首を出していたら、|しんちくのにかいからくびをだしていたら、
+同級生の一人が冗談に、いくら威張っても、|どうきゅうせいのひとりがじょうだんに、いくらいばっても、
+そこから飛び降りる事は出来まい。|そこからとびおりることはできまい。
+弱虫やーい。と囃したからである。|よわむしやーい。とはやしたからである。` },
+  { id:'kusamakura', title:'草枕', author:'夏目漱石', text:`山路を登りながら、こう考えた。|やまみちをのぼりながら、こうかんがえた。
+智に働けば角が立つ。|ちにはたらけばかどがたつ。
+情に棹させば流される。|じょうにさおさせばながされる。
+意地を通せば窮屈だ。|いじをとおせばきゅうくつだ。
+とかくに人の世は住みにくい。|とかくにひとのよはすみにくい。
+住みにくさが高じると、|すみにくさがこうじると、
+安い所へ引き越したくなる。|やすいところへひきこしたくなる。
+どこへ越しても住みにくいと悟った時、|どこへこしてもすみにくいとさとったとき、
+詩が生れて、画が出来る。|しがうまれて、えができる。` },
+  { id:'rashomon', title:'羅生門', author:'芥川龍之介', text:`ある日の暮方の事である。|あるひのくれがたのことである。
+一人の下人が、羅生門の下で雨やみを待っていた。|ひとりのげにんが、らしょうもんのしたであまやみをまっていた。
+広い門の下には、この男のほかに誰もいない。|ひろいもんのしたには、このおとこのほかにだれもいない。
+ただ、所々_丹塗の剥げた、大きな円柱に、|ただ、ところどころ_にぬりのはげた、おおきなまるばしらに、
+蟋蟀が一匹とまっている。|きりぎりすがいっぴきとまっている。
+羅生門が、朱雀大路にある以上は、|らしょうもんが、すざくおおじにあるいじょうは、
+この男のほかにも、雨やみをする|このおとこのほかにも、あまやみをする
+市女笠や揉烏帽子が、|いちめがさやもみえぼしが、
+もう二三人はありそうなものである。|もうにさんにんはありそうなものである。
+それが、この男のほかには誰もいない。|それが、このおとこのほかにはだれもいない。` },
+  { id:'kumo', title:'蜘蛛の糸', author:'芥川龍之介', text:`ある日の事でございます。|あるひのことでございます。
+御釈迦様は極楽の蓮池のふちを、|おしゃかさまはごくらくのはすいけのふちを、
+独りでぶらぶら御歩きになっていらっしゃいました。|ひとりでぶらぶらおあるきになっていらっしゃいました。
+池の中に咲いている蓮の花は、|いけのなかにさいているはすのはなは、
+みんな玉のようにまっ白で、|みんなたまのようにまっしろで、
+そのまん中にある金色の蕊からは、|そのまんなかにあるきんいろのずいからは、
+何とも云えない好い匂が、|なんともいえないよいにおいが、
+絶間なくあたりへ溢れて居ります。|たえまなくあたりへあふれております。
+極楽は丁度_朝なのでございましょう。|ごくらくはちょうど_あさなのでございましょう。` },
+  { id:'chumon', title:'注文の多い料理店', author:'宮沢賢治', text:`二人の若い紳士が、|ふたりのわかいしんしが、
+すっかりイギリスの兵隊のかたちをして、|すっかりいぎりすのへいたいのかたちをして、
+ぴかぴかする鉄砲をかついで、|ぴかぴかするてっぽうをかついで、
+白熊のような犬を二疋つれて、|しろくまのようないぬをにひきつれて、
+だいぶ山奥の、木の葉のかさかさしたとこを、|だいぶやまおくの、このはのかさかさしたとこを、
+こんなことを云いながら、あるいておりました。|こんなことをいいながら、あるいておりました。
+「ぜんたい、ここらの山は怪しからんね。|ぜんたい、ここらのやまはけしからんね。
+鳥も_獣も_一疋も居やがらん。|とりも_けものも_いっぴきもいやがらん。
+なんでも構わないから、早くタンタアーンと、|なんでもかまわないから、はやくたんたあーんと、
+やって見たいもんだなあ。」|やってみたいもんだなあ。` },
+  { id:'gongitsune', title:'ごん狐', author:'新美南吉', text:`これは、私が小さいときに、|これは、わたしがちいさいときに、
+村の茂平というおじいさんからきいたお話です。|むらのもへいというおじいさんからきいたおはなしです。
+むかしは、私たちの村のちかくの、|むかしは、わたしたちのむらのちかくの、
+中山というところに小さなお城があって、|なかやまというところにちいさなおしろがあって、
+中山さまというおとのさまが、おられたそうです。|なかやまさまというおとのさまが、おられたそうです。
+その中山から、少しはなれた山の中に、|そのなかやまから、すこしはなれたやまのなかに、
+「ごん狐」という狐がいました。|ごんぎつねというきつねがいました。
+ごんは、一人ぼっちの小狐で、|ごんは、ひとりぼっちのこぎつねで、
+しだの一ぱいしげった森の中に|しだのいっぱいしげったもりのなかに
+穴をほって住んでいました。|あなをほってすんでいました。` },
+  { id:'ginga', title:'銀河鉄道の夜', author:'宮沢賢治', text:`「ではみなさんは、そういうふうに川だと云われたり、|ではみなさんは、そういうふうにかわだといわれたり、
+乳の流れたあとだと云われたりしていた|ちちのながれたあとだといわれたりしていた
+このぼんやりと白いものが|このぼんやりとしろいものが
+ほんとうは何かご承知ですか。」|ほんとうはなにかごしょうちですか。
+先生は、黒板に吊した大きな黒い星座の図の、|せんせいは、こくばんにつるしたおおきなくろいせいざのずの、
+上から下へ白くけぶった銀河帯のようなところを|うえからしたへしろくけぶったぎんがたいのようなところを
+指しながら、みんなに問をかけました。|さしながら、みんなにといをかけました。
+カムパネルラが手をあげました。|かむぱねるらがてをあげました。
+それから四五人_手をあげました。|それからしごにん_てをあげました。
+ジョバンニも手をあげようとして、|じょばんにもてをあげようとして、
+急いでそのままやめました。|いそいでそのままやめました。` },
+  { id:'remon', title:'檸檬', author:'梶井基次郎', text:`えたいの知れない不吉な塊が|えたいのしれないふきつなかたまりが
+私の心を始終_圧えつけていた。|わたしのこころをしじゅう_おさえつけていた。
+焦躁と言おうか、嫌悪と言おうか――|しょうそうといおうか、けんおといおうか
+酒を飲んだあとに宿酔があるように、|さけをのんだあとにふつかよいがあるように、
+酒を毎日_飲んでいると|さけをまいにち_のんでいると
+宿酔に相当した時期がやって来る。|ふつかよいにそうとうしたじきがやってくる。
+それが来たのだ。|それがきたのだ。
+これはちょっといけなかった。|これはちょっといけなかった。` },
+  { id:'sangetsuki', title:'山月記', author:'中島敦', text:`隴西の李徴は博学才穎、|ろうさいのりちょうははくがくさいえい、
+天宝の末年、若くして名を虎榜に連ね、|てんぽうのまつねん、わかくしてなをこぼうにつらね、
+ついで江南尉に補せられたが、|ついでこうなんいにほせられたが、
+性、狷介、自ら恃むところ頗る厚く、|せい、けんかい、みずからたのむところすこぶるあつく、
+賤吏に甘んずるを潔しとしなかった。|せんりにあまんずるをいさぎよしとしなかった。` }
+];
+const BOOK_STEP = 5;
 /* 段位認定: the same ten problems for everyone, 変換なし・句読点あり, in this order */
 const DAN_ITEMS = `新幹線|しんかんせん
 図書館|としょかん
@@ -1794,7 +1952,9 @@ const COURSES = [
   { id:'weak',      name:'苦手特訓',   unit:'問', items: null },
   { id:'custom',    name:'じぶんで追加', unit:'件', items: null },
   { id:'manosaba',  name:'魔女裁判',   unit:'語', items: lines(MANOSABA), hidden:true },
-  { id:'dan',       name:'段位認定',   unit:'問', items: lines(DAN_ITEMS), special:true }
+  { id:'dan',       name:'段位認定',   unit:'問', items: lines(DAN_ITEMS), special:true },
+  { id:'shibari',   name:'今週の縛り', unit:'問', items: null, special:true },
+  { id:'book',      name:'書き写し',   unit:'文', items: null, special:true }
 ];
 const courseById = id => COURSES.find(c => c.id === id) || COURSES[0];
 const splitItem = raw => { const i = raw.indexOf('|'); return i < 0 ? [raw, raw] : [raw.slice(0, i), raw.slice(i + 1)]; };
@@ -2090,7 +2250,7 @@ function parseCustom(text){
   return { items, errors };
 }
 const customText = () => store.get('customText', CUSTOM_DEFAULT);
-const itemsOf = id => id === 'custom' ? parseCustom(customText()).items : id === 'daily' ? dailyItems() : id === 'weak' ? weakItems(S.kb) : courseById(id).items;
+const itemsOf = id => id === 'custom' ? parseCustom(customText()).items : id === 'daily' ? dailyItems() : id === 'weak' ? weakItems(S.kb) : id === 'shibari' ? courseById(weekRule().course).items : id === 'book' ? BOOKS.flatMap(b => lines(b.text)) : courseById(id).items || [];
 
 /* ================= sound & haptics ================= */
 let AC = null, OUT = null, NOISE = null;
@@ -2242,7 +2402,7 @@ function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.flo
 let VIEW = 'home';
 let YROOM = false;       // in the 魔女裁判 room, or in a game started from it
 function show(v){
-  for (const id of ['home','setup','custom','play','result','records','rank','meta','zukan','dan','shuin','yuki']) $('#v-' + id).hidden = id !== v;
+  for (const id of ['home','setup','custom','play','result','records','rank','meta','zukan','dan','shuin','yuki','books']) $('#v-' + id).hidden = id !== v;
   VIEW = v; document.documentElement.dataset.view = v;
   if (v === 'home') YROOM = false;
   if (v === 'yuki') YROOM = true;
@@ -2267,6 +2427,7 @@ function show(v){
   if (v === 'result') { if (YROOM) $('#ad-result').hidden = true; else loadAd('result', 30000); }
 }
 const LIMIT = 60, COUNT = 10;
+const CNT = g => (g && g.countN) || COUNT;     // 書き写し has fewer, the lines left in its five
 // the result ranks, one scale for each way of typing (2026-11-13). PC is the old single scale; テンキー is about 0.59 of it
 // (so 神速 = 十段 on both), and QWERTY on the screen about 0.8 of テンキー: romaji takes about 1.7 keys a kana, a flick about 1.15
 const RANK_NAMES = ['指ならし', 'ひよっこ', '見習い', '駆け出し', '一人前', '腕利き', '熟練', '達人', '名人', '鉄人', '匠', '剣豪', '仙人', '神業', '神速', '伝説', '超人', '規格外'];
@@ -2304,12 +2465,13 @@ function renderHome(){
     box.appendChild(b);
   }
   $('#editCustom').hidden = S.course !== 'custom';
+  renderDepth($('#depthRow'));
   renderRoma();
   $('#howNow').textContent = `${KB_NAME[S.kb]}・${courseById(S.course).name}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
   // the three entrances: each one starts its game, or picks up the one left halfway
   for (const m of ['monster', 'time', 'count']) {
     const door = document.querySelector(`[data-door="${m}"]`);
-    const best = store.get(bestKey(S.kb, courseKey(S.course), m, S.conv, S.punct), null);
+    const best = store.get(bestKey(S.kb, courseKey(S.course) + (m === 'monster' ? depthKey(Math.min(S.depth || 0, depthOpen())) : ''), m, S.conv, S.punct), null);
     door.querySelector('.bs').innerHTML = !best ? 'まだ記録なし'
       : m === 'monster' ? `いちばん深く<b>地下${best.floor || 0}階</b>` : `いちばん速く<b>${best.cpm}字/分</b>`;
     const sv = store.get('suspend:' + m, null), ok = !!(sv && sv.v === 1 && sv.g);
@@ -2327,6 +2489,15 @@ function renderHome(){
   $('#startDaily').dataset.resume = dOk ? '1' : '';
   $('#todayTxt').textContent = dOk ? `続きから　${suspendText(dsv).where}` : `${md(todayKey())}の迷宮・強化なし`;
   $('#todayBest').textContent = dBest ? `今日の最深 地下${dBest.floor || 0}階` : '全員同じ条件';
+  // 今週の縛り
+  const rule = weekRule(), ssv = store.get('suspend:shibari', null);
+  if (ssv && ssv.g && ssv.g.courseKey !== courseKey('shibari')) dropSuspend('shibari');
+  const sOk = !!(ssv && ssv.v === 1 && ssv.g && ssv.g.courseKey === courseKey('shibari'));
+  const sBest = store.get(bestKey(S.kb, courseKey('shibari'), 'time', !!rule.conv, true), null);
+  $('#startShib').dataset.resume = sOk ? '1' : '';
+  $('#shibName').textContent = `今週の縛り「${rule.name}」`;
+  $('#shibTxt').textContent = sOk ? `続きから　${suspendText(ssv).where}` : rule.desc;
+  $('#shibBest').textContent = sBest ? `今週 ${sBest.cpm}字/分` : '週替わり';
   const k = metaGet().k;
   $('#openMeta').textContent = k ? `かけら ${k}` : 'かけら';
   const t = curTitle(), tl = $('#curTitle');
@@ -2375,6 +2546,12 @@ document.querySelectorAll('[data-door]').forEach(b => b.addEventListener('click'
   startGame({ mode:m });
 }));
 document.querySelectorAll('[data-new]').forEach(b => b.addEventListener('click', () => { dropSuspend(b.dataset.new); renderHome(); toast('中断した回を消しました'); }));
+$('#startShib').addEventListener('click', e => {
+  unlockAudio();
+  if (e.currentTarget.dataset.resume === '1') { restoreGame('shibari'); return; }
+  const rule = weekRule();
+  startGame({ course:'shibari', mode:'time', conv:!!rule.conv, punct:true });
+});
 $('#startDaily').addEventListener('click', e => { unlockAudio(); if (e.currentTarget.dataset.resume === '1') restoreGame('daily'); else startGame({ course:'daily', mode:'monster' }); });
 function openSetup(toSettings){
   show('setup');
@@ -2542,7 +2719,7 @@ kbEl.addEventListener('pointercancel', e => endPointer(e, true));
 const PUNCT_N = { '、':'、','。':'。','！':'！','？':'？',',':'、','.':'。','!':'！','?':'？','，':'、','．':'。' };
 const isHira = c => c >= 'ぁ' && c <= 'ゖ';
 const isKata = c => c >= 'ァ' && c <= 'ヺ';
-const isSilent = c => /[・「」『』（）()\s　…]/.test(c);
+const isSilent = c => /[・「」『』（）()\s　…―]/.test(c);   // ―― (a dash in old novels) is not typed either
 const toKata = s => s.replace(/[ぁ-ゖ]/g, c => String.fromCharCode(c.charCodeAt(0) + 0x60));
 const toHira = s => s.replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const clean = s => s.replace(/_/g, '');
@@ -2753,7 +2930,7 @@ let CAND_INDEX = new Map();
 function buildIndex(){
   const m = new Map();
   const add = (d, r) => { if (!d || !r || d === r) return; let s = m.get(r); if (!s) m.set(r, s = new Set()); s.add(d); };
-  const all = [...COURSES.map(c => itemsOf(c.id)).flat(), ...lines(DECOYS)];
+  const all = [...COURSES.map(c => itemsOf(c.id)).flat(), ...lines(DECOYS)].filter(Boolean);
   for (const raw of all) { const [d, r] = splitItem(raw); for (const ch of chunkify(d, r)) if (ch.conv) add(ch.d, ch.r.replace(/[、。！？]/g, '')); }
   CAND_INDEX = m;
 }
@@ -2763,19 +2940,23 @@ let G = null;
 function startGame(over){
   over = over || {};
   const course = over.course || S.course, mode = course === 'daily' ? 'monster' : over.mode || S.mode;
-  const items = itemsOf(course).filter(x => prepare(x).R.length);
+  const items = (over.items || itemsOf(course)).filter(x => prepare(x).R.length);
   if (!items.length) {
     const m = $('#startMsg');
     m.textContent = course === 'weak' ? 'まだミスの記録がありません。ほかのコースで遊ぶと、ミスした字から問題を作ります。' : '「じぶんで追加」に文がありません。先に追加してください。';
     m.hidden = false; if (VIEW !== 'home') { show('home'); renderHome(); m.hidden = false; } return;
   }
   G = freshG({ kb:S.kb, course, courseKey:courseKey(course), mode, conv:over.conv != null ? over.conv : S.conv, punct:over.punct != null ? over.punct : S.punct,
-        pool:items.slice(), queue:course === 'daily' || course === 'dan' ? items.slice() : shuffle(items.slice()),
+        pool:items.slice(), queue:course === 'daily' || course === 'dan' || course === 'book' ? items.slice() : shuffle(items.slice()),
         // 今日のダンジョン is the same for everyone: no upgrades bought with かけら
         ml:course === 'daily' ? {} : metaGet().lv });
   G.seedBase = course === 'daily' ? 'yubi-' + G.courseKey : null;
+  G.depth = mode === 'monster' && course !== 'daily' && course !== 'dan' ? Math.min(S.depth || 0, depthOpen()) : 0;
+  G.courseKey += depthKey(G.depth);
+  if (course === 'shibari') G.shibId = weekRule().id;
+  if (course === 'book') { G.countN = items.length; G.bookId = over.book; G.bookStart = over.bookStart || 0; G.courseKey = over.ck; }
   G.trace = [];
-  const gh = mode !== 'monster' && S.ghost ? store.get('ghost:' + bestKey(G.kb, G.courseKey, mode, G.conv, G.punct), null) : null;
+  const gh = mode !== 'monster' && S.ghost && course !== 'book' ? store.get('ghost:' + bestKey(G.kb, G.courseKey, mode, G.conv, G.punct), null) : null;
   G.ghost = gh && Array.isArray(gh.t) && gh.t.length > 2 ? gh : null;
   $('#ghost').hidden = !G.ghost;
   dropSuspend(slotOf(G));     // a new game of this rule replaces the one left halfway
@@ -2792,7 +2973,8 @@ function freshG(base){
         keys:0, misses:0, chars:0, done:0, skipped:0, missMap:{}, cands:[],
         combo:0, convOne:0, convMissed:false, maxConvWords:0,
         defeated:0, bosses:0, damage:0, you:PLAYER_MAX, maxHp:PLAYER_MAX, mon:null, bossPool:[], fever:false, sp:0, specials:0,
-        hw:0, floor:1, path:[], pw:{}, shards:0, revives:0, freeMiss:0, paused:false, pauseAt:0, lay:null, pending:null, resumed:false, ml:{} }, base);
+        hw:0, floor:1, path:[], pw:{}, shards:0, revives:0, freeMiss:0, paused:false, pauseAt:0, lay:null, pending:null, resumed:false, ml:{},
+        hes:{}, hesPos:-1, lastKeyAt:null }, base);
 }
 /* the play screen for the game in G (new or restored) */
 function playView(){
@@ -2824,11 +3006,11 @@ function playView(){
 /* ---------- 中断: leave a game halfway and pick it up later (one save per rule) ---------- */
 const SNAP = ['kb','course','courseKey','mode','conv','punct','pool','queue','qi','elapsed','keys','misses','chars','done','skipped','missMap',
   'combo','convOne','convMissed','maxConvWords','defeated','bosses','damage','you','maxHp','mon','bossPool','fever','sp','specials',
-  'hw','floor','path','pw','shards','revives','freeMiss','ml','pending'];
-const slotOf = g => g.course === 'daily' ? 'daily' : g.course === 'manosaba' ? 'yuki-' + g.mode : g.mode;
+  'hw','floor','path','pw','shards','revives','freeMiss','ml','pending','hes','shibId','depth'];
+const slotOf = g => g.course === 'daily' ? 'daily' : g.course === 'shibari' ? 'shibari' : g.course === 'book' ? 'book' : g.course === 'manosaba' ? 'yuki-' + g.mode : g.mode;
 function dropSuspend(slot){ try { localStorage.removeItem('yubi:suspend:' + slot); } catch(e) {} }
 function saveSuspend(){
-  if (!G || G.ended || G.course === 'dan') return;
+  if (!G || G.ended || G.course === 'dan' || G.course === 'book') return;   // 書き写し keeps its place line by line
   if (G.started && !G.paused) G.elapsed = (performance.now() - G.t0) / 1000;
   const g = {};
   for (const k of SNAP) g[k] = G[k];
@@ -2840,12 +3022,12 @@ function suspendText(sv){
   const g = sv.g;
   const where = g.mode === 'monster' ? `地下${g.floor}階・体力 ${g.you}/${g.maxHp}` + (Object.keys(g.pw || {}).length ? `・${mtxt('ちから')}${Object.values(g.pw).reduce((a, b) => a + b, 0)}つ` : '')
     : g.mode === 'time' ? `のこり ${Math.max(0, Math.ceil(LIMIT - g.elapsed))}秒・${g.chars}字`
-    : `${g.done}/${COUNT}問`;
-  return { head:g.course === 'daily' ? '今日のダンジョン' : `${mtxt(MODE_NAME[g.mode])}（${KB_NAME[g.kb]}・${courseById(g.course).name}）`, where };
+    : `${g.done}/${CNT(g)}問`;
+  return { head:g.course === 'daily' ? '今日のダンジョン' : g.course === 'shibari' ? '今週の縛り' : `${mtxt(MODE_NAME[g.mode])}（${KB_NAME[g.kb]}・${courseById(g.course).name}）`, where };
 }
 function restoreGame(slot){
   const sv = store.get('suspend:' + slot, null);
-  if (!sv || sv.v !== 1 || !sv.g || (slot === 'daily' && sv.g.courseKey !== courseKey('daily'))) { dropSuspend(slot); renderHome(); return; }
+  if (!sv || sv.v !== 1 || !sv.g || ((slot === 'daily' || slot === 'shibari') && sv.g.courseKey !== courseKey(slot))) { dropSuspend(slot); renderHome(); return; }
   G = freshG(sv.g);
   G.resumed = true;
   $('#ghost').hidden = true;
@@ -2870,13 +3052,13 @@ function openPause(){
   const mon = G.mode === 'monster';
   const sub = mon ? `いま地下${G.floor}階。中断すると、メニューから同じところの続きができます。`
     : G.mode === 'time' ? `のこり ${Math.max(0, Math.ceil(LIMIT - G.elapsed))}秒。中断すると、メニューから続きができます。`
-    : `${G.done}/${COUNT}問。中断すると、メニューから続きができます。`;
-  const dan = G.course === 'dan';
+    : `${G.done}/${CNT(G)}問。中断すると、メニューから続きができます。`;
+  const dan = G.course === 'dan', book = G.course === 'book';
   const opts = [{ icon:'go', name:'つづける' }];
-  if (!dan) opts.push({ icon:'mark', name:'中断する', desc:'メニューにもどる。あとで、ここから続けられます' });
-  opts.push({ icon:'quit', name:'やめる', desc:dan ? '段位認定は1回で受けきります。やめると記録されません' : 'この回は記録しないで、メニューにもどる' });
-  openLay('ひと休み', dan ? '段位認定は中断できません。' : sub, opts, i => {
-    const pick = dan && i === 1 ? 2 : i;
+  if (!dan && !book) opts.push({ icon:'mark', name:'中断する', desc:'メニューにもどる。あとで、ここから続けられます' });
+  opts.push({ icon:'quit', name:'やめる', desc:dan ? '段位認定は1回で受けきります。やめると記録されません' : book ? '打ち終えた文までは書き写し帳に残り、次はその続きから' : 'この回は記録しないで、メニューにもどる' });
+  openLay('ひと休み', dan ? '段位認定は中断できません。' : book ? `${G.done}/${CNT(G)}文を打ちました。` : sub, opts, i => {
+    const pick = (dan || book) && i === 1 ? 2 : i;
     if (pick === 0) { if (G.mode === 'monster' && G.pending) openPending(); else resumeRun(); }
     else if (pick === 1) { saveSuspend(); goHome(); toast('中断しました。メニューの「続きから」で再開できます'); }
     else { dropSuspend(slotOf(G)); goHome(); }
@@ -2888,6 +3070,7 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('pagehide', () => { if (VIEW === 'play' && G && !G.ended && (G.started || G.resumed)) saveSuspend(); });
 function nextItem(){
+  G.lastKeyAt = null; G.itemMiss0 = G.misses;      // the first kana of a new problem waits for the reading of it, not a hesitation
   while (G.queue.length - G.qi < 2) {
     const more = shuffleR(G.pool.slice(), dayRng('q' + G.queue.length));
     if (more.length > 1 && more[0] === G.queue[G.queue.length - 1]) [more[0], more[1]] = [more[1], more[0]];
@@ -3088,8 +3271,27 @@ function needConvert(){
   const c = $('#cands');
   flash(c, 'nudge', 330);
 }
+/* 迷った字: the time between keys, counted once for the first key of each kana */
+function hesMark(kana){
+  const now = performance.now(), last = G.lastKeyAt, pos = tpos();
+  G.lastKeyAt = now;
+  if (!kana || last == null || pos === G.hesPos) return;
+  G.hesPos = pos;
+  const dt = (now - last) / 1000;
+  if (dt > 6 || /^[、。！？ー]/.test(kana)) return;      // a long one is looking away, not a hesitation
+  const a = G.hes[kana] || (G.hes[kana] = []);
+  if (a.length < 40) a.push(Math.round(dt * 100) / 100);
+}
+function hesTop(hes){
+  const all = Object.values(hes).flat().sort((x, y) => x - y);
+  if (all.length < 8) return [];
+  const th = Math.max(0.8, all[Math.floor(all.length / 2)] * 2.2);   // twice and more the usual gap
+  return Object.entries(hes).map(([k, a]) => ({ k, n:a.filter(x => x > th).length, max:Math.max(...a) }))
+    .filter(x => x.n > 0).sort((x, y) => y.n - x.n || y.max - x.max).slice(0, 5);
+}
 function onRoma(k){
   if (blocked()) { needConvert(); return; }
+  if (!G.paused && G.re.st.buf === '') { const u = G.re.units[G.re.st.ui]; hesMark(u && u.kana); }
   const exp = G.re.parts().rest[0] || k;
   const before = tpos();
   const ok = G.re.feed(k);
@@ -3102,6 +3304,7 @@ function onRoma(k){
 }
 function onFlick(keyId, dir){
   if (blocked()) { if (FK[keyId] && FK[keyId][dir]) needConvert(); return; }
+  if (FK[keyId] && !G.fe.st.pending) hesMark(G.fe.target());
   const t = G.fe.target();
   const before = tpos();
   const r = G.fe.input(keyId, dir);
@@ -3124,16 +3327,20 @@ function registerMiss(label){
   st.classList.remove('miss'); void st.offsetWidth; st.classList.add('miss');
   clearTimeout(G.missT); G.missT = setTimeout(() => st.classList.remove('miss'), 260);
   if (G.mode === 'monster') { feverOff(); renderArena(); monAttack('miss'); }
+  const rule = shibOf();
+  if (rule && rule.missMax && G.misses >= rule.missMax && !G.ended) { toast(`${rule.missMax}回まちがえたので、ここまで`); finish(); }
 }
 function itemDone(){
   G.done++;
   fx('done');
-  if (G.mode === 'count' && G.done >= COUNT) finish(); else nextItem();
+  bookSave();
+  if (G.mode === 'count' && G.done >= CNT(G)) finish(); else nextItem();
 }
 function skip(){
   if (G.started) {
     G.skipped++; G.done++;
-    if (G.mode === 'count' && G.done >= COUNT) { finish(); return; }
+    bookSave();
+    if (G.mode === 'count' && G.done >= CNT(G)) { finish(); return; }
   }
   nextItem();
 }
@@ -3175,12 +3382,13 @@ function results(){
   const better = G.mode === 'monster'
     ? !prev || G.floor > (prev.floor || 0) || (G.floor === (prev.floor || 0) && cpm > prev.cpm)
     : !prev || cpm > prev.cpm;
-  const newBest = G.chars > 0 && better;
+  const newBest = G.chars > 0 && better && G.course !== 'book';
   if (newBest) store.set(key, { cpm, acc, floor:G.floor, defeated:G.defeated, at:todayKey() });
   // the best run becomes the ghost of this combination
   if (newBest && G.mode !== 'monster' && G.trace && G.trace.length > 2) store.set('ghost:' + key, { t:G.trace.concat([G.chars]), cpm });
   const weak = Object.entries(G.missMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  return { cpm, acc, kpm, kps, el, rank, next, newBest, prev, weak,
+  return { cpm, acc, kpm, kps, el, rank, next, newBest, prev, weak, hes:hesTop(G.hes || {}), shibId:G.shibId || null, depth:G.depth || 0,
+           bookId:G.bookId || null, bookN:G.bookN || 0, bookTotal:G.bookTotal || 0, bookEnd:!!G.bookEnd, bookFirst:!!G.bookFirst,
            chars:G.chars, keys:G.keys, misses:G.misses, done:G.done, skipped:G.skipped,
            kb:G.kb, course:G.course, courseKey:G.courseKey, mode:G.mode, conv:G.conv, punct:G.punct,
            defeated:G.defeated, bosses:G.bosses, floor:G.floor, shards:G.shards, pw:Object.assign({}, G.pw),
@@ -3195,7 +3403,7 @@ function results(){
 /* ================= rendering ================= */
 function sizeCls(s){ const n = [...s].length; return n <= 6 ? 's1' : n <= 11 ? 's2' : n <= 18 ? 's3' : 's4'; }
 /* the reading-from-kanji tricks and 走り書き take the romaji and the key light away */
-const noGuide = () => !!G && (G.gimNow === 'yomi' || G.gimNow === 'datsu' || (G.mode === 'monster' && P('scribble') > 0));
+const noGuide = () => !!G && (G.gimNow === 'yomi' || G.gimNow === 'datsu' || (G.mode === 'monster' && P('scribble') > 0) || !!(shibOf() && (shibOf().noGuide || kanaHidden())));
 function renderAll(){ renderPrompt(); renderHint(); renderCands(); updateBar(); }
 function renderPrompt(){
   const it = G.item;
@@ -3210,6 +3418,7 @@ function renderPrompt(){
   const d = tp, e = tp + (G.re ? G.re.curLen() : 1);
   const pend = G.fe && G.fe.st.pending ? G.fe.st.pending.ch : null;
   const k = $('#kana'); k.textContent = '';
+  k.style.visibility = kanaHidden() ? 'hidden' : '';     // 縛り「漢字を読んで打つ」: the reading shows after two misses
   const chars = [...G.R];
   k.className = 'kana' + (chars.length > 18 ? ' long' : '');
   const prevKana = G.kanaDone || 0;
@@ -3240,7 +3449,7 @@ function renderPrompt(){
     }
     $('#out').innerHTML = `${esc(fixed)}<span class="comp">${esc(comp)}${pend ? `<i>${esc(pend)}</i>` : ''}</span><span class="caret"></span>`;
   }
-  const last = G.mode === 'count' && G.done + 1 >= COUNT;
+  const last = G.mode === 'count' && G.done + 1 >= CNT(G);
   $('#peek').textContent = last ? 'これが最後の問題' : 'つぎ　' + G.peek;
 }
 function renderHint(){
@@ -3292,9 +3501,9 @@ function updateBar(){
     $('#clockUnit').textContent = '';
     $('#meter').style.width = '0%';
   } else {
-    $('#clock').textContent = `${Math.min(G.done + 1, COUNT)}/${COUNT}`;
+    $('#clock').textContent = `${Math.min(G.done + 1, CNT(G))}/${CNT(G)}`;
     $('#clockUnit').textContent = el.toFixed(1) + '秒';
-    $('#meter').style.width = (G.done / COUNT * 100) + '%';
+    $('#meter').style.width = (G.done / CNT(G) * 100) + '%';
   }
   $('#tChars').textContent = G.mode === 'monster' ? el.toFixed(1) : G.chars;
   $('#tMiss').textContent = G.misses ? `　ミス${G.misses}` : '';
@@ -3323,6 +3532,15 @@ function renderResult(R){
   const pv = R.prev ? (mon ? `地下${R.prev.floor || 0}階・${R.prev.cpm} 文字/分` : `${R.prev.cpm} 文字/分`) : '';
   $('#rBest').textContent = R.newBest ? (R.prev ? `これまでのベストは ${pv} でした` : 'この組み合わせの最初の記録です') : (R.prev ? `ベストは ${pv}` : '');
   $('#rNext').textContent = R.next ? `あと ${R.next.need} 文字/分で「${R.next.name}」` : 'いちばん上のランクです';
+  const bk = R.course === 'book' && BOOKS.find(b => b.id === R.bookId);
+  $('#again').textContent = bk ? (R.bookEnd ? 'もう一度書き写す' : '続きを打つ') : 'もう一度';
+  $('#toMenu').textContent = bk ? '書き写し帳' : 'メニュー';
+  if (bk) {
+    $('#rBest').textContent = '';
+    $('#rNext').textContent = R.bookEnd ? `『${bk.title}』を書き終えました` + (R.bookFirst ? '。書き写し帳に朱の印が押されました' : '')
+      : `『${bk.title}』 ${R.bookN}/${R.bookTotal}文。「続きを打つ」で、次の${Math.min(BOOK_STEP, R.bookTotal - R.bookN)}文へ`;
+  }
+  if (R.depthOpened) { $('#rNext').textContent = `深層${R.depthOpened}が開きました。モンスター戦の入口の下で選べます`; setTimeout(() => toast(`深層${R.depthOpened}が開きました`), 1200); }
   if (dan) {
     const nx = danTab(R.src)[R.danIdx + 1];
     $('#rNext').textContent = R.danIdx < 0 && R.acc < DAN_ACC ? `正確率 ${DAN_ACC}%以上で段位がつきます（いま ${R.acc}%）`
@@ -3358,6 +3576,9 @@ function renderResult(R){
   $('#rWeak').innerHTML = R.weak.length
     ? R.weak.map(([k, n]) => `<span class="chip"><b>${esc(k)}</b>×${n}</span>`).join('')
     : '<span class="note">ミスはありませんでした。</span>';
+  $('#rHes').innerHTML = R.hes && R.hes.length
+    ? R.hes.map(h => `<span class="chip"><b>${esc(h.k)}</b>${h.n}回・最長${h.max.toFixed(1)}秒</span>`).join('')
+    : '<span class="note">' + (R.chars >= 20 ? '迷わずに打てました。' : '打った字が少ないので、まだ分かりません。') + '</span>';
   $('#rAchBox').hidden = !R.newAch.length;
   $('#rAch').innerHTML = R.newAch.map(a => `<span class="chip ach-chip"><b>${esc(a.name)}</b>${esc(achLine(a.desc))}</span>`).join('');
   $('#shareX').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText(R));
@@ -3368,7 +3589,19 @@ function renderResult(R){
 /* ================= history, weak points, totals ================= */
 const todayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const dayNum = k => { const [y, m, d] = k.split('-').map(Number); return Date.UTC(y, m - 1, d) / 86400000; };
-const courseKey = c => c === 'daily' ? 'daily-' + todayKey() : c;
+const courseKey = c => c === 'daily' ? 'daily-' + todayKey() : c === 'shibari' ? 'shibari-' + weekKey() : c;
+/* 今週の縛り: one rule a week, the same for everyone, with a board of its own (60秒; the rule sets the course, 変換 and 句読点) */
+const SHIBARI = [
+  { id:'miss3',   name:'ミス3回で終わり', desc:'単語を60秒。3回まちがえたら、そこで終わり', course:'words', missMax:3 },
+  { id:'punct',   name:'句読点まで打つ',  desc:'文章を60秒。句読点も打つ', course:'sentences' },
+  { id:'noguide', name:'お手本なし',      desc:'単語を60秒。ローマ字のお手本と次のキーの光なし', course:'words', noGuide:true },
+  { id:'proverb', name:'ことわざだけ',    desc:'ことわざを60秒', course:'proverbs' },
+  { id:'conv',    name:'変換あり',        desc:'単語を60秒。漢字・カタカナに変換しながら', course:'words', conv:true },
+  { id:'nokana',  name:'漢字を読んで打つ', desc:'単語を60秒。読みがなを隠す（2回まちがえると出る）', course:'words', hideKana:true }
+];
+const weekRule = (wk = weekKey()) => { const [y, w] = wk.split('-w').map(Number); return SHIBARI[(y * 53 + w) % SHIBARI.length]; };
+const shibOf = () => G && G.shibId ? SHIBARI.find(r => r.id === G.shibId) || null : null;
+const kanaHidden = () => { const r = shibOf(); return !!(r && r.hideKana && G.misses - (G.itemMiss0 || 0) < 2); };
 /* the week (Monday to Sunday, local time) as 2026-w46; a weekly board is the same board with the week in its name */
 function weekKey(d = new Date()){
   const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())), wd = t.getUTCDay() || 7;
@@ -3381,7 +3614,8 @@ const weekLabel = () => { const a = new Date(weekStart().replace(/-/g, '/')), b 
 const MODE_NAME = { time:'60秒', count:'10問', monster:'モンスター戦' };
 const KB_NAME = { qwerty:'QWERTY', flick:'テンキー', pc:'PC（キーボード）' };
 const metaText = R => mtxt(metaText0(R));   // 魔女裁判モード: モンスター戦 is 異世界エレベーター
-const metaText0 = R => R.course === 'daily' ? `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・今日のダンジョン` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし') : `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・${courseById(R.course).name}・${MODE_NAME[R.mode]}` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし');
+const metaText0 = R => metaText1(R) + (R.depth ? `・深層${R.depth}` : '');
+const metaText1 = R => R.course === 'book' ? `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・書き写し『${(BOOKS.find(b => b.id === R.bookId) || { title:'' }).title}』` : R.course === 'shibari' ? `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・今週の縛り「${(SHIBARI.find(x => x.id === R.shibId) || weekRule()).name}」` : R.course === 'daily' ? `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・今日のダンジョン` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし') : `${KB_NAME[R.src === 'pc' ? 'pc' : R.kb]}・${courseById(R.course).name}・${MODE_NAME[R.mode]}` + (R.conv ? '・変換あり' : '') + (R.punct ? '' : '・句読点なし');
 function streakDays(){
   const set = new Set(store.get('days', []).map(dayNum));
   let d = dayNum(todayKey()), n = 0;
@@ -3447,6 +3681,8 @@ const ACH = [
   { id:'deep25',  name:'深淵の住人',       desc:'モンスター戦で地下25階にたどり着く',       test:c => c.floor >= 25 },
   { id:'pow5',    name:'ちから持ち',       desc:'モンスター戦の1回で、ちからを5つ集める', test:c => c.powers >= 5 },
   { id:'zukan10', name:'図鑑づくり',       desc:'図鑑のモンスターを10体うめる',           test:c => Object.keys(ZK().m).length >= 10 },
+  { id:'book1',   name:'写本の徒',         desc:'名作を1作、最後まで書き写す',             test:c => c.course === 'book' && c.bookFirst },
+  { id:'depth5',  name:'奈落の指',         desc:'深層5以上で地下25階にたどり着く',         test:c => c.depth >= 5 && c.floor >= 25 },
   { id:'cursed',  name:'呪われた指',       desc:'呪いのちからを持ったまま地下10階に着く', test:c => c.floor >= 10 && c.cursed },
   { id:'dan1',    name:'有段者',           desc:'段位認定で初段をとる',                   test:c => c.course === 'dan' && c.danIdx >= 5 },
   { id:'dan10',   name:'十段の指',         desc:'段位認定で十段をとる',                   test:c => c.course === 'dan' && c.danIdx >= 14 },
@@ -3474,6 +3710,7 @@ function recordDan(R){
 }
 function recordGame(R){
   recordDan(R);
+  if (R.mode === 'monster' && R.course !== 'daily' && R.floor >= 25 && R.depth >= depthOpen() && R.depth < DEPTH_MAX) { store.set('depth', R.depth + 1); R.depthOpened = R.depth + 1; }
   const day = todayKey();
   const hist = store.get('history', []);
   hist.push({ t:Date.now(), day, kb:R.kb, src:R.src, course:R.courseKey, mode:BMODE(R.mode), conv:R.conv, punct:R.punct, cpm:R.cpm, acc:R.acc, chars:R.chars, misses:R.misses, el:Math.round(R.el * 10) / 10, defeated:R.defeated, floor:R.mode === 'monster' ? R.floor : undefined });
@@ -3531,7 +3768,13 @@ const metaGet = () => { const m = store.get('meta', {}); return { k:Math.max(0, 
 const P = id => (G && G.pw && G.pw[id]) || 0;
 const powName = id => mano() && MANO_POW[id] ? MANO_POW[id][0] : (POWERS.find(p => p.id === id) || { name:id }).name;
 const powDesc = id => { const p = POWERS.find(q => q.id === id); return !p ? '' : mano() && MANO_POW[id] ? MANO_POW[id][1] + mtxt(p.desc) : p.desc; };
-const restPct = () => 35 + 10 * ((G && G.ml.rest) || 0);
+/* 深層: after 地下25階, a deeper dungeon opens, one more rule each level (the rules pile up) */
+const DEPTH = ['', '敵の体力 +20%', '休憩の回復が半分', '敵の攻撃 +15%', '呪いのちからを1つ持って出発', 'ちからの選択肢が2つ', '最大体力 -20', '敵の攻撃が速くなる', 'ボスの体力 +40%'];
+const DEPTH_MAX = DEPTH.length - 1;
+const depthOpen = () => Math.min(DEPTH_MAX, Math.max(0, +store.get('depth', 0) || 0));
+const DEP = n => ((G && G.depth) || 0) >= n;
+const depthKey = d => d ? '-d' + d : '';          // a deeper run has boards and bests of its own
+const restPct = () => Math.round((35 + 10 * ((G && G.ml.rest) || 0)) * (DEP(2) ? 0.5 : 1));
 const ICON = {
   battle:'<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/>',
   elite:'<path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="12" r="1"/><path d="m12.5 17-.5-1-.5 1h1z"/>',
@@ -3561,11 +3804,13 @@ function pauseRun(){
 }
 function resumeRun(){
   if (!G || !G.paused || G.ended) return;
+  G.lastKeyAt = null;
   G.paused = false;
   if (G.started) { G.t0 += performance.now() - G.pauseAt; tick(); }
 }
 function runBegin(){
-  G.maxHp = PLAYER_MAX + 10 * (G.ml.hp || 0); G.you = G.maxHp;
+  G.maxHp = PLAYER_MAX + 10 * (G.ml.hp || 0) - (DEP(6) ? 20 : 0); G.you = G.maxHp;
+  if (DEP(4)) { const cs = POWERS.filter(p => p.curse), c = cs[Math.floor(Math.random() * cs.length)]; applyPower(c.id); setTimeout(() => toast(mtxt(`深層${G.depth}：呪いのちから「${powName(c.id)}」を持って出発`)), 600); }
   G.sp = 25 * (G.ml.sp || 0);
   G.floor = 1;
   updateBar();
@@ -3640,7 +3885,7 @@ function openGo(title, sub, opt){
   openLay(title, sub, [opt], () => { G.pending = null; nextFloor(); });
 }
 function offerPowers(kind, sh, ids){
-  ids = ids || rollPowers(3, kind === 'battle' ? 0.15 : kind === 'start' ? 0.2 : 1, 'pow' + G.floor + kind);
+  ids = ids || rollPowers(DEP(5) ? 2 : 3, kind === 'battle' ? 0.15 : kind === 'start' ? 0.2 : 1, 'pow' + G.floor + kind);
   if (!ids.length) { G.shards += 2; G.pending = null; openGo(kind === 'boss' ? 'ボスをたおした！' : '勝った！', 'ちからはもう持ちきれない。かわりに、ことばのかけら +2', { icon:'go', name:'先へ進む' }); return; }
   G.pending = { t:'pow', kind, sh, ids };
   const title = kind === 'start' ? 'はじまりのちからを選ぶ' : kind === 'boss' ? 'ボスをたおした！　ちからを選ぶ' : '勝った！　ちからを1つ選ぶ';
@@ -4030,6 +4275,10 @@ function spawnMonster(n, type){
     hp = Math.round((20 + 5 * (n - 1)) * grow(1.06, 1)); atk = Math.round((4 + 0.5 * n) * grow(1.035, 1)); every = Math.max(3, 9 - 0.25 * (n - 1));
     if (elite) { hp = Math.round(hp * 1.5); atk = Math.ceil(atk * 1.3); every *= 0.9; }
   }
+  if (DEP(1)) hp = Math.round(hp * 1.2);
+  if (DEP(3)) atk = Math.round(atk * 1.15);
+  if (DEP(7)) every *= 0.88;
+  if (boss && DEP(8)) hp = Math.round(hp * 1.4);
   every *= 1 + 0.15 * P('slow');
   // a boss gives you a moment to read the warning before it starts attacking; 先手 delays every first attack
   G.mon = { n, boss, elite, name:t.name, kind:t.kind, color:t.color, c2:t.c2, hp, max:hp, atk, every, delay:(boss ? 1.5 : 0) + 3 * P('first'), gim:boss ? t.gim : null };
@@ -4709,16 +4958,51 @@ function fillRankList(ol, rows, mode, max, extra){
   }
 }
 const SENT_NOTE = { nowrite:'（このページの共有のしかたでは、あなたの点は送られません）', error:'（記録を送れませんでした）', needname:'' };
+// the boards a game goes to: its own, and this week's (今日のダンジョン is already a board of its own day)
+function boardKeysOf(R){
+  const key = boardKeyOf(R.src, R.courseKey, R.mode, R.conv, R.punct);
+  const wkey = R.course === 'daily' || R.course === 'shibari' ? null : boardKeyOf(R.src, R.courseKey + '-' + weekKey(), R.mode, R.conv, R.punct);
+  return [key, wkey];
+}
+/* offline: a score made without a connection waits here, and is sent once the phone is back online */
+function outboxPut(R){
+  if (!(R.chars > 0)) return;
+  const [key, wkey] = boardKeysOf(R);
+  const box = store.get('outbox', []).filter(it => it.key !== key || it.R.cpm !== R.cpm || it.R.floor !== R.floor);
+  box.push({ R:{ mode:R.mode, floor:R.floor, cpm:R.cpm, acc:R.acc, chars:R.chars, src:R.src }, key, wkey });
+  store.set('outbox', box.slice(-30));
+}
+let outboxBusy = false;
+async function outboxFlush(){
+  const box = store.get('outbox', []);
+  if (!box.length || outboxBusy || !navigator.onLine || inClaude()) return;
+  outboxBusy = true;
+  try {
+    if (RANK.ready && !(await RANK.ready)) RANK.ready = null;    // the last try was offline: connect again
+    if (!(await rankInit())) return;
+    const left = [];
+    for (const it of box) {
+      let sent = null;
+      try { sent = await RANK.be.submit(it.R, it.key); if (it.wkey && sent !== 'needname' && sent !== 'nowrite') await RANK.be.submit(it.R, it.wkey); } catch(e) {}
+      if (sent == null || sent === 'error' || sent === 'needname') left.push(it);   // keep it (a name may come later)
+    }
+    store.set('outbox', left);
+  } finally { outboxBusy = false; }
+}
+window.addEventListener('online', () => setTimeout(outboxFlush, 1500));
+setTimeout(outboxFlush, 4000);
+
 async function rankAfterGame(R){
   const box = $('#rRankBox'), ol = $('#rRankList');
   ol.textContent = ''; box.textContent = 'ランキングを確かめています…';
   $('#nickForm').hidden = true;
+  if (R.course === 'book') { box.textContent = '書き写しは、ランキングには載りません。'; return; }
+  if (!navigator.onLine && R.chars > 0 && !inClaude()) { outboxPut(R); box.textContent = 'いまはネットにつながっていません。つながったときに、この点をランキングに送ります。'; return; }
   if (!(await rankInit())) { box.textContent = rankOffText(); return; }
-  const be = RANK.be, key = boardKeyOf(R.src, R.courseKey, R.mode, R.conv, R.punct);
-  // the same score also goes to this week's board (今日のダンジョン is already a board of its own day)
-  const wkey = R.course === 'daily' ? null : boardKeyOf(R.src, R.courseKey + '-' + weekKey(), R.mode, R.conv, R.punct);
+  const be = RANK.be, [key, wkey] = boardKeysOf(R);
   let sent = 'kept';
   if (R.chars > 0) { sent = await be.submit(R, key); if (wkey && sent !== 'needname' && sent !== 'nowrite') await be.submit(R, wkey); }
+  if (sent === 'error') outboxPut(R);   // the connection dropped: try again later
   let res = null, wres = null;
   try { [res, wres] = await withTimeout(Promise.all([be.fetch(key), wkey ? be.fetch(wkey) : null]), 10000); } catch(e) {}
   if (LAST !== R) return;
@@ -4754,11 +5038,13 @@ $('#nickForm3').addEventListener('submit', e => {
 $('#nickEdit').addEventListener('click', () => { $('#nickInput2').value = getNick(); $('#nickForm2').hidden = false; $('#nickInput2').focus(); });
 let RTAB = 'daily', RKB = 'qwerty', RPER = 'week';
 function rankBoardNow(){
+  if (RTAB === 'shibari') { const r = weekRule(); return { course:'shibari', ck:courseKey('shibari'), mode:'time', week:false, conv:!!r.conv, punct:true, key:boardKeyOf(RKB, courseKey('shibari'), 'time', !!r.conv, true) }; }
   const daily = RTAB === 'daily' || S.course === 'daily';
   const course = daily ? 'daily' : YROOM ? 'manosaba' : S.course;
   const mode = daily ? 'monster' : S.mode;
   const week = !daily && RPER === 'week';
-  return { course, ck:courseKey(course), mode, week, key:boardKeyOf(RKB, courseKey(course) + (week ? '-' + weekKey() : ''), mode, S.conv, S.punct) };
+  const ck = courseKey(course) + (mode === 'monster' && !daily ? depthKey(Math.min(S.depth || 0, depthOpen())) : '');
+  return { course, ck, mode, week, depth:mode === 'monster' && !daily ? Math.min(S.depth || 0, depthOpen()) : 0, key:boardKeyOf(RKB, ck + (week ? '-' + weekKey() : ''), mode, S.conv, S.punct) };
 }
 async function renderRankView(){
   document.querySelectorAll('[data-rtab]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.rtab === RTAB)));
@@ -4766,15 +5052,17 @@ async function renderRankView(){
   document.querySelectorAll('[data-rper]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.rper === RPER)));
   $('#weekTxt').textContent = weekLabel() + '。毎週リセット';
   const bd = rankBoardNow();
-  $('#rankPer').hidden = bd.course === 'daily';
+  $('#rankPer').hidden = bd.course === 'daily' || bd.course === 'shibari';
+  $('#shibTab').textContent = '「' + weekRule().name + '」';
+  const bConv = bd.conv != null ? bd.conv : S.conv, bPunct = bd.punct != null ? bd.punct : S.punct;
   const cb = document.querySelector('[data-rtab="combo"]');
   cb.querySelector('b').textContent = YROOM ? '魔女裁判' : 'いまの組み合わせ';
   cb.querySelector('span').textContent = YROOM ? 'このコースと、最後に遊んだルール' : '打ち方のコースと、最後に遊んだルール';
   $('#rankFan').hidden = bd.course !== 'manosaba';
-  $('#rankWhat').textContent = metaText({ kb:RKB === 'pc' ? S.kb : RKB, src:RKB, course:bd.course, mode:bd.mode, conv:S.conv, punct:S.punct }) + (bd.course === 'daily' ? `（${md(todayKey())}）` : bd.week ? `・今週（${weekLabel()}）` : '');
+  $('#rankWhat').textContent = metaText({ kb:RKB === 'pc' ? S.kb : RKB, src:RKB, course:bd.course, mode:bd.mode, conv:bConv, punct:bPunct, depth:bd.depth }) + (bd.course === 'daily' ? `（${md(todayKey())}）` : bd.course === 'shibari' ? `（${weekLabel()}）` : bd.week ? `・今週（${weekLabel()}）` : '');
   // this device's own records for the same board
   const ws = weekStart();
-  const own = store.get('history', []).filter(h => (RKB === 'pc' ? h.src === 'pc' : h.kb === RKB && h.src !== 'pc') && h.course === bd.ck && (!bd.week || h.day >= ws) && h.mode === BMODE(bd.mode) && !!h.conv === !!S.conv && (h.punct !== false) === !!S.punct)
+  const own = store.get('history', []).filter(h => (RKB === 'pc' ? h.src === 'pc' : h.kb === RKB && h.src !== 'pc') && h.course === bd.ck && (!bd.week || h.day >= ws) && h.mode === BMODE(bd.mode) && !!h.conv === !!bConv && (h.punct !== false) === !!bPunct)
     .map(h => ({ s:bd.mode === 'monster' ? h.floor || 0 : h.cpm, s2:bd.mode === 'monster' ? h.cpm : h.acc, name:new Date(h.t).toLocaleDateString('ja-JP', { month:'numeric', day:'numeric' }) + (bd.mode === 'monster' ? '' : `・正確率${h.acc}%`) }))
     .sort((p, q) => q.s - p.s || q.s2 - p.s2).map((r, i) => ({ ...r, place:i + 1 }));
   const lo = $('#rankLocal');
@@ -4831,6 +5119,41 @@ function renderDan(){
   $('#danTable').innerHTML = '<li class="hd"><b>段位</b><span>テンキー</span><span>QWERTY</span><span>PC</span></li>'
     + DAN_NAMES.map((n, i) => `<li><b>${n}</b><span>${DAN_MIN.flick[i]}字〜</span><span>${DAN_MIN.qwerty[i]}字〜</span><span>${DAN_MIN.pc[i]}字〜</span></li>`).join('');
 }
+/* 書き写し: where each work is kept, and five more lines of it */
+function bookSave(){
+  if (!G || G.course !== 'book') return;
+  const bk = BOOKS.find(b => b.id === G.bookId); if (!bk) return;
+  const total = lines(bk.text).length, pr = store.get('book:' + bk.id, {});
+  const n = Math.min(total, Math.max(pr.n || 0, G.bookStart + G.done)), upd = Object.assign({}, pr, { n });
+  G.bookN = n; G.bookTotal = total; G.bookEnd = n >= total;
+  if (G.bookEnd && !pr.done) { upd.done = todayKey(); G.bookFirst = true; }
+  store.set('book:' + bk.id, upd);
+}
+function startBook(id, fromTop){
+  const bk = BOOKS.find(b => b.id === id); if (!bk) return;
+  const all = lines(bk.text), pr = store.get('book:' + id, {});
+  const start = fromTop || (pr.n || 0) >= all.length ? 0 : (pr.n || 0);
+  store.set('book:' + id, Object.assign({}, pr, { n:start }));
+  unlockAudio();
+  startGame({ course:'book', mode:'count', items:all.slice(start, start + BOOK_STEP), ck:'book-' + id, book:id, bookStart:start });
+  G.bookN = start; G.bookTotal = all.length;
+}
+function renderBooks(){
+  $('#bookList').innerHTML = BOOKS.map(bk => {
+    const total = lines(bk.text).length, pr = store.get('book:' + bk.id, {}), n = Math.min(pr.n || 0, total), done = !!pr.done;
+    const state = done ? `書き終えた ${md(pr.done)}` + (n && n < total ? `・${n}/${total}文` : '・もう一度書き写す') : n ? `${n}/${total}文・続きから` : `${total}文`;
+    return `<div class="bkrow"><button type="button" class="bk" data-book="${bk.id}"><span class="tx"><span class="bt">${esc(bk.title)}</span><span class="ba">${esc(bk.author)}</span>`
+      + `<span class="bbar" aria-hidden="true"><i style="width:${Math.round(n / total * 100)}%"></i></span><span class="bn">${esc(state)}</span></span>`
+      + (done ? '<span class="stamp" aria-label="書き終えた">写</span>' : '') + '</button>'
+      + (n > 0 && n < total ? `<button type="button" class="linkbtn bk-top" data-book-top="${bk.id}">はじめから</button>` : '') + '</div>';
+  }).join('');
+}
+$('#bookList').addEventListener('click', e => {
+  const t = e.target.closest('[data-book-top]'); if (t) { startBook(t.dataset.bookTop, true); return; }
+  const b = e.target.closest('[data-book]'); if (b) startBook(b.dataset.book, false);
+});
+$('#openBooks').addEventListener('click', () => { show('books'); renderBooks(); });
+$('#booksBack').addEventListener('click', menuView);
 function startDan(kb){ S.kb = kb; saveS(); unlockAudio(); startGame({ course:'dan', mode:'count', conv:false, punct:true }); }
 $('#danQwerty').addEventListener('click', () => startDan('qwerty'));
 $('#danFlick').addEventListener('click', () => startDan('flick'));
@@ -4919,6 +5242,18 @@ function loadAd(slot, minGap){
   box.appendChild(f);
 }
 
+/* the level of 深層 for the next monster run, picked under the monster entrance once one is open */
+function renderDepth(box){
+  const open = depthOpen();
+  box.hidden = !open;
+  if (!open) return;
+  const cur = Math.min(S.depth || 0, open);
+  box.innerHTML = `<div class="dseg" role="group" aria-label="深層">` + Array.from({ length:open + 1 }, (_, d) =>
+    `<button type="button" data-depth="${d}" aria-pressed="${d === cur}">${d ? '深層' + d : 'ふつう'}</button>`).join('') + '</div>'
+    + `<p class="note">${cur ? esc(mtxt(`深層${cur}：${DEPTH[cur]}` + (cur > 1 ? `（深層${cur > 2 ? '1〜' : ''}${cur - 1}の決まりも）` : ''))) : '地下25階に着くたびに、次の深層が開きます'}</p>`;
+  box.querySelectorAll('[data-depth]').forEach(b => b.addEventListener('click', () => { S.depth = +b.dataset.depth; saveS(); if (YROOM) renderYuki(); else renderHome(); }));
+}
+
 /* ================= 魔女裁判の部屋: a screen of its own, opened by setting the name 月代ユキ (every time) ================= */
 function enterYuki(){
   if (G && !G.ended && VIEW === 'play') return;
@@ -4933,11 +5268,12 @@ function enterYuki(){
   }, 700);
 }
 function renderYuki(){
+  renderDepth($('#yDepthRow'));
   $('#yHow').textContent = `${KB_NAME[S.kb]}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
   $('#yCount').textContent = `${courseById('manosaba').items.length}語。名前を「月代ユキ」に決めるたびに、ここへ来られます。`;
   for (const m of ['monster', 'time', 'count']) {
     const door = document.querySelector(`[data-ydoor="${m}"]`);
-    const best = store.get(bestKey(S.kb, courseKey('manosaba'), m, S.conv, S.punct), null);
+    const best = store.get(bestKey(S.kb, courseKey('manosaba') + (m === 'monster' ? depthKey(Math.min(S.depth || 0, depthOpen())) : ''), m, S.conv, S.punct), null);
     door.querySelector('.bs').innerHTML = !best ? 'まだ記録なし'
       : m === 'monster' ? `いちばん深く<b>地下${best.floor || 0}階</b>` : `いちばん速く<b>${best.cpm}字/分</b>`;
     const sv = store.get('suspend:yuki-' + m, null), ok = !!(sv && sv.v === 1 && sv.g);
@@ -4991,8 +5327,10 @@ function countUp(el, to, best){
 }
 
 function goHome(){
+  const book = (G && G.course === 'book') || (VIEW === 'result' && LAST && LAST.course === 'book');
   if (G) { G.ended = true; cancelAnimationFrame(G.raf); }
   G = null;
+  if (book) { show('books'); renderBooks(); return; }
   menuView();
 }
 function menuView(){ if (YROOM) { show('yuki'); renderYuki(); } else { show('home'); renderHome(); } }
@@ -5000,7 +5338,7 @@ $('#quitBtn').addEventListener('click', () => { if (G && !G.ended) openPause(); 
 $('#spBtn').addEventListener('click', () => { unlockAudio(); special(); });
 $('#toMenu').addEventListener('click', goHome);
 const againOpts = () => LAST ? { course:LAST.course, mode:LAST.mode } : {};
-$('#again').addEventListener('click', () => { unlockAudio(); startGame(againOpts()); });
+$('#again').addEventListener('click', () => { unlockAudio(); if (LAST && LAST.course === 'book') { startBook(LAST.bookId, LAST.bookEnd); return; } startGame(againOpts()); });
 
 /* physical keyboard (QWERTY mode, for PC or a Bluetooth keyboard) */
 document.addEventListener('keydown', e => {
@@ -5040,6 +5378,18 @@ window.__yubi = { buildUnits, createRomaji, createFlick, parseCustom, chunkify, 
 
 applyHeight();
 show('home');
+/* ホーム画面に追加: a service worker keeps the page for offline play (on the public site only, not on claude.ai) */
+const canInstall = () => !inClaude() && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost');
+const standalone = () => { try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch(e) { return false; } };
+let installEvt = null;
+if (canInstall()) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  if (!standalone() && ios) { $('#installBox').hidden = false; $('#installNote').textContent = 'Safari の共有ボタン（□に↑）から「ホーム画面に追加」を選びます。アプリのように開けて、電波がなくても遊べます。'; }
+  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('#installBox').hidden = false; $('#installBtn').hidden = false; });
+  window.addEventListener('appinstalled', () => { $('#installBox').hidden = true; toast('ホーム画面に追加しました'); });
+}
+$('#installBtn').addEventListener('click', async () => { if (!installEvt) return; installEvt.prompt(); try { await installEvt.userChoice; } catch(e) {} installEvt = null; $('#installBtn').hidden = true; });
 renderHome();
 })();
 </script>
