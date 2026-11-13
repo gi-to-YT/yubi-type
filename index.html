@@ -2226,7 +2226,8 @@ function show(v){
   if (v !== 'result') $('#cardModal').hidden = true;
   const sc = $('#v-' + v); if (sc) sc.scrollTop = 0;
   if (v === 'home') loadAd('menu', 60000);
-  if (v === 'result') loadAd('result', 30000);
+  // no ads anywhere in the 魔女裁判 room (the room, its games and their results)
+  if (v === 'result') { if (YROOM) $('#ad-result').hidden = true; else loadAd('result', 30000); }
 }
 const LIMIT = 60, COUNT = 10;
 const RANKS = [[0,'指ならし'],[30,'ひよっこ'],[50,'見習い'],[70,'駆け出し'],[90,'一人前'],[110,'腕利き'],[130,'熟練'],[150,'達人'],[170,'名人'],[190,'鉄人'],[210,'匠'],[240,'剣豪'],[270,'仙人'],[300,'神業'],[340,'神速'],[400,'伝説'],[460,'超人'],[540,'規格外']];
@@ -4760,7 +4761,8 @@ function loadAd(slot, minGap){
   if (!adsOn() || !ADS[slot]) return;
   const box = $('#ad-' + slot);
   const now = Date.now();
-  if (!box || (adLast[slot] && now - adLast[slot] < minGap)) return;
+  if (!box) return;
+  if (adLast[slot] && now - adLast[slot] < minGap) { if (box.querySelector('iframe')) box.hidden = false; return; }
   adLast[slot] = now;
   box.hidden = false;
   const old = box.querySelector('iframe'); if (old) old.remove();
