@@ -704,6 +704,11 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .nickrow input{border-radius:4px}
 .sharebox,.custom textarea{border-radius:4px}
 .modal-in{border-radius:6px}
+.modal.sheet{place-items:end center;padding-bottom:max(16px, env(safe-area-inset-bottom,0px))}
+.pick{max-height:82vh;overflow:auto;gap:10px}
+.pickhead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pickhead h2{margin:0;font:400 24px/1.2 var(--font-brush)}
+.pick #editCustom{align-self:flex-start;font-size:13px}
 .modal-in img{border-radius:4px}
 .toast{border-radius:3px}
 .chart{border-radius:4px}
@@ -988,11 +993,6 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <div class="optbox setrows romarows" id="romaRows"></div>
     </div>
 
-    <div class="group" id="courseGroup">
-      <h2 class="label">コース</h2>
-      <div class="courses" id="courses" role="group" aria-label="コース"></div>
-      <button class="linkbtn" id="editCustom" hidden>「じぶんで追加」の文を編集する</button>
-    </div>
 
     <div class="group">
       <h2 class="label">変換と句読点</h2>
@@ -1348,6 +1348,13 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
   </div>
 </section>
 
+</div>
+<div class="modal sheet" id="coursePick" role="dialog" aria-modal="true" aria-labelledby="pickTitle" hidden>
+  <div class="modal-in pick">
+    <div class="pickhead"><h2 id="pickTitle">コースを選ぶ</h2><button class="barbtn" id="pickClose" type="button">とじる</button></div>
+    <div class="courses" id="courses" role="group" aria-label="コース"></div>
+    <button class="linkbtn" id="editCustom" type="button">「じぶんで追加」の文を編集する</button>
+  </div>
 </div>
 <div class="modal" id="cardModal" role="dialog" aria-modal="true" aria-label="結果カード" hidden>
   <div class="modal-in">
@@ -2408,7 +2415,6 @@ function show(v){
   if (v === 'yuki') YROOM = true;
   document.documentElement.classList.toggle('night', YROOM);
   document.querySelectorAll('meta[name="theme-color"]').forEach(m => { if (!m.dataset.c) m.dataset.c = m.content; m.content = YROOM ? '#13141B' : m.dataset.c; });
-  if (v === 'setup') $('#courseGroup').hidden = YROOM;
   document.querySelectorAll('[data-mt]').forEach(e => { e.textContent = mtxt(e.dataset.mt); });
   if (v === 'play') {
     // 魔女裁判モード: the 必殺技 key says 告発, and the scenes are the rooms of the 牢屋敷
@@ -2451,29 +2457,16 @@ function renderHome(){
   $('#kbNote').textContent = S.kb === 'qwerty'
     ? 'ローマ字で打ちます。shi と si、tsu と tu など、どの打ち方でも正解です。'
     : 'フリックでも、同じキーを続けて押すトグル入力でも打てます。濁点と小さい字は「小゛゜」キーで。';
-  const box = $('#courses'); box.textContent = '';
-  for (const c of COURSES) {
-    if (c.id === 'daily' || c.special || c.hidden) continue;
-    const items = itemsOf(c.id);
-    let sample = items.slice(0, 2).map(x => clean(splitItem(x)[0])).join('・') + '…';
-    if (c.id === 'weak') sample = items.length ? '苦手：' + weakTop(S.kb, 4).map(x => x[0]).join('・') : 'ミスした字から問題を作ります';
-    const b = document.createElement('button');
-    b.className = 'opt'; b.dataset.course = c.id;
-    b.setAttribute('aria-pressed', String(S.course === c.id));
-    b.innerHTML = `<b>${esc(c.name)}</b><span>${c.id === 'weak' && !items.length ? '' : items.length + c.unit + '　'}${esc(sample)}</span>`;
-    b.addEventListener('click', () => { S.course = c.id; saveS(); renderHome(); });
-    box.appendChild(b);
-  }
-  $('#editCustom').hidden = S.course !== 'custom';
   renderDepth($('#depthRow'));
   renderRoma();
-  $('#howNow').textContent = `${KB_NAME[S.kb]}・${courseById(S.course).name}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
+  $('#howNow').textContent = `${KB_NAME[S.kb]}・${S.conv ? '変換あり' : '変換なし'}` + (S.punct ? '' : '・句読点なし');
   // the three entrances: each one starts its game, or picks up the one left halfway
   for (const m of ['monster', 'time', 'count']) {
     const door = document.querySelector(`[data-door="${m}"]`);
-    const best = store.get(bestKey(S.kb, courseKey(S.course) + (m === 'monster' ? depthKey(Math.min(S.depth || 0, depthOpen())) : ''), m, S.conv, S.punct), null);
-    door.querySelector('.bs').innerHTML = !best ? 'まだ記録なし'
-      : m === 'monster' ? `いちばん深く<b>地下${best.floor || 0}階</b>` : `いちばん速く<b>${best.cpm}字/分</b>`;
+    const cid = courseFor(m), cn = esc(courseById(cid).name);
+    const best = store.get(bestKey(S.kb, courseKey(cid) + (m === 'monster' ? depthKey(Math.min(S.depth || 0, depthOpen())) : ''), m, S.conv, S.punct), null);
+    door.querySelector('.bs').innerHTML = !best ? `${cn}・まだ記録なし`
+      : m === 'monster' ? `${cn}・いちばん深く<b>地下${best.floor || 0}階</b>` : `${cn}・いちばん速く<b>${best.cpm}字/分</b>`;
     const sv = store.get('suspend:' + m, null), ok = !!(sv && sv.v === 1 && sv.g);
     const rs = door.querySelector('.rs');
     rs.hidden = !ok; door.dataset.resume = ok ? '1' : '';
@@ -2542,9 +2535,54 @@ document.querySelectorAll('[data-door]').forEach(b => b.addEventListener('click'
   unlockAudio();
   const m = b.dataset.door;
   if (b.dataset.resume === '1') { restoreGame(m); return; }
-  S.mode = m; saveS();
-  startGame({ mode:m });
+  openCoursePick(m);
 }));
+/* the course is chosen after the entrance: each entrance remembers the course it was last played with */
+let PICK_MODE = null;
+const pickable = c => !(c.id === 'daily' || c.special || c.hidden);
+function courseFor(m){
+  const id = (S.courseOf && S.courseOf[m]) || S.course || 'words', c = COURSES.find(x => x.id === id);
+  return c && pickable(c) ? id : 'words';
+}
+function renderCourses(){
+  const box = $('#courses'); box.textContent = '';
+  const sel = courseFor(PICK_MODE || S.mode);
+  for (const c of COURSES) {
+    if (!pickable(c)) continue;
+    const items = itemsOf(c.id);
+    let sample = items.slice(0, 2).map(x => clean(splitItem(x)[0])).join('・') + '…';
+    if (c.id === 'weak') sample = items.length ? '苦手：' + weakTop(S.kb, 4).map(x => x[0]).join('・') : 'ミスした字から問題を作ります';
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt'; b.dataset.course = c.id;
+    b.setAttribute('aria-pressed', String(sel === c.id));
+    b.innerHTML = `<b>${esc(c.name)}</b><span>${c.id === 'weak' && !items.length ? '' : items.length + c.unit + '　'}${esc(sample)}</span>`;
+    b.addEventListener('click', () => pickCourse(c.id));
+    box.appendChild(b);
+  }
+}
+function openCoursePick(m){
+  PICK_MODE = m;
+  $('#pickTitle').textContent = `${MODE_NAME[m]}　コースを選ぶ`;
+  renderCourses();
+  $('#startMsg').hidden = true;
+  $('#coursePick').hidden = false;
+  const on = $('#courses [aria-pressed="true"]'); if (on) on.focus();
+}
+function closeCoursePick(){ $('#coursePick').hidden = true; PICK_MODE = null; }
+function pickCourse(id){
+  const m = PICK_MODE; if (!m) return;
+  closeCoursePick();
+  S.course = id; S.courseOf = Object.assign({}, S.courseOf, { [m]:id }); S.mode = m; saveS();
+  startGame({ mode:m, course:id });
+}
+$('#pickClose').addEventListener('click', closeCoursePick);
+$('#coursePick').addEventListener('click', e => { if (e.target.id === 'coursePick') closeCoursePick(); });
+document.addEventListener('keydown', e => {
+  if ($('#coursePick').hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeCoursePick(); return; }
+  const n = parseInt(e.key, 10), opts = [...document.querySelectorAll('#courses [data-course]')];
+  if (n >= 1 && n <= opts.length) { e.preventDefault(); opts[n - 1].click(); }
+});
 document.querySelectorAll('[data-new]').forEach(b => b.addEventListener('click', () => { dropSuspend(b.dataset.new); renderHome(); toast('中断した回を消しました'); }));
 $('#startShib').addEventListener('click', e => {
   unlockAudio();
@@ -2568,14 +2606,15 @@ document.querySelectorAll('[data-set]').forEach(b => b.addEventListener('click',
 [['#setSound','sound'],['#setBgm','bgm'],['#setGhost','ghost'],['#setVibe','vibe'],['#setGuide','guide'],['#setToggle','toggle'],['#setConv','conv'],['#setPunct','punct']].forEach(([sel, k]) => {
   $(sel).addEventListener('change', e => { S[k] = e.target.checked; saveS(); if (k === 'sound' && S.sound) unlockAudio(); if (k === 'conv' || k === 'punct') renderHome(); });
 });
-$('#editCustom').addEventListener('click', openCustom);
+$('#editCustom').addEventListener('click', () => { $('#coursePick').hidden = true; openCustom(); });
 
 function openCustom(){
   $('#customText').value = customText();
   $('#customErr').hidden = true;
   show('custom');
 }
-$('#customCancel').addEventListener('click', () => { show('setup'); renderHome(); });
+const backFromCustom = () => { const m = PICK_MODE; show('home'); renderHome(); if (m) openCoursePick(m); };
+$('#customCancel').addEventListener('click', backFromCustom);
 $('#customReset').addEventListener('click', () => { $('#customText').value = CUSTOM_DEFAULT; $('#customErr').hidden = true; });
 $('#customSave').addEventListener('click', () => {
   const v = $('#customText').value;
@@ -2584,8 +2623,7 @@ $('#customSave').addEventListener('click', () => {
   if (r.errors.length) { err.textContent = r.errors.slice(0, 3).join(' '); err.hidden = false; return; }
   if (!r.items.length) { err.textContent = '1行以上書いてください。'; err.hidden = false; return; }
   store.set('customText', v);
-  S.course = 'custom'; saveS();
-  show('setup'); renderHome();
+  backFromCustom();
 });
 
 /* ================= keyboards ================= */
