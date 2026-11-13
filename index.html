@@ -1955,6 +1955,7 @@ const COURSES = [
   { id:'words',     name:'単語',       unit:'語', items: lines(WORDS) },
   { id:'proverbs',  name:'ことわざ',   unit:'句', items: lines(PROVERBS) },
   { id:'sentences', name:'文章',       unit:'文', items: lines(SENTENCES) },
+  { id:'random',    name:'ランダム',   unit:'問', items: [...lines(WORDS), ...lines(PROVERBS), ...lines(SENTENCES)] },
   { id:'daily',     name:'今日のダンジョン', unit:'問', items: null },
   { id:'weak',      name:'苦手特訓',   unit:'問', items: null },
   { id:'custom',    name:'じぶんで追加', unit:'件', items: null },
@@ -2552,6 +2553,7 @@ function renderCourses(){
     const items = itemsOf(c.id);
     let sample = items.slice(0, 2).map(x => clean(splitItem(x)[0])).join('・') + '…';
     if (c.id === 'weak') sample = items.length ? '苦手：' + weakTop(S.kb, 4).map(x => x[0]).join('・') : 'ミスした字から問題を作ります';
+    if (c.id === 'random') sample = '単語・ことわざ・文章をまぜて';
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'opt'; b.dataset.course = c.id;
     b.setAttribute('aria-pressed', String(sel === c.id));
@@ -3002,6 +3004,7 @@ function startGame(over){
   if (mode === 'monster') {
     G.bossPool = [...courseById('sentences').items, ...courseById('proverbs').items].filter(x => prepare(x).R.length >= 12);
   }
+  setupTiers();
   show('play');
   nextItem();
   if (mode === 'monster') runBegin();
@@ -3068,6 +3071,7 @@ function restoreGame(slot){
   if (!sv || sv.v !== 1 || !sv.g || ((slot === 'daily' || slot === 'shibari') && sv.g.courseKey !== courseKey(slot))) { dropSuspend(slot); renderHome(); return; }
   G = freshG(sv.g);
   G.resumed = true;
+  setupTiers();
   $('#ghost').hidden = true;
   G.seedBase = G.course === 'daily' ? 'yubi-' + G.courseKey : null;
   playView();
@@ -3107,6 +3111,35 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'hidden' && VIEW === 'play' && G && !G.ended && (G.started || G.resumed)) openPause();
 });
 window.addEventListener('pagehide', () => { if (VIEW === 'play' && G && !G.ended && (G.started || G.resumed)) saveSuspend(); });
+/* モンスター戦 (and 異世界エレベーター): the words get longer the deeper you go. Five lengths of reading;
+   地下1〜4階 the shortest, each boss one step longer than its floors, one step more every five floors.
+   A length with fewer than twelve problems in the course borrows the nearest lengths (see buildTiers) */
+const TIER_MAX = [5, 8, 12, 18, Infinity];
+const kanaLen = raw => splitItem(raw)[1].replace(/[、。！？「」『』・\s_]/g, '').length;
+function buildTiers(pool){
+  const t = TIER_MAX.map(() => []);
+  for (const x of pool) t[TIER_MAX.findIndex(m => kanaLen(x) <= m)].push(x);
+  const byLen = (x, y) => kanaLen(x) - kanaLen(y);
+  return t.map((own, i) => {
+    // a length with fewer than twelve borrows the longest of the shorter ones first, then the shortest of the longer ones
+    const list = own.slice(), lower = t.slice(0, i).flat().sort(byLen), higher = t.slice(i + 1).flat().sort(byLen);
+    while (list.length < 12 && (lower.length || higher.length)) list.push(lower.length ? lower.pop() : higher.shift());
+    return list;
+  });
+}
+function setupTiers(){
+  G.tiers = G.mode === 'monster' && G.course !== 'daily' && G.course !== 'dan' && G.pool.length ? buildTiers(G.pool) : null;
+  G.tbag = {};
+}
+const tierNow = () => Math.min(TIER_MAX.length - 1, Math.floor((G.floor - 1) / 5) + (G.mon && G.mon.boss ? 1 : 0));
+function tierBag(t){
+  let bag = G.tbag[t];
+  if (!bag || !bag.length) {
+    bag = G.tbag[t] = shuffleR(G.tiers[t].slice(), dayRng('tier' + t + '-' + G.qi));
+    if (bag.length > 1 && bag[bag.length - 1] === G.lastRaw) [bag[0], bag[bag.length - 1]] = [bag[bag.length - 1], bag[0]];
+  }
+  return bag;
+}
 function nextItem(){
   G.lastKeyAt = null; G.itemMiss0 = G.misses;      // the first kana of a new problem waits for the reading of it, not a hesitation
   while (G.queue.length - G.qi < 2) {
@@ -3114,21 +3147,30 @@ function nextItem(){
     if (more.length > 1 && more[0] === G.queue[G.queue.length - 1]) [more[0], more[1]] = [more[1], more[0]];
     G.queue.push(...more);
   }
-  let raw = G.queue[G.qi++];
+  let raw = G.tiers ? tierBag(tierNow()).pop() : G.queue[G.qi];
+  G.qi++;
   // a boss's trick for this problem (宇宙タイプ大王 picks a different one each time)
   const mg = G.mode === 'monster' && G.mon && G.mon.boss ? G.mon.gim : null;
   G.gimNow = mg === 'all' ? ['yomi', 'datsu', 'punct'][Math.floor(dayRng('gim' + G.floor + '-' + G.qi)() * 3)] : mg;
   // a boss always brings a long line; the 句読点 trick needs one with 、。
-  if (mg && G.bossPool.length) {
+  if (mg && G.tiers) {
+    // the boss's line is already one length up; the 句読点 trick still needs one with 、。
+    if (G.gimNow === 'punct' && !/[、。！？]/.test(splitItem(raw)[1])) {
+      const own = G.tiers[tierNow()].filter(x => /[、。！？]/.test(splitItem(x)[1]));
+      const list = own.length ? own : G.bossPool.filter(x => /[、。！？]/.test(splitItem(x)[1]));
+      if (list.length) raw = list[Math.floor(dayRng('boss' + G.floor + '-' + G.qi)() * list.length)];
+    }
+  } else if (mg && G.bossPool.length) {
     const pool = G.gimNow === 'punct' ? G.bossPool.filter(x => /[、。！？]/.test(splitItem(x)[1])) : G.bossPool;
     const list = pool.length ? pool : G.bossPool;
     raw = list[Math.floor(dayRng('boss' + G.floor + '-' + G.qi)() * list.length)];
   }
+  G.lastRaw = raw;
   G.item = prepare(raw, G.gimNow === 'punct' || G.punct);
   G.R = G.item.R; G.chunks = G.item.chunks; G.cs = G.item.cs;
   G.fake = G.gimNow === 'yomi' ? misread(G.item, dayRng('yomi' + G.floor + '-' + G.qi)) : null;
   G.gone = G.gimNow === 'datsu' ? dropKana(G.R, dayRng('datsu' + G.floor + '-' + G.qi)) : null;
-  G.peek = clean(splitItem(G.queue[G.qi])[0]);
+  G.peek = clean(splitItem(G.tiers ? tierBag(tierNow()).slice(-1)[0] : G.queue[G.qi])[0]);
   G.re = null; G.fe = null; G.romaPrefix = ''; G.ci = 0; G.co = 0; G.dispDone = 0; G.kanaDone = 0;
   startEngine(0);
   autoCommit();
