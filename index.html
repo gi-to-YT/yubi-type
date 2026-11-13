@@ -730,7 +730,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
   border:2px dashed var(--line);color:var(--faint);padding:6px}
 .si.on .stamp{border:0;background:var(--shu);color:var(--shu-ink);filter:url(#rough2);box-shadow:inset 0 0 0 4px var(--shu),inset 0 0 0 6px rgba(255,246,234,.8)}
 .si.cur .stamp{outline:2px solid var(--kin);outline-offset:4px}
-.si small{font:700 11px/1.45 var(--font-ui);color:var(--mute);text-align:center;max-width:100%}
+.si small{font:700 11px/1.45 var(--font-ui);color:var(--mute);text-align:center;max-width:100%;white-space:pre-line}
 .si.on small{font:800 11px var(--font-mincho)}
 /* 苦手キーの地図 */
 .heat{display:flex;flex-direction:column;gap:5px}
@@ -3359,7 +3359,7 @@ function renderResult(R){
     ? R.weak.map(([k, n]) => `<span class="chip"><b>${esc(k)}</b>×${n}</span>`).join('')
     : '<span class="note">ミスはありませんでした。</span>';
   $('#rAchBox').hidden = !R.newAch.length;
-  $('#rAch').innerHTML = R.newAch.map(a => `<span class="chip ach-chip"><b>${esc(a.name)}</b>${esc(a.desc)}</span>`).join('');
+  $('#rAch').innerHTML = R.newAch.map(a => `<span class="chip ach-chip"><b>${esc(a.name)}</b>${esc(achLine(a.desc))}</span>`).join('');
   $('#shareX').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText(R));
   $('#shareFallback').hidden = true;
   $('#rRankBox').textContent = ''; $('#rRankList').textContent = '';
@@ -3424,6 +3424,9 @@ function shuffleR(a, rnd){ for (let i = a.length - 1; i > 0; i--) { const j = Ma
 const dayRng = tag => G && G.seedBase ? seeded(hashStr(G.seedBase + '|' + tag)) : Math.random;
 
 /* ================= achievements (称号) ================= */
+const achLine = d => d.replace(/・\n/g, '・').replace(/\n/g, ' ');   // a title's text on one line (the 朱印帳 keeps the breaks)
+const speedAch = (id, name, ri) => ({ id, name, desc:`1分あたり\nテンキー${RANK_MIN.flick[ri]}・\nQWERTY${RANK_MIN.qwerty[ri]}・\nPC${RANK_MIN.pc[ri]}字`,
+  test:c => c.cpm >= RANK_MIN[scaleOf(c.src)][ri] });
 const ACH = [
   { id:'first',   name:'はじめの一歩',     desc:'1回遊ぶ',                                test:c => true },
   { id:'nomiss',  name:'ノーミス職人',     desc:'10問をミスなしで打ち切る',               test:c => c.mode === 'count' && c.done - c.skipped >= 10 && c.misses === 0 },
@@ -3431,11 +3434,10 @@ const ACH = [
   { id:'bigconv', name:'まとめ変換',       desc:'3語以上を1回で変換する',                 test:c => c.maxConvWords >= 3 },
   { id:'streak3', name:'三日坊主卒業',     desc:'3日続けて遊ぶ',                          test:c => c.streak >= 3 },
   { id:'streak7', name:'七日連続',         desc:'7日続けて遊ぶ',                          test:c => c.streak >= 7 },
-  { id:'cpm120',  name:'一人前の指',       desc:'1分あたり90文字',                        test:c => c.cpm >= 90 },
-  { id:'cpm180',  name:'達人の指',         desc:'1分あたり150文字',                       test:c => c.cpm >= 150 },
-  { id:'cpm240',  name:'剣豪の指',         desc:'1分あたり240文字',                       test:c => c.cpm >= 240 },
-  { id:'cpm300',  name:'神の指',           desc:'1分あたり300文字',                       test:c => c.cpm >= 300 },
-  { id:'cpm400',  name:'伝説の指',         desc:'1分あたり400文字',                       test:c => c.cpm >= 400 },
+  // the speed titles: the bar is the result rank of the same name, on the scale of the keyboard you typed with
+  // (一人前・達人・剣豪・神業・伝説; on a PC these are the old 90・150・240・300・400)
+  speedAch('cpm120', '一人前の指', 4), speedAch('cpm180', '達人の指', 7), speedAch('cpm240', '剣豪の指', 11),
+  speedAch('cpm300', '神の指', 13), speedAch('cpm400', '伝説の指', 15),
   { id:'perfect', name:'正確無比',         desc:'正確率100%で50文字以上打つ',             test:c => c.acc === 100 && c.chars >= 50 },
   { id:'k1000',   name:'千字の道',         desc:'打った文字が合わせて1,000字',            test:c => c.tot.chars >= 1000 },
   { id:'k10000',  name:'万字の道',         desc:'打った文字が合わせて10,000字',           test:c => c.tot.chars >= 10000 },
@@ -4308,7 +4310,7 @@ function renderRecords(){
   $('#achCount').textContent = `${Object.keys(got).filter(id => ACH.some(a => a.id === id)).length} / ${ACH.length}`;
   $('#achList').innerHTML = ACH.map(a => {
     const on = !!got[a.id], isCur = cur && cur.id === a.id;
-    return `<button type="button" class="ach${on ? ' on' : ''}${isCur ? ' cur' : ''}" data-ach="${a.id}" ${on ? '' : 'disabled'}><b>${esc(a.name)}</b><span>${esc(a.desc)}</span>${on ? `<small>${isCur ? 'いまの称号' : got[a.id].replace(/-/g, '/')}</small>` : ''}</button>`;
+    return `<button type="button" class="ach${on ? ' on' : ''}${isCur ? ' cur' : ''}" data-ach="${a.id}" ${on ? '' : 'disabled'}><b>${esc(a.name)}</b><span>${esc(achLine(a.desc))}</span>${on ? `<small>${isCur ? 'いまの称号' : got[a.id].replace(/-/g, '/')}</small>` : ''}</button>`;
   }).join('');
 }
 /* 苦手キーの地図 */
