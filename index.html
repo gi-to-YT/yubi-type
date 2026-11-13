@@ -819,6 +819,13 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
   color-scheme:dark;
 }
 :root.night .arena .scene{background-color:#E6E1E8}
+/* 魔女裁判モード: the rooms of the 牢屋敷 (玄関ホール・食堂・図書室・地下牢・裁判所), no falling embers or snow */
+.arena.mano .scene::before{display:none}
+.arena.mano[data-area="1"] .scene{background:#E6E1E8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='12'/%3E%3CfeGaussianBlur stdDeviation='.6'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='200' cy='30' rx='150' ry='20' fill='%231D1A16' fill-opacity='.05' filter='url(%23g)'/%3E%3Cpath d='M140 178V92a60 60 0 0 1 120 0v86' fill='%231D1A16' fill-opacity='0.05' stroke='%231D1A16' stroke-opacity='0.22' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M10 178V22h30v156ZM360 178V22h30v156Z' fill='%231D1A16' fill-opacity='0.12' stroke='%231D1A16' stroke-opacity='0.45' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M4 22h42M354 22h42M4 178h42M354 178h42' fill='none' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M200 0v16M168 24q32 20 64 0M176 26v-9M200 32v-12M224 26v-9' fill='none' stroke='%231D1A16' stroke-opacity='0.45' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 178H430V240H-30Z' fill='%231D1A16' fill-opacity='0.16' stroke='%231D1A16' stroke-opacity='0.4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M60 178L20 220M130 178L110 220M200 178V220M270 178L290 220M340 178L380 220M-10 198H410' fill='none' stroke='%231D1A16' stroke-opacity='0.28' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena.mano[data-area="2"] .scene{background:#E6E1E8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='12'/%3E%3CfeGaussianBlur stdDeviation='.6'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M-30 118H430' fill='none' stroke='%231D1A16' stroke-opacity='0.2' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M30 24h62v70H30ZM61 24v70M30 58h62' fill='%231D1A16' fill-opacity='0.05' stroke='%231D1A16' stroke-opacity='0.35' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M22 16q9 42 0 86M100 16q-9 42 0 86' fill='none' stroke='%231D1A16' stroke-opacity='0.3' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M318 40h64v120h-64ZM318 80h64M318 120h64' fill='%231D1A16' fill-opacity='0.08' stroke='%231D1A16' stroke-opacity='0.4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M327 66a9 9 0 1 0 18 0a9 9 0 1 0 -18 0M353 66a9 9 0 1 0 18 0a9 9 0 1 0 -18 0M340 106a9 9 0 1 0 18 0a9 9 0 1 0 -18 0' fill='none' stroke='%231D1A16' stroke-opacity='0.35' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 166H430V182H-30Z' fill='%231D1A16' fill-opacity='0.3' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M30 182v40M370 182v40' fill='none' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M50 164a20 4 0 1 0 40 0a20 4 0 1 0 -40 0M310 164a20 4 0 1 0 40 0a20 4 0 1 0 -40 0' fill='%231D1A16' fill-opacity='0.15' stroke='%231D1A16' stroke-opacity='0.45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M120 164V138M280 164V138' fill='none' stroke='%231D1A16' stroke-opacity='0.55' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M120 134q-5-8 0-16q5 8 0 16ZM280 134q-5-8 0-16q5 8 0 16Z' fill='%231D1A16' fill-opacity='0.45' filter='url(%23w)'/%3E%3Cpath d='M90 158a6 6 0 1 0 12 0a6 6 0 1 0 -12 0M96 152q2-5 6-6' fill='%231D1A16' fill-opacity='0.35' stroke='%231D1A16' stroke-opacity='0.45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena.mano[data-area="3"] .scene{background:#E6E1E8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='12'/%3E%3CfeGaussianBlur stdDeviation='.6'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='200' cy='46' rx='120' ry='36' fill='%231D1A16' fill-opacity='.08' filter='url(%23g)'/%3E%3Cpath d='M84 178A116 116 0 0 1 316 178' fill='none' stroke='%231D1A16' stroke-opacity='0.13' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M95 178A105 105 0 0 1 305 178' fill='none' stroke='%231D1A16' stroke-opacity='0.09' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M106 178A94 94 0 0 1 294 178' fill='none' stroke='%231D1A16' stroke-opacity='0.06' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M192 178V96q-14-18-30-22M208 178V96q14-18 30-22M200 110v-34' fill='%231D1A16' fill-opacity='0.1' stroke='%231D1A16' stroke-opacity='0.22' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-6 18H80V178H-6ZM-6 56H80M-6 94H80M-6 132H80' fill='%231D1A16' fill-opacity='0.1' stroke='%231D1A16' stroke-opacity='0.42' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-1 56v-22M5 56v-29M12 56v-25M20 56v-32M26 56v-28M33 56v-24M41 56v-31M47 56v-27M54 56v-23M62 56v-30M68 56v-26M75 56v-22M-1 94v-27M5 94v-23M12 94v-30M20 94v-26M26 94v-22M33 94v-29M41 94v-25M47 94v-32M54 94v-28M62 94v-24M68 94v-31M75 94v-27M-1 132v-32M5 132v-28M12 132v-24M20 132v-31M26 132v-27M33 132v-23M41 132v-30M47 132v-26M54 132v-22M62 132v-29M68 132v-25M75 132v-32M-1 170v-26M5 170v-22M12 170v-29M20 170v-25M26 170v-32M33 170v-28M41 170v-24M47 170v-31M54 170v-27M62 170v-23M68 170v-30M75 170v-26' fill='none' stroke='%231D1A16' stroke-opacity='0.38' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M320 18H406V178H320ZM320 56H406M320 94H406M320 132H406' fill='%231D1A16' fill-opacity='0.1' stroke='%231D1A16' stroke-opacity='0.42' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M325 56v-22M331 56v-29M338 56v-25M346 56v-32M352 56v-28M359 56v-24M367 56v-31M373 56v-27M380 56v-23M388 56v-30M394 56v-26M401 56v-22M325 94v-27M331 94v-23M338 94v-30M346 94v-26M352 94v-22M359 94v-29M367 94v-25M373 94v-32M380 94v-28M388 94v-24M394 94v-31M401 94v-27M325 132v-32M331 132v-28M338 132v-24M346 132v-31M352 132v-27M359 132v-23M367 132v-30M373 132v-26M380 132v-22M388 132v-29M394 132v-25M401 132v-32M325 170v-26M331 170v-22M338 170v-29M346 170v-25M352 170v-32M359 170v-28M367 170v-24M373 170v-31M380 170v-27M388 170v-23M394 170v-30M401 170v-26' fill='none' stroke='%231D1A16' stroke-opacity='0.38' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 178H430V240H-30Z' fill='%231D1A16' fill-opacity='0.12' stroke='%231D1A16' stroke-opacity='0.4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena.mano[data-area="4"] .scene{background:#E6E1E8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='12'/%3E%3CfeGaussianBlur stdDeviation='.6'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M-10 14H410M-20 14v20M20 14v20M60 14v20M100 14v20M140 14v20M180 14v20M220 14v20M260 14v20M300 14v20M340 14v20M380 14v20M-10 34H410M0 34v20M40 34v20M80 34v20M120 34v20M160 34v20M200 34v20M240 34v20M280 34v20M320 34v20M360 34v20M400 34v20M-10 54H410M-20 54v20M20 54v20M60 54v20M100 54v20M140 54v20M180 54v20M220 54v20M260 54v20M300 54v20M340 54v20M380 54v20M-10 74H410M0 74v20M40 74v20M80 74v20M120 74v20M160 74v20M200 74v20M240 74v20M280 74v20M320 74v20M360 74v20M400 74v20M-10 94H410M-20 94v20M20 94v20M60 94v20M100 94v20M140 94v20M180 94v20M220 94v20M260 94v20M300 94v20M340 94v20M380 94v20M-10 114H410M0 114v20M40 114v20M80 114v20M120 114v20M160 114v20M200 114v20M240 114v20M280 114v20M320 114v20M360 114v20M400 114v20M-10 134H410M-20 134v20M20 134v20M60 134v20M100 134v20M140 134v20M180 134v20M220 134v20M260 134v20M300 134v20M340 134v20M380 134v20M-10 154H410M0 154v20M40 154v20M80 154v20M120 154v20M160 154v20M200 154v20M240 154v20M280 154v20M320 154v20M360 154v20M400 154v20M-10 174H410M-20 174v20M20 174v20M60 174v20M100 174v20M140 174v20M180 174v20M220 174v20M260 174v20M300 174v20M340 174v20M380 174v20' fill='none' stroke='%231D1A16' stroke-opacity='0.1' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M44 22h56v34H44Z' fill='%231D1A16' fill-opacity='0.42' stroke='%231D1A16' stroke-opacity='0.5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M58 23v32M72 23v32M86 23v32' stroke='%23E6E1E8' stroke-width='3' filter='url(%23w)'/%3E%3Cpath d='M126 6a4 7 0 1 0 8 0a4 7 0 1 0 -8 0M126 18a4 7 0 1 0 8 0a4 7 0 1 0 -8 0M126 30a4 7 0 1 0 8 0a4 7 0 1 0 -8 0M126 42a4 7 0 1 0 8 0a4 7 0 1 0 -8 0M126 54a4 7 0 1 0 8 0a4 7 0 1 0 -8 0M122 66h16v8h-16Z' fill='none' stroke='%231D1A16' stroke-opacity='0.45' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M300 0V178M326 0V178M352 0V178M378 0V178' fill='none' stroke='%231D1A16' stroke-opacity='0.55' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M290 34H410M290 150H410' fill='none' stroke='%231D1A16' stroke-opacity='0.55' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-30 178H430V240H-30Z' fill='%231D1A16' fill-opacity='0.22' stroke='%231D1A16' stroke-opacity='0.4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M40 196l10-6M52 200l12-4M70 194l8-7M330 198l10-5M346 202l12-3' fill='none' stroke='%231D1A16' stroke-opacity='0.35' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
+.arena.mano[data-area="5"] .scene{background:#E6E1E8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='w' x='-20%25' y='-40%25' width='140%25' height='180%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='12'/%3E%3CfeGaussianBlur stdDeviation='.6'/%3E%3C/filter%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M170 40a30 30 0 1 0 60 0a30 30 0 1 0 -60 0M190 40a10 10 0 1 0 20 0a10 10 0 1 0 -20 0' fill='%231D1A16' fill-opacity='0.05' stroke='%231D1A16' stroke-opacity='0.22' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M210.0 40.0L230.0 40.0M207.1 47.1L221.2 61.2M200.0 50.0L200.0 70.0M192.9 47.1L178.8 61.2M190.0 40.0L170.0 40.0M192.9 32.9L178.8 18.8M200.0 30.0L200.0 10.0M207.1 32.9L221.2 18.8' fill='none' stroke='%231D1A16' stroke-opacity='0.22' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M6 178V24h22v154ZM372 178V24h22v154Z' fill='%231D1A16' fill-opacity='0.12' stroke='%231D1A16' stroke-opacity='0.42' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M10 150A190 46 0 0 1 390 150' fill='none' stroke='%231D1A16' stroke-opacity='0.35' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M4 144h14v-20h-14ZM15 134h14v-20h-14ZM37 124h14v-20h-14ZM67 116h14v-20h-14ZM105 109h14v-20h-14ZM148 105h14v-20h-14ZM193 104h14v-20h-14ZM238 105h14v-20h-14ZM281 109h14v-20h-14ZM319 116h14v-20h-14ZM349 124h14v-20h-14ZM371 134h14v-20h-14ZM382 144h14v-20h-14Z' fill='%231D1A16' fill-opacity='0.26' stroke='%231D1A16' stroke-opacity='0.45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M-40 210a240 44 0 1 0 480 0a240 44 0 1 0 -480 0' fill='%231D1A16' fill-opacity='0.14' stroke='%231D1A16' stroke-opacity='0.4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3Cpath d='M80 206a120 22 0 1 0 240 0a120 22 0 1 0 -240 0' fill='none' stroke='%231D1A16' stroke-opacity='0.25' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' filter='url(%23w)'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat}
 .play.fever .arena .scene{animation:none}
 .play.fever .arena{animation:feverGlow 1.2s linear infinite;border-radius:6px}
 /* the enemy's life is drawn in ink; 朱 stays for what you press and for seals */
@@ -1071,6 +1078,8 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 
     <nav class="links" aria-label="ほかの画面">
       <button type="button" id="yRank">このコースのランキング</button>
+      <button type="button" id="yZukan">図鑑</button>
+      <button type="button" id="yMeta">真実のかけら</button>
       <button type="button" id="yLeave">ふつうのゆびタイプへ</button>
     </nav>
     <p class="foot" id="yCount"></p>
@@ -1139,9 +1148,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
       <div class="weak" id="rAch" role="button" tabindex="0" aria-label="称号の一覧を開く"></div>
     </div>
     <div class="group" id="rPowBox" hidden>
-      <h2 class="label">集めたちから</h2>
+      <h2 class="label" data-mt="集めたちから">集めたちから</h2>
       <div class="weak" id="rPow"></div>
-      <button class="linkbtn" id="rOpenMeta">かけらで強くなる</button>
+      <button class="linkbtn" id="rOpenMeta" data-mt="かけらで強くなる">かけらで強くなる</button>
     </div>
     <div class="group">
       <h2 class="label">ミスした字</h2>
@@ -1210,9 +1219,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 
 <section id="v-meta" class="view scroll" hidden>
   <div class="wrap">
-    <div class="viewhead"><button class="barbtn" id="metaBack">もどる</button><h2>かけらで強くなる</h2></div>
-    <p class="shards">ことばのかけら<b id="metaK">0</b></p>
-    <p class="note">モンスター戦で敵を倒すと、かけらが手に入ります。やられても、かけらはなくなりません。ここで使った強さは、次の冒険からずっと続きます。</p>
+    <div class="viewhead"><button class="barbtn" id="metaBack">もどる</button><h2 data-mt="かけらで強くなる">かけらで強くなる</h2></div>
+    <p class="shards"><span data-mt="ことばのかけら">ことばのかけら</span><b id="metaK">0</b></p>
+    <p class="note" data-mt="モンスター戦で敵を倒すと、かけらが手に入ります。やられても、かけらはなくなりません。ここで使った強さは、次の冒険からずっと続きます。">モンスター戦で敵を倒すと、かけらが手に入ります。やられても、かけらはなくなりません。ここで使った強さは、次の冒険からずっと続きます。</p>
     <div class="shop" id="shop"></div>
   </div>
 </section>
@@ -1222,7 +1231,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     <div class="viewhead"><button class="barbtn" id="zukanBack" type="button">もどる</button><h2>図鑑</h2></div>
     <div class="seg" role="group" aria-label="図鑑の種類">
       <button class="opt" data-ztab="mon" type="button"><b>モンスター</b><span id="zkMonN"></span></button>
-      <button class="opt" data-ztab="pow" type="button"><b>ちから</b><span id="zkPowN"></span></button>
+      <button class="opt" data-ztab="pow" type="button"><b data-mt="ちから">ちから</b><span id="zkPowN"></span></button>
     </div>
     <div id="zkList"></div>
   </div>
@@ -2220,6 +2229,14 @@ function show(v){
   document.documentElement.classList.toggle('night', YROOM);
   document.querySelectorAll('meta[name="theme-color"]').forEach(m => { if (!m.dataset.c) m.dataset.c = m.content; m.content = YROOM ? '#13141B' : m.dataset.c; });
   if (v === 'setup') $('#courseGroup').hidden = YROOM;
+  document.querySelectorAll('[data-mt]').forEach(e => { e.textContent = mtxt(e.dataset.mt); });
+  if (v === 'play') {
+    // 魔女裁判モード: the 必殺技 key says 告発, and the scenes are the rooms of the 牢屋敷
+    const spw = mtxt('必殺技');
+    document.querySelectorAll('#spBtn b, [data-k="@special"] b').forEach(b => { b.textContent = spw; });
+    document.querySelectorAll('#spBtn, [data-k="@special"]').forEach(b => b.setAttribute('aria-label', spw + '（ゲージがたまると使えます）'));
+    $('#arena').classList.toggle('mano', mano());
+  }
   // a finger still typing when the game ends must not press something on the result screen
   if (v === 'result') { const r = $('#v-result'); r.style.pointerEvents = 'none'; clearTimeout(show.guard); show.guard = setTimeout(() => { r.style.pointerEvents = ''; }, 500); }
   if (v !== 'play') { $('#keyPop').hidden = true; $('#flickPop').hidden = true; }
@@ -2792,7 +2809,7 @@ function saveSuspend(){
 const suspended = () => ['monster', 'time', 'count', 'daily'].map(m => [m, store.get('suspend:' + m, null)]).filter(([m, sv]) => sv && sv.v === 1 && sv.g);
 function suspendText(sv){
   const g = sv.g;
-  const where = g.mode === 'monster' ? `地下${g.floor}階・体力 ${g.you}/${g.maxHp}` + (Object.keys(g.pw || {}).length ? `・ちから${Object.values(g.pw).reduce((a, b) => a + b, 0)}つ` : '')
+  const where = g.mode === 'monster' ? `地下${g.floor}階・体力 ${g.you}/${g.maxHp}` + (Object.keys(g.pw || {}).length ? `・${mtxt('ちから')}${Object.values(g.pw).reduce((a, b) => a + b, 0)}つ` : '')
     : g.mode === 'time' ? `のこり ${Math.max(0, Math.ceil(LIMIT - g.elapsed))}秒・${g.chars}字`
     : `${g.done}/${COUNT}問`;
   return { head:g.course === 'daily' ? '今日のダンジョン' : `${MODE_NAME[g.mode]}（${KB_NAME[g.kb]}・${courseById(g.course).name}）`, where };
@@ -3286,11 +3303,11 @@ function renderResult(R){
   $('#rShards').hidden = !mon;
   $('#rPath').hidden = !(mon && R.path && R.path.length);
   if (mon && R.path && R.path.length) $('#rPathSvg').innerHTML = pathSvg(R.path, R.died);
-  if (mon) $('#rShards').textContent = `ことばのかけら +${R.shards}（いま ${metaGet().k}個）`;
+  if (mon) $('#rShards').textContent = mtxt(`ことばのかけら +${R.shards}（いま ${metaGet().k}個）`);
   $('#rPowBox').hidden = !mon;
   if (mon) {
     const ids = Object.keys(R.pw);
-    $('#rPow').innerHTML = ids.length ? ids.map(id => `<span class="chip ach-chip"><b>${esc(powName(id))}</b>${R.pw[id] > 1 ? '×' + R.pw[id] : ''}</span>`).join('') : '<span class="note">ちからは集まりませんでした。</span>';
+    $('#rPow').innerHTML = ids.length ? ids.map(id => `<span class="chip ach-chip"><b>${esc(powName(id))}</b>${R.pw[id] > 1 ? '×' + R.pw[id] : ''}</span>`).join('') : `<span class="note">${mtxt('ちからは集まりませんでした。')}</span>`;
   }
   const cells = mon ? [
     ['たおした', R.defeated, '体'],
@@ -3479,7 +3496,8 @@ const META = [
 ];
 const metaGet = () => { const m = store.get('meta', {}); return { k:Math.max(0, +m.k || 0), lv:Object.assign({}, m.lv) }; };
 const P = id => (G && G.pw && G.pw[id]) || 0;
-const powName = id => (POWERS.find(p => p.id === id) || { name:id }).name;
+const powName = id => mano() && MANO_POW[id] ? MANO_POW[id][0] : (POWERS.find(p => p.id === id) || { name:id }).name;
+const powDesc = id => { const p = POWERS.find(q => q.id === id); return !p ? '' : mano() && MANO_POW[id] ? MANO_POW[id][1] + mtxt(p.desc) : p.desc; };
 const restPct = () => 35 + 10 * ((G && G.ml.rest) || 0);
 const ICON = {
   battle:'<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/>',
@@ -3527,17 +3545,18 @@ function openLay(title, sub, opts, onPick, o){
   pauseRun();
   const lay = $('#runLay');
   lay.style.top = $('#stage').offsetTop + 'px';
+  title = mtxt(title); sub = mtxt(sub);
   $('#runTitle').textContent = title;
   $('#runSub').textContent = sub || ''; $('#runSub').hidden = !sub;
   $('#runHp').innerHTML = `体力<span class="gauge you"><i style="width:${Math.max(0, G.you / G.maxHp * 100)}%"></i></span><b>${G.you}/${G.maxHp}</b>`;
   $('#runHp').hidden = !!o.hideHp;
   const owned = Object.keys(G.pw);
-  $('#runPw').textContent = !o.hideHp && owned.length ? 'ちから：' + owned.map(id => powName(id) + (G.pw[id] > 1 ? '×' + G.pw[id] : '')).join('・') : '';
+  $('#runPw').textContent = !o.hideHp && owned.length ? mtxt('ちから') + '：' + owned.map(id => powName(id) + (G.pw[id] > 1 ? '×' + G.pw[id] : '')).join('・') : '';
   const box = $('#runOpts'); box.textContent = '';
   opts.forEach((o, i) => {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'opt node' + (o.rare ? ' rare' : '') + (o.curse ? ' curse' : '');
-    b.innerHTML = icon(o.icon) + `<span class="tx"><b>${esc(o.name)}</b>${o.desc ? `<span>${esc(o.desc)}</span>` : ''}</span>` + (opts.length > 1 ? `<span class="key-n">${i + 1}</span>` : '');
+    b.innerHTML = icon(o.icon) + `<span class="tx"><b>${esc(mtxt(o.name))}</b>${o.desc ? `<span>${esc(mtxt(o.desc))}</span>` : ''}</span>` + (opts.length > 1 ? `<span class="key-n">${i + 1}</span>` : '');
     b.addEventListener('click', () => layPick(i));
     box.appendChild(b);
   });
@@ -3568,7 +3587,7 @@ function rollPowers(n, rare, tag){
   if (n >= 3 && out.length >= 2 && curses.length && r() < 0.22) out[out.length - 1] = curses[0].id;
   return shuffleR(out, r);
 }
-const powOpt = id => { const p = POWERS.find(q => q.id === id); return { icon:p.curse ? 'curse' : p.rare ? 'rare' : 'power', name:(p.curse ? '呪い・' : '') + p.name + (P(id) ? `（いま×${P(id)}）` : ''), desc:p.desc + (p.max > 1 ? `（${p.max}つまで）` : ''), rare:!!p.rare, curse:!!p.curse }; };
+const powOpt = id => { const p = POWERS.find(q => q.id === id); return { icon:p.curse ? 'curse' : p.rare ? 'rare' : 'power', name:(p.curse ? '呪い・' : '') + powName(id) + (P(id) ? `（いま×${P(id)}）` : ''), desc:powDesc(id) + (p.max > 1 ? `（${p.max}つまで）` : ''), rare:!!p.rare, curse:!!p.curse }; };
 function applyPower(id){
   G.pw[id] = (G.pw[id] || 0) + 1;
   if (id === 'margin') { G.maxHp += 10; G.you += 10; }
@@ -3677,6 +3696,81 @@ const GIM = {
   punct: { name:'句読点',   call:'句読点も打て！',           desc:'句読点を打たない設定でも、句読点まで打つ' },
   all:   { name:'ぜんぶ',   call:'すべての術が来る！',       desc:'早打ちに加えて、問題ごとに読み違え・脱字・句読点のどれか' }
 };
+/* ---------- 魔女裁判モード: the same dungeon dressed as the 牢屋敷 of 『魔法少女ノ魔女裁判』 (a fan-made skin).
+   Only names and words change, never the rules or the numbers. The places come from the game; the foes are made up
+   (never the girls or ゴクチョー), from research done in another conversation (2026-11-13) ---------- */
+const MANO_AREAS = [
+  { name:'玄関ホール', mons:[
+      { name:'噂コウモリ', kind:'bat', desc:'ひそひそ声で噂を運ぶ。羽音にまぎれて、読みを聞きちがえさせる。' },
+      { name:'濡れ衣おばけ', kind:'ghost', desc:'ぬれた布をかぶった影。身に覚えのない罪を人に着せたがる。' },
+      { name:'早とちり茸', kind:'mushroom', desc:'話を最後まで聞かずに生える茸。先走って打つほどふくらむ。' },
+      { name:'聞き違いガニ', kind:'crab', desc:'はさみで言葉を切りちがえる。「は」と「わ」の区別がつかない。' } ],
+    boss:{ name:'二枚舌の仮面', kind:'mask', gim:'yomi', desc:'表と裏で別のことを言う大仮面。赤い読みで偽りをささやく。' } },
+  { name:'食堂', mons:[
+      { name:'動く謎料理', kind:'slime', desc:'食堂に並ぶ、ぷるぷる震える一皿。見るだけで食欲がうせる。' },
+      { name:'つまみ食いモグラ', kind:'mole', desc:'皿の字をこっそり食べる。打ち忘れはたいていこいつのしわざ。' },
+      { name:'白い目玉', kind:'eye', desc:'食卓のすみからにらむ冷たい目。見つめられると指がすくむ。' },
+      { name:'疑いの火の玉', kind:'flame', desc:'小さな疑いに火がついたもの。放っておくと燃え広がる。' } ],
+    boss:{ name:'急かし時計', kind:'clock', gim:'haya', desc:'針が進むたびに攻めが速くなる古時計。考えるひまを与えない。' } },
+  { name:'図書室', mons:[
+      { name:'うろ覚えの亡霊', kind:'ghost', desc:'半分だけ覚えている幽霊。もっともらしく読みを取りちがえる。' },
+      { name:'盗み読みの目', kind:'eye', desc:'本のすき間からのぞく目。人の答えを写したがる。' },
+      { name:'棒読み人形', kind:'robot', desc:'感情のない声で、同じ証言を何度もくり返す機械人形。' },
+      { name:'うわの空', kind:'ufo', desc:'心ここにあらずの円盤。ふわふわと話をそらしていく。' } ],
+    boss:{ name:'黒塗りの魔本', kind:'book', gim:'datsu', desc:'読みがなを墨で塗りつぶす古い本。消えた字は漢字が覚えている。' } },
+  { name:'地下牢', mons:[
+      { name:'疑心暗鬼', kind:'demon', desc:'暗がりで生まれる鬼。そばにいる誰もが嘘つきに見えてくる。' },
+      { name:'黙秘だるま', kind:'snowman', desc:'何を聞いても答えない雪の像。冷たい沈黙で手を止める。' },
+      { name:'うなされ茸', kind:'mushroom', desc:'湿った牢のすみに生える茸。胞子を吸うと悪い夢を見る。' },
+      { name:'見回りの看守', kind:'warden', desc:'仮面と黒衣の大きな番人。鍵束を鳴らして夜の廊下を歩く。' } ],
+    boss:{ name:'句読点ムカデ', kind:'centipede', gim:'punct', desc:'点と丸を節にして這う大ムカデ。ひとつ抜かすと噛みつく。' } },
+  { name:'裁判所', mons:[
+      { name:'矛盾ゴーレム', kind:'golem', desc:'片手に矛、片手に盾。前と後で言うことが食いちがう岩人形。' },
+      { name:'言い逃れスライム', kind:'slime', desc:'つかもうとすると、ぬるりと逃げる。話をずらすのが得意。' },
+      { name:'揚げ足ガニ', kind:'crab', desc:'人の言いまちがいをはさんで離さない。打ちミスも見のがさない。' },
+      { name:'尾ひれドラゴン', kind:'dragon', desc:'話に尾ひれを付けるほど大きくなる竜。いまや天井に届く。' } ],
+    boss:{ name:'大嘘の王', kind:'king', gim:'all', desc:'裁判所の奥に座る冠の影。偽証も隠滅も急かしも使いこなす。' } }
+];
+const MANO_GIM = {
+  yomi:  { name:'偽証',     call:'赤い読みは偽証だ！' },
+  haya:  { name:'矢継ぎ早', call:'問いつめがどんどん速まる！' },
+  datsu: { name:'証拠隠滅', call:'消えた読みは漢字が語る！' },
+  punct: { name:'一言一句', call:'句読点も一言一句打て！' },
+  all:   { name:'最終審問', call:'すべての嘘が一度に来る！' }
+};
+const MANO_POW = {
+  crit:['名探偵の勘', 'ときどき嘘の急所を見ぬく。'],
+  armor:['ハンナの浮遊', 'ふわりと浮いて痛みを逃がす。'],
+  mark:['りんごの配給', '食堂でたまに出る、まともな一品。'],
+  slow:['重い足かせ', '相手の足に鉄の輪をはめる。'],
+  punct:['言い直し', 'まちがえても傷は浅くすむ。'],
+  red:['アリサの発火', '打つ一字一字に火がともる。'],
+  margin:['牢の寝台', '寝心地は悪くても体はもつ。'],
+  dict:['ノアの絵の具', '絵の具が満ちるように告発がたまる。'],
+  first:['待った！', '相手の最初の一手を遅らせる。'],
+  ink:['食い下がり', 'ミスしても議論の流れを手放さない。'],
+  revise:['見のがし', '最初のひとつは大目に見てもらえる。'],
+  seal:['追及の手', '続けて打つほど相手がひるむ。'],
+  reprint:['メルルの治癒', '倒れても一度だけ傷がふさがる。'],
+  rush:['前のめり', '炙り出しがすぐに始まる。'],
+  double:['怪力シェリー', '会心の一打が怪力になる。'],
+  eraser:['決めつけ', '強く言い切るが、外せば痛い。'],
+  allnight:['身を削る', '体と引きかえに告発がたまる。'],
+  scribble:['暗がりの勘', '灯りを消して、急所だけを狙う。']
+};
+const MANO_META = { hp:'生存の書', crit:'推理の書', sp:'告発の書', rest:'消灯の書', relic:'収監の書' };
+const MANO_NODE = { '戦闘':'捜査', '強敵':'大きな嘘', '休憩':'消灯', '宝箱':'証拠品', 'ボスの部屋':'開廷' };
+// the dungeon's words, said the 牢屋敷 way (longer phrases first)
+const MANO_WORDS = [['ことばのかけら', '真実のかけら'], ['かけらで強くなる', '真実のかけらで強くなる'],
+  ['かけらが手に入ります', '真実のかけら（ふつうのモードの「ことばのかけら」と同じもの）が手に入ります'],
+  ['ボスをたおした！', '閉廷！'], ['勝った！', '看破！'], ['ボス撃破！！', '閉廷！！'], ['撃破！', '看破！'], ['ボスの気配がする', '開廷の気配がする'], ['階　ひと休み', '階　消灯'], ['宝箱をあけた', '証拠品を見つけた'],
+  ['はじまりのちからを選ぶ', '最初の切り札を選ぶ'], ['はじまりの書', '収監の書'],
+  ['必殺技', '告発'], ['必殺', '告発'], ['フィーバー', '炙り出し'], ['休憩', '消灯'], ['ちから', '切り札']];
+const mano = () => YROOM && (!G || G.course === 'manosaba');
+const mtxt = t => { if (!t || !mano()) return t; if (MANO_NODE[t]) return MANO_NODE[t]; for (const [a, b] of MANO_WORDS) t = t.split(a).join(b); return t; };
+const areasNow = () => mano() ? MANO_AREAS : AREAS;
+const gimOf = k => mano() ? Object.assign({}, GIM[k], MANO_GIM[k]) : GIM[k];
+
 /* 読み違え: one or two kana of a kanji word shown with the wrong voicing or size */
 const SWAP = {};
 for (const [x, y] of ['かが','きぎ','くぐ','けげ','こご','さざ','しじ','すず','せぜ','そぞ','ただ','つづ','てで','とど','はば','ひび','ふぶ','へべ','ほぼ','やゃ','ゆゅ','よょ','つっ']) { SWAP[x] = SWAP[x] || y; SWAP[y] = SWAP[y] || x; }
@@ -3721,6 +3815,15 @@ function monSvg(m){
     king: () => `<path d="M8 94 C4 52 30 28 60 28 C90 28 116 52 112 94 Z" fill="${c}"/><path d="M36 32 L40 8 L52 22 L60 4 L68 22 L80 8 L84 32 Z" fill="#E9B832" stroke="#A97A16" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="17" r="3.5" fill="#D94A4A"/><path d="M34 54 L52 60 M86 54 L68 60" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>${eye(46, 66, 8)}${eye(74, 66, 8)}<path d="M44 84 L50 78 L56 84 L62 78 L68 84 L74 78" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>`,
     dragon: () => `<path d="M60 40 L10 14 L24 44 L4 56 L40 58 Z" fill="${c}" opacity=".85"/><path d="M60 40 L110 14 L96 44 L116 56 L80 58 Z" fill="${c}" opacity=".85"/><path d="M24 96 C20 60 40 36 60 36 C80 36 100 60 96 96 Z" fill="${c}"/><path d="M42 38 L34 12 L50 32 Z M78 38 L86 12 L70 32 Z" fill="#F2E6C8"/><ellipse cx="60" cy="82" rx="20" ry="13" fill="#F2E6C8"/><path d="M38 52 L52 57 M82 52 L68 57" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>${eye(46, 62, 7)}${eye(74, 62, 7)}<path d="M48 74 L54 69 L60 74 L66 69 L72 74" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>`,
     demon: () => `<path d="M20 32 C28 10 40 20 44 34 M100 32 C92 10 80 20 76 34" stroke="#2A1010" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M30 22 C40 36 50 14 60 28 C70 14 80 36 90 22 C96 40 90 50 86 54 L34 54 C30 50 24 40 30 22 Z" fill="#FF7A1A"/><path d="M14 96 C10 56 30 34 60 34 C90 34 110 56 106 96 Z" fill="${c}"/><path d="M34 56 L52 62 M86 56 L68 62" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>${eye(46, 68, 8)}${eye(74, 68, 8)}<path d="M40 84 Q60 96 80 84 Q60 90 40 84 Z" fill="${ink}"/><path d="M48 86 L50 91 L52 87 M68 87 L70 91 L72 86" stroke="#fff" stroke-width="2" fill="none"/>`,
+    // 魔女裁判モード
+    mask: () => `<path d="M8 52 C2 46 6 40 12 44 M112 52 C118 46 114 40 108 44" stroke="${c}" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M60 4 C32 4 14 26 14 50 C14 76 34 96 60 96 Z" fill="${c}"/><path d="M60 4 C88 4 106 26 106 50 C106 76 86 96 60 96 Z" fill="#F4EEE2" stroke="${c}" stroke-width="3"/><path d="M28 40 Q41 28 53 40 Q41 49 28 40 Z" fill="#F4EEE2"/><circle cx="41" cy="40" r="4" fill="${c2}"/><path d="M67 40 Q79 28 92 40 Q79 49 67 40 Z" fill="${c}"/><circle cx="79" cy="40" r="4" fill="${c2}"/><path d="M32 64 Q60 80 88 64" stroke="${c2}" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M54 71 Q60 68 66 71 L65 84 L70 95 L60 88 L50 95 L55 84 Z" fill="${c2}"/>`,
+    clock: () => `<path d="M100 12 l10 -5 M102 24 h10 M100 36 l10 5" stroke="${c2}" stroke-width="3" stroke-linecap="round"/><path d="M36 96 L36 42 L28 34 L28 20 Q60 -2 92 20 L92 34 L84 42 L84 96 Z" fill="${c}"/><circle cx="60" cy="22" r="15" fill="#F4EEE2"/><path d="M60 9 v3 M73 22 h-3 M60 35 v-3 M47 22 h3" stroke="${c}" stroke-width="2"/><path d="M60 22 L60 12 M60 22 L69 27" stroke="${c}" stroke-width="3" stroke-linecap="round"/>${eye(49, 51, 6)}${eye(71, 51, 6)}<path d="M50 66 Q60 60 70 66" stroke="#F4EEE2" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="47" y="72" width="26" height="20" rx="3" fill="#F4EEE2" opacity=".22"/><path d="M60 71 L55 86" stroke="#B8862B" stroke-width="2.5"/><circle cx="54" cy="87" r="5" fill="#B8862B"/><path d="M30 96 h60" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`,
+    book: () => `<path d="M4 26 Q34 12 60 26 Q86 12 116 26 L116 90 Q86 80 60 94 Q34 80 4 90 Z" fill="${c}"/><path d="M11 28 Q36 18 57 31 L57 86 Q36 76 11 84 Z" fill="#F4EEE2"/><path d="M109 28 Q84 18 63 31 L63 86 Q84 76 109 84 Z" fill="#F4EEE2"/><ellipse cx="34" cy="40" rx="11" ry="7" fill="${c}"/><circle cx="35" cy="40" r="4" fill="${c2}"/><ellipse cx="86" cy="40" rx="11" ry="7" fill="${c}"/><circle cx="85" cy="40" r="4" fill="${c2}"/><path d="M18 56 h32 M18 64 h28 M18 72 h32 M70 56 h32 M74 64 h28 M70 72 h30" stroke="#8A8276" stroke-width="2"/><rect x="17" y="60" width="34" height="8" fill="#1D1A16"/><rect x="69" y="66" width="34" height="9" fill="#1D1A16"/><path d="M60 92 L57 100 L61 97 L65 100 L62 92 Z" fill="${c2}"/>`,
+    centipede: () => { const seg = [[16, 86], [27, 81], [38, 77], [49, 74], [60, 70], [71, 65], [81, 58], [89, 49], [95, 39]];
+      return `<g stroke="${c}" stroke-width="3" stroke-linecap="round" fill="none">${seg.map(([x, y]) => `<path d="M${x - 2} ${y + 6} q-4 6 -1 10 M${x + 3} ${y + 6} q4 6 1 10"/>`).join('')}<path d="M97 18 Q92 5 82 6 M107 18 Q112 5 120 8"/></g>`
+        + seg.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="8" fill="${c}"/><circle cx="${x}" cy="${y}" r="3" fill="#F4EEE2"/>`).join('')
+        + `<circle cx="102" cy="28" r="12" fill="${c}"/>${eye(97, 26, 4)}${eye(108, 26, 4)}<path d="M96 37 Q90 45 97 46 M108 37 Q114 45 107 46" stroke="${c2}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`; },
+    warden: () => `<path d="M60 4 C40 4 32 18 32 34 L26 70 L18 96 L30 90 L38 97 L48 90 L58 97 L68 90 L78 97 L88 90 L100 96 L92 70 L88 34 C88 18 80 4 60 4 Z" fill="${c}"/><ellipse cx="60" cy="32" rx="14" ry="17" fill="#F4EEE2"/><path d="M50 30 h7 M63 30 h7" stroke="${c}" stroke-width="3" stroke-linecap="round"/><circle cx="53.5" cy="30" r="1.8" fill="${c2}"/><circle cx="66.5" cy="30" r="1.8" fill="${c2}"/><path d="M55 42 h10" stroke="${c}" stroke-width="2"/><circle cx="88" cy="64" r="8" fill="none" stroke="#B8862B" stroke-width="3"/><path d="M85 72 L83 85 M83 81 h4 M92 71 L96 83 M95 79 h3" stroke="#B8862B" stroke-width="2.5" stroke-linecap="round"/>`,
     mecha: () => `<rect x="14" y="44" width="16" height="40" rx="6" fill="${c}"/><rect x="90" y="44" width="16" height="40" rx="6" fill="${c}"/><path d="M26 96 L30 40 L60 30 L90 40 L94 96 Z" fill="${c}"/><rect x="36" y="10" width="48" height="32" rx="8" fill="${c}"/><path d="M40 20 L80 20 L76 31 L44 31 Z" fill="${ink}"/><circle cx="60" cy="25.5" r="5" fill="${c2}"/><path d="M44 58 L76 58 L72 80 L48 80 Z" fill="rgba(0,0,0,.25)"/><circle cx="60" cy="69" r="6" fill="${c2}"/><path d="M52 10 L56 1 L60 10 M60 10 L64 1 L68 10" stroke="${c2}" stroke-width="2" fill="none"/>`
   };
   return `<svg viewBox="0 0 120 100" aria-hidden="true"><g filter="url(#inkbleed)">${inkify((S[m.kind] || S.slime)())}</g></svg>`;
@@ -3836,7 +3939,7 @@ const artXY = () => { const r = $('#arena').getBoundingClientRect(), a = $('#foe
 function banner(text, kind){
   const ar = $('#arena');
   ar.querySelectorAll('.banner').forEach(b => b.remove());
-  fxEl('banner ' + kind, text, ar, 1000);
+  fxEl('banner ' + kind, mtxt(text), ar, 1000);
 }
 function nburst(dur, freq, q, vol, delay, type){
   const t = AC.currentTime + (delay || 0);
@@ -3882,7 +3985,7 @@ function feverOn(){
 function feverOff(){ if (G && G.fever) { G.fever = false; $('#v-play').classList.remove('fever'); } }
 /* one monster per floor; the area (and its scene) changes every five floors, a boss guards each fifth floor */
 function spawnMonster(n, type){
-  const ai = Math.floor((n - 1) / 5) % AREAS.length, area = AREAS[ai], boss = type === 'boss', elite = type === 'elite';
+  const AR = areasNow(), ai = Math.floor((n - 1) / 5) % AR.length, area = AR[ai], boss = type === 'boss', elite = type === 'elite';
   const t = boss ? area.boss : area.mons[Math.floor(dayRng('mon' + n + type)() * area.mons.length)];
   let hp, atk, every;
   // tuned by play-testing: about 地下7階 at 60 kana a minute, 地下15階 at 160, 地下30階 at 300;
@@ -3904,7 +4007,7 @@ function spawnMonster(n, type){
 }
 function showMon(m){
   const n = m.n, boss = m.boss, elite = !!m.elite;
-  const ai = Math.floor((n - 1) / 5) % AREAS.length, area = AREAS[ai];
+  const AR = areasNow(), ai = Math.floor((n - 1) / 5) % AR.length, area = AR[ai];
   const art = $('#foeArt'), ar = $('#arena');
   // a new area every five monsters: new scene and a call-out
   if (ar.dataset.area !== String(ai + 1)) {
@@ -3919,9 +4022,9 @@ function showMon(m){
   requestAnimationFrame(smoke);
   if (boss) {
     const w = fxEl('warn', '', $('#arena'), 1500);
-    w.innerHTML = '<span>ボス出現</span><i>主</i>';
+    w.innerHTML = mano() ? '<span>開廷</span><i>審</i>' : '<span>ボス出現</span><i>主</i>';
     sfx('warn'); vib([60, 60, 60, 60, 60]);
-    if (m.gim) setTimeout(() => { if (G && !G.ended && G.mon === m) banner(GIM[m.gim].call, 'ok'); }, 1600);
+    if (m.gim) setTimeout(() => { if (G && !G.ended && G.mon === m) banner(gimOf(m.gim).call, 'ok'); }, 1600);
   }
   $('#foeHpGhost').style.transition = 'none';
   renderArena();
@@ -4027,7 +4130,7 @@ function renderArena(){
     $('#foeName').textContent = m.name;
     $('#foeName').classList.toggle('boss', m.boss);
     $('#foeName').classList.toggle('elite', !!m.elite);
-    $('#foeLv').textContent = (m.boss ? 'BOSS ' : m.elite ? '強敵 ' : '') + 'Lv.' + m.n + (m.gim ? '・' + GIM[m.gim].name : '');
+    $('#foeLv').textContent = (m.boss ? 'BOSS ' : m.elite ? mtxt('強敵') + ' ' : '') + 'Lv.' + m.n + (m.gim ? '・' + gimOf(m.gim).name : '');
     const w = Math.max(0, m.hp / m.max * 100) + '%';
     $('#foeHp').style.width = w; $('#foeHpGhost').style.width = w;
     $('#foeHpN').textContent = Math.max(0, Math.ceil(m.hp)) + '/' + m.max;
@@ -4057,7 +4160,7 @@ function special(){
   begin();
   G.sp = 0; G.specials++;
   const g = G, ar = $('#arena');
-  banner('必殺！タイプ乱舞', 'special'); sfx('special'); vib([40, 30, 40, 30, 120]);
+  banner(mano() ? '告発！' : '必殺！タイプ乱舞', 'special'); sfx('special'); vib([40, 30, 40, 30, 120]);
   flash(ar, 'sp-flash', 430);
   if (G.mon.next != null) G.mon.next += 2.5;
   renderArena();
@@ -4671,7 +4774,8 @@ function renderMeta(){
   for (const u of META) {
     const lv = M.lv[u.id] || 0, maxed = lv >= u.max, cost = u.cost(lv);
     const row = document.createElement('div'); row.className = 'shop-row';
-    row.innerHTML = `<span class="tx"><b>${esc(u.name)}<span class="lv">${lv}/${u.max}</span></b><span>${esc(u.desc)}${lv ? '（' + esc(u.now(lv)) + '）' : ''}</span></span>`;
+    const uName = mano() ? MANO_META[u.id] : u.name;
+    row.innerHTML = `<span class="tx"><b>${esc(uName)}<span class="lv">${lv}/${u.max}</span></b><span>${esc(mtxt(u.desc))}${lv ? '（' + esc(u.now(lv)) + '）' : ''}</span></span>`;
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'secondary small';
     b.textContent = maxed ? 'いっぱい' : `かけら ${cost}`;
@@ -4680,7 +4784,7 @@ function renderMeta(){
       const M2 = metaGet(), l2 = M2.lv[u.id] || 0, c2 = u.cost(l2);
       if (l2 >= u.max || M2.k < c2) return;
       M2.k -= c2; M2.lv[u.id] = l2 + 1; store.set('meta', M2);
-      toast(`${u.name}で強くなりました`); renderMeta();
+      toast(`${uName}で強くなりました`); renderMeta();
     });
     row.appendChild(b); box.appendChild(row);
   }
@@ -4719,25 +4823,25 @@ $('#shuinBack').addEventListener('click', menuView);
 $('#openShuin2').addEventListener('click', openShuin);
 let ZTAB = 'mon';
 function renderZukan(){
-  const z = ZK(), allMons = AREAS.flatMap(a => [...a.mons, a.boss]);
+  const AR = areasNow(), z = ZK(), allMons = AR.flatMap(a => [...a.mons, a.boss]);
   const metM = allMons.filter(t => z.m[t.name]).length, gotP = POWERS.filter(p => z.p[p.id]).length;
   $('#zkMonN').textContent = `${metM} / ${allMons.length}`;
   $('#zkPowN').textContent = `${gotP} / ${POWERS.length}`;
   document.querySelectorAll('[data-ztab]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ztab === ZTAB)));
   const box = $('#zkList');
   if (ZTAB === 'mon') {
-    box.innerHTML = AREAS.map((a, ai) => `<h3 class="zk-area">${esc(a.name)}<small>地下${ai * 5 + 1}〜${ai * 5 + 5}階</small></h3><div class="zk-grid">` + [...a.mons, a.boss].map(t => {
+    box.innerHTML = AR.map((a, ai) => `<h3 class="zk-area">${esc(a.name)}<small>地下${ai * 5 + 1}〜${ai * 5 + 5}階</small></h3><div class="zk-grid">` + [...a.mons, a.boss].map(t => {
       const e = z.m[t.name], boss = t === a.boss;
       return `<div class="zk${e ? '' : ' unseen'}${boss ? ' boss' : ''}"><div class="art">${monSvg({ name:t.name, kind:t.kind })}</div>`
-        + (e ? `<b>${esc(t.name)}</b>${boss ? `<span class="gim">特技：${esc(GIM[t.gim].name)}</span>` : ''}<p>${esc(t.desc)}</p><small>出会った ${e.s}・たおした ${e.b}</small>`
+        + (e ? `<b>${esc(t.name)}</b>${boss ? `<span class="gim">特技：${esc(gimOf(t.gim).name)}</span>` : ''}<p>${esc(t.desc)}</p><small>出会った ${e.s}・たおした ${e.b}</small>`
              : `<b>？？？</b><p>${boss ? 'この階のボス。まだ出会っていない。' : 'まだ出会っていない。'}</p>`) + '</div>';
     }).join('') + '</div>').join('');
   } else {
     const group = (title, list) => `<h3 class="zk-area">${title}</h3><div class="zk-pows">` + list.map(p => {
       const n = z.p[p.id];
-      return `<div class="zkp${n ? '' : ' unseen'}${p.rare ? ' rare' : ''}${p.curse ? ' curse' : ''}">${icon(p.curse ? 'curse' : p.rare ? 'rare' : 'power')}<div><b>${n ? esc(p.name) : '？？？'}</b><p>${n ? esc(p.desc) + (p.max > 1 ? `（${p.max}つまで）` : '') : 'まだ手に入れていない。'}</p>${n ? `<small>手に入れた ${n}回</small>` : ''}</div></div>`;
+      return `<div class="zkp${n ? '' : ' unseen'}${p.rare ? ' rare' : ''}${p.curse ? ' curse' : ''}">${icon(p.curse ? 'curse' : p.rare ? 'rare' : 'power')}<div><b>${n ? esc(powName(p.id)) : '？？？'}</b><p>${n ? esc(powDesc(p.id)) + (p.max > 1 ? `（${p.max}つまで）` : '') : 'まだ手に入れていない。'}</p>${n ? `<small>手に入れた ${n}回</small>` : ''}</div></div>`;
     }).join('') + '</div>';
-    box.innerHTML = group('ふつうのちから', POWERS.filter(p => !p.rare && !p.curse)) + group('めずらしいちから', POWERS.filter(p => p.rare)) + group('呪いのちから', POWERS.filter(p => p.curse));
+    box.innerHTML = group(mtxt('ふつうのちから'), POWERS.filter(p => !p.rare && !p.curse)) + group(mtxt('めずらしいちから'), POWERS.filter(p => p.rare)) + group(mtxt('呪いのちから'), POWERS.filter(p => p.curse));
   }
 }
 $('#openZukan').addEventListener('click', () => { show('zukan'); renderZukan(); });
@@ -4749,7 +4853,7 @@ let metaFrom = 'home';
 function openMeta(from){ metaFrom = from; show('meta'); renderMeta(); }
 $('#openMeta').addEventListener('click', () => openMeta('home'));
 $('#rOpenMeta').addEventListener('click', () => openMeta('result'));
-$('#metaBack').addEventListener('click', () => { if (metaFrom === 'result' && LAST) { show('result'); if (LAST.mode === 'monster') $('#rShards').textContent = `ことばのかけら +${LAST.shards}（いま ${metaGet().k}個）`; } else menuView(); });
+$('#metaBack').addEventListener('click', () => { if (metaFrom === 'result' && LAST) { show('result'); if (LAST.mode === 'monster') $('#rShards').textContent = mtxt(`ことばのかけら +${LAST.shards}（いま ${metaGet().k}個）`); } else menuView(); });
 $('#rAch').addEventListener('click', () => openShuin());
 
 /* ================= ads: 忍者AdMax, on the public site only, never on the typing screen ================= */
@@ -4819,6 +4923,8 @@ document.querySelectorAll('[data-ydoor]').forEach(b => b.addEventListener('click
 document.querySelectorAll('[data-ynew]').forEach(b => b.addEventListener('click', () => { dropSuspend('yuki-' + b.dataset.ynew); renderYuki(); toast('中断した回を消しました'); }));
 $('#yHowBtn').addEventListener('click', () => openSetup(false));
 $('#yRank').addEventListener('click', () => openRank('combo'));
+$('#yZukan').addEventListener('click', () => { show('zukan'); renderZukan(); });
+$('#yMeta').addEventListener('click', () => openMeta('home'));
 const leaveYuki = () => { YROOM = false; show('home'); renderHome(); };
 $('#yukiBack').addEventListener('click', leaveYuki);
 $('#yLeave').addEventListener('click', leaveYuki);
