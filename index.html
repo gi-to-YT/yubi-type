@@ -748,8 +748,10 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .dn small{font-size:11px;color:var(--mute)}
 .seal-s{width:66px;height:66px;display:grid;place-items:center;writing-mode:vertical-rl;background:var(--shu);color:var(--shu-ink);font:400 20px/1.05 var(--font-brush);border-radius:4px;filter:url(#rough2);transform:rotate(-4deg)}
 .seal-s.none{background:none;border:2px dashed var(--line);color:var(--faint);filter:none}
-.dan-table{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 12px;border-block:2px solid var(--ink);padding-block:8px}
-.dan-table li{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;padding:3px 0;border-bottom:1px solid var(--line)}
+.dan-table{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;border-block:2px solid var(--ink);padding-block:4px}
+.dan-table li{display:grid;grid-template-columns:1.2fr 1fr 1fr;align-items:baseline;font-size:13px;padding:4px 0;border-bottom:1px solid var(--line)}
+.dan-table li span{text-align:right}
+.dan-table li.hd b,.dan-table li.hd span{font:700 11px var(--font-ui);color:var(--mute);letter-spacing:.08em}
 .dan-table b{font:400 16px var(--font-brush)}
 .dan-table span{font:800 12px var(--font-mincho);color:var(--mute)}
 #v-dan .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -1257,6 +1259,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </div>
     <div class="group">
       <h2 class="label">段位の目安（1分あたりの文字数）</h2>
+      <p class="note">スマホの画面のキーボード（QWERTY・テンキー）と、本物のキーボード（PC）では、目安が違います。</p>
       <ol class="dan-table" id="danTable"></ol>
     </div>
   </div>
@@ -1770,10 +1773,15 @@ const DAN_ITEMS = `新幹線|しんかんせん
 駅前の本屋で新しい漫画を買った。|えきまえのほんやであたらしいまんがをかった。
 雨がやんだら公園に行こう。|あめがやんだらこうえんにいこう。
 打ちまちがえても、あきらめずに続けよう。|うちまちがえても、あきらめずにつづけよう。`;
-// 1分あたりの文字数 for each grade; 正確率 90% or more is needed
-const DAN = [[40, '五級'], [60, '四級'], [80, '三級'], [100, '二級'], [120, '一級'], [140, '初段'], [165, '二段'], [190, '三段'], [220, '四段'], [250, '五段'], [290, '六段'], [330, '七段'], [380, '八段'], [440, '九段'], [500, '十段']];
+// 1分あたりの文字数 for each grade; 正確率 90% or more is needed. The keyboard on a phone's screen and a real keyboard
+// have their own scales (2026-11-13: the single scale up to 500 was out of reach on a phone; the PC average is about
+// 110 kana a minute, so 初段 sits a little above it, and 十段 is for the very fastest)
+const DAN_NAMES = ['五級', '四級', '三級', '二級', '一級', '初段', '二段', '三段', '四段', '五段', '六段', '七段', '八段', '九段', '十段'];
+const DAN_MIN = { phone:[20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 145, 160, 180, 200],
+                  pc:[40, 55, 70, 85, 100, 115, 130, 150, 170, 190, 215, 240, 270, 300, 340] };
+const danTab = src => DAN_MIN[src === 'pc' ? 'pc' : 'phone'].map((v, i) => [v, DAN_NAMES[i]]);
 const DAN_ACC = 90;
-const danOf = (cpm, acc) => { if (acc < DAN_ACC) return -1; let i = -1; DAN.forEach(([v], j) => { if (cpm >= v) i = j; }); return i; };
+const danOf = (cpm, acc, src) => { if (acc < DAN_ACC) return -1; let i = -1; danTab(src).forEach(([v], j) => { if (cpm >= v) i = j; }); return i; };
 const yukiOn = () => getNick() === YUKI;
 const lines = s => s.trim().split('\n').map(x => x.trim()).filter(Boolean);
 const COURSES = [
@@ -3167,7 +3175,7 @@ function results(){
            powers:Object.values(G.pw).reduce((a, b) => a + b, 0),
            cursed:POWERS.some(p => p.curse && G.pw[p.id]),
            path:(G.path || []).slice(), died:G.you <= 0,
-           danIdx:G.course === 'dan' ? danOf(cpm, acc) : null,
+           danIdx:G.course === 'dan' ? danOf(cpm, acc, G.hw > 0 ? 'pc' : G.kb) : null,
            // typed on a real keyboard: those records go to the PC ranking
            src:G.hw > 0 ? 'pc' : G.kb };
 }
@@ -3293,7 +3301,7 @@ function renderResult(R){
   $('#rMeta').textContent = metaText(R);
   $('#rFan').hidden = R.course !== 'manosaba';
   const rk = $('#rRank');
-  const dan = R.course === 'dan', dname = dan ? (R.danIdx >= 0 ? DAN[R.danIdx][1] : '修行中') : null;
+  const dan = R.course === 'dan', dname = dan ? (R.danIdx >= 0 ? DAN_NAMES[R.danIdx] : '修行中') : null;
   rk.textContent = dan ? dname : R.rank; rk.dataset.len = [...rk.textContent].length;
   rk.classList.toggle('fail', dan && R.danIdx < 0);
   if (!RM) { rk.classList.remove('stamp'); void rk.offsetWidth; rk.classList.add('stamp'); }
@@ -3304,10 +3312,10 @@ function renderResult(R){
   $('#rBest').textContent = R.newBest ? (R.prev ? `これまでのベストは ${pv} でした` : 'この組み合わせの最初の記録です') : (R.prev ? `ベストは ${pv}` : '');
   $('#rNext').textContent = R.next ? `あと ${R.next.need} 文字/分で「${R.next.name}」` : 'いちばん上のランクです';
   if (dan) {
-    const nx = DAN[R.danIdx + 1];
+    const nx = danTab(R.src)[R.danIdx + 1];
     $('#rNext').textContent = R.danIdx < 0 && R.acc < DAN_ACC ? `正確率 ${DAN_ACC}%以上で段位がつきます（いま ${R.acc}%）`
       : nx ? `あと ${nx[0] - R.cpm} 文字/分で「${nx[1]}」` : 'いちばん上の段位です';
-    $('#rBest').textContent = R.danPrev != null && R.danIdx > R.danPrev ? `昇段！　${R.danPrev >= 0 ? DAN[R.danPrev][1] : '段位なし'} → ${dname}` : R.danPrev != null && R.danPrev >= 0 ? `これまでの段位は ${DAN[R.danPrev][1]}` : $('#rBest').textContent;
+    $('#rBest').textContent = R.danPrev != null && R.danIdx > R.danPrev ? `昇段！　${R.danPrev >= 0 ? DAN_NAMES[R.danPrev] : '段位なし'} → ${dname}` : R.danPrev != null && R.danPrev >= 0 ? `これまでの段位は ${DAN_NAMES[R.danPrev]}` : $('#rBest').textContent;
   }
   $('#shareImg').textContent = dan && R.danIdx >= 0 ? '認定証を保存' : '画像で保存';
   $('#rShards').hidden = !mon;
@@ -3447,8 +3455,8 @@ function curTitle(){
 function recordDan(R){
   if (R.course !== 'dan') return;
   const key = 'dan:' + R.src, prev = store.get(key, null);
-  R.danPrev = prev ? prev.idx : null;
-  if (R.danIdx >= 0 && (!prev || R.danIdx > prev.idx)) store.set(key, { idx:R.danIdx, cpm:R.cpm, acc:R.acc, at:todayKey() });
+  R.danPrev = prev ? danOf(prev.cpm, prev.acc == null ? 100 : prev.acc, R.src) : null;
+  if (R.danIdx >= 0 && (!prev || R.danIdx > R.danPrev)) store.set(key, { idx:R.danIdx, cpm:R.cpm, acc:R.acc, at:todayKey() });
 }
 function recordGame(R){
   recordDan(R);
@@ -3750,22 +3758,22 @@ const MANO_GIM = {
   all:   { name:'最終審問', call:'すべての嘘が一度に来る！' }
 };
 const MANO_POW = {
-  crit:['名探偵の勘', 'ときどき嘘の急所を見ぬく。'],
+  crit:['ココの千里眼', '遠くの急所まで見通す。'],
   armor:['ハンナの浮遊', 'ふわりと浮いて痛みを逃がす。'],
-  mark:['りんごの配給', '食堂でたまに出る、まともな一品。'],
-  slow:['重い足かせ', '相手の足に鉄の輪をはめる。'],
+  mark:['メルルの治癒', '勝つたびに傷がふさがる。'],
+  slow:['アンアンの洗脳', '「急がなくていい」と思いこませる。'],
   punct:['言い直し', 'まちがえても傷は浅くすむ。'],
-  red:['アリサの発火', '打つ一字一字に火がともる。'],
+  red:['怪力シェリー', '打つ一字一字が怪力になる。'],
   margin:['牢の寝台', '寝心地は悪くても体はもつ。'],
   dict:['ノアの絵の具', '絵の具が満ちるように告発がたまる。'],
   first:['ちょっと待って！', '相手の最初の一手を遅らせる。'],
   ink:['反論', 'ミスしても議論の流れを手放さない。'],
-  revise:['見のがし', '最初のひとつは大目に見てもらえる。'],
-  seal:['追及の手', '続けて打つほど相手がひるむ。'],
-  reprint:['メルルの治癒', '倒れても一度だけ傷がふさがる。'],
-  rush:['前のめり', '炙り出しがすぐに始まる。'],
-  double:['怪力シェリー', '会心の一打が怪力になる。'],
-  eraser:['決めつけ', '強く言い切るが、外せば痛い。'],
+  revise:['レイアの視線誘導', '最初のミスから目をそらさせる。'],
+  seal:['ナノカの幻視', '見えないものを見て、相手の手を読む。'],
+  reprint:['ヒロの死に戻り', '倒れても一度だけやり直せる。'],
+  rush:['アリサの発火', '炙り出しにすぐ火がつく。'],
+  double:['マーゴのモノマネ', '会心の一打をまねて重ねる。'],
+  eraser:['ミリアの入れ替わり', '攻めと守りが入れ替わる。'],
   allnight:['身を削る', '体と引きかえに告発がたまる。'],
   scribble:['暗がりの勘', '灯りを消して、急所だけを狙う。']
 };
@@ -4409,7 +4417,7 @@ async function makeCert(R){
   const W = 1200, H = 848, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
   const x = cv.getContext('2d'), rnd = seeded(hashStr('cert' + R.cpm + todayKey()));
   const F = '"Zen Kaku Gothic New","Hiragino Sans",sans-serif', BR = '"Yuji Syuku","Hiragino Mincho ProN",serif', MC = '"Shippori Mincho B1","Hiragino Mincho ProN",serif';
-  const dn = DAN[R.danIdx][1], kbn = KB_NAME[R.src === 'pc' ? 'pc' : R.kb], nick = getNick();
+  const dn = DAN_NAMES[R.danIdx], kbn = KB_NAME[R.src === 'pc' ? 'pc' : R.kb], nick = getNick();
   try { await Promise.all([document.fonts.load(`400 40px "Yuji Syuku"`, '段位認定証ゆびタイプ認定' + dn + nick), document.fonts.load(`800 40px "Shippori Mincho B1"`, '右の者は試験において一分あたり文字正確率を記録し上記の段位に認定する年月日殿0123456789.%（）' + kbn + nick)]); } catch(e) {}
   x.fillStyle = '#F1EBDD'; x.fillRect(0, 0, W, H);
   x.strokeStyle = '#6B5A40';
@@ -4803,10 +4811,11 @@ function renderMeta(){
 }
 function renderDan(){
   $('#danNow').innerHTML = [['qwerty', 'QWERTY'], ['flick', 'テンキー'], ['pc', 'PC']].map(([k, nm]) => {
-    const d = store.get('dan:' + k, null);
-    return `<div class="dn"><span class="seal-s${d ? '' : ' none'}">${d ? esc(DAN[d.idx][1]) : '無段'}</span><b>${nm}</b><small>${d ? `${d.cpm}字/分・${md(d.at)}` : 'まだ受けていない'}</small></div>`;
+    const d = store.get('dan:' + k, null), di = d ? danOf(d.cpm, d.acc == null ? 100 : d.acc, k) : -1;
+    return `<div class="dn"><span class="seal-s${di >= 0 ? '' : ' none'}">${di >= 0 ? esc(DAN_NAMES[di]) : '無段'}</span><b>${nm}</b><small>${d ? `${d.cpm}字/分・${md(d.at)}` : 'まだ受けていない'}</small></div>`;
   }).join('');
-  $('#danTable').innerHTML = DAN.map(([v, n]) => `<li><b>${n}</b><span>${v}字〜</span></li>`).join('');
+  $('#danTable').innerHTML = '<li class="hd"><b>段位</b><span>スマホ</span><span>PC</span></li>'
+    + DAN_NAMES.map((n, i) => `<li><b>${n}</b><span>${DAN_MIN.phone[i]}字〜</span><span>${DAN_MIN.pc[i]}字〜</span></li>`).join('');
 }
 function startDan(kb){ S.kb = kb; saveS(); unlockAudio(); startGame({ course:'dan', mode:'count', conv:false, punct:true }); }
 $('#danQwerty').addEventListener('click', () => startDan('qwerty'));
