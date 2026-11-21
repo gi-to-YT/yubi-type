@@ -23,6 +23,18 @@ service cloud.firestore {
       // 消せるのは自分の記録だけ（設定の「ランキングから自分の記録を消す」）。ほかは管理者がコンソールで消す
       allow delete: if request.auth != null && request.auth.uid == uid;
     }
+    // ランキングの名前の報告（名前を押して「知らせる」）。書けるだけで、ページからは読めない。管理者がコンソールで見る
+    // reports/<報告した人のID>_<報告された人のID>。同じ人を2回は報告できない（作るだけで上書きできない）
+    match /reports/{rid} {
+      allow create: if request.auth != null
+        && rid == request.auth.uid + '_' + request.resource.data.target
+        && request.resource.data.keys().hasOnly(['board', 'target', 'name', 'by', 'at'])
+        && request.resource.data.by == request.auth.uid
+        && request.resource.data.board is string && request.resource.data.board.size() <= 80
+        && request.resource.data.target is string && request.resource.data.target.size() >= 1 && request.resource.data.target.size() <= 64
+        && request.resource.data.name is string && request.resource.data.name.size() <= 40
+        && request.resource.data.at == request.time;
+    }
     // それ以外の場所は読み書きできない
     match /{document=**} {
       allow read, write: if false;

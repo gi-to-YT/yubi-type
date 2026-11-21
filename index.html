@@ -707,7 +707,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .modal.sheet{place-items:end center;padding-bottom:max(16px, env(safe-area-inset-bottom,0px))}
 .pick{max-height:82vh;overflow:auto;gap:10px}
 .rank-report{font-size:12px}
+.rank-report{color:var(--mute)}
 .rank-report a{color:var(--mute)}
+.ranklist .nmbtn{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:baseline;-webkit-tap-highlight-color:transparent}
 .nickset .rank-del{align-self:flex-start;font-size:12px;color:var(--mute)}
 .pickhead{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .pickhead h2{margin:0;font:400 24px/1.2 var(--font-brush)}
@@ -1345,7 +1347,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </form>
     <p class="note" id="rankStatus"></p>
     <ol class="ranklist" id="rankList"></ol>
-    <p class="note rank-report"><a href="https://github.com/gi-to-YT/yubi-type/issues/new?title=%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E3%81%AE%E5%90%8D%E5%89%8D%E3%81%AE%E5%A0%B1%E5%91%8A&amp;body=%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E3%81%AE%E7%A8%AE%E9%A1%9E%EF%BC%9A%0A%E5%90%8D%E5%89%8D%EF%BC%9A%0A%E7%90%86%E7%94%B1%EF%BC%9A" target="_blank" rel="noopener">ふさわしくない名前を見つけたら、知らせてください</a></p>
+    <p class="note rank-report">ふさわしくない名前は、その名前を押すと知らせられます（この端末では見えなくなります）。ほかの連絡は <a href="https://github.com/gi-to-YT/yubi-type/issues/new?title=%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E3%81%AE%E5%90%8D%E5%89%8D%E3%81%AE%E5%A0%B1%E5%91%8A&amp;body=%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E3%81%AE%E7%A8%AE%E9%A1%9E%EF%BC%9A%0A%E5%90%8D%E5%89%8D%EF%BC%9A%0A%E7%90%86%E7%94%B1%EF%BC%9A" target="_blank" rel="noopener">GitHub の Issues</a> へ。</p>
     <div class="group">
       <h2 class="label">この端末の自己ベスト</h2>
       <ol class="ranklist" id="rankLocal"></ol>
@@ -5119,6 +5121,13 @@ async function firebaseBackend(){
         return 'saved';
       } catch(e) { return 'error'; }
     },
+    // a name someone found unfit: kept for the maker to look at in the console (nobody can read it from the page)
+    async report(board, target, name){
+      try {
+        await F.setDoc(F.doc(db, 'reports', uid + '_' + String(target).slice(0, 64)), { board:String(board).slice(0, 80), target:String(target).slice(0, 64), name:String(name).slice(0, 40), by:uid, at:F.serverTimestamp() });
+        return true;
+      } catch(e) { return false; }
+    },
     // take this device's records off every board it may have written to
     async remove(keys){
       let n = 0;
@@ -5160,18 +5169,34 @@ function rankInit(){
   })();
   return RANK.ready;
 }
-function fillRankList(ol, rows, mode, max, extra){
+function fillRankList(ol, rows, mode, max, extra, board){
   ol.textContent = '';
   const list = rows.slice(0, max);
   if (extra && !list.some(r => r.me)) list.push(extra);
+  const hidden = new Set(store.get('hiddenNames', []));
   for (const r of list) {
     const li = document.createElement('li'); if (r.me) li.className = 'me';
     const n = document.createElement('span'); n.className = 'rk'; n.textContent = r.place;
-    const shown = badNick(r.name) ? '（表示しない名前）' : r.name;
+    const shown = badNick(r.name) ? '（表示しない名前）' : !r.me && hidden.has(r.id) ? '（見えなくした名前）' : r.name;
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.me ? `${shown}（あなた）` : shown;
+    if (board && r.id && !r.me && shown === r.name) {
+      const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'nmbtn'; bt.textContent = shown;
+      bt.setAttribute('aria-label', `${shown}（押すと、ふさわしくない名前として知らせられます）`);
+      bt.addEventListener('click', () => reportName(board, r, nm));
+      nm.textContent = ''; nm.appendChild(bt);
+    }
     const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = mode === 'monster' ? `地下${r.s}階・${r.s2}文字/分` : `${r.s} 文字/分`;
     li.append(n, nm, sc); ol.appendChild(li);
   }
+}
+// someone else's name on the ranking: tell the maker about it, and stop showing it on this device
+async function reportName(board, r, nm){
+  if (!confirm(`「${r.name}」を、ふさわしくない名前として知らせますか？\nこの端末では、この名前が見えなくなります。`)) return;
+  const h = store.get('hiddenNames', []); if (!h.includes(r.id)) { h.push(r.id); store.set('hiddenNames', h.slice(-300)); }
+  nm.textContent = '（見えなくした名前）';
+  let ok = false;
+  try { ok = !!(RANK.be && typeof RANK.be.report === 'function' && await RANK.be.report(board, r.id, r.name)); } catch(e) {}
+  toast(ok ? '知らせました。この端末では見えなくしました' : 'この端末では見えなくしました');
 }
 const SENT_NOTE = { nowrite:'（このページの共有のしかたでは、あなたの点は送られません）', error:'（記録を送れませんでした）', needname:'' };
 // the boards a game goes to: its own, and this week's (今日のダンジョン is already a board of its own day)
@@ -5251,7 +5276,7 @@ async function rankAfterGame(R){
   box.textContent = (R.src === 'pc' ? 'PC（キーボードで打った人）の中で ' : '') + (res.meRow ? `${res.total}人中 ${res.meRow.place}位` : res.total ? `${res.total}人が記録しています` : 'まだだれも記録していません')
     + (wres && wres.meRow ? `。今週は ${wres.total}人中 ${wres.meRow.place}位` : '')
     + (sent === 'needname' ? '。名前を決めると、この点がランキングに載ります' : SENT_NOTE[sent] || '');
-  fillRankList(ol, res.rows, R.mode, 3, res.meRow);
+  fillRankList(ol, res.rows, R.mode, 3, res.meRow, key);
 }
 /* the nickname shown on the public ranking (claude.ai uses the account name instead) */
 function saveNick(input, msg){
@@ -5318,7 +5343,7 @@ async function renderRankView(){
   if (VIEW !== 'rank' || rankBoardNow().key !== bd.key) return;
   if (!res) { st.textContent = 'ランキングを読み込めませんでした。'; return; }
   st.textContent = res.total ? `${res.total}人が記録しています。` + (RANK.be.canWrite === false ? 'このページの共有のしかたでは、あなたの記録は送られません。' : '') : 'まだだれも記録していません。遊ぶと、ここに載ります。';
-  fillRankList(ol, res.rows, bd.mode, 50, res.meRow);
+  fillRankList(ol, res.rows, bd.mode, 50, res.meRow, bd.key);
 }
 function openRank(tab, kb){ if (tab) RTAB = tab; if (kb) RKB = kb; show('rank'); renderRankView(); }
 document.querySelectorAll('[data-rtab]').forEach(b => b.addEventListener('click', () => { RTAB = b.dataset.rtab; renderRankView(); }));
