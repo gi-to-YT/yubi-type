@@ -706,6 +706,9 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
 .modal-in{border-radius:6px}
 .modal.sheet{place-items:end center;padding-bottom:max(16px, env(safe-area-inset-bottom,0px))}
 .pick{max-height:82vh;overflow:auto;gap:10px}
+.rank-report{font-size:12px}
+.rank-report a{color:var(--mute)}
+.nickset .rank-del{align-self:flex-start;font-size:12px;color:var(--mute)}
 .pickhead{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .pickhead h2{margin:0;font:400 24px/1.2 var(--font-brush)}
 .pick #editCustom{align-self:flex-start;font-size:13px}
@@ -1008,6 +1011,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
         <label for="nickInput3">名前（ランキングに出す名前・12文字まで）</label>
         <div class="nickrow"><input id="nickInput3" maxlength="12" autocomplete="nickname" enterkeyhint="done"><button class="primary small" type="submit">決める</button></div>
         <p class="msg" id="nickMsg3" hidden></p>
+        <button class="linkbtn rank-del" id="rankDelete" type="button">ランキングから自分の記録を消す</button>
       </form>
       <div class="optbox setrows" id="installBox" hidden>
         <div class="setrow"><span class="lt">ホーム画面に追加<small id="installNote">アプリのように開けて、電波がなくても遊べます</small></span><button class="secondary small" id="installBtn" type="button" hidden>追加する</button></div>
@@ -1341,6 +1345,7 @@ h1,.viewhead h2,.custom h2{font-family:var(--font-brush);font-weight:400}
     </form>
     <p class="note" id="rankStatus"></p>
     <ol class="ranklist" id="rankList"></ol>
+    <p class="note rank-report"><a href="https://github.com/gi-to-YT/yubi-type/issues/new?title=%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E3%81%AE%E5%90%8D%E5%89%8D%E3%81%AE%E5%A0%B1%E5%91%8A&amp;body=%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E3%81%AE%E7%A8%AE%E9%A1%9E%EF%BC%9A%0A%E5%90%8D%E5%89%8D%EF%BC%9A%0A%E7%90%86%E7%94%B1%EF%BC%9A" target="_blank" rel="noopener">ふさわしくない名前を見つけたら、知らせてください</a></p>
     <div class="group">
       <h2 class="label">この端末の自己ベスト</h2>
       <ol class="ranklist" id="rankLocal"></ol>
@@ -2057,7 +2062,7 @@ const DAN_MIN = { flick:[20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 145, 160
 const danTab = src => DAN_MIN[src === 'pc' ? 'pc' : src === 'flick' ? 'flick' : 'qwerty'].map((v, i) => [v, DAN_NAMES[i]]);
 const DAN_ACC = 90;
 const danOf = (cpm, acc, src) => { if (acc < DAN_ACC) return -1; let i = -1; danTab(src).forEach(([v], j) => { if (cpm >= v) i = j; }); return i; };
-const yukiOn = () => getNick() === YUKI;
+const yukiOn = () => !APP && getNick() === YUKI;
 const lines = s => s.trim().split('\n').map(x => x.trim()).filter(Boolean);
 const COURSES = [
   { id:'words',     name:'単語',       unit:'語', items: lines(WORDS) },
@@ -2517,6 +2522,14 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 let VIEW = 'home';
 let YROOM = false;       // in the 魔女裁判 room, or in a game started from it
+/* the Android app from Google Play opens this page with ?src=twa (and an android-app:// referrer).
+   In the app: no ads, and the hidden fan-made course stays closed (a store app is held to stricter rules) */
+const APP = (() => {
+  try {
+    if (new URLSearchParams(location.search).get('src') === 'twa' || /^android-app:\/\//.test(document.referrer)) sessionStorage.setItem('yubi:app', '1');
+    return sessionStorage.getItem('yubi:app') === '1';
+  } catch(e) { return false; }
+})();
 function show(v){
   for (const id of ['home','setup','custom','play','result','records','rank','meta','zukan','dan','shuin','yuki','books']) $('#v-' + id).hidden = id !== v;
   VIEW = v; document.documentElement.dataset.view = v;
@@ -5024,9 +5037,12 @@ const rankOffText = () => inClaude() ? 'みんなのランキングは、claude.
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
 const scoreOf = R => R.mode === 'monster' ? [R.floor, R.cpm] : [R.cpm, R.acc];
 const beats = (a, b) => !b || a[0] > b[0] || (a[0] === b[0] && a[1] > b[1]);
+/* a few words a name may not contain (the ranking is public) */
+const NG_WORDS = ['しね', 'ころす', 'ころしてやる', 'ちんこ', 'ちんちん', 'まんこ', 'せっくす', 'れいぷ', 'おっぱい', 'うんこ', '死ね', '殺す', '氏ね', 'sex', 'fuck', 'shit', 'bitch', 'porn', 'nigg'];
+const badNick = s => { const t = String(s || '').toLowerCase().replace(/[\s　・._\-ー]/g, '').replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60)); return NG_WORDS.some(w => t.includes(w)); };
 const cleanNick = s => String(s || '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 12);
 const getNick = () => cleanNick(store.get('nick', ''));
-const rankRow = (id, d) => ({ id, name:cleanNick(d.name) || 'だれか', s:+d.s, s2:+d.s2 || 0, t:String(d.t || '') });
+const rankRow = (id, d) => ({ id, name:badNick(d.name) ? '（表示しない名前）' : cleanNick(d.name) || 'だれか', s:+d.s, s2:+d.s2 || 0, t:String(d.t || '') });
 
 /* on claude.ai: one document per viewer in the artifact's store, names from claude.ai accounts */
 async function claudeBackend(){
@@ -5099,8 +5115,19 @@ async function firebaseBackend(){
         const ref = F.doc(col(key), uid), cur = await F.getDoc(ref);
         if (cur.exists() && !beats(sc, [cur.data().s, cur.data().s2])) return 'kept';
         await F.setDoc(ref, { name, s:sc[0], s2:sc[1], a:R.acc, t:todayKey(), at:F.serverTimestamp() });
+        const mine = store.get('myBoards', []); if (!mine.includes(key)) { mine.push(key); store.set('myBoards', mine.slice(-800)); }
         return 'saved';
       } catch(e) { return 'error'; }
+    },
+    // take this device's records off every board it may have written to
+    async remove(keys){
+      let n = 0;
+      for (let i = 0; i < keys.length; i += 20) {
+        const r = await Promise.allSettled(keys.slice(i, i + 20).map(k => F.deleteDoc(F.doc(col(k), uid))));
+        if (r.some(x => x.status === 'rejected' && /permission/i.test(String(x.reason && x.reason.code || x.reason)))) return -1;
+        n += r.filter(x => x.status === 'fulfilled').length;
+      }
+      return n;
     },
     async fetch(key){
       const snap = await F.getDocs(F.query(col(key), F.orderBy('s', 'desc'), F.limit(50)));
@@ -5140,7 +5167,8 @@ function fillRankList(ol, rows, mode, max, extra){
   for (const r of list) {
     const li = document.createElement('li'); if (r.me) li.className = 'me';
     const n = document.createElement('span'); n.className = 'rk'; n.textContent = r.place;
-    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.me ? `${r.name}（あなた）` : r.name;
+    const shown = badNick(r.name) ? '（表示しない名前）' : r.name;
+    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.me ? `${shown}（あなた）` : shown;
     const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = mode === 'monster' ? `地下${r.s}階・${r.s2}文字/分` : `${r.s} 文字/分`;
     li.append(n, nm, sc); ol.appendChild(li);
   }
@@ -5180,6 +5208,30 @@ async function outboxFlush(){
 window.addEventListener('online', () => setTimeout(outboxFlush, 1500));
 setTimeout(outboxFlush, 4000);
 
+// every board this device may have written to: the ones it remembers, and the ones its history points to
+function myBoardKeys(){
+  const set = new Set(store.get('myBoards', []));
+  for (const h of store.get('history', [])) {
+    if (!h.course || /^(book|dan)/.test(h.course)) continue;
+    const src = h.src === 'pc' ? 'pc' : h.kb, punct = h.punct !== false;
+    set.add(boardKeyOf(src, h.course, h.mode, h.conv, punct));
+    if (!/^(daily|shibari)-/.test(h.course)) set.add(boardKeyOf(src, h.course + '-' + weekKey(new Date(h.t)), h.mode, h.conv, punct));
+  }
+  return [...set].filter(k => /^(qwerty|flick|pc)_[a-z0-9-]{1,40}_(time|count|monster|dungeon)_[01][01]$/.test(k));
+}
+$('#rankDelete').hidden = inClaude();
+$('#rankDelete').addEventListener('click', async () => {
+  if (!confirm('この端末で送ったランキングの記録を、すべて消します。この端末の記録・称号は残ります。よろしいですか？')) return;
+  const btn = $('#rankDelete'); btn.disabled = true; btn.textContent = '消しています…';
+  try {
+    if (!(await rankInit())) { toast('いまはランキングにつながっていません'); return; }
+    if (typeof RANK.be.remove !== 'function') { toast('ここでは消せません。GitHub の Issues から連絡してください'); return; }
+    const n = await RANK.be.remove(myBoardKeys());
+    if (n < 0) toast('消せませんでした。GitHub の Issues から連絡してください');
+    else { store.set('myBoards', []); toast('ランキングから自分の記録を消しました'); }
+  } finally { btn.disabled = false; btn.textContent = 'ランキングから自分の記録を消す'; }
+});
+
 async function rankAfterGame(R){
   const box = $('#rRankBox'), ol = $('#rRankList');
   ol.textContent = ''; box.textContent = 'ランキングを確かめています…';
@@ -5205,6 +5257,7 @@ async function rankAfterGame(R){
 function saveNick(input, msg){
   const v = cleanNick(input.value);
   if (!v) { msg.textContent = '1文字以上で入れてください。'; msg.hidden = false; return false; }
+  if (badNick(v)) { msg.textContent = 'その名前は使えません。ほかの名前にしてください。'; msg.hidden = false; return false; }
   store.set('nick', v); msg.hidden = true;
   if (yukiOn()) setTimeout(enterYuki, 300);
   else YROOM = false;
@@ -5404,7 +5457,7 @@ $('#rAch').addEventListener('click', () => openShuin());
 
 /* ================= ads: 忍者AdMax, on the public site only, never on the typing screen ================= */
 const ADS = { menu:'203bac9dfb197fec35db4cc7f006ad28', result:'ed74bb3c9a5988a9c0ce6b4cb8e46a44' };
-const adsOn = () => !inClaude() && location.hostname === 'gi-to-yt.github.io';
+const adsOn = () => !inClaude() && !APP && location.hostname === 'gi-to-yt.github.io';
 const adLast = {};
 // each tag runs in its own small frame: a tag that writes into the page as it loads cannot run after load
 function loadAd(slot, minGap){
@@ -5567,11 +5620,14 @@ window.__yubi = { buildUnits, createRomaji, createFlick, parseCustom, chunkify, 
 applyHeight();
 show('home');
 /* ホーム画面に追加: a service worker keeps the page for offline play (on the public site only, not on claude.ai) */
-const canInstall = () => !inClaude() && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost');
+const canInstall = () => !inClaude() && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost');   // the app keeps the page offline too
+const offerInstall = () => canInstall() && !APP;
 const standalone = () => { try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch(e) { return false; } };
 let installEvt = null;
 if (canInstall()) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+if (offerInstall()) {
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
   if (!standalone() && ios) { $('#installBox').hidden = false; $('#installNote').textContent = 'Safari の共有ボタン（□に↑）から「ホーム画面に追加」を選びます。アプリのように開けて、電波がなくても遊べます。'; }
   window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('#installBox').hidden = false; $('#installBtn').hidden = false; });

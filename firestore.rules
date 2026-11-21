@@ -20,8 +20,8 @@ service cloud.firestore {
         && request.resource.data.a is number && request.resource.data.a >= 0 && request.resource.data.a <= 100
         && request.resource.data.t is string && request.resource.data.t.size() == 10
         && request.resource.data.at == request.time;
-      // 消すのは管理者（コンソール）だけ
-      allow delete: if false;
+      // 消せるのは自分の記録だけ（設定の「ランキングから自分の記録を消す」）。ほかは管理者がコンソールで消す
+      allow delete: if request.auth != null && request.auth.uid == uid;
     }
     // それ以外の場所は読み書きできない
     match /{document=**} {
